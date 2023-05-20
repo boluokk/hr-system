@@ -1,0 +1,726 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.boluo.hr.mapper.EmployeeMapper" >
+  <resultMap id="BaseResultMap" type="com.boluo.hr.pojo.Employee" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="CHAR" />
+    <result column="birthday" property="birthday" jdbcType="DATE" />
+    <result column="idCard" property="idcard" jdbcType="CHAR" />
+    <result column="wedlock" property="wedlock" jdbcType="CHAR" />
+    <result column="nationId" property="nationid" jdbcType="INTEGER" />
+    <result column="nativePlace" property="nativeplace" jdbcType="VARCHAR" />
+    <result column="politicId" property="politicid" jdbcType="INTEGER" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="departmentId" property="departmentid" jdbcType="INTEGER" />
+    <result column="jobLevelId" property="joblevelid" jdbcType="INTEGER" />
+    <result column="posId" property="posid" jdbcType="INTEGER" />
+    <result column="engageForm" property="engageform" jdbcType="VARCHAR" />
+    <result column="tiptopDegree" property="tiptopdegree" jdbcType="CHAR" />
+    <result column="specialty" property="specialty" jdbcType="VARCHAR" />
+    <result column="school" property="school" jdbcType="VARCHAR" />
+    <result column="beginDate" property="begindate" jdbcType="DATE" />
+    <result column="workState" property="workstate" jdbcType="CHAR" />
+    <result column="workID" property="workid" jdbcType="CHAR" />
+    <result column="contractTerm" property="contractterm" jdbcType="DOUBLE" />
+    <result column="conversionTime" property="conversiontime" jdbcType="DATE" />
+    <result column="notWorkDate" property="notworkdate" jdbcType="DATE" />
+    <result column="beginContract" property="begincontract" jdbcType="DATE" />
+    <result column="endContract" property="endcontract" jdbcType="DATE" />
+    <result column="workAge" property="workage" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="Emp" type="com.boluo.hr.pojo.Employee" extends="BaseResultMap">
+    <association property="nation" javaType="com.boluo.hr.pojo.Nation">
+      <id property="id" column="nid"/>
+      <result property="name" column="nname"/>
+    </association>
+    <association property="politicsstatus" javaType="com.boluo.hr.pojo.Politicsstatus">
+      <id property="id" column="poliid"/>
+      <result property="name" column="poname"/>
+    </association>
+    <association property="department" javaType="com.boluo.hr.pojo.Department">
+      <id property="id" column="depid"/>
+      <result property="name" column="depname"/>
+    </association>
+    <association property="joblevel" javaType="com.boluo.hr.pojo.Joblevel">
+      <id property="id" column="jobid"/>
+      <result property="name" column="jobname"/>
+      <result property="titlelevel" column="joblename"/>
+    </association>
+    <association property="position" javaType="com.boluo.hr.pojo.Position">
+      <id property="id" column="posiid"/>
+      <result property="name" column="posiname"/>
+    </association>
+  </resultMap>
+  <select id="selectByTipCount" resultType="java.lang.Integer" parameterType="com.boluo.hr.pojo.Employee">
+    select count(distinct workid)
+    from employee emp
+   <where>
+     <if test="employee.name != null and employee.name != ''">
+       emp.name like concat('%',#{employee.name},'%')
+     </if>
+     <if test="employee.politicid != null and employee.politicid != ''">
+       and emp.politicid = #{employee.politicid}
+     </if>
+     <if test="employee.nationid != null and employee.nationid != ''">
+       and emp.nationid = #{employee.nationid}
+     </if>
+     <if test="employee.joblevelid != null and employee.joblevelid != ''">
+       and emp.joblevelid = #{employee.joblevelid}
+     </if>
+     <if test="employee.politicid != null and employee.joblevelid != ''">
+       and emp.politicid = #{employee.politicid}
+     </if>
+     <if test="employee.posid != null and employee.posid!= ''">
+       and emp.posid = #{employee.posid}
+     </if>
+     <if test="employee.begindate !=null and employee.conversiontime !=null">
+       and emp.begindate between #{employee.begindate} and #{employee.conversiontime}
+     </if>
+     <if test="employee.engageform !=null and employee.engageform !=null">
+       and emp.engageform = #{employee.engageform}
+     </if>
+   </where>
+  </select>
+  <select id="selectByTipSerch" resultMap="Emp" parameterType="com.boluo.hr.pojo.Employee">
+     select emp.*,n.name as nname,n.id as nid,poli.name as poname,poli.id as poliid,dep.`name` as depname,dep.id as depid,job.name as jobname,job.id as jobid,job.titleLevel as joblename,posi.name as posiname,posi.id as posiid
+    from employee emp,nation n,politicsstatus poli,department dep,joblevel job,`position` posi
+    where emp.nationId = n.id and emp.politicId = poli.id and emp.departmentId =dep.id
+    and emp.jobLevelId =job.id and emp.posId = posi.id
+    <if test="employee.name != null and employee.name != ''">
+      and emp.name like concat('%',#{employee.name},'%')
+    </if>
+     <if test="employee.politicid != null and employee.politicid != ''">
+       and emp.politicid = #{employee.politicid}
+     </if>
+     <if test="employee.nationid != null and employee.nationid != ''">
+       and emp.nationid = #{employee.nationid}
+     </if>
+     <if test="employee.joblevelid != null and employee.joblevelid != ''">
+       and emp.joblevelid = #{employee.joblevelid}
+     </if>
+     <if test="employee.politicid != null and employee.joblevelid != ''">
+       and emp.politicid = #{employee.politicid}
+     </if>
+     <if test="employee.posid != null and employee.posid!= ''">
+       and emp.posid = #{employee.posid}
+     </if>
+    <if test="employee.departmentid != null and employee.departmentid!= ''">
+      and emp.departmentid = #{employee.departmentid}
+    </if>
+     <if test="employee.begindate !=null and employee.conversiontime !=null">
+        and emp.begindate between #{employee.begindate} and #{employee.conversiontime}
+     </if>
+     <if test="employee.engageform !=null and employee.engageform !=null">
+       and emp.engageform = #{employee.engageform}
+     </if>
+    limit #{pageNum},#{pageSize};
+  </select>
+  <delete id="deleteByManyID">
+    delete 
+    from employee
+    where id in
+    <foreach collection="ids" item="id" separator="," open="(" close=")">
+      #{id}
+    </foreach>
+  </delete>
+  <select id="selectMaxWorkID" resultType="java.lang.Integer">
+    select max(workID)
+    from employee
+  </select>
+  <select id="selectByEmpID" resultMap="Emp">
+        select emp.*,n.name as nname,n.id as nid,poli.name as poname,poli.id as poliid,dep.`name` as depname,dep.id as depid,job.name as jobname,job.id as jobid,job.titleLevel as joblename,posi.name as posiname,posi.id as posiid
+    from employee emp,nation n,politicsstatus poli,department dep,joblevel job,position posi
+    where emp.nationId = n.id and emp.politicId = poli.id and emp.departmentId =dep.id
+    and emp.jobLevelId =job.id and emp.posId = posi.id
+    and emp.id = #{id}
+  </select>
+  <select id="selectByEmpName" resultMap="Emp">
+    select emp.*,n.name as nname,n.id as nid,poli.name as poname,poli.id as poliid,dep.`name` as depname,dep.id as depid,job.name as jobname,job.id as jobid,job.titleLevel as joblename,posi.name as posiname,posi.id as posiid
+    from employee emp,nation n,politicsstatus poli,department dep,joblevel job,position posi
+    where emp.nationId = n.id and emp.politicId = poli.id and emp.departmentId =dep.id
+    and emp.jobLevelId =job.id and emp.posId = posi.id
+    and emp.name like concat('%',#{empName},'%')
+  </select>
+  <select id="selectAllByPage" resultMap="Emp">
+    select emp.*,n.name as nname,n.id as nid,poli.name as poname,poli.id as poliid,dep.`name` as depname,dep.id as depid,job.name as jobname,job.id as jobid,job.titleLevel as joblename,posi.name as posiname,posi.id as posiid
+    from employee emp,nation n,politicsstatus poli,department dep,joblevel job,position posi
+    where emp.nationId = n.id and emp.politicId = poli.id and emp.departmentId =dep.id
+    and emp.jobLevelId =job.id and emp.posId = posi.id
+    <if test="pageNum !=null and pageSize !=null">
+      limit #{pageNum},#{pageSize};
+    </if>
+  </select>
+  <select id="selectCount" resultType="java.lang.Integer">
+    select count(*)
+    from employee
+  </select>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, name, gender, birthday, idCard, wedlock, nationId, nativePlace, politicId, email, 
+    phone, address, departmentId, jobLevelId, posId, engageForm, tiptopDegree, specialty, 
+    school, beginDate, workState, workID, contractTerm, conversionTime, notWorkDate, 
+    beginContract, endContract, workAge
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.boluo.hr.pojo.EmployeeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from employee
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from employee
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from employee
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.boluo.hr.pojo.EmployeeExample" >
+    delete from employee
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insertMany">
+    insert into employee (name, gender,
+      birthday, idCard, wedlock, nationId,
+      nativePlace, politicId, email,
+      phone, address, departmentId,
+      jobLevelId, posId, engageForm,
+      tiptopDegree, specialty, school,
+      beginDate, workState, workID,
+      contractTerm, conversionTime, notWorkDate,
+      beginContract, endContract, workAge
+      )
+    values
+    <foreach collection="list" item="emp" separator=",">
+        (#{emp.name,jdbcType=VARCHAR}, #{emp.gender,jdbcType=CHAR},
+        #{emp.birthday,jdbcType=DATE}, #{emp.idcard,jdbcType=CHAR}, #{emp.wedlock,jdbcType=CHAR}, #{emp.nationid,jdbcType=INTEGER},
+        #{emp.nativeplace,jdbcType=VARCHAR}, #{emp.politicid,jdbcType=INTEGER}, #{emp.email,jdbcType=VARCHAR},
+        #{emp.phone,jdbcType=VARCHAR}, #{emp.address,jdbcType=VARCHAR}, #{emp.departmentid,jdbcType=INTEGER},
+        #{emp.joblevelid,jdbcType=INTEGER}, #{emp.posid,jdbcType=INTEGER}, #{emp.engageform,jdbcType=VARCHAR},
+        #{emp.tiptopdegree,jdbcType=CHAR}, #{emp.specialty,jdbcType=VARCHAR}, #{emp.school,jdbcType=VARCHAR},
+        #{emp.begindate,jdbcType=DATE}, #{emp.workstate,jdbcType=CHAR}, #{emp.workid,jdbcType=CHAR},
+        #{emp.contractterm,jdbcType=DOUBLE}, #{emp.conversiontime,jdbcType=DATE}, #{emp.notworkdate,jdbcType=DATE},
+        #{emp.begincontract,jdbcType=DATE}, #{emp.endcontract,jdbcType=DATE}, #{emp.workage,jdbcType=INTEGER}
+        )
+    </foreach>
+  </insert>
+  <insert id="insert" parameterType="com.boluo.hr.pojo.Employee" >
+    insert into employee (id, name, gender, 
+      birthday, idCard, wedlock, nationId, 
+      nativePlace, politicId, email, 
+      phone, address, departmentId, 
+      jobLevelId, posId, engageForm, 
+      tiptopDegree, specialty, school, 
+      beginDate, workState, workID, 
+      contractTerm, conversionTime, notWorkDate, 
+      beginContract, endContract, workAge
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{gender,jdbcType=CHAR},
+      #{birthday,jdbcType=DATE}, #{idcard,jdbcType=CHAR}, #{wedlock,jdbcType=CHAR}, #{nationid,jdbcType=INTEGER}, 
+      #{nativeplace,jdbcType=VARCHAR}, #{politicid,jdbcType=INTEGER}, #{email,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{departmentid,jdbcType=INTEGER}, 
+      #{joblevelid,jdbcType=INTEGER}, #{posid,jdbcType=INTEGER}, #{engageform,jdbcType=VARCHAR}, 
+      #{tiptopdegree,jdbcType=CHAR}, #{specialty,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR}, 
+      #{begindate,jdbcType=DATE}, #{workstate,jdbcType=CHAR}, #{workid,jdbcType=CHAR}, 
+      #{contractterm,jdbcType=DOUBLE}, #{conversiontime,jdbcType=DATE}, #{notworkdate,jdbcType=DATE}, 
+      #{begincontract,jdbcType=DATE}, #{endcontract,jdbcType=DATE}, #{workage,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.boluo.hr.pojo.Employee" useGeneratedKeys="true" keyProperty="id">
+    insert into employee
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="birthday != null" >
+        birthday,
+      </if>
+      <if test="idcard != null" >
+        idCard,
+      </if>
+      <if test="wedlock != null" >
+        wedlock,
+      </if>
+      <if test="nationid != null" >
+        nationId,
+      </if>
+      <if test="nativeplace != null" >
+        nativePlace,
+      </if>
+      <if test="politicid != null" >
+        politicId,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="departmentid != null" >
+        departmentId,
+      </if>
+      <if test="joblevelid != null" >
+        jobLevelId,
+      </if>
+      <if test="posid != null" >
+        posId,
+      </if>
+      <if test="engageform != null" >
+        engageForm,
+      </if>
+      <if test="tiptopdegree != null" >
+        tiptopDegree,
+      </if>
+      <if test="specialty != null" >
+        specialty,
+      </if>
+      <if test="school != null" >
+        school,
+      </if>
+      <if test="begindate != null" >
+        beginDate,
+      </if>
+      <if test="workstate != null" >
+        workState,
+      </if>
+      <if test="workid != null" >
+        workID,
+      </if>
+      <if test="contractterm != null" >
+        contractTerm,
+      </if>
+      <if test="conversiontime != null" >
+        conversionTime,
+      </if>
+      <if test="notworkdate != null" >
+        notWorkDate,
+      </if>
+      <if test="begincontract != null" >
+        beginContract,
+      </if>
+      <if test="endcontract != null" >
+        endContract,
+      </if>
+      <if test="workage != null" >
+        workAge,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=CHAR},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=DATE},
+      </if>
+      <if test="idcard != null" >
+        #{idcard,jdbcType=CHAR},
+      </if>
+      <if test="wedlock != null" >
+        #{wedlock,jdbcType=CHAR},
+      </if>
+      <if test="nationid != null" >
+        #{nationid,jdbcType=INTEGER},
+      </if>
+      <if test="nativeplace != null" >
+        #{nativeplace,jdbcType=VARCHAR},
+      </if>
+      <if test="politicid != null" >
+        #{politicid,jdbcType=INTEGER},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentid != null" >
+        #{departmentid,jdbcType=INTEGER},
+      </if>
+      <if test="joblevelid != null" >
+        #{joblevelid,jdbcType=INTEGER},
+      </if>
+      <if test="posid != null" >
+        #{posid,jdbcType=INTEGER},
+      </if>
+      <if test="engageform != null" >
+        #{engageform,jdbcType=VARCHAR},
+      </if>
+      <if test="tiptopdegree != null" >
+        #{tiptopdegree,jdbcType=CHAR},
+      </if>
+      <if test="specialty != null" >
+        #{specialty,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null" >
+        #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="begindate != null" >
+        #{begindate,jdbcType=DATE},
+      </if>
+      <if test="workstate != null" >
+        #{workstate,jdbcType=CHAR},
+      </if>
+      <if test="workid != null" >
+        #{workid,jdbcType=CHAR},
+      </if>
+      <if test="contractterm != null" >
+        #{contractterm,jdbcType=DOUBLE},
+      </if>
+      <if test="conversiontime != null" >
+        #{conversiontime,jdbcType=DATE},
+      </if>
+      <if test="notworkdate != null" >
+        #{notworkdate,jdbcType=DATE},
+      </if>
+      <if test="begincontract != null" >
+        #{begincontract,jdbcType=DATE},
+      </if>
+      <if test="endcontract != null" >
+        #{endcontract,jdbcType=DATE},
+      </if>
+      <if test="workage != null" >
+        #{workage,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.boluo.hr.pojo.EmployeeExample" resultType="java.lang.Integer" >
+    select count(*) from employee
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update employee
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gender != null" >
+        gender = #{record.gender,jdbcType=CHAR},
+      </if>
+      <if test="record.birthday != null" >
+        birthday = #{record.birthday,jdbcType=DATE},
+      </if>
+      <if test="record.idcard != null" >
+        idCard = #{record.idcard,jdbcType=CHAR},
+      </if>
+      <if test="record.wedlock != null" >
+        wedlock = #{record.wedlock,jdbcType=CHAR},
+      </if>
+      <if test="record.nationid != null" >
+        nationId = #{record.nationid,jdbcType=INTEGER},
+      </if>
+      <if test="record.nativeplace != null" >
+        nativePlace = #{record.nativeplace,jdbcType=VARCHAR},
+      </if>
+      <if test="record.politicid != null" >
+        politicId = #{record.politicid,jdbcType=INTEGER},
+      </if>
+      <if test="record.email != null" >
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null" >
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null" >
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.departmentid != null" >
+        departmentId = #{record.departmentid,jdbcType=INTEGER},
+      </if>
+      <if test="record.joblevelid != null" >
+        jobLevelId = #{record.joblevelid,jdbcType=INTEGER},
+      </if>
+      <if test="record.posid != null" >
+        posId = #{record.posid,jdbcType=INTEGER},
+      </if>
+      <if test="record.engageform != null" >
+        engageForm = #{record.engageform,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tiptopdegree != null" >
+        tiptopDegree = #{record.tiptopdegree,jdbcType=CHAR},
+      </if>
+      <if test="record.specialty != null" >
+        specialty = #{record.specialty,jdbcType=VARCHAR},
+      </if>
+      <if test="record.school != null" >
+        school = #{record.school,jdbcType=VARCHAR},
+      </if>
+      <if test="record.begindate != null" >
+        beginDate = #{record.begindate,jdbcType=DATE},
+      </if>
+      <if test="record.workstate != null" >
+        workState = #{record.workstate,jdbcType=CHAR},
+      </if>
+      <if test="record.workid != null" >
+        workID = #{record.workid,jdbcType=CHAR},
+      </if>
+      <if test="record.contractterm != null" >
+        contractTerm = #{record.contractterm,jdbcType=DOUBLE},
+      </if>
+      <if test="record.conversiontime != null" >
+        conversionTime = #{record.conversiontime,jdbcType=DATE},
+      </if>
+      <if test="record.notworkdate != null" >
+        notWorkDate = #{record.notworkdate,jdbcType=DATE},
+      </if>
+      <if test="record.begincontract != null" >
+        beginContract = #{record.begincontract,jdbcType=DATE},
+      </if>
+      <if test="record.endcontract != null" >
+        endContract = #{record.endcontract,jdbcType=DATE},
+      </if>
+      <if test="record.workage != null" >
+        workAge = #{record.workage,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update employee
+    set id = #{record.id,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      gender = #{record.gender,jdbcType=CHAR},
+      birthday = #{record.birthday,jdbcType=DATE},
+      idCard = #{record.idcard,jdbcType=CHAR},
+      wedlock = #{record.wedlock,jdbcType=CHAR},
+      nationId = #{record.nationid,jdbcType=INTEGER},
+      nativePlace = #{record.nativeplace,jdbcType=VARCHAR},
+      politicId = #{record.politicid,jdbcType=INTEGER},
+      email = #{record.email,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      departmentId = #{record.departmentid,jdbcType=INTEGER},
+      jobLevelId = #{record.joblevelid,jdbcType=INTEGER},
+      posId = #{record.posid,jdbcType=INTEGER},
+      engageForm = #{record.engageform,jdbcType=VARCHAR},
+      tiptopDegree = #{record.tiptopdegree,jdbcType=CHAR},
+      specialty = #{record.specialty,jdbcType=VARCHAR},
+      school = #{record.school,jdbcType=VARCHAR},
+      beginDate = #{record.begindate,jdbcType=DATE},
+      workState = #{record.workstate,jdbcType=CHAR},
+      workID = #{record.workid,jdbcType=CHAR},
+      contractTerm = #{record.contractterm,jdbcType=DOUBLE},
+      conversionTime = #{record.conversiontime,jdbcType=DATE},
+      notWorkDate = #{record.notworkdate,jdbcType=DATE},
+      beginContract = #{record.begincontract,jdbcType=DATE},
+      endContract = #{record.endcontract,jdbcType=DATE},
+      workAge = #{record.workage,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.boluo.hr.pojo.Employee" >
+    update employee
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=CHAR},
+      </if>
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=DATE},
+      </if>
+      <if test="idcard != null" >
+        idCard = #{idcard,jdbcType=CHAR},
+      </if>
+      <if test="wedlock != null" >
+        wedlock = #{wedlock,jdbcType=CHAR},
+      </if>
+      <if test="nationid != null" >
+        nationId = #{nationid,jdbcType=INTEGER},
+      </if>
+      <if test="nativeplace != null" >
+        nativePlace = #{nativeplace,jdbcType=VARCHAR},
+      </if>
+      <if test="politicid != null" >
+        politicId = #{politicid,jdbcType=INTEGER},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentid != null" >
+        departmentId = #{departmentid,jdbcType=INTEGER},
+      </if>
+      <if test="joblevelid != null" >
+        jobLevelId = #{joblevelid,jdbcType=INTEGER},
+      </if>
+      <if test="posid != null" >
+        posId = #{posid,jdbcType=INTEGER},
+      </if>
+      <if test="engageform != null" >
+        engageForm = #{engageform,jdbcType=VARCHAR},
+      </if>
+      <if test="tiptopdegree != null" >
+        tiptopDegree = #{tiptopdegree,jdbcType=CHAR},
+      </if>
+      <if test="specialty != null" >
+        specialty = #{specialty,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null" >
+        school = #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="begindate != null" >
+        beginDate = #{begindate,jdbcType=DATE},
+      </if>
+      <if test="workstate != null" >
+        workState = #{workstate,jdbcType=CHAR},
+      </if>
+      <if test="workid != null" >
+        workID = #{workid,jdbcType=CHAR},
+      </if>
+      <if test="contractterm != null" >
+        contractTerm = #{contractterm,jdbcType=DOUBLE},
+      </if>
+      <if test="conversiontime != null" >
+        conversionTime = #{conversiontime,jdbcType=DATE},
+      </if>
+      <if test="notworkdate != null" >
+        notWorkDate = #{notworkdate,jdbcType=DATE},
+      </if>
+      <if test="begincontract != null" >
+        beginContract = #{begincontract,jdbcType=DATE},
+      </if>
+      <if test="endcontract != null" >
+        endContract = #{endcontract,jdbcType=DATE},
+      </if>
+      <if test="workage != null" >
+        workAge = #{workage,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.boluo.hr.pojo.Employee" >
+    update employee
+    set name = #{name,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=CHAR},
+      birthday = #{birthday,jdbcType=DATE},
+      idCard = #{idcard,jdbcType=CHAR},
+      wedlock = #{wedlock,jdbcType=CHAR},
+      nationId = #{nationid,jdbcType=INTEGER},
+      nativePlace = #{nativeplace,jdbcType=VARCHAR},
+      politicId = #{politicid,jdbcType=INTEGER},
+      email = #{email,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      departmentId = #{departmentid,jdbcType=INTEGER},
+      jobLevelId = #{joblevelid,jdbcType=INTEGER},
+      posId = #{posid,jdbcType=INTEGER},
+      engageForm = #{engageform,jdbcType=VARCHAR},
+      tiptopDegree = #{tiptopdegree,jdbcType=CHAR},
+      specialty = #{specialty,jdbcType=VARCHAR},
+      school = #{school,jdbcType=VARCHAR},
+      beginDate = #{begindate,jdbcType=DATE},
+      workState = #{workstate,jdbcType=CHAR},
+      workID = #{workid,jdbcType=CHAR},
+      contractTerm = #{contractterm,jdbcType=DOUBLE},
+      conversionTime = #{conversiontime,jdbcType=DATE},
+      notWorkDate = #{notworkdate,jdbcType=DATE},
+      beginContract = #{begincontract,jdbcType=DATE},
+      endContract = #{endcontract,jdbcType=DATE},
+      workAge = #{workage,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

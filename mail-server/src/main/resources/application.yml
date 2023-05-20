@@ -1,0 +1,21 @@
+server:
+  port: 9528
+
+spring:
+  mail:
+    host: smtp.qq.com
+    protocol: smtp
+    default-encoding: utf-8
+    username: 1352955539@qq.com
+    password: ffhqfdrshvllbafd
+    port: 587
+  rabbitmq:
+    port: 5672
+    host: 192.168.200.128
+    username: boluo
+    password: 123456
+    listener:
+      direct:
+        acknowledge-mode: manual
+      simple:
+        prefetch: 100

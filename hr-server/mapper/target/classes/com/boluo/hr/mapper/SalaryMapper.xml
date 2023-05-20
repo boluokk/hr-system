@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.boluo.hr.mapper.SalaryMapper" >
+  <resultMap id="BaseResultMap" type="com.boluo.hr.pojo.Salary" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="basicSalary" property="basicsalary" jdbcType="INTEGER" />
+    <result column="bonus" property="bonus" jdbcType="INTEGER" />
+    <result column="lunchSalary" property="lunchsalary" jdbcType="INTEGER" />
+    <result column="trafficSalary" property="trafficsalary" jdbcType="INTEGER" />
+    <result column="allSalary" property="allsalary" jdbcType="INTEGER" />
+    <result column="pensionBase" property="pensionbase" jdbcType="INTEGER" />
+    <result column="pensionPer" property="pensionper" jdbcType="REAL" />
+    <result column="createDate" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="medicalBase" property="medicalbase" jdbcType="INTEGER" />
+    <result column="medicalPer" property="medicalper" jdbcType="REAL" />
+    <result column="accumulationFundBase" property="accumulationfundbase" jdbcType="INTEGER" />
+    <result column="accumulationFundPer" property="accumulationfundper" jdbcType="REAL" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="EmpAndSalary" type="com.boluo.hr.pojo.Employee">
+    <id property="id" column="eid" jdbcType="INTEGER"/>
+    <result property="name" column="empname" jdbcType="VARCHAR"/>
+    <result property="workid" column="workid" jdbcType="CHAR"/>
+    <result property="email" column="email" jdbcType="VARCHAR"/>
+    <result property="phone" column="phone" jdbcType="VARCHAR"/>
+    <result property="name" column="empname" jdbcType="VARCHAR"/>
+    <association property="department" javaType="com.boluo.hr.pojo.Department">
+      <id property="id" column="depid" jdbcType="INTEGER"/>
+      <result property="name" column="depname" jdbcType="VARCHAR"/>
+    </association>
+    <association property="salary" javaType="com.boluo.hr.pojo.Salary" autoMapping="true">
+    </association>
+  </resultMap>
+  <select id="insertEmpWithSal" statementType="CALLABLE">
+    call addEmpWithSal(
+    #{eid},#{salid}
+    )
+  </select>
+  <select id="selectEmpAndSalary" resultMap="EmpAndSalary">
+    select emp.id as eid,emp.name as empname,emp.workid,emp.email,emp.phone,dep.id as depid,dep.name as depname,sa.*
+    from employee emp
+    LEFT JOIN empsalary esa on emp.id = esa.eid
+    LEFT JOIN salary sa on  esa.sid = sa.id
+    LEFT JOIN department dep on emp.departmentId = dep.id
+    <if test="pageNum !=null and pageSize !=null">
+      limit #{pageNum},#{pageSize};
+    </if>
+  </select>
+  <select id="CountSalaryWithEmp" resultType="Integer">
+    select count(*)
+    from employee emp
+    LEFT JOIN empsalary esa on emp.id = esa.eid
+    LEFT JOIN salary sa on  esa.sid = sa.id
+    LEFT JOIN department dep on emp.departmentId = dep.id
+  </select>
+  <delete id="deleteOfMany">
+    delete from salary
+    where id in
+    <foreach collection="ids" separator="," open="(" close=")" item="id">
+      #{id}
+    </foreach>
+  </delete>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, basicSalary, bonus, lunchSalary, trafficSalary, allSalary, pensionBase, pensionPer, 
+    createDate, medicalBase, medicalPer, accumulationFundBase, accumulationFundPer, name
+  </sql>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from salary;
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.boluo.hr.pojo.SalaryExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from salary
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from salary
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from salary
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.boluo.hr.pojo.SalaryExample" >
+    delete from salary
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.boluo.hr.pojo.Salary" >
+    insert into salary (id, basicSalary, bonus, 
+      lunchSalary, trafficSalary, allSalary, 
+      pensionBase, pensionPer, createDate, 
+      medicalBase, medicalPer, accumulationFundBase, 
+      accumulationFundPer, name)
+    values (#{id,jdbcType=INTEGER}, #{basicsalary,jdbcType=INTEGER}, #{bonus,jdbcType=INTEGER}, 
+      #{lunchsalary,jdbcType=INTEGER}, #{trafficsalary,jdbcType=INTEGER}, #{allsalary,jdbcType=INTEGER}, 
+      #{pensionbase,jdbcType=INTEGER}, #{pensionper,jdbcType=REAL}, #{createdate,jdbcType=TIMESTAMP}, 
+      #{medicalbase,jdbcType=INTEGER}, #{medicalper,jdbcType=REAL}, #{accumulationfundbase,jdbcType=INTEGER}, 
+      #{accumulationfundper,jdbcType=REAL}, #{name,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.boluo.hr.pojo.Salary" >
+    insert into salary
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="basicsalary != null" >
+        basicSalary,
+      </if>
+      <if test="bonus != null" >
+        bonus,
+      </if>
+      <if test="lunchsalary != null" >
+        lunchSalary,
+      </if>
+      <if test="trafficsalary != null" >
+        trafficSalary,
+      </if>
+      <if test="allsalary != null" >
+        allSalary,
+      </if>
+      <if test="pensionbase != null" >
+        pensionBase,
+      </if>
+      <if test="pensionper != null" >
+        pensionPer,
+      </if>
+      <if test="createdate != null" >
+        createDate,
+      </if>
+      <if test="medicalbase != null" >
+        medicalBase,
+      </if>
+      <if test="medicalper != null" >
+        medicalPer,
+      </if>
+      <if test="accumulationfundbase != null" >
+        accumulationFundBase,
+      </if>
+      <if test="accumulationfundper != null" >
+        accumulationFundPer,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="basicsalary != null" >
+        #{basicsalary,jdbcType=INTEGER},
+      </if>
+      <if test="bonus != null" >
+        #{bonus,jdbcType=INTEGER},
+      </if>
+      <if test="lunchsalary != null" >
+        #{lunchsalary,jdbcType=INTEGER},
+      </if>
+      <if test="trafficsalary != null" >
+        #{trafficsalary,jdbcType=INTEGER},
+      </if>
+      <if test="allsalary != null" >
+        #{allsalary,jdbcType=INTEGER},
+      </if>
+      <if test="pensionbase != null" >
+        #{pensionbase,jdbcType=INTEGER},
+      </if>
+      <if test="pensionper != null" >
+        #{pensionper,jdbcType=REAL},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="medicalbase != null" >
+        #{medicalbase,jdbcType=INTEGER},
+      </if>
+      <if test="medicalper != null" >
+        #{medicalper,jdbcType=REAL},
+      </if>
+      <if test="accumulationfundbase != null" >
+        #{accumulationfundbase,jdbcType=INTEGER},
+      </if>
+      <if test="accumulationfundper != null" >
+        #{accumulationfundper,jdbcType=REAL},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.boluo.hr.pojo.SalaryExample" resultType="java.lang.Integer" >
+    select count(*) from salary
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update salary
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.basicsalary != null" >
+        basicSalary = #{record.basicsalary,jdbcType=INTEGER},
+      </if>
+      <if test="record.bonus != null" >
+        bonus = #{record.bonus,jdbcType=INTEGER},
+      </if>
+      <if test="record.lunchsalary != null" >
+        lunchSalary = #{record.lunchsalary,jdbcType=INTEGER},
+      </if>
+      <if test="record.trafficsalary != null" >
+        trafficSalary = #{record.trafficsalary,jdbcType=INTEGER},
+      </if>
+      <if test="record.allsalary != null" >
+        allSalary = #{record.allsalary,jdbcType=INTEGER},
+      </if>
+      <if test="record.pensionbase != null" >
+        pensionBase = #{record.pensionbase,jdbcType=INTEGER},
+      </if>
+      <if test="record.pensionper != null" >
+        pensionPer = #{record.pensionper,jdbcType=REAL},
+      </if>
+      <if test="record.createdate != null" >
+        createDate = #{record.createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.medicalbase != null" >
+        medicalBase = #{record.medicalbase,jdbcType=INTEGER},
+      </if>
+      <if test="record.medicalper != null" >
+        medicalPer = #{record.medicalper,jdbcType=REAL},
+      </if>
+      <if test="record.accumulationfundbase != null" >
+        accumulationFundBase = #{record.accumulationfundbase,jdbcType=INTEGER},
+      </if>
+      <if test="record.accumulationfundper != null" >
+        accumulationFundPer = #{record.accumulationfundper,jdbcType=REAL},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update salary
+    set id = #{record.id,jdbcType=INTEGER},
+      basicSalary = #{record.basicsalary,jdbcType=INTEGER},
+      bonus = #{record.bonus,jdbcType=INTEGER},
+      lunchSalary = #{record.lunchsalary,jdbcType=INTEGER},
+      trafficSalary = #{record.trafficsalary,jdbcType=INTEGER},
+      allSalary = #{record.allsalary,jdbcType=INTEGER},
+      pensionBase = #{record.pensionbase,jdbcType=INTEGER},
+      pensionPer = #{record.pensionper,jdbcType=REAL},
+      createDate = #{record.createdate,jdbcType=TIMESTAMP},
+      medicalBase = #{record.medicalbase,jdbcType=INTEGER},
+      medicalPer = #{record.medicalper,jdbcType=REAL},
+      accumulationFundBase = #{record.accumulationfundbase,jdbcType=INTEGER},
+      accumulationFundPer = #{record.accumulationfundper,jdbcType=REAL},
+      name = #{record.name,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.boluo.hr.pojo.Salary" >
+    update salary
+    <set >
+      <if test="basicsalary != null" >
+        basicSalary = #{basicsalary,jdbcType=INTEGER},
+      </if>
+      <if test="bonus != null" >
+        bonus = #{bonus,jdbcType=INTEGER},
+      </if>
+      <if test="lunchsalary != null" >
+        lunchSalary = #{lunchsalary,jdbcType=INTEGER},
+      </if>
+      <if test="trafficsalary != null" >
+        trafficSalary = #{trafficsalary,jdbcType=INTEGER},
+      </if>
+      <if test="allsalary != null" >
+        allSalary = #{allsalary,jdbcType=INTEGER},
+      </if>
+      <if test="pensionbase != null" >
+        pensionBase = #{pensionbase,jdbcType=INTEGER},
+      </if>
+      <if test="pensionper != null" >
+        pensionPer = #{pensionper,jdbcType=REAL},
+      </if>
+      <if test="createdate != null" >
+        createDate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="medicalbase != null" >
+        medicalBase = #{medicalbase,jdbcType=INTEGER},
+      </if>
+      <if test="medicalper != null" >
+        medicalPer = #{medicalper,jdbcType=REAL},
+      </if>
+      <if test="accumulationfundbase != null" >
+        accumulationFundBase = #{accumulationfundbase,jdbcType=INTEGER},
+      </if>
+      <if test="accumulationfundper != null" >
+        accumulationFundPer = #{accumulationfundper,jdbcType=REAL},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.boluo.hr.pojo.Salary" >
+    update salary
+    set basicSalary = #{basicsalary,jdbcType=INTEGER},
+      bonus = #{bonus,jdbcType=INTEGER},
+      lunchSalary = #{lunchsalary,jdbcType=INTEGER},
+      trafficSalary = #{trafficsalary,jdbcType=INTEGER},
+      allSalary = #{allsalary,jdbcType=INTEGER},
+      pensionBase = #{pensionbase,jdbcType=INTEGER},
+      pensionPer = #{pensionper,jdbcType=REAL},
+      createDate = #{createdate,jdbcType=TIMESTAMP},
+      medicalBase = #{medicalbase,jdbcType=INTEGER},
+      medicalPer = #{medicalper,jdbcType=REAL},
+      accumulationFundBase = #{accumulationfundbase,jdbcType=INTEGER},
+      accumulationFundPer = #{accumulationfundper,jdbcType=REAL},
+      name = #{name,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
