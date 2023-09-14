@@ -47,12 +47,12 @@ public class MailReceiver {
             helper.setSubject("入职欢迎！");
             helper.setSentDate(new Date());
             Context context = new Context();  // thymeleaf的context
-            context.setVariable("name",employee.getName());
-            context.setVariable("posName",employee.getPosition().getName());
-            context.setVariable("joblevelName",employee.getJoblevel().getName());
-            context.setVariable("departmentName",employee.getDepartment().getName());
+            context.setVariable("name", employee.getName());
+            context.setVariable("posName", employee.getPosition().getName());
+            context.setVariable("joblevelName", employee.getJoblevel().getName());
+            context.setVariable("departmentName", employee.getDepartment().getName());
             String emil = templateEngine.process("email", context);
-            helper.setText(emil,true);
+            helper.setText(emil, true);
             javaMailSender.send(helper.getMimeMessage());
             logger.info("邮件发送成功！");
         } catch (MessagingException e) {
