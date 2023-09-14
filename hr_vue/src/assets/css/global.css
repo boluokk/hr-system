@@ -1,0 +1,15 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.el-table th > .cell,
+.el-table .cell {
+  text-align: center;
+}
+
+.el-badge__content {
+  border: none !important;
+  line-height: 16px!important;
+}

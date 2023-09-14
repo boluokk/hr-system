@@ -1,0 +1,44 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1166305",
+      "name": "菠萝",
+      "font_class": "boluo",
+      "unicode": "e7ad",
+      "unicode_decimal": 59309
+    },
+    {
+      "icon_id": "1354062",
+      "name": "菠萝",
+      "font_class": "boluo1",
+      "unicode": "e622",
+      "unicode_decimal": 58914
+    },
+    {
+      "icon_id": "5075201",
+      "name": "菠萝",
+      "font_class": "boluo2",
+      "unicode": "e62f",
+      "unicode_decimal": 58927
+    },
+    {
+      "icon_id": "5223104",
+      "name": "菠萝",
+      "font_class": "boluo3",
+      "unicode": "e610",
+      "unicode_decimal": 58896
+    },
+    {
+      "icon_id": "7319374",
+      "name": "菠萝",
+      "font_class": "boluo4",
+      "unicode": "e781",
+      "unicode_decimal": 59265
+    }
+  ]
+}
