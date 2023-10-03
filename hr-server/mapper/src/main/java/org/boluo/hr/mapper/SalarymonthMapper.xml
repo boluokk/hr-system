@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.boluo.hr.mapper.SalarymonthMapper">
+    <resultMap id="BaseResultMap" type="org.boluo.hr.pojo.SalaryMonth">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="name" property="salaryName" jdbcType="VARCHAR"/>
+        <result column="time" property="salaryTime" jdbcType="VARCHAR"/>
+        <result column="allSalary" property="allSalary" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+       select s.name,sm.time,s.allSalary,sm.remark
+        from salary s,salary_month sm
+        where s.id = sm.salaryid
+    </select>
+</mapper>
