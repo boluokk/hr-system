@@ -1,6 +1,15 @@
-package org.boluo.hr.util;/**
-* @author 🍍
-* @email 1352955539@qq.com
-* @date 2023/09/30 19:45
-*/public class PasswordEncoder {
+package org.boluo.hr.util;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+/**
+ * @author 🍍
+ * @date 2023/10/1
+ */
+public class PasswordEncoder {
+
+    private final static BCryptPasswordEncoder bCrypt = new BCryptPasswordEncoder();
+    public static String encode(String password) {
+        return bCrypt.encode(password);
+    }
 }

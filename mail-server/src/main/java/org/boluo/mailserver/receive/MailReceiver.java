@@ -1,7 +1,7 @@
 package org.boluo.mailserver.receive;
 
-import com.boluo.hr.pojo.Employee;
-import com.boluo.hr.pojo.MailConstans;
+import org.boluo.hr.pojo.Employee;
+import org.boluo.hr.pojo.MailConstans;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;

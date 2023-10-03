@@ -10,21 +10,28 @@ public class RespBean {
     private Object obj;
 
     public static RespBean ok(String msg, Object obj) {
-        return new RespBean(200,msg,obj);
+        return new RespBean(200, msg, obj);
     }
 
     public static RespBean ok(Object obj) {
-       return new RespBean(200,obj);
+        return new RespBean(200, obj);
     }
 
-    public static RespBean ok(String msg) {
-        return new RespBean(200,msg,null);
+    public static RespBean ok(String... msg) {
+        if (msg.length > 0) {
+            return new RespBean(200, msg[0], null);
+        }
+        return new RespBean(200, "操作成功", null);
     }
 
-    public static RespBean error(String msg) {
-        return new RespBean(500,msg,null);
+    public static RespBean error(String... msg) {
+        if (msg.length > 0) {
+            return new RespBean(500, msg[0], null);
+        }
+        return new RespBean(500, "操作失败", null);
     }
-//    清除内容
+
+    //    清除内容
     public void clear() {
         this.setMsg(null);
         this.setObj(null);

@@ -1,4 +1,4 @@
-package com.boluo.hr.service;
+package org.boluo.hr.service;
 
 import org.boluo.hr.mapper.EmployeeremoveMapper;
 import org.boluo.hr.pojo.Employeeremove;
@@ -9,21 +9,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author @1352955539(boluo)
- * @date 2021/2/28 - 21:58
+ * @author 🍍
+ * @date 2023/10/1
  */
 @Service
 public class EmployeeremoveService {
-    @Autowired
-    EmployeeremoveMapper employeeremoveMapper;
+    private final EmployeeremoveMapper employeeremoveMapper;
 
-    public List<Employeeremove> getAll() {
+    @Autowired
+    public EmployeeremoveService(EmployeeremoveMapper employeeremoveMapper) {
+        this.employeeremoveMapper = employeeremoveMapper;
+    }
+
+    public List<Employeeremove> selectAll() {
         List<Employeeremove> list = employeeremoveMapper.selectAll();
         List<Employeeremove> newList = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
-            if(i%2!=0) {
-                Employeeremove emp = new Employeeremove();
-                emp=list.get(i-1);
+            if (i % 2 != 0) {
+                Employeeremove emp;
+                emp = list.get(i - 1);
                 emp.setNewJoblevelName(list.get(i).getOldJoblevelName());
                 emp.setNewDepartName(list.get(i).getOldDepartName());
                 newList.add(emp);

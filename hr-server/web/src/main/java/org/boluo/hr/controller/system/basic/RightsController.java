@@ -1,98 +1,97 @@
-package com.boluo.hr.controller.system.basic;
+package org.boluo.hr.controller.system.basic;
 
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.pojo.RightsBean;
 import org.boluo.hr.pojo.Role;
-import com.boluo.hr.service.RightsService;
+import org.boluo.hr.service.RightsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 
 /**
- * @author @1352955539(boluo)
- * @date 2021/2/6 - 21:37
+ * @author 🍍
+ * @date 2023/10/1
  */
 @RestController
 @RequestMapping("/system/basic/rights")
 public class RightsController {
 
+    private final RightsService rightsService;
+
+    private static final String PRE_ROLE_NAME = "ROLE_";
+
     @Autowired
-    private RightsService rightsService;
+    public RightsController(RightsService rightsService) {
+        this.rightsService = rightsService;
+    }
 
     @GetMapping("/")
-    public RespBean showRole() {
-        return RespBean.ok(rightsService.getAllRole());
+    public RespBean findAllRoles() {
+        return RespBean.ok(rightsService.selectAllRoles());
     }
 
     @GetMapping("/{id}")
-    public RespBean getRishtsWithRoleId(@PathVariable Integer id) {
-        return RespBean.ok(rightsService.getRightsWithRoleId(id));
+    public RespBean findRightByRoleId(@PathVariable Integer id) {
+        return RespBean.ok(rightsService.selectRightsByRoleId(id));
     }
 
     @GetMapping("/menus")
-    public RespBean showMenu() {
-        return RespBean.ok(rightsService.getAllMenus());
+    public RespBean findAllMenus() {
+        return RespBean.ok(rightsService.selectAllMenus());
     }
 
     @PutMapping("/")
-    public RespBean addOneRole(Role role) {
-        String roleEnname = "ROLE_";
-        role.setName(roleEnname + role.getName());
-        int i = rightsService.insertRole(role);
-        if (i == 1) {
-            return RespBean.ok("添加成功！");
+    public RespBean addRole(Role role) {
+        role.setName(PRE_ROLE_NAME + role.getName());
+        if (rightsService.insertRole(role)) {
+            return RespBean.ok();
         } else {
-            return RespBean.error("添加失败！");
+            return RespBean.error();
         }
     }
 
     @DeleteMapping("/{id}")
-    public RespBean deleteOneRole(@PathVariable Integer id) {
-        int i = rightsService.deleteWithRoleId(id);
-        if (i == 1) {
-            return RespBean.ok("删除成功！");
+    public RespBean remove(@PathVariable Integer id) {
+        if (rightsService.deleteRoleById(id)) {
+            return RespBean.ok();
         } else {
-            return RespBean.error("删除失败！");
+            return RespBean.error();
         }
     }
 
-    @PutMapping("/changeRolename")
-    public RespBean updateRoleName(Role role) {
-        int i = rightsService.updateRoleName(role);
-        if (i == 1) {
-            return RespBean.ok("修改成功！");
+    @PutMapping("/changeRoleName")
+    public RespBean modifyRole(Role role) {
+        if (rightsService.updateRole(role)) {
+            return RespBean.ok();
         } else {
-            return RespBean.error("修改失败！");
+            return RespBean.error();
         }
     }
 
-    @PutMapping("/ReRights/{roleId}")
+    @PutMapping("/reRights/{roleId}")
     public RespBean changeRights(@PathVariable Integer roleId, Integer[] ids) {
-        int coutRighst = rightsService.selectRightsCountByRoleId(roleId);
-        if (coutRighst > 0) {
-            int i = rightsService.deleteRights(roleId);
-            if (i > 0) {
-                if(ids == null) {
-                    return RespBean.ok("修改成功！");
+        int countRight = rightsService.selectRightsCountByRoleId(roleId);
+        if (countRight > 0) {
+            if (rightsService.deleteRights(roleId)) {
+                if (ids == null) {
+                    return RespBean.ok();
                 }
-                int i1 = rightsService.insertRights(new RightsBean(ids, roleId));
-                if (i1 > 0) {
-                    return RespBean.ok("修改成功！");
+                if (rightsService.insertRights(new RightsBean(ids, roleId))) {
+                    return RespBean.ok();
                 } else {
-                    return RespBean.error("修改失败！");
+                    return RespBean.error();
                 }
             } else {
-                return RespBean.error("修改失败！");
+                return RespBean.error();
             }
         } else {
-            if(ids == null) {
-                return RespBean.ok("修改成功！");
+            if (ids == null) {
+                return RespBean.ok();
             }
-            int i1 = rightsService.insertRights(new RightsBean(ids, roleId));
-            if (i1 > 0) {
-                return RespBean.ok("修改成功！");
+            if (rightsService.insertRights(new RightsBean(ids, roleId))) {
+                return RespBean.ok();
             } else {
-                return RespBean.error("修改失败！");
+                return RespBean.error();
             }
         }
     }

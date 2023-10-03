@@ -1,14 +1,14 @@
-package com.boluo.hr.controller.per.ec;
+package org.boluo.hr.controller.per.ec;
 
 import org.boluo.hr.pojo.Employeeec;
 import org.boluo.hr.pojo.RespBean;
-import com.boluo.hr.service.EmployeecService;
+import org.boluo.hr.service.EmployeecService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * @author @1352955539(boluo)
- * @date 2021/3/28 - 22:03
+ * @author 🍍
+ * @date 2023/10/1
  */
 @RestController
 @RequestMapping("/per/ec")
@@ -22,37 +22,31 @@ public class PerEcController {
     }
 
     @GetMapping("/")
-    public RespBean list() {
-        return RespBean.ok(employeecService.getAll());
+    public RespBean findAll() {
+        return RespBean.ok(employeecService.selectAll());
     }
 
     @PutMapping("/change")
-    public RespBean modify(Employeeec employeeec) {
-        int update = employeecService.update(employeeec);
-        if (update == 1) {
-            return RespBean.ok("修改成功！");
-        } else {
-            return RespBean.error("修改失败！");
+    public RespBean modifyOne(Employeeec employeeec) {
+        if (employeecService.update(employeeec)) {
+            return RespBean.ok();
         }
+        return RespBean.error();
     }
 
     @DeleteMapping("/del/{id}")
-    public RespBean deleteEmpc(@PathVariable("id") Integer id) {
-        int delete = employeecService.delete(id);
-        if (delete == 1) {
-            return RespBean.ok("删除成功！");
-        } else {
-            return RespBean.error("删除失败！");
+    public RespBean removeOne(@PathVariable("id") Integer id) {
+        if (employeecService.delete(id)) {
+            return RespBean.ok();
         }
+        return RespBean.error();
     }
 
     @PutMapping("/add/one")
     public RespBean addOne(Employeeec employeeec) {
-        int i = employeecService.addEmpc(employeeec);
-        if (i == 1) {
-            return RespBean.ok("添加成功！");
-        } else {
-            return RespBean.error("添加失败！");
+        if (employeecService.insert(employeeec)) {
+            return RespBean.ok();
         }
+        return RespBean.error();
     }
 }

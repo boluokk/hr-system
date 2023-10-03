@@ -1,45 +1,44 @@
-package com.boluo.hr.controller.per.emp;
+package org.boluo.hr.controller.per.emp;
 
 import org.boluo.hr.pojo.Employee;
 import org.boluo.hr.pojo.RespBean;
-import com.boluo.hr.service.EmpInfoService;
+import org.boluo.hr.service.EmpInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * @author @1352955539(boluo)
- * @date 2021/3/28 - 13:30
+ * @author 🍍
+ * @date 2023/10/1
  */
-
 @RestController
 @RequestMapping("/per/emp")
 public class EmpInfoController {
 
+    private final EmpInfoService empInfoService;
+
     @Autowired
-    private EmpInfoService empInfoService;
+    public EmpInfoController(EmpInfoService empInfoService) {
+        this.empInfoService = empInfoService;
+    }
 
     @GetMapping("/{empName}")
-    public RespBean show(@PathVariable("empName") String empName) {
-        return RespBean.ok(empInfoService.selectEmp(empName));
+    public RespBean findAll(@PathVariable("empName") String empName) {
+        return RespBean.ok(empInfoService.selectByEmpName(empName));
     }
 
     @DeleteMapping("/{id}")
-    public RespBean delEmp(@PathVariable("id") Integer id) {
-        int i = empInfoService.deleteEmp(id);
-        if(i==1) {
-            return RespBean.ok("删除成功！");
-        } else {
-            return RespBean.error("删除失败！");
+    public RespBean removeOne(@PathVariable("id") Integer id) {
+        if (empInfoService.delete(id)) {
+            return RespBean.ok();
         }
+        return RespBean.error();
     }
 
     @PutMapping("/one")
-    public RespBean changeEmp(Employee employee) {
-        int i = empInfoService.updateEmp(employee);
-        if(i==1) {
-            return RespBean.ok("修改成功！");
-        } else {
-            return RespBean.error("修改失败！");
+    public RespBean modifyOne(Employee employee) {
+        if (empInfoService.update(employee)) {
+            return RespBean.ok();
         }
+        return RespBean.error();
     }
 }

@@ -15,7 +15,7 @@ const proxyObj = {
 module.exports = {
   devServer: {
     host: 'localhost',
-    port: 9927,
+    port: 9090,
     proxy: proxyObj
   }
 }

@@ -168,7 +168,7 @@ export default {
           checkIds += 'ids=' + item + '&'
         })
         this.putRequest(
-          '/system/basic/rights/ReRights/' + results[0] + checkIds
+          '/system/basic/rights/reRights/' + results[0] + checkIds
         ).then(res => {
           this.$message.success(res.data.msg)
           this.selectRoles = ''
@@ -176,9 +176,9 @@ export default {
       }
     },
     async subChRoleNameZh() {
-      this.$refs.RoleruleForm.validate(vali => {
+      await this.$refs.RoleruleForm.validate(vali => {
         if (!vali) return this.$message('请填写必要项！')
-        this.putRequest('/system/basic/rights/changeRolename', {
+        this.putRequest('/system/basic/rights/changeRoleName', {
           namezh: this.RoleruleForm.namezh,
           id: this.RoleruleForm.id
         }).then(res => {

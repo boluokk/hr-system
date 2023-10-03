@@ -1,8 +1,8 @@
-package com.boluo.hr.mapper;
+package org.boluo.hr.mapper;
 
+import org.apache.ibatis.annotations.Param;
 import org.boluo.hr.pojo.Menu;
 import org.boluo.hr.pojo.MenuExample;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -33,5 +33,5 @@ public interface MenuMapper {
 
     List<Menu> getMenusByHrId(@Param("id") Integer hrid);
 
-    List<Menu> getAllMenus();
+    List<Menu> selectAllMenus();
 }

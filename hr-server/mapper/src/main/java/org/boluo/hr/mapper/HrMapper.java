@@ -1,4 +1,4 @@
-package com.boluo.hr.mapper;
+package org.boluo.hr.mapper;
 
 import org.boluo.hr.pojo.Hr;
 import org.boluo.hr.pojo.HrExample;
@@ -6,11 +6,6 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-/**
- * @author 🍍
- * @email boluokk@hotmail.com
- * @date 2023/05/13 11:53
- */
 public interface HrMapper {
     int countByExample(HrExample example);
 
@@ -36,11 +31,11 @@ public interface HrMapper {
 
     Hr loadByUserName(String username);
 
-    List<Hr> getRoleWithHrid(Integer id);
+    List<Hr> getRoleWithHrId(Integer id);
 
     List<Hr> selectAllExceptCurrentHr(@Param("id") Integer id);
 
-    List<Hr> selectBypageSize();
+    List<Hr> selectAll();
 
-    List<Hr> selectByHrName(@Param("hrName") String hrName);
+    List<Hr> selectHrByName(@Param("hrName") String hrName);
 }

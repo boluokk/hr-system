@@ -16,12 +16,6 @@
             <artifactId>service</artifactId>
             <groupId>org.boluo</groupId>
             <version>1.0-SNAPSHOT</version>
-            <exclusions>
-                <exclusion>
-                    <groupId></groupId>
-                    <artifactId></artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>

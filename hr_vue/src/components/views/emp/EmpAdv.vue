@@ -10,7 +10,7 @@
         <el-table :data='employeeC' style='width: 100%'>
           <el-table-column label='#' type='index' width='50'>
           </el-table-column>
-          <el-table-column label='奖惩日期' width='150'>
+          <el-table-column label='奖惩日期' width='200'>
             <template slot-scope='scope'>
               {{ scope.row.ecdate | dateFormat }}
             </template>
@@ -45,7 +45,7 @@
         <el-table :data='employeeTrain' style='width: 100%'>
           <el-table-column label='#' type='index' width='50'>
           </el-table-column>
-          <el-table-column label='奖惩日期' width='150'>
+          <el-table-column label='奖惩日期' width='200'>
             <template slot-scope='scope'>
               {{ scope.row.traindate | dateFormat }}
             </template>
@@ -61,7 +61,7 @@
         <el-table :data='employeeAppraise' style='width: 100%'>
           <el-table-column label='#' type='index' width='50'>
           </el-table-column>
-          <el-table-column label='培训日期' width='150'>
+          <el-table-column label='培训日期' width='200'>
             <template slot-scope='scope'>
               {{ scope.row.appdate | dateFormat }}
             </template>
@@ -86,7 +86,7 @@
         <el-table :data='employeeAdjustSalary' style='width: 100%'>
           <el-table-column label='#' type='index' width='50'>
           </el-table-column>
-          <el-table-column label='调薪日期' width='150'>
+          <el-table-column label='调薪日期' width='200'>
             <template slot-scope='scope'>
               {{ scope.row.asdate | dateFormat }}
             </template>
@@ -113,7 +113,7 @@
         <el-table :data='employeeMove' style='width: 100%'>
           <el-table-column label='#' type='index' width='50'>
           </el-table-column>
-          <el-table-column label='调动日期' width='150'>
+          <el-table-column label='调动日期' width='200'>
             <template slot-scope='scope'>
               {{ scope.row.removedate | dateFormat }}
             </template>
@@ -121,7 +121,6 @@
           <el-table-column prop='oldDepartName' label='调前部门' width='120'>
           </el-table-column>
           <el-table-column prop='oldJoblevelName' label='调前职位' width='120'>
-          </el-table-column>
           </el-table-column>
           <el-table-column prop='reason' label='调薪原因' width='180'>
           </el-table-column>

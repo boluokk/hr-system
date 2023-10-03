@@ -1,4 +1,4 @@
-package com.boluo.hr.service;
+package org.boluo.hr.service;
 
 import org.boluo.hr.mapper.EmployeeMapper;
 import org.boluo.hr.pojo.Employee;
@@ -11,25 +11,27 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @author @1352955539(boluo)
- * @date 2021/2/10 - 22:58
+ * @author 🍍
+ * @date 2023/10/1
  */
 @Service
 public class EmployeeService {
 
-    @Autowired
-    private EmployeeMapper employeeMapper;
+    private final EmployeeMapper employeeMapper;
+    private final RabbitTemplate rabbitTemplate;
 
     @Autowired
-    RabbitTemplate rabbitTemplate;
-
-
-    public List<Employee> selectAllEmp(Integer pageNum,Integer pageSize) {
-        return employeeMapper.selectAllByPage(pageNum,pageSize);
+    public EmployeeService(EmployeeMapper employeeMapper, RabbitTemplate rabbitTemplate) {
+        this.employeeMapper = employeeMapper;
+        this.rabbitTemplate = rabbitTemplate;
     }
 
-    public List<Employee> selectAllByNothing() {
-        return employeeMapper.selectAllByPage(null,null);
+    public List<Employee> selectAllByPage(Integer pageNum, Integer pageSize) {
+        return employeeMapper.selectAllByPage(pageNum, pageSize);
+    }
+
+    public List<Employee> selectAll() {
+        return employeeMapper.selectAllByPage(null, null);
     }
 
     public int selectTotal() {
@@ -40,45 +42,47 @@ public class EmployeeService {
         return employeeMapper.selectByEmpName(empName);
     }
 
-    public int insertEmpOfOne(Employee employee) {
+    /**
+     * 会发送邮件, 利用Rabbit防止发送失败
+     */
+    public boolean insertOne(Employee employee) {
         int i = employeeMapper.insertSelective(employee);
-        if(i==1) {
-            Employee emp = employeeMapper.selectByEmpID(employee.getId());
-            rabbitTemplate.convertAndSend(MailConstans.MAIL_QUEUE_NAME,emp);
+        if (i == 1) {
+            Employee emp = employeeMapper.selectByEmpId(employee.getId());
+            rabbitTemplate.convertAndSend(MailConstans.MAIL_QUEUE_NAME, emp);
         }
-        return i;
+        return i == 1;
     }
 
-    public int selectMaxWorkID() {
-        Integer i = employeeMapper.selectMaxWorkID();
-        return i+1;
+    public int selectMaxWorkId() {
+        return employeeMapper.selectMaxWorkId() + 1;
     }
 
-    public int upDateEmp(Employee employee) {
-        return employeeMapper.updateByPrimaryKeySelective(employee);
+    public boolean update(Employee employee) {
+        return employeeMapper.updateByPrimaryKeySelective(employee) == 1;
     }
 
-    public int deltebyOne(Integer id) {
-        return employeeMapper.deleteByPrimaryKey(id);
+    public boolean delete(Integer id) {
+        return employeeMapper.deleteByPrimaryKey(id) == 1;
     }
 
     public int deleteByMany(Integer[] ids) {
-        return employeeMapper.deleteByManyID(ids);
+        return employeeMapper.deleteByManyId(ids);
     }
 
-    public List<Nation> testNation() {
-        return employeeMapper.selectByNation();
+    public List<Nation> selectNations() {
+        return employeeMapper.selectNations();
     }
 
     public int insertMany(List<Employee> employees) {
         return employeeMapper.insertMany(employees);
     }
 
-    public List<Employee> TipSerchByEmp(Integer pageNum, Integer pageSize, Employee employee) {
-        return employeeMapper.selectByTipSerch(pageNum,pageSize,employee);
+    public List<Employee> selectByPageAndEmployee(Integer pageNum, Integer pageSize, Employee employee) {
+        return employeeMapper.selectByPageAndEmployee(pageNum, pageSize, employee);
     }
 
-    public int TipCount(Employee employee) {
-        return employeeMapper.selectByTipCount(employee);
+    public int selectByEmployeeCount(Employee employee) {
+        return employeeMapper.selectByEmployeeCount(employee);
     }
 }

@@ -1,4 +1,4 @@
-package com.boluo.hr.service;
+package org.boluo.hr.service;
 
 import org.boluo.hr.mapper.MenuMapper;
 import org.boluo.hr.mapper.RoleMapper;
@@ -11,48 +11,51 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @author @1352955539(boluo)
- * @date 2021/2/6 - 21:28
+ * @author 🍍
+ * @date 2023/10/1
  */
 @Service
 public class RightsService {
 
+    private final RoleMapper roleMapper;
+    private final MenuMapper menuMapper;
+
     @Autowired
-    private RoleMapper roleMapper;
-    @Autowired
-    private MenuMapper menuMapper;
-
-
-    public List<Role> getAllRole() {
-        return roleMapper.getAllRole();
+    public RightsService(RoleMapper roleMapper, MenuMapper menuMapper) {
+        this.roleMapper = roleMapper;
+        this.menuMapper = menuMapper;
     }
 
-    public List<Integer> getRightsWithRoleId(Integer id) {
-        return roleMapper.getMenuIdWithRoleID(id);
+    public List<Role> selectAllRoles() {
+        return roleMapper.selectAllRole();
     }
 
-    public List<Menu> getAllMenus() {
-        return menuMapper.getAllMenus();
+    public List<Integer> selectRightsByRoleId(Integer id) {
+        return roleMapper.selectRightsByRoleId(id);
     }
 
-    public int  insertRole(Role role) {
-        return roleMapper.insertSelective(role);
+    public List<Menu> selectAllMenus() {
+        return menuMapper.selectAllMenus();
     }
 
-    public int deleteWithRoleId(Integer id) {
-        return roleMapper.deleteByPrimaryKey(id);
+    public boolean insertRole(Role role) {
+        return roleMapper.insertSelective(role) == 1;
     }
 
-    public int updateRoleName(Role role) {
-        return roleMapper.updateByPrimaryKeySelective(role);
+    public boolean deleteRoleById(Integer id) {
+        return roleMapper.deleteByPrimaryKey(id) == 1;
+    }
+
+    public boolean updateRole(Role role) {
+        return roleMapper.updateByPrimaryKeySelective(role) == 1;
     }
 
 //  更新
-    public int deleteRights(Integer roleId) {
-        return roleMapper.deleteRightsByRoleId(roleId);
+    public boolean deleteRights(Integer roleId) {
+        return roleMapper.deleteRightsByRoleId(roleId) > 0;
     }
-    public int insertRights(RightsBean rightsBean) {
-        return roleMapper.insertRightsByRoleId(rightsBean);
+    public boolean insertRights(RightsBean rightsBean) {
+        return roleMapper.insertRightsByRoleId(rightsBean) > 0;
     }
 
     public int selectRightsCountByRoleId(Integer id) {

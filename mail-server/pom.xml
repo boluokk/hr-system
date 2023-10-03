@@ -19,6 +19,12 @@
             <artifactId>pojo</artifactId>
             <groupId>org.boluo</groupId>
             <version>1.0-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-security</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -45,6 +51,7 @@
         </dependency>
     </dependencies>
 
+
     <build>
         <plugins>
             <plugin>
@@ -53,5 +60,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

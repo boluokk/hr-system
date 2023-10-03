@@ -4,13 +4,16 @@ server:
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://localhost:3306/hr?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
+    url: jdbc:mysql://localhost:3307/hr?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
     username: root
     password: root
 
-#  rabbitmq:
-#    port: 5672
-#    host: 192.168.200.128
-#    username: boluo
-#    password: 123456
+  rabbitmq:
+    port: 5672
+    host: 127.0.0.1
+    username: root
+    password: 123456
+
+  main:
+    banner-mode: off
 

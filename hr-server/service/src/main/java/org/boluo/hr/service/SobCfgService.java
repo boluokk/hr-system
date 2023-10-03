@@ -1,4 +1,4 @@
-package com.boluo.hr.service;
+package org.boluo.hr.service;
 
 import org.boluo.hr.mapper.SalaryMapper;
 import org.boluo.hr.pojo.Employee;
@@ -8,28 +8,35 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @author @1352955539(boluo)
- * @date 2021/2/21 - 21:54
+ * @author 🍍
+ * @date 2023/10/1
  */
 @Service
 public class SobCfgService {
 
-    @Autowired
-    SalaryMapper salaryMapper;
+    private final SalaryMapper salaryMapper;
 
-    public List<Employee> getEmpWithSalary(Integer num,Integer size) {
-        if(num!=null && size!=null) {
-            int realNum = size*(num-1);
-            return salaryMapper.selectEmpAndSalary(realNum,size);
+    @Autowired
+    public SobCfgService(SalaryMapper salaryMapper) {
+        this.salaryMapper = salaryMapper;
+    }
+
+    public List<Employee> selectEmpWithSalary(Integer num, Integer size) {
+        if (num != null && size != null) {
+            int realNum = size * (num - 1);
+            return salaryMapper.selectEmpAndSalary(realNum, size);
         }
         return null;
     }
 
-    public int CountEmpWithSal() {
-       return salaryMapper.CountSalaryWithEmp();
+    public int countEmpWithSal() {
+        return salaryMapper.countSalaryWithEmp();
     }
 
-    public void addSalWEmp(Integer eid,Integer salid) {
-        salaryMapper.insertEmpWithSal(eid,salid);
+    /**
+     * 存储过程
+     */
+    public void insertSalAndEmp(Integer eid, Integer salid) {
+        salaryMapper.insertEmpWithSal(eid, salid);
     }
 }

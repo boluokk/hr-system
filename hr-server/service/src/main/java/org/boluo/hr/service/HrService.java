@@ -1,4 +1,4 @@
-package com.boluo.hr.service;
+package org.boluo.hr.service;
 
 import org.boluo.hr.mapper.HrMapper;
 import org.boluo.hr.mapper.RoleMapper;
@@ -11,19 +11,24 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
- * @author @1352955539(boluo)
- * @date 2021/1/25 - 16:33
+ * @author 🍍
+ * @date 2023/10/1
  */
 @Service
 public class HrService implements UserDetailsService {
 
-    @Autowired
-    HrMapper hrMapper;
+    private final HrMapper hrMapper;
+
+    private final RoleMapper roleMapper;
 
     @Autowired
-    RoleMapper roleMapper;
+    public HrService(HrMapper hrMapper, RoleMapper roleMapper) {
+        this.hrMapper = hrMapper;
+        this.roleMapper = roleMapper;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
@@ -31,7 +36,7 @@ public class HrService implements UserDetailsService {
         if (hr == null) {
             throw new UsernameNotFoundException("用户不存在!");
         }
-        List<Hr> hrWithRoles = hrMapper.getRoleWithHrid(hr.getId());
+        List<Hr> hrWithRoles = hrMapper.getRoleWithHrId(hr.getId());
         hr.setRoles(hrWithRoles.get(0).getRoles());
         return hr;
     }
@@ -40,35 +45,35 @@ public class HrService implements UserDetailsService {
         return hrMapper.selectAllExceptCurrentHr(currentId);
     }
 
-    public List<Hr> getHrs() {
-        return hrMapper.selectBypageSize();
+    public List<Hr> selectAll() {
+        return hrMapper.selectAll();
     }
 
-    public int updateHr(Hr hr) {
-        return hrMapper.updateByPrimaryKeySelective(hr);
+    public boolean update(Hr hr) {
+        return hrMapper.updateByPrimaryKeySelective(hr) == 1;
     }
 
-    public int deleteHr(Integer id) {
-        return hrMapper.deleteByPrimaryKey(id);
+    public boolean delete(Integer id) {
+        return hrMapper.deleteByPrimaryKey(id) == 1;
     }
 
-    public List<Role> getRoles(Integer hid) {
+    public List<Role> selectRoles(Integer hid) {
         return roleMapper.selectByHrId(hid);
     }
 
-    public int deleteRoleByHrid(Integer hrid) {
-        return roleMapper.deleteByHrId(hrid);
+    public boolean deleteRoleByHrid(Integer hrId) {
+        return roleMapper.deleteByHrId(hrId) >= 0;
     }
 
-    public int insertRoles(Integer hid, Integer[] roleIds) {
-        return roleMapper.insertRolesByRoleIds(hid, roleIds);
+    public boolean insertRoles(Integer hid, Integer[] roleIds) {
+        return roleMapper.insertRolesByRoleIds(hid, roleIds) > 0;
     }
 
-    public List<Hr> selectSomeHrsByHrName(String name) {
-        return hrMapper.selectByHrName(name);
+    public List<Hr> selectHrByName(String name) {
+        return hrMapper.selectHrByName(name);
     }
 
-    public int addHr(Hr hr) {
-        return hrMapper.insertSelective(hr);
+    public boolean insert(Hr hr) {
+        return hrMapper.insertSelective(hr) == 1;
     }
 }

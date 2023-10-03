@@ -1,55 +1,52 @@
-package com.boluo.hr.controller.per.train;
+package org.boluo.hr.controller.per.train;
 
 import org.boluo.hr.pojo.Employeetrain;
 import org.boluo.hr.pojo.RespBean;
-import com.boluo.hr.service.EmployeetrainService;
+import org.boluo.hr.service.EmployeetrainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * @author @1352955539(boluo)
- * @date 2021/4/16 - 15:04
+ * @author 🍍
+ * @date 2023/10/1
  */
-
 @RequestMapping("/per/train")
 @RestController
 public class EmployeeTrainController {
 
+    private final EmployeetrainService employeetrainService;
+
     @Autowired
-    EmployeetrainService employeetrainService;
+    public EmployeeTrainController(EmployeetrainService employeetrainService) {
+        this.employeetrainService = employeetrainService;
+    }
 
     @GetMapping("/")
-    public RespBean show() {
-        return RespBean.ok(employeetrainService.getAllWithEmpName());
+    public RespBean findAll() {
+        return RespBean.ok(employeetrainService.selectAllWithEmpName());
     }
 
     @PutMapping("/change/one")
-    public RespBean change(Employeetrain employeetrain) {
-        Integer i = employeetrainService.updateEmpt(employeetrain);
-        if(i==1) {
-            return RespBean.ok("修改成功！");
-        } else {
-            return RespBean.error("修改失败！");
+    public RespBean modify(Employeetrain employeetrain) {
+        if (employeetrainService.updateOne(employeetrain)) {
+            return RespBean.ok();
         }
+        return RespBean.error();
     }
 
     @DeleteMapping("/{id}")
-    public RespBean deleteEmp(@PathVariable("id") Integer id) {
-        Integer i = employeetrainService.deleteEmpTrain(id);
-        if(i==1) {
-            return RespBean.ok("删除成功！");
-        } else {
-            return RespBean.error("删除失败！");
+    public RespBean removeOne(@PathVariable("id") Integer id) {
+        if (employeetrainService.deleteEmpTrain(id)) {
+            return RespBean.ok();
         }
+        return RespBean.error();
     }
 
     @PutMapping("/")
-    public RespBean add(Employeetrain employeetrain) {
-        Integer i = employeetrainService.addEmpTrain(employeetrain);
-        if(i==1) {
-            return RespBean.ok("添加成功！");
-        } else {
-            return RespBean.error("添加失败！");
+    public RespBean addOne(Employeetrain employeetrain) {
+        if (employeetrainService.insertOne(employeetrain)) {
+            return RespBean.ok();
         }
+        return RespBean.error();
     }
 }

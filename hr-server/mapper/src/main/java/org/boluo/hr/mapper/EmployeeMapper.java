@@ -1,4 +1,4 @@
-package com.boluo.hr.mapper;
+package org.boluo.hr.mapper;
 
 import org.boluo.hr.pojo.Employee;
 import org.boluo.hr.pojo.EmployeeExample;
@@ -36,18 +36,20 @@ public interface EmployeeMapper {
 
     List<Employee> selectByEmpName(@Param("empName") String empName);
 
-    Integer selectMaxWorkID();
+    Integer selectMaxWorkId();
 
-    int deleteByManyID(@Param("ids") Integer[] ids);
+    int deleteByManyId(@Param("ids") Integer[] ids);
 
-    List<Nation> selectByNation();
+    List<Nation> selectNations();
 
     int insertMany(@Param("list") List<Employee> employees);
 
-    List<Employee> selectByTipSerch(@Param("pageNum") Integer pageNum, @Param("pageSize") Integer pageSize, @Param("employee") Employee employee);
+    List<Employee> selectByPageAndEmployee(@Param("pageNum") Integer pageNum,
+                                     @Param("pageSize") Integer pageSize,
+                                     @Param("employee") Employee employee);
 
-    int selectByTipCount(@Param("employee") Employee employee);
+    int selectByEmployeeCount(@Param("employee") Employee employee);
 
-    Employee selectByEmpID(@Param("id") Integer id);
+    Employee selectByEmpId(@Param("id") Integer id);
 
 }

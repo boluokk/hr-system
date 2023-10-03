@@ -8,11 +8,11 @@
       <div slot="header"></div>
       <!-- card body -->
       <el-table :data="tableData" style="width: 100%">
-        <el-table-column prop="workId" label="工号" width="80">
+        <el-table-column prop="workId" label="工号" width="120">
         </el-table-column>
         <el-table-column prop="employeeName" label="姓名" width="120">
         </el-table-column>
-        <el-table-column label="时间" width="150">
+        <el-table-column label="时间" width="200">
           <template slot-scope="scope">
             {{ scope.row.ecdate | dateFormat }}
           </template>
@@ -23,14 +23,15 @@
         </el-table-column>
         <el-table-column prop="ecpoint" label="分数" width="120">
         </el-table-column>
-        <el-table-column label="操作" width="150">
+        <el-table-column label="操作" width="250">
           <template slot-scope="scope">
             <el-button
               type="primary"
               icon="el-icon-edit"
-              circle
+              size='mini'
+              style='margin-right: 10px;'
               @click="showEdit(scope.row)"
-            ></el-button>
+            >编辑</el-button>
             <el-popconfirm
               confirm-button-text="好的"
               cancel-button-text="不用了"
@@ -42,9 +43,9 @@
               <el-button
                 type="danger"
                 icon="el-icon-delete"
-                circle
+                size='mini'
                 slot="reference"
-              ></el-button>
+              >删除</el-button>
             </el-popconfirm>
           </template>
         </el-table-column>

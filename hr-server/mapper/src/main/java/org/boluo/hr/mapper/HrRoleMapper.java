@@ -1,9 +1,10 @@
-package com.boluo.hr.mapper;
+package org.boluo.hr.mapper;
 
+import org.apache.ibatis.annotations.Param;
 import org.boluo.hr.pojo.HrRole;
 import org.boluo.hr.pojo.HrRoleExample;
+
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
 public interface HrRoleMapper {
     int countByExample(HrRoleExample example);

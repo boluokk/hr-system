@@ -1,63 +1,60 @@
-package com.boluo.hr.controller.salary.sob;
+package org.boluo.hr.controller.salary.sob;
 
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.pojo.Salary;
-import com.boluo.hr.service.SalaryService;
+import org.boluo.hr.service.SalaryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 /**
- * @author @1352955539(boluo)
- * @date 2021/2/21 - 11:32
+ * @author 🍍
+ * @date 2023/10/1
  */
 @RestController
 @RequestMapping("/sal/sob")
 public class SalaryController {
 
+    private final SalaryService salaryService;
+
     @Autowired
-    private SalaryService salaryService;
+    public SalaryController(SalaryService salaryService) {
+        this.salaryService = salaryService;
+    }
 
     @GetMapping("/")
-    public RespBean showSalary() {
-        List<Salary> allSalary = salaryService.getAllSalary();
-        return RespBean.ok(allSalary);
+    public RespBean findAllSalary() {
+        return RespBean.ok(salaryService.selectAllSalary());
     }
 
     @PutMapping("/")
-    public RespBean addSalary(Salary salary) {
-        int i = salaryService.addOfOne(salary);
-        if(i==1) {
-            return RespBean.ok("添加成功！");
+    public RespBean add(Salary salary) {
+        if (salaryService.insert(salary)) {
+            return RespBean.ok();
         }
-        return RespBean.error("添加失败！");
+        return RespBean.error();
     }
 
     @DeleteMapping("/{id}")
-    public RespBean deleteSalary(@PathVariable("id") Integer id) {
-        int i = salaryService.delOfOne(id);
-        if(i==1){
-            return RespBean.ok("删除成功！");
+    public RespBean remove(@PathVariable("id") Integer id) {
+        if (salaryService.delete(id)) {
+            return RespBean.ok();
         }
-        return RespBean.error("删除失败！");
+        return RespBean.error();
     }
 
     @PutMapping("/change/one")
-    public RespBean editSalary(Salary salary) {
-        int i = salaryService.editSalary(salary);
-        if(i==1) {
-            return RespBean.ok("修改成功！");
+    public RespBean modify(Salary salary) {
+        if (salaryService.update(salary)) {
+            return RespBean.ok();
         }
-        return RespBean.error("修改失败！");
+        return RespBean.error();
     }
 
     @DeleteMapping("/delete/many/")
-    public RespBean deleteSalaryMany(Integer[] ids) {
-        int i = salaryService.deleteOfMany(ids);
-        if(i==ids.length) {
-            return RespBean.ok("删除成功！");
+    public RespBean removeMany(Integer[] ids) {
+        if (salaryService.deleteMany(ids)) {
+            return RespBean.ok();
         }
-        return RespBean.error("删除失败");
+        return RespBean.error();
     }
 }

@@ -778,7 +778,7 @@ export default {
       this.getRequest('/system/basic/department/all').then(res => {
         this.departmentData = res.data.obj
       })
-      this.getRequest('/system/basic/jobname/').then(res => {
+      this.getRequest('/system/basic/jobName/').then(res => {
         this.jobNameData = res.data.obj
       })
       this.getRequest('/system/basic/job/').then(res => {

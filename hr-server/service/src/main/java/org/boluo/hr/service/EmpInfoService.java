@@ -1,4 +1,4 @@
-package com.boluo.hr.service;
+package org.boluo.hr.service;
 
 import org.boluo.hr.mapper.EmployeeMapper;
 import org.boluo.hr.pojo.Employee;
@@ -8,25 +8,29 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @author @1352955539(boluo)
- * @date 2021/3/28 - 13:32
+ * @author 🍍
+ * @date 2023/10/1
  */
 @Service
 public class EmpInfoService {
 
-    @Autowired
-    private EmployeeMapper employeeMapper;
+    private final EmployeeMapper employeeMapper;
 
-    public List<Employee> selectEmp(String empName) {
+    @Autowired
+    public EmpInfoService(EmployeeMapper employeeMapper) {
+        this.employeeMapper = employeeMapper;
+    }
+
+    public List<Employee> selectByEmpName(String empName) {
         return employeeMapper.selectByEmpName(empName);
     }
 
-    public int updateEmp(Employee emp) {
-        return employeeMapper.updateByPrimaryKey(emp);
+    public boolean update(Employee emp) {
+        return employeeMapper.updateByPrimaryKey(emp) == 1;
     }
 
-    public int deleteEmp(Integer id) {
-        return employeeMapper.deleteByPrimaryKey(id);
+    public boolean delete(Integer id) {
+        return employeeMapper.deleteByPrimaryKey(id) == 1;
     }
 
 

@@ -1,43 +1,44 @@
-package com.boluo.hr.controller.system.basic;
+package org.boluo.hr.controller.system.basic;
 
+import org.boluo.hr.exception.BusinessException;
 import org.boluo.hr.pojo.DepartRequestBean;
 import org.boluo.hr.pojo.Department;
 import org.boluo.hr.pojo.RespBean;
-import com.boluo.hr.service.DepartmentService;
+import org.boluo.hr.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 /**
- * @author @1352955539(boluo)
- * @date 2021/2/8 - 23:07
+ * @author 🍍
+ * @date 2023/10/1
  */
 @RestController
 @RequestMapping("/system/basic/department")
 public class DepartmentController {
 
+    private final DepartmentService departmentService;
+
     @Autowired
-    private DepartmentService departmentService;
+    public DepartmentController(DepartmentService departmentService) {
+        this.departmentService = departmentService;
+    }
 
     @GetMapping("/")
-    public RespBean showDep() {
-        List<Department> list = departmentService.getAllDepart(-1);
-        return RespBean.ok(list);
+    public RespBean findDepartment() {
+        return RespBean.ok(departmentService.selectAllDepart(-1));
     }
 
     // 需要字段 parentId childrenName childrenEnabled
     @Transactional(rollbackFor = Exception.class)
     @PutMapping("/")
-    public RespBean addDep(DepartRequestBean departRequestBean) throws Exception {
+    public RespBean add(DepartRequestBean departRequestBean) {
         if (!departRequestBean.getParentIsParent()) {
             Department department = new Department();
             department.setId(departRequestBean.getParentId());
             department.setIsparent(true);
-            int i = departmentService.updateDeparOfOne(department);
-            if (i == 0) {
-                throw new Exception("失败！");
+            if (!departmentService.update(department)) {
+                throw new BusinessException("更新部门失败");
             }
         }
         Department department = new Department();
@@ -45,70 +46,62 @@ public class DepartmentController {
         department.setParentid(departRequestBean.getParentId());
         department.setEnabled(departRequestBean.getChildrenEnabled());
         department.setIsparent(false);
-        int i = departmentService.insertDeparOfOne(department);
-        if (i == 0) {
-            throw new Exception("失败！");
+        if (!departmentService.insert(department)) {
+            throw new BusinessException("添加失败");
         }
-        int lastinserid = departmentService.last_insert_id();
+        int lastinserid = departmentService.lastInsertId();
         if (lastinserid == 0) {
-            throw new Exception("失败！");
+            throw new BusinessException("最新id为0异常");
         }
-        Department department1 = new Department();
-        department1.setId(lastinserid);
-        department1.setDeppath(departRequestBean.getParentDepPath() + "." + lastinserid);
-        int i1 = departmentService.updateDeparOfOne(department1);
-        if (i1 == 0) {
-            throw new Exception("失败！");
+        Department newDepartment = new Department();
+        newDepartment.setId(lastinserid);
+        newDepartment.setDeppath(departRequestBean.getParentDepPath() + "." + lastinserid);
+        if (!departmentService.update(newDepartment)) {
+            throw new BusinessException("更新部门失败！");
         }
-        return RespBean.ok("修改成功！");
+        return RespBean.ok();
     }
 
     // 需要传入的值 parentdeppath parentid
     @Transactional(rollbackFor = Exception.class)
     @DeleteMapping("/delete")
-    public RespBean delDep(@RequestBody DepartRequestBean departRequestBean) throws Exception {
-        int i = departmentService.deleteBydepPath(departRequestBean.getParentDepPath());
-        if (i == 0) {
-            throw new Exception("失败！11");
+    public RespBean remove(@RequestBody DepartRequestBean departRequestBean) {
+        if (!departmentService.deleteByDepPath(departRequestBean.getParentDepPath())) {
+            throw new BusinessException("删除路径失败");
         }
-        int i1 = departmentService.selectCountbyParenId(departRequestBean.getParentId());
-        if (i1 == 0) {
+        if (!departmentService.selectCountByParenId(departRequestBean.getParentId())) {
             Department department = new Department();
             department.setId(departRequestBean.getParentId());
             department.setIsparent(false);
-            int i2 = departmentService.updateDeparOfOne(department);
-            if (i2 == 0) {
-                throw new Exception("失败！22");
+            if (!departmentService.update(department)) {
+                throw new BusinessException("部门更新失败");
             }
-            return RespBean.ok("删除成功！");
+            return RespBean.ok();
         }
-        return RespBean.error("错误！");
+        return RespBean.error();
     }
 
     @GetMapping("/enab/f")
-    public RespBean showDepEnabledIsF() {
-        return RespBean.ok(departmentService.getAllDepWithEnabledIsFalse());
+    public RespBean findDepEnabledOrFalse() {
+        return RespBean.ok(departmentService.selectAllDepWithDisabled());
     }
 
     @PutMapping("/change/one")
-    public RespBean changeEnab(Department department) {
-        int i = departmentService.updateDeparOfOne(department);
-        if (i == 1) {
-            return RespBean.ok("修改成功！");
+    public RespBean modify(Department department) {
+        if (departmentService.update(department)) {
+            return RespBean.ok();
         } else {
-            return RespBean.error("修改失败！");
+            return RespBean.error();
         }
     }
 
     @GetMapping("/search/{name}")
-    public RespBean showOneEnabF(@PathVariable String name) {
-        List<Department> oneBysearch = departmentService.getOneBysearch(name);
-        return RespBean.ok(oneBysearch);
+    public RespBean findEnabled(@PathVariable String name) {
+        return RespBean.ok(departmentService.selectByName(name));
     }
 
     @GetMapping("/all")
-    public RespBean showDepBy() {
-        List<Department> allDepInfo = departmentService.getAllDepInfo();
-        return RespBean.ok(allDepInfo);
+    public RespBean findAll() {
+        return RespBean.ok(departmentService.selectAll());
     }
 }

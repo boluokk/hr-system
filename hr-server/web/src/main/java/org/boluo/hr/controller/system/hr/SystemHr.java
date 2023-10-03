@@ -1,20 +1,21 @@
-package com.boluo.hr.controller.system.hr;
+package org.boluo.hr.controller.system.hr;
 
 import org.boluo.hr.pojo.Hr;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.pojo.Role;
-import com.boluo.hr.service.HrService;
-import com.boluo.hr.service.RightsService;
+import org.boluo.hr.service.HrService;
+import org.boluo.hr.service.RightsService;
+import org.boluo.hr.util.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
- * @author @1352955539(boluo)
- * @date 2021/2/25 - 23:35
+ * @author 🍍
+ * @date 2023/10/1
  */
 @RestController
 @RequestMapping("/sys/hr")
@@ -31,69 +32,74 @@ public class SystemHr {
     }
 
     @GetMapping("/")
-    public List<Hr> showHrs() {
-        return hrService.getHrs();
+    public List<Hr> findHrs() {
+        return hrService.selectAll();
     }
 
     @GetMapping("/{hid}")
-    public List<Role> getRoles(@PathVariable("hid") Integer hid) {
-        return hrService.getRoles(hid);
+    public List<Role> findRoles(@PathVariable("hid") Integer hid) {
+        return hrService.selectRoles(hid);
     }
 
     @GetMapping("/all/roles")
-    public List<Role> getAllrRoles() {
-        return rightsService.getAllRole();
+    public List<Role> findAllRoles() {
+        return rightsService.selectAllRoles();
     }
 
     @Transactional(rollbackFor = Exception.class)
-    @PutMapping("/roles/many/{hrid}")
-    public RespBean editRoles(@PathVariable("hrid") Integer hrid, Integer[] rolesId) {
-        int i = hrService.deleteRoleByHrid(hrid);
-        if (i >= 0) {
+    @PutMapping("/roles/many/{hrId}")
+    public RespBean modifyRoles(@PathVariable("hrId") Integer hrId, Integer[] rolesId) {
+        if (hrService.deleteRoleByHrid(hrId)) {
             if (rolesId.length > 0) {
-                int i1 = hrService.insertRoles(hrid, rolesId);
-                if (i1 >= 1) {
-                    return RespBean.ok("修改成功！");
+                if (hrService.insertRoles(hrId, rolesId)) {
+                    return RespBean.ok();
                 }
-                return RespBean.error("修改失败！");
+                return RespBean.error();
             } else {
-                return RespBean.ok("修改成功！");
+                return RespBean.ok();
             }
         }
-        return RespBean.error("修改失败！");
+        return RespBean.error();
     }
 
     @PutMapping("/")
-    public RespBean editHrEnabeld(Hr hr) {
-        int i = hrService.updateHr(hr);
-        if (i == 1) {
-            return RespBean.ok("修改成功！");
+    public RespBean modifyHr(Hr hr, HttpSession session) {
+        String password = hr.getPassword();
+        if (password != null && password.length() > 0) {
+            hr.setPassword(PasswordEncoder.encode(password));
+        } else {
+            hr.setPassword(null);
         }
-        return RespBean.ok("修改失败！");
+        if (hrService.update(hr)) {
+            // session 失效
+            if (hr.getPassword() != null) {
+                session.invalidate();
+            }
+            return RespBean.ok();
+        }
+        return RespBean.error();
+
     }
 
-    @DeleteMapping("/{hrid}")
-    public RespBean deleteHr(@PathVariable("hrid") Integer hrid) {
-        int i = hrService.deleteHr(hrid);
-        if (i == 1) {
-            return RespBean.ok("删除成功！");
+    @DeleteMapping("/{hrId}")
+    public RespBean removeHr(@PathVariable("hrId") Integer hrId) {
+        if (hrService.delete(hrId)) {
+            return RespBean.ok();
         }
-        return RespBean.ok("删除失败！");
+        return RespBean.error();
     }
 
-    @PostMapping("/hrname")
-    public List<Hr> someHrByHrName(Hr hr) {
-        return hrService.selectSomeHrsByHrName(hr.getName());
+    @PostMapping("/hrName")
+    public List<Hr> findHrByName(Hr hr) {
+        return hrService.selectHrByName(hr.getName());
     }
 
     @PutMapping("/one/")
-    public RespBean addHr(Hr hr) {
-        BCryptPasswordEncoder bCryp = new BCryptPasswordEncoder();
-        hr.setPassword(bCryp.encode(hr.getPassword()));
-        int i = hrService.addHr(hr);
-        if (i == 1) {
-            return RespBean.ok("新建成功！");
+    public RespBean add(Hr hr) {
+        hr.setPassword(PasswordEncoder.encode(hr.getPassword()));
+        if (hrService.insert(hr)) {
+            return RespBean.ok();
         }
-        return RespBean.ok("新建失败！");
+        return RespBean.error();
     }
 }

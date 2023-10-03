@@ -47,9 +47,13 @@ import {
   Popover,
   Popconfirm,
   Drawer,
-  Autocomplete
+  Autocomplete,
+  Empty,
+  Descriptions,
+  DescriptionsItem
 } from 'element-ui'
 
+Vue.use(DescriptionsItem)
 Vue.use(Autocomplete)
 Vue.use(Drawer)
 Vue.use(Popconfirm)
@@ -95,6 +99,8 @@ Vue.use(Radio)
 Vue.use(DatePicker)
 Vue.use(Loading)
 Vue.use(Upload)
+Vue.use(Empty)
+Vue.use(Descriptions)
 Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm
 Vue.prototype.$notify = Notification

@@ -1,4 +1,4 @@
-package com.boluo.hr.service;
+package org.boluo.hr.service;
 
 import org.boluo.hr.mapper.EmployeetrainMapper;
 import org.boluo.hr.pojo.Employeetrain;
@@ -8,32 +8,36 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @author @1352955539(boluo)
- * @date 2021/2/28 - 21:36
+ * @author 🍍
+ * @date 2023/10/1
  */
 @Service
 public class EmployeetrainService {
 
-    @Autowired
-    EmployeetrainMapper employeetrainMapper;
+    private final EmployeetrainMapper employeetrainMapper;
 
-    public List<Employeetrain> getAll() {
+    @Autowired
+    public EmployeetrainService(EmployeetrainMapper employeetrainMapper) {
+        this.employeetrainMapper = employeetrainMapper;
+    }
+
+    public List<Employeetrain> selectAll() {
         return employeetrainMapper.selectAll();
     }
 
-    public List<Employeetrain> getAllWithEmpName() {
+    public List<Employeetrain> selectAllWithEmpName() {
         return employeetrainMapper.selectAllWithEmpName();
     }
 
-    public Integer updateEmpt(Employeetrain employeetrain) {
-        return employeetrainMapper.updateByPrimaryKeySelective(employeetrain);
+    public boolean updateOne(Employeetrain employeetrain) {
+        return employeetrainMapper.updateByPrimaryKeySelective(employeetrain) == 1;
     }
 
-    public Integer deleteEmpTrain(Integer id) {
-        return employeetrainMapper.deleteByPrimaryKey(id);
+    public boolean deleteEmpTrain(Integer id) {
+        return employeetrainMapper.deleteByPrimaryKey(id) == 1;
     }
 
-    public Integer addEmpTrain(Employeetrain employeetrain) {
-        return  employeetrainMapper.insertSelective(employeetrain);
+    public boolean insertOne(Employeetrain employeetrain) {
+        return employeetrainMapper.insertSelective(employeetrain) == 1;
     }
 }

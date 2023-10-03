@@ -139,7 +139,7 @@ export default {
         this.jobNameLevelvalue.trim() !== '' &&
         this.jobNameLevelvalue
       ) {
-        this.putRequest('/system/basic/jobname/', {
+        this.putRequest('/system/basic/jobName/', {
           name: this.jobNameValue,
           titlelevel: this.jobNameLevelvalue
         }).then(res => {
@@ -165,7 +165,7 @@ export default {
         type: 'warning'
       })
         .then(() => {
-          this.deleteRequest('/system/basic/jobname/' + id).then(res => {
+          this.deleteRequest('/system/basic/jobName/' + id).then(res => {
             this.$message.success(res.data.msg)
             this.initJobName()
           })
@@ -181,7 +181,7 @@ export default {
       this.$refs.dynamicValidateForm.validate(vali => {
         if (!vali) return this.$message.warning('请填写必要项！')
         this.putRequest(
-          '/system/basic/jobname/up',
+          '/system/basic/jobName/up',
           this.jobdynamicValidateForm
         ).then(res => {
           this.$message.success(res.data.msg)

@@ -1,4 +1,4 @@
-package com.boluo.hr.service;
+package org.boluo.hr.service;
 
 import org.boluo.hr.mapper.JoblevelMapper;
 import org.boluo.hr.pojo.Joblevel;
@@ -8,32 +8,32 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @author @1352955539(boluo)
- * @date 2021/2/6 - 18:03
+ * @author 🍍
+ * @date 2023/10/1
  */
 @Service
 public class JobLevelService {
 
+    private final JoblevelMapper joblevelMapper;
+
     @Autowired
-    private JoblevelMapper joblevelMapper;
-
-//    获取所有数据
-    public List<Joblevel> getALLJobLevel() {
-        return joblevelMapper.getAllJoBLevel();
+    public JobLevelService(JoblevelMapper joblevelMapper) {
+        this.joblevelMapper = joblevelMapper;
     }
 
-//    添加
-    public int insertJobByJobLevelPojo(Joblevel job) {
-        return joblevelMapper.insertSelective(job);
+    public List<Joblevel> selectAll() {
+        return joblevelMapper.selectAll();
     }
 
-//    编辑s
-    public int updateJobByJobPojo(Joblevel job) {
-        return joblevelMapper.updateByPrimaryKey(job);
+    public boolean insert(Joblevel job) {
+        return joblevelMapper.insertSelective(job) == 1;
     }
 
-//    删除
-    public int deleteJobById(Integer id) {
-        return joblevelMapper.deleteByPrimaryKey(id);
+    public boolean update(Joblevel job) {
+        return joblevelMapper.updateByPrimaryKey(job) == 1;
+    }
+
+    public boolean delete(Integer id) {
+        return joblevelMapper.deleteByPrimaryKey(id) == 1;
     }
 }

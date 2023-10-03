@@ -27,7 +27,7 @@
         </el-table-column>
         <el-table-column label="奖金" width="50" prop="bonus">
         </el-table-column>
-        <el-table-column prop="createdate" label="启用时间" width="150">
+        <el-table-column prop="createdate" label="启用时间" width="200">
           <template slot-scope="scope">
             {{ scope.row.createdate | dateFormat }}
           </template>
@@ -53,13 +53,13 @@
               type="info"
               size="mini"
               @click="editSal(scope.row)"
-            ></el-button>
+            >编辑</el-button>
             <el-button
               icon="el-icon-delete"
               type="danger"
               size="mini"
               @click="deleteSal(scope.row.id)"
-            ></el-button>
+            >删除</el-button>
           </template>
         </el-table-column>
       </el-table>

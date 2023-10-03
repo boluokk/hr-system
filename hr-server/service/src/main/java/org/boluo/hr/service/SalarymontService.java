@@ -1,4 +1,4 @@
-package com.boluo.hr.service;
+package org.boluo.hr.service;
 
 import org.boluo.hr.mapper.SalarymonthMapper;
 import org.boluo.hr.pojo.SalaryMonth;
@@ -8,16 +8,20 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @author @1352955539(boluo)
- * @date 2021/3/25 - 22:30
+ * @author 🍍
+ * @date 2023/10/1
  */
 @Service
 public class SalarymontService {
 
-    @Autowired
-    private SalarymonthMapper salarymonthMapper;
+    private final SalarymonthMapper salarymonthMapper;
 
-    public List<SalaryMonth> SearchAll() {
+    @Autowired
+    public SalarymontService(SalarymonthMapper salarymonthMapper) {
+        this.salarymonthMapper = salarymonthMapper;
+    }
+
+    public List<SalaryMonth> selectAll() {
         return salarymonthMapper.selectAll();
     }
 }

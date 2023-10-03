@@ -1,4 +1,4 @@
-package com.boluo.hr.service;
+package org.boluo.hr.service;
 
 import org.boluo.hr.mapper.PositionMapper;
 import org.boluo.hr.pojo.Position;
@@ -8,37 +8,40 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @author @1352955539(boluo)
- * @date 2021/2/4 - 22:02
+ * @author 🍍
+ * @date 2023/10/1
  */
-
 @Service
 public class PositionService {
 
-    @Autowired
-    private PositionMapper positionMapper;
+    private final PositionMapper positionMapper;
 
-    public List<Position> getAllPostion() {
-       return positionMapper.getAllPostion();
+    @Autowired
+    public PositionService(PositionMapper positionMapper) {
+        this.positionMapper = positionMapper;
     }
 
-    public Position getPostByid(Integer id) {
+    public List<Position> selectAllPostion() {
+        return positionMapper.selectAllPosition();
+    }
+
+    public Position selectPostById(Integer id) {
         return positionMapper.selectByPrimaryKey(id);
     }
 
-    public int deleteById(Integer id) {
-        return positionMapper.deleteByPrimaryKey(id);
+    public boolean delete(Integer id) {
+        return positionMapper.deleteByPrimaryKey(id) == 1;
     }
 
-    public int insertByPos(Position pos) {
-        return positionMapper.insertSelective(pos);
+    public boolean insert(Position pos) {
+        return positionMapper.insertSelective(pos) == 1;
     }
 
-    public int deleteMany(Integer[] ids) {
-        return positionMapper.deleteMany(ids);
+    public boolean deleteMany(Integer[] ids) {
+        return positionMapper.deleteMany(ids) == 1;
     }
 
-    public int updateByPos(Position pos) {
-       return positionMapper.updateByPrimaryKeySelective(pos);
+    public boolean update(Position pos) {
+        return positionMapper.updateByPrimaryKeySelective(pos) == 1;
     }
 }

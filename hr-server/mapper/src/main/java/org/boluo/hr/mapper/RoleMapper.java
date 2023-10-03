@@ -1,4 +1,4 @@
-package com.boluo.hr.mapper;
+package org.boluo.hr.mapper;
 
 import org.boluo.hr.pojo.RightsBean;
 import org.boluo.hr.pojo.Role;
@@ -29,19 +29,19 @@ public interface RoleMapper {
 
     int updateByPrimaryKey(Role record);
 
-    List<Role> getAllRole();
+    List<Role> selectAllRole();
 
-    List<Integer> getMenuIdWithRoleID(@Param("id") Integer id);
+    List<Integer> selectRightsByRoleId(@Param("id") Integer id);
 
     int insertRightsByRoleId(@Param("bean") RightsBean rightsBean);
 
-    int deleteRightsByRoleId(@Param("id") Integer roleid);
+    int deleteRightsByRoleId(@Param("id") Integer roleId);
 
     int selectRightsCountByRoleId(@Param("id") Integer id);
 
     List<Role> selectByHrId(@Param("hid") Integer hid);
 
-    int deleteByHrId(@Param("hrid") Integer hrid);
+    int deleteByHrId(@Param("hrId") Integer hrId);
 
     int insertRolesByRoleIds(@Param("hid") Integer hid,@Param("roleIds") Integer[] roleIds);
 }

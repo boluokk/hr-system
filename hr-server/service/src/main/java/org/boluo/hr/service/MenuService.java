@@ -1,4 +1,4 @@
-package com.boluo.hr.service;
+package org.boluo.hr.service;
 
 import org.boluo.hr.mapper.MenuMapper;
 import org.boluo.hr.pojo.Hr;
@@ -10,20 +10,24 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @author @1352955539(boluo)
- * @date 2021/1/25 - 19:46
+ * @author 🍍
+ * @date 2023/10/1
  */
 @Service
 public class MenuService {
 
-    @Autowired
-    private MenuMapper menuMapper;
+    private final MenuMapper menuMapper;
 
-    public List<Menu> getAllMenu() {
+    @Autowired
+    public MenuService(MenuMapper menuMapper) {
+        this.menuMapper = menuMapper;
+    }
+
+    public List<Menu> selectAllMenu() {
         return menuMapper.getAllMenusWithRole();
     }
 
-    public List<Menu> getMenusByHrid() {
+    public List<Menu> selectMenusByHrId() {
         return menuMapper.getMenusByHrId(((Hr) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId());
     }
 

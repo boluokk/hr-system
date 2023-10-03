@@ -9,16 +9,16 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @author @1352955539(boluo)
- * @date 2021/2/28 - 21:29
+ * @author 🍍
+ * @date 2023/10/1
  */
 @Service
-public class EmployeesService {
+public class EmployeecService {
 
     private final EmployeeecMapper employeeecMapper;
 
     @Autowired
-    public EmployeesService(EmployeeecMapper employeeecMapper) {
+    public EmployeecService(EmployeeecMapper employeeecMapper) {
         this.employeeecMapper = employeeecMapper;
     }
 
@@ -26,15 +26,15 @@ public class EmployeesService {
         return employeeecMapper.selectAll();
     }
 
-    public boolean updateOne(Employeeec employeeec) {
+    public boolean update(Employeeec employeeec) {
         return employeeecMapper.updateByPrimaryKeySelective(employeeec) == 1;
     }
 
-    public boolean deleteOne(Integer id) {
+    public boolean delete(Integer id) {
         return employeeecMapper.deleteByPrimaryKey(id) == 1;
     }
 
-    public boolean insertOne(Employeeec employeeec) {
+    public boolean insert(Employeeec employeeec) {
         if (employeeec.getEcdate() == null) {
             employeeec.setEcdate(new Date());
         }

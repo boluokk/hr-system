@@ -11,7 +11,7 @@
         </el-table-column>
         <el-table-column prop="traincontent" label="培训内容" width="180">
         </el-table-column>
-        <el-table-column label="时间" width="140">
+        <el-table-column label="时间" width="200">
           <template slot-scope="scope">
             {{ scope.row.traindate | dateFormat }}
           </template>
@@ -22,9 +22,10 @@
             <el-button
               type="info"
               icon="el-icon-edit"
-              round
               @click="showEdit"
-            ></el-button>
+              size='mini'
+              style='margin-right: 10px;'
+            >编辑</el-button>
             <el-popconfirm
               confirm-button-text="好的"
               cancel-button-text="不用了"
@@ -37,8 +38,8 @@
                 type="danger"
                 icon="el-icon-delete"
                 slot="reference"
-                round
-              ></el-button>
+                size='mini'
+              >删除</el-button>
             </el-popconfirm>
           </template>
         </el-table-column>

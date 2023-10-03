@@ -1,4 +1,4 @@
-package com.boluo.hr.service;
+package org.boluo.hr.service;
 
 import org.boluo.hr.mapper.SalaryMapper;
 import org.boluo.hr.pojo.Salary;
@@ -8,32 +8,36 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @author @1352955539(boluo)
- * @date 2021/2/21 - 11:21
+ * @author 🍍
+ * @date 2023/10/1
  */
 @Service
 public class SalaryService {
 
-    @Autowired
-    SalaryMapper salaryMapper;
+    private final SalaryMapper salaryMapper;
 
-    public List<Salary> getAllSalary() {
+    @Autowired
+    public SalaryService(SalaryMapper salaryMapper) {
+        this.salaryMapper = salaryMapper;
+    }
+
+    public List<Salary> selectAllSalary() {
         return salaryMapper.selectAll();
     }
 
-    public int delOfOne(Integer id) {
-        return salaryMapper.deleteByPrimaryKey(id);
+    public boolean delete(Integer id) {
+        return salaryMapper.deleteByPrimaryKey(id) == 1;
     }
 
-    public int addOfOne(Salary salary) {
-        return salaryMapper.insertSelective(salary);
+    public boolean insert(Salary salary) {
+        return salaryMapper.insertSelective(salary) == 1;
     }
 
-    public int editSalary(Salary salary) {
-        return salaryMapper.updateByPrimaryKey(salary);
+    public boolean update(Salary salary) {
+        return salaryMapper.updateByPrimaryKey(salary) == 1;
     }
 
-    public int deleteOfMany(Integer[] ids) {
-        return salaryMapper.deleteOfMany(ids);
+    public boolean deleteMany(Integer[] ids) {
+        return salaryMapper.deleteMany(ids) == ids.length;
     }
 }

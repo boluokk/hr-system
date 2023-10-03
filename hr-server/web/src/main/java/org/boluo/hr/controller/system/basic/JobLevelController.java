@@ -1,54 +1,55 @@
-package com.boluo.hr.controller.system.basic;
+package org.boluo.hr.controller.system.basic;
 
 import org.boluo.hr.pojo.Joblevel;
 import org.boluo.hr.pojo.RespBean;
-import com.boluo.hr.service.JobLevelService;
+import org.boluo.hr.service.JobLevelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * @author @1352955539(boluo)
- * @date 2021/2/6 - 18:01
+ * @author 🍍
+ * @date 2023/10/1
  */
 @RestController
-@RequestMapping("/system/basic/jobname")
+@RequestMapping("/system/basic/jobName")
 public class JobLevelController {
 
+    private final JobLevelService jobLevelService;
+
     @Autowired
-    private JobLevelService jobLevelService;
+    public JobLevelController(JobLevelService jobLevelService) {
+        this.jobLevelService = jobLevelService;
+    }
 
     @GetMapping("/")
-    public RespBean getAlldata() {
-        return  RespBean.ok(jobLevelService.getALLJobLevel());
+    public RespBean findAll() {
+        return RespBean.ok(jobLevelService.selectAll());
     }
 
     @DeleteMapping("/{id}")
-    public RespBean deleteByOne(@PathVariable Integer id) {
-        int i = jobLevelService.deleteJobById(id);
-        if(i==1) {
-            return RespBean.ok("删除成功！");
+    public RespBean remove(@PathVariable Integer id) {
+        if (jobLevelService.delete(id)) {
+            return RespBean.ok();
         } else {
-            return RespBean.error("删除失败！");
+            return RespBean.error();
         }
     }
 
     @PutMapping("/up")
-    public RespBean updateByOne(Joblevel job) {
-        int i = jobLevelService.updateJobByJobPojo(job);
-        if(i==1) {
-            return RespBean.ok("修改成功！");
+    public RespBean modify(Joblevel job) {
+        if (jobLevelService.update(job)) {
+            return RespBean.ok();
         } else {
-            return RespBean.error("修改失败！");
+            return RespBean.error();
         }
     }
 
     @PutMapping("/")
-    public RespBean addJob(Joblevel job) {
-        int i = jobLevelService.insertJobByJobLevelPojo(job);
-        if(i==1) {
-            return RespBean.ok("添加成功！");
+    public RespBean add(Joblevel job) {
+        if (jobLevelService.insert(job)) {
+            return RespBean.ok();
         } else {
-            return RespBean.error("添加失败！");
+            return RespBean.error();
         }
     }
 }

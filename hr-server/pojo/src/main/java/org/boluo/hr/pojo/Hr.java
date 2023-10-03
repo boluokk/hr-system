@@ -1,16 +1,18 @@
 package org.boluo.hr.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.validation.constraints.Null;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 public class Hr implements UserDetails {
-    private Integer id;
 
+    private Integer id;
     private String name;
 
     private String phone;
@@ -29,6 +31,7 @@ public class Hr implements UserDetails {
 
     private String remark;
 
+    @JsonIgnore
     private List<Role> roles;
 
     public List<Role> getRoles() {

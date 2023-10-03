@@ -1,4 +1,4 @@
-package com.boluo.hr.mapper;
+package org.boluo.hr.mapper;
 
 import org.boluo.hr.pojo.MenuRole;
 import org.boluo.hr.pojo.MenuRoleExample;

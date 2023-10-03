@@ -1,4 +1,4 @@
-package com.boluo.hr.config;
+package org.boluo.hr.config;
 
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -10,10 +10,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
- * @author @1352955539(boluo)
- * @date 2021/1/25 - 22:39
+ * @author 🍍
+ * @date 2023/10/1
  */
-
 @Component
 public class AuthorityAccessDeniedHandler implements AccessDeniedHandler {
     @Override

@@ -1,4 +1,4 @@
-package com.boluo.hr.config;
+package org.boluo.hr.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,8 +10,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.time.Duration;
 
 /**
- * @author @1352955539(boluo)
- * @date 2021/1/26 - 19:36
+ * @author 🍍
+ * @date 2023/10/1
  */
 @Configuration
 public class CORSWebMvcConfig implements WebMvcConfigurer {

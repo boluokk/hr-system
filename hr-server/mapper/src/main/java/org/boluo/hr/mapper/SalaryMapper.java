@@ -1,4 +1,4 @@
-package com.boluo.hr.mapper;
+package org.boluo.hr.mapper;
 
 import org.boluo.hr.pojo.Employee;
 import org.boluo.hr.pojo.Salary;
@@ -31,11 +31,11 @@ public interface SalaryMapper {
 
     List<Salary> selectAll();
 
-    int deleteOfMany(@Param("ids") Integer[] ids);
+    int deleteMany(@Param("ids") Integer[] ids);
 
-    int CountSalaryWithEmp();
+    int countSalaryWithEmp();
 
     List<Employee> selectEmpAndSalary(@Param("pageNum") Integer pageNum, @Param("pageSize") Integer pageSize);
 
-    void insertEmpWithSal(@Param("eid") Integer eid, @Param("salid") Integer salid);
+    void insertEmpWithSal(@Param("eId") Integer eid, @Param("salId") Integer salId);
 }

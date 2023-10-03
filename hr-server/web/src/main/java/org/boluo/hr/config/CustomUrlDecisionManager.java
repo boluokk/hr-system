@@ -1,4 +1,4 @@
-package com.boluo.hr.config;
+package org.boluo.hr.config;
 
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 import java.util.Collection;
 
 /**
- * @author @1352955539(boluo)
- * @date 2021/1/25 - 20:32
+ * @author 🍍
+ * @date 2023/10/1
  */
 @Component
 public class CustomUrlDecisionManager implements AccessDecisionManager {

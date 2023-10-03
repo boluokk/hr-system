@@ -1,9 +1,10 @@
-package com.boluo.hr.mapper;
+package org.boluo.hr.mapper;
 
 import org.boluo.hr.pojo.Department;
 import org.boluo.hr.pojo.DepartmentExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
 
 public interface DepartmentMapper {
     int countByExample(DepartmentExample example);
@@ -34,11 +35,11 @@ public interface DepartmentMapper {
 
     int selectCountParentId(@Param("id") Integer id);
 
-    List<Department> getAllDepWithEnabledIsFalse();
+    List<Department> selectAllDepWithDisabled();
 
-    int deleteBydepPath(@Param("deppath") String path);
+    int deleteByDepPath(@Param("depPath") String path);
 
-    List<Department> selectbyName(@Param("name") String name);
+    List<Department> selectByName(@Param("name") String name);
 
-    List<Department> getalldepBy();
+    List<Department> selectAll();
 }

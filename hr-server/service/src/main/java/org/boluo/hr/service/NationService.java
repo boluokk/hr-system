@@ -1,4 +1,4 @@
-package com.boluo.hr.service;
+package org.boluo.hr.service;
 
 import org.boluo.hr.mapper.NationMapper;
 import org.boluo.hr.pojo.Nation;
@@ -8,15 +8,19 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @author @1352955539(boluo)
- * @date 2021/2/17 - 17:29
+ * @author 🍍
+ * @date 2023/10/1
  */
 @Service
 public class NationService {
-    @Autowired
-    private NationMapper nationMapper;
+    private final NationMapper nationMapper;
 
-    public List<Nation> getAllNation() {
+    @Autowired
+    public NationService(NationMapper nationMapper) {
+        this.nationMapper = nationMapper;
+    }
+
+    public List<Nation> selectAllNation() {
         return nationMapper.selectAll();
     }
 }

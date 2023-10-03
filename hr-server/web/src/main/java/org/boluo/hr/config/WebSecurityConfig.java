@@ -1,9 +1,9 @@
-package com.boluo.hr.config;
+package org.boluo.hr.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.boluo.hr.pojo.Hr;
 import org.boluo.hr.pojo.RespBean;
-import com.boluo.hr.service.HrService;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.boluo.hr.service.HrService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -27,8 +27,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * @author @1352955539(boluo)
- * @date 2021/1/26 - 12:09
+ * @author 🍍
+ * @date 2023/10/1
  */
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -98,7 +98,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .logoutSuccessHandler(new LogoutSuccessHandler() {
                     @Override
-                    public void onLogoutSuccess(HttpServletRequest req, HttpServletResponse res, Authentication authentication) throws IOException, ServletException {
+                    public void onLogoutSuccess(HttpServletRequest req, HttpServletResponse res, Authentication authentication) throws IOException {
                         res.setContentType("application/json;charset=utf-8");
                         res.getWriter().print(new ObjectMapper().writeValueAsString(RespBean.ok("注销成功")));
                     }
@@ -111,6 +111,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         res.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
                         RespBean respBean = RespBean.error("登入失败!");
                         if (e instanceof InsufficientAuthenticationException) {
+                            res.setStatus(401);
                             respBean.setMsg("登入失败,请联系管理员!");
                         }
                         res.getWriter().print(new ObjectMapper().writeValueAsString(respBean));

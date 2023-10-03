@@ -16,7 +16,7 @@
         <el-tab-pane label="职位管理" name="job"
           ><JobComp :position="position" :initPos="initPos"></JobComp
         ></el-tab-pane>
-        <el-tab-pane label="职称管理" name="jobname"
+        <el-tab-pane label="职称管理" name="jobName"
           ><JobNameComp
             :jobNametableData="jobNametableData"
             :initJobName="initJobName"
@@ -66,7 +66,7 @@ export default {
     tablesHandel(tab) {
       if (tab.name === 'job') {
         this.initPos()
-      } else if (tab.name === 'jobname') {
+      } else if (tab.name === 'jobName') {
         this.initJobName()
       } else if (tab.name === 'rights') {
         this.initRights()
@@ -80,7 +80,7 @@ export default {
       })
     },
     initJobName() {
-      this.getRequest('/system/basic/jobname/').then(res => {
+      this.getRequest('/system/basic/jobName/').then(res => {
         this.jobNametableData = res.data.obj
       })
     },

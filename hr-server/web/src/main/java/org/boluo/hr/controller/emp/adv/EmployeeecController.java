@@ -1,16 +1,18 @@
-package com.boluo.hr.controller.emp.adv;
+package org.boluo.hr.controller.emp.adv;
 
 import org.boluo.hr.pojo.RespBean;
-import com.boluo.hr.service.EmployeecService;
+import org.boluo.hr.service.EmployeecService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @author @1352955539(boluo)
- * @date 2021/2/28 - 21:27
+ * @author 🍍
+ * @date 2023/10/1
  */
+
+// 奖惩控制
 @RestController
 @RequestMapping("/emp/adv/c")
 public class EmployeeecController {
@@ -25,6 +27,6 @@ public class EmployeeecController {
 
     @GetMapping("/")
     public RespBean show() {
-        return RespBean.ok(employeecService.getAll());
+        return RespBean.ok(employeecService.selectAll());
     }
 }

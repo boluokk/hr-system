@@ -1,11 +1,11 @@
-package com.boluo.hr.service.util;
+package org.boluo.hr.service.util;
 
 import org.boluo.hr.pojo.Hr;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
- * @author @1352955539(boluo)
- * @date 2021/1/27 - 16:46
+ * @author 🍍
+ * @date 2023/10/1
  */
 public class HrUtils {
     public static Hr getCurrentHr() {

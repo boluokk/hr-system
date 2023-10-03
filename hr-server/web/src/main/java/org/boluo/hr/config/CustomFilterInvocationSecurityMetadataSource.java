@@ -1,8 +1,8 @@
-package com.boluo.hr.config;
+package org.boluo.hr.config;
 
 import org.boluo.hr.pojo.Menu;
 import org.boluo.hr.pojo.Role;
-import com.boluo.hr.service.MenuService;
+import org.boluo.hr.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
@@ -15,21 +15,26 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * @author @1352955539(boluo)
- * @date 2021/1/25 - 20:00
+ * @author 🍍
+ * @date 2023/10/1
  */
 @Component
 public class CustomFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 
+    private final MenuService menuService;
+
     @Autowired
-    MenuService menuService;
-    AntPathMatcher antPathMatcher = new AntPathMatcher();
+    public CustomFilterInvocationSecurityMetadataSource(MenuService menuService) {
+        this.menuService = menuService;
+    }
+
+    private final AntPathMatcher antPathMatcher = new AntPathMatcher();
 
     // 通过对请求url的判别出需要哪些角色权限
     @Override
     public Collection<ConfigAttribute> getAttributes(Object o) throws IllegalArgumentException {
         String requestUrl = ((FilterInvocation) o).getRequestUrl();
-        List<Menu> allMenu = menuService.getAllMenu();
+        List<Menu> allMenu = menuService.selectAllMenu();
         for (Menu menu : allMenu) {
             if (antPathMatcher.match(menu.getUrl(), requestUrl)) {
                 List<Role> roles = menu.getRoles();

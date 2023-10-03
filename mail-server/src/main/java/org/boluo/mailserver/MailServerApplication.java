@@ -1,5 +1,5 @@
 package org.boluo.mailserver;
-import com.boluo.hr.pojo.MailConstans;
+import org.boluo.hr.pojo.MailConstans;
 import org.springframework.amqp.core.Queue;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

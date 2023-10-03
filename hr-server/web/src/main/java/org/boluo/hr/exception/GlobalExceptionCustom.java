@@ -1,19 +1,20 @@
-package com.boluo.hr.exception;
+package org.boluo.hr.exception;
 
 import org.boluo.hr.pojo.RespBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 
 /**
- * @author @1352955539(boluo)
- * @date 2021/2/18 - 23:24
+ * @author 🍍
+ * @date 2023/10/1
  */
 @RestControllerAdvice
- public class GlobalExceptionCustom {
+public class GlobalExceptionCustom {
     private final Logger logger = LoggerFactory.getLogger(GlobalExceptionCustom.class);
 
     @ExceptionHandler(SQLException.class)
@@ -24,6 +25,15 @@ import java.sql.SQLIntegrityConstraintViolationException;
         }
         return RespBean.error("数据库异常，操作失败!" + e.getMessage());
     }
+
+
+    // 业务异常
+    @ExceptionHandler(BusinessException.class)
+    public RespBean businessExceptionHandle(BusinessException e) {
+        logger.error("操作异常: " + e.getMessage());
+        return RespBean.error(e.getMessage());
+    }
+
 
     @ExceptionHandler(Exception.class)
     public RespBean otherExceptionHandle(Exception e) {

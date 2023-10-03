@@ -1,4 +1,4 @@
-package com.boluo.hr.controller;
+package org.boluo.hr.controller;
 
 import org.boluo.hr.pojo.ChatMsg;
 import org.boluo.hr.pojo.Hr;
@@ -10,14 +10,18 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Date;
 
 /**
- * @author @1352955539(boluo)
- * @date 2021/2/22 - 20:59
+ * @author 🍍
+ * @date 2023/10/1
  */
 @RestController
 public class WsController {
 
+    private final SimpMessagingTemplate simpMessagingTemplate;
+
     @Autowired
-    SimpMessagingTemplate simpMessagingTemplate;
+    public WsController(SimpMessagingTemplate simpMessagingTemplate) {
+        this.simpMessagingTemplate = simpMessagingTemplate;
+    }
 
     @MessageMapping("/ws/chat")
     public void handel(Authentication authentication, ChatMsg chatMsg) {

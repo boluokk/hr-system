@@ -1,4 +1,4 @@
-package com.boluo.hr.mapper;
+package org.boluo.hr.mapper;
 
 import org.boluo.hr.pojo.Empsalary;
 import org.boluo.hr.pojo.EmpsalaryExample;

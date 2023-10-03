@@ -1,4 +1,4 @@
-package com.boluo.hr.mapper;
+package org.boluo.hr.mapper;
 
 import org.boluo.hr.pojo.Joblevel;
 import org.boluo.hr.pojo.JoblevelExample;
@@ -28,5 +28,5 @@ public interface JoblevelMapper {
 
     int updateByPrimaryKey(Joblevel record);
 
-    List<Joblevel> getAllJoBLevel();
+    List<Joblevel> selectAll();
 }

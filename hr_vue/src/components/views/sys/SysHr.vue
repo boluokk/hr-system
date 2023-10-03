@@ -119,9 +119,9 @@
   ref="drawer"
   >
   <div>
-    <el-form :model="hrForm" 
-    style="padding: 0 20px;" 
-    :rules="hrRules" 
+    <el-form :model="hrForm"
+    style="padding: 0 20px;"
+    :rules="hrRules"
     ref="ruleForm" >
       <el-form-item label="名称" prop="name">
         <el-input v-model="hrForm.name"></el-input>
@@ -223,7 +223,7 @@ export default {
   },
   methods: {
     serachKeyDown() {
-      this.postRequest('/sys/hr/hrname',{name: this.hrname}).then(res=> {
+      this.postRequest('/sys/hr/hrName',{name: this.hrname}).then(res=> {
         this.initData = res.data
       })
     },

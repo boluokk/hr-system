@@ -1,4 +1,4 @@
-package com.boluo.hr.mapper;
+package org.boluo.hr.mapper;
 
 import org.boluo.hr.pojo.Position;
 import org.boluo.hr.pojo.PositionExample;
@@ -28,7 +28,7 @@ public interface PositionMapper {
 
     int updateByPrimaryKey(Position record);
 
-    List<Position> getAllPostion();
+    List<Position> selectAllPosition();
 
     int deleteMany(Integer[] ids);
 }
