@@ -30,5 +30,6 @@ public interface EmployeeecMapper {
 
     List<Employeeec> selectAll();
 
-    Integer selectEid(@Param("workId") String workId);
+    Integer selectByWorkId(@Param("workId") String workId);
+
 }

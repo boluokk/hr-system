@@ -1,136 +1,147 @@
 <template>
   <div>
-    <el-breadcrumb separator="/" style="margin-bottom:15px;">
+    <el-breadcrumb separator='/' style='margin-bottom:15px;'>
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>员工奖惩</el-breadcrumb-item>
     </el-breadcrumb>
-    <el-card shadow="always" :body-style="{ padding: '20px' }">
-      <div slot="header"></div>
+    <el-card shadow='always' :body-style="{ padding: '20px' }">
+      <div slot='header'></div>
       <!-- card body -->
-      <el-table :data="tableData" style="width: 100%">
-        <el-table-column prop="workId" label="工号" width="120">
+      <el-table :data='tableData' style='width: 100%'>
+        <el-table-column prop='workId' label='工号' width='120'>
         </el-table-column>
-        <el-table-column prop="employeeName" label="姓名" width="120">
+        <el-table-column prop='employeeName' label='姓名' width='120'>
         </el-table-column>
-        <el-table-column label="时间" width="200">
-          <template slot-scope="scope">
+        <el-table-column label='时间' width='200'>
+          <template slot-scope='scope'>
             {{ scope.row.ecdate | dateFormat }}
           </template>
         </el-table-column>
-        <el-table-column prop="ecreason" label="原因" width="120">
+        <el-table-column prop='ecreason' label='原因' width='120'>
         </el-table-column>
-        <el-table-column prop="remark" label="奖惩级别" width="120">
+        <el-table-column prop='remark' label='奖惩级别' width='120'>
         </el-table-column>
-        <el-table-column prop="ecpoint" label="分数" width="120">
+        <el-table-column prop='ecpoint' label='分数' width='120'>
         </el-table-column>
-        <el-table-column label="操作" width="250">
-          <template slot-scope="scope">
+        <el-table-column label='操作' width='250'>
+          <template slot-scope='scope'>
             <el-button
-              type="primary"
-              icon="el-icon-edit"
+              icon='el-icon-edit'
               size='mini'
+              type='info'
               style='margin-right: 10px;'
-              @click="showEdit(scope.row)"
-            >编辑</el-button>
+              @click='showEdit(scope.row)'
+            >编辑
+            </el-button>
             <el-popconfirm
-              confirm-button-text="好的"
-              cancel-button-text="不用了"
-              icon="el-icon-info"
-              icon-color="red"
-              title="这是一段内容确定删除吗？"
-              @confirm="del(scope.row.id)"
+              confirm-button-text='好的'
+              cancel-button-text='不用了'
+              icon='el-icon-info'
+              icon-color='red'
+              title='这是一段内容确定删除吗？'
+              @confirm='del(scope.row.id)'
             >
               <el-button
-                type="danger"
-                icon="el-icon-delete"
+                type='danger'
+                icon='el-icon-delete'
                 size='mini'
-                slot="reference"
-              >删除</el-button>
+                slot='reference'
+              >删除
+              </el-button>
             </el-popconfirm>
           </template>
         </el-table-column>
       </el-table>
-      <el-button type="primary" style="margin-top:15px;" @click="showAdd"
-        >添加</el-button
+      <el-pagination
+        class='el_page_div'
+        @size-change='handleSizeChange'
+        @current-change='handleCurrentChange'
+        :page-sizes='[5, 8, 10]'
+        :page-size='pageSize'
+        layout='sizes, prev, pager, next'
+        :total='pageTotal'>
+      </el-pagination>
+      <el-button type='primary' style='margin-top:15px;' @click='showAdd'
+      >添加
+      </el-button
       >
-      <el-dialog title="添加" :visible.sync="dialogVisible2" width="30%">
+      <el-dialog title='添加' :visible.sync='dialogVisible2' width='30%'>
         <el-form
-          label-position="left"
-          label-width="80px"
-          :model="formLabelAlign"
+          label-position='left'
+          label-width='80px'
+          :model='formLabelAlign'
         >
-          <el-form-item label="员工工号">
+          <el-form-item label='员工工号'>
             <el-input
-              v-model="formLabelAlign.workId"
-              maxlength="8"
+              v-model='formLabelAlign.workId'
+              maxlength='8'
               show-word-limit
             ></el-input>
           </el-form-item>
-          <el-form-item label="奖惩原因">
-            <el-input v-model="formLabelAlign.ecreason"></el-input>
+          <el-form-item label='奖惩原因'>
+            <el-input v-model='formLabelAlign.ecreason'></el-input>
           </el-form-item>
-          <el-form-item label="奖惩级别">
+          <el-form-item label='奖惩级别'>
             <el-autocomplete
-              class="inline-input"
-              v-model="state1"
-              :fetch-suggestions="querySearch"
-              placeholder="请输入内容"
+              class='inline-input'
+              v-model='state1'
+              :fetch-suggestions='querySearch'
+              placeholder='请输入内容'
               clearable
             ></el-autocomplete>
           </el-form-item>
-          <el-form-item label="分数">
+          <el-form-item label='分数'>
             <el-input
-              v-model="grade"
+              v-model='grade'
               disabled
-              size="normal"
+              size='normal'
               clearable
             ></el-input>
           </el-form-item>
         </el-form>
-        <span slot="footer">
-          <el-button @click="dialogVisible2 = false">取 消</el-button>
-          <el-button type="primary" @click="submit">提交</el-button>
+        <span slot='footer'>
+          <el-button @click='dialogVisible2 = false'>取 消</el-button>
+          <el-button type='primary' @click='submit'>提交</el-button>
         </span>
       </el-dialog>
-
       <el-dialog
-        title="提示"
-        :visible.sync="dialogVisible"
-        width="30%"
-        @closed="dialogClosed"
+        title='提示'
+        :visible.sync='dialogVisible'
+        width='30%'
+        @closed='dialogClosed'
       >
-        <div class="inputBox">
+        <div class='inputBox'>
           <span>原因：</span>
           <el-input
-            v-model="reason"
-            size="normal"
-            style="width: 202px;"
+            v-model='reason'
+            size='normal'
+            style='width: 202px;'
             clearable
           ></el-input>
         </div>
-        <div class="inputBox">
+        <div class='inputBox'>
           <span>奖赏级别：</span>
           <el-autocomplete
-            class="inline-input"
-            v-model="state1"
-            :fetch-suggestions="querySearch"
-            placeholder="请输入内容"
+            class='inline-input'
+            v-model='state1'
+            :fetch-suggestions='querySearch'
+            placeholder='请输入内容'
           ></el-autocomplete>
         </div>
-        <div class="inputBox">
+        <div class='inputBox'>
           <span>分数：</span>
           <el-input
-            v-model="grade"
+            v-model='grade'
             disabled
-            size="normal"
-            style="width: 202px;"
+            size='normal'
+            style='width: 202px;'
             clearable
           ></el-input>
         </div>
 
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="dialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="eidtSubmit">确 定</el-button>
+        <span slot='footer' class='dialog-footer'>
+          <el-button @click='dialogVisible = false'>取 消</el-button>
+          <el-button type='primary' @click='eidtSubmit'>确 定</el-button>
         </span>
       </el-dialog>
     </el-card>
@@ -141,6 +152,9 @@
 export default {
   data() {
     return {
+      pageSize: 10,
+      pageNum: 1,
+      pageTotal: 0,
       tableData: [],
       dialogVisible: false,
       dialogVisible2: false,
@@ -171,12 +185,20 @@ export default {
     }
   },
   methods: {
+    handleSizeChange(val) {
+      this.pageSize = val
+      this.init()
+    },
+    handleCurrentChange(val) {
+      this.pageNum = val
+      this.init()
+    },
     showAdd() {
       this.dialogVisible2 = true
     },
     init() {
-      this.getRequest('/per/ec/').then(res => {
-        this.tableData = res.data.obj
+      this.getRequest('/per/ec/' + this.pageNum + '/' + this.pageSize).then(res => {
+        this.tableData = res.data.obj.list
       })
     },
     del(id) {
@@ -273,7 +295,7 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang='less' scoped>
 .inputBox {
   width: 300px;
   display: flex;

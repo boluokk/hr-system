@@ -1,5 +1,7 @@
 package org.boluo.hr.controller.personnel.emp;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.boluo.hr.pojo.Employee;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.pojo.RespEmpBean;
@@ -43,16 +45,12 @@ public class EmployeeController {
 
     private final static String PATTERN = "^[0-9]{8}";
 
-    @GetMapping("/")
-    public RespBean findPages(@RequestParam(defaultValue = "1") Integer pageNum,
-                              @RequestParam(defaultValue = "10") Integer pageSize) {
-        RespEmpBean reb = new RespEmpBean();
-        if (pageNum != null && pageSize != null) {
-            int resultPageNum = pageSize * (pageNum - 1);
-            reb.setEmployees(empLoyeeService.selectAllByPage(resultPageNum, pageSize));
-            reb.setTotal(empLoyeeService.selectTotal());
-        }
-        return RespBean.ok(reb);
+    @GetMapping("/{pageNum}/{pageSize}")
+    public RespBean findPages(@PathVariable("pageNum") Integer pageNum,
+                              @PathVariable("pageSize") Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<Employee> employees = empLoyeeService.selectAll();
+        return RespBean.ok(new PageInfo<>(employees));
     }
 
     @GetMapping("/{empName}")

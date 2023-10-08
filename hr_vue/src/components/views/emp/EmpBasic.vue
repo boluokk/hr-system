@@ -304,7 +304,7 @@
         :page-size="10"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
-        style="margin-top: 20px;"
+        class='el_page_div'
       >
       </el-pagination>
     </el-card>
@@ -549,7 +549,6 @@ import { tiptopde } from '../../../assets/js/DataHelp/tiptopdegree.js'
 export default {
   data() {
     return {
-      eee: '123',
       input: '',
       tableData: [],
       total: 0,
@@ -723,7 +722,7 @@ export default {
       this.uploadIsDis = true
     },
     serch() {
-      this.getRequest('/personnel/emp/' + this.input).then(res => {
+      this.getRequest('/personnel/emp' + this.input).then(res => {
         this.tableData = res.data.obj
       })
     },
@@ -792,9 +791,9 @@ export default {
     },
     init() {
       this.getRequest(
-        '/personnel/emp/?pageNum=' + this.pageNum + '&pageSize=' + this.pageSize
+        '/personnel/emp/' + this.pageNum + '/' + this.pageSize
       ).then(res => {
-        this.tableData = res.data.obj.employees
+        this.tableData = res.data.obj.list
         this.total = res.data.obj.total
         this.loading = false
       })

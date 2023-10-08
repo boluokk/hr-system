@@ -7,6 +7,7 @@ import org.boluo.hr.service.HrService;
 import org.boluo.hr.service.RightsService;
 import org.boluo.hr.util.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 

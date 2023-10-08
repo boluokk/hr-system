@@ -17,7 +17,7 @@
   <select id="selectAll" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from employeetrain;
+    from employeetrain
   </select>
   <sql id="Example_Where_Clause" >
     <where >

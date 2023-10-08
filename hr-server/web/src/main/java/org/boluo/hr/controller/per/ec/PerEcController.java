@@ -1,5 +1,8 @@
 package org.boluo.hr.controller.per.ec;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import javafx.concurrent.Worker;
 import org.boluo.hr.pojo.Employeeec;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.service.EmployeecService;
@@ -21,9 +24,11 @@ public class PerEcController {
         this.employeecService = employeecService;
     }
 
-    @GetMapping("/")
-    public RespBean findAll() {
-        return RespBean.ok(employeecService.selectAll());
+    @GetMapping("/{pageNum}/{pageSize}")
+    public RespBean findByPage(@PathVariable("pageNum") Integer pageNum,
+                               @PathVariable("pageSize") Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        return RespBean.ok(new PageInfo<>(employeecService.selectAll()));
     }
 
     @PutMapping("/change")
@@ -44,6 +49,11 @@ public class PerEcController {
 
     @PutMapping("/add/one")
     public RespBean addOne(Employeeec employeeec) {
+        Integer employeeId = employeecService.selectByWorkId(employeeec.getWorkId());
+        if (employeeId == null) {
+            return RespBean.error("员工号不存在");
+        }
+        employeeec.setEid(employeeId);
         if (employeecService.insert(employeeec)) {
             return RespBean.ok();
         }

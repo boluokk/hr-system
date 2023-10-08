@@ -38,11 +38,10 @@ public class EmployeecService {
         if (employeeec.getEcdate() == null) {
             employeeec.setEcdate(new Date());
         }
-        Integer i = employeeecMapper.selectEid(employeeec.getWorkId());
-        if (i != null) {
-            employeeec.setEid(i);
-            return employeeecMapper.insertSelective(employeeec) == 1;
-        }
-        return false;
+        return employeeecMapper.insertSelective(employeeec) == 1;
+    }
+
+    public Integer selectByWorkId(String workId) {
+        return employeeecMapper.selectByWorkId(workId);
     }
 }

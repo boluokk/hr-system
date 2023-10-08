@@ -9,9 +9,7 @@ public class Adjustsalary {
 
     private Date asdate;
 
-    private Integer beforesalary;
-
-    private Integer aftersalary;
+    private Integer salary;
 
     private String reason;
 
@@ -41,20 +39,12 @@ public class Adjustsalary {
         this.asdate = asdate;
     }
 
-    public Integer getBeforesalary() {
-        return beforesalary;
+    public Integer getSalary() {
+        return salary;
     }
 
-    public void setBeforesalary(Integer beforesalary) {
-        this.beforesalary = beforesalary;
-    }
-
-    public Integer getAftersalary() {
-        return aftersalary;
-    }
-
-    public void setAftersalary(Integer aftersalary) {
-        this.aftersalary = aftersalary;
+    public void setSalary(Integer salary) {
+        this.salary = salary;
     }
 
     public String getReason() {

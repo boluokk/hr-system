@@ -16,4 +16,10 @@ spring:
 
   main:
     banner-mode: off
-
+# 分页配置参数
+page helper:
+  page-size-zero: true
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql

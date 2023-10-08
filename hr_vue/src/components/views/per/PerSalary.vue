@@ -1,6 +1,7 @@
 <template>
   <div>
-    待开发中...
+    <el-card class="box-card">
+    </el-card>
   </div>
 </template>
 

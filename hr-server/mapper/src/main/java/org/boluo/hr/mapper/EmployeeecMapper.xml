@@ -17,7 +17,7 @@
     FROM `employeeec` ec,employee emp
     where ec.eid = emp.id
    </select>
-  <select id="selectEid" resultType="java.lang.Integer">
+  <select id="selectByWorkId" resultType="java.lang.Integer">
     select min(id)
     from employee
     where workid = #{workId};

@@ -30,7 +30,7 @@ public interface EmployeeMapper {
 
     int updateByPrimaryKey(Employee record);
 
-    List<Employee> selectAllByPage(@Param("pageNum") Integer pageNum, @Param("pageSize") Integer pageSize);
+    List<Employee> selectAll();
 
     int selectCount();
 

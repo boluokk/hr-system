@@ -2,9 +2,11 @@ package org.boluo.hr.service;
 
 import org.boluo.hr.mapper.EmployeetrainMapper;
 import org.boluo.hr.pojo.Employeetrain;
+import org.boluo.hr.pojo.RespBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**

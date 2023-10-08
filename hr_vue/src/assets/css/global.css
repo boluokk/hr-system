@@ -13,3 +13,7 @@ body {
   border: none !important;
   line-height: 16px!important;
 }
+
+.el_page_div {
+  margin-top: 10px;
+}

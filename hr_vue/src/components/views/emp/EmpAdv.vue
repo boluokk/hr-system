@@ -91,13 +91,11 @@
               {{ scope.row.asdate | dateFormat }}
             </template>
           </el-table-column>
-          <el-table-column prop='beforesalary' label='调前薪资' width='120'>
-          </el-table-column>
-          <el-table-column label='调后薪资' width='120'>
+          <el-table-column label='薪资' width='120'>
             <template slot-scope='scope'>
-              {{ scope.row.aftersalary }}
-              <span v-if='scope.row.aftersalary >= scope.row.beforesalary'>
-                <i v-if='' class='fa fa-arrow-circle-up' style='color: green;'></i>
+              {{ scope.row.salary }}
+              <span v-if='scope.row.salary >= 0'>
+                <i class='fa fa-arrow-circle-up' style='color: green;'></i>
               </span>
               <span v-else>
                 <i class='fa fa-arrow-circle-down' style='color: red;'></i>
@@ -152,6 +150,15 @@
         <span slot='label'><i class='el-icon-guide'></i> 其他信息</span>
         其他信息
       </el-tab-pane>
+      <el-pagination
+        @size-change='handleSizeChange'
+        class='el_page_div'
+        @current-change='handleNumChange'
+        :page-sizes='[5, 8, 10]'
+        :page-size='pageSize'
+        layout='sizes, prev, pager, next'
+        :total='pageTotal'>
+      </el-pagination>
     </el-tabs>
   </div>
 </template>
@@ -160,16 +167,33 @@
 export default {
   data() {
     return {
+      pageSize: 5,
+      pageNum: 1,
+      pageTotal: 0,
       employeeC: [],
       employeeTrain: [],
       employeeAppraise: [],
       employeeAdjustSalary: [],
       employeeMove: [],
-      empSalaryInfo: []
+      empSalaryInfo: [],
+      currentTableIndex: { index: '0' }
     }
   },
   methods: {
-    tabChange(tab) {
+    handleNumChange(val) {
+      this.pageNum = val
+      this.tabChange(this.currentTableIndex, true)
+    },
+    handleSizeChange(val) {
+      this.pageSize = val
+      this.tabChange(this.currentTableIndex, true)
+    },
+    tabChange(tab, isCurrentChange) {
+      this.currentTableIndex = tab
+      if (!isCurrentChange) {
+        this.pageSize = 5
+        this.pageNum = 1
+      }
       if (tab.index === '0') {
         this.init()
       } else if (tab.index === '1') {
@@ -185,35 +209,39 @@ export default {
       }
     },
     init() {
-      this.getRequest('/emp/adv/c/').then(res => {
-        this.employeeC = res.data.obj
+      this.getRequest('/emp/adv/c/' + this.pageNum + '/' + this.pageSize).then(res => {
+        this.employeeC = res.data.obj.list
+        this.pageTotal = res.data.obj.total
       })
     },
     showEmployeeTrain() {
-      this.getRequest('/emp/adv/train/').then(res => {
-        this.employeeTrain = res.data.obj
+      this.getRequest('/emp/adv/train/' + this.pageNum + '/' + this.pageSize).then(res => {
+        this.employeeTrain = res.data.obj.list
+        this.pageTotal = res.data.obj.total
       })
     },
     showEmployeeAppraise() {
-      this.getRequest('/emp/adv/app/').then(res => {
-        this.employeeAppraise = res.data.obj
+      this.getRequest('/emp/adv/app/' + this.pageNum + '/' + this.pageSize).then(res => {
+        this.employeeAppraise = res.data.obj.list
+        this.pageTotal = res.data.obj.total
       })
     },
     showEmployeeAdjustSalary() {
-      this.getRequest('/emp/adv/adj/').then(res => {
-        this.employeeAdjustSalary = res.data.obj
+      this.getRequest('/emp/adv/adj/' + this.pageNum + '/' + this.pageSize).then(res => {
+        this.employeeAdjustSalary = res.data.obj.list
+        this.pageTotal = res.data.obj.total
       })
     },
     showEmployeeMove() {
-      this.getRequest('/emp/adv/remove/').then(res => {
-        this.employeeMove = res.data.obj
-        console.log(res.data.obj)
+      this.getRequest('/emp/adv/remove/' + this.pageNum + '/' + this.pageSize).then(res => {
+        this.employeeMove = res.data.obj.list
+        this.pageTotal = res.data.obj.total
       })
     },
     showSalaryMonth() {
-      this.getRequest('/emp/adv/salaryInfo/').then(res => {
-        this.empSalaryInfo = res.data.obj
-        console.log(res)
+      this.getRequest('/emp/adv/salaryInfo/' + this.pageNum + '/' + this.pageSize).then(res => {
+        this.empSalaryInfo = res.data.obj.list
+        this.pageTotal = res.data.obj.total
       })
     }
   },

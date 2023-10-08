@@ -144,14 +144,11 @@
     and emp.jobLevelId =job.id and emp.posId = posi.id
     and emp.name like concat('%',#{empName},'%')
   </select>
-  <select id="selectAllByPage" resultMap="Emp">
+  <select id="selectAll" resultMap="Emp">
     select emp.*,n.name as nname,n.id as nid,poli.name as poname,poli.id as poliid,dep.`name` as depname,dep.id as depid,job.name as jobname,job.id as jobid,job.titleLevel as joblename,posi.name as posiname,posi.id as posiid
     from employee emp,nation n,politicsstatus poli,department dep,joblevel job,position posi
     where emp.nationId = n.id and emp.politicId = poli.id and emp.departmentId =dep.id
     and emp.jobLevelId =job.id and emp.posId = posi.id
-    <if test="pageNum !=null and pageSize !=null">
-      limit #{pageNum},#{pageSize};
-    </if>
   </select>
   <select id="selectCount" resultType="java.lang.Integer">
     select count(*)

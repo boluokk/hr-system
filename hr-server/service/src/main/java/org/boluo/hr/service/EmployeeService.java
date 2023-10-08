@@ -26,12 +26,8 @@ public class EmployeeService {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    public List<Employee> selectAllByPage(Integer pageNum, Integer pageSize) {
-        return employeeMapper.selectAllByPage(pageNum, pageSize);
-    }
-
     public List<Employee> selectAll() {
-        return employeeMapper.selectAllByPage(null, null);
+        return employeeMapper.selectAll();
     }
 
     public int selectTotal() {
