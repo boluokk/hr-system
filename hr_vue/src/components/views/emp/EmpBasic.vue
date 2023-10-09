@@ -535,7 +535,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="cancel">取 消</el-button>
-        <el-button type="primary" @click="Adduser">确 定</el-button>
+        <el-button type="primary" @click="addUser">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -694,8 +694,8 @@ export default {
         '/personnel/emp/top/search/' + this.pageNum + '/' + this.pageSize,
         obj
       ).then(resp => {
-        this.tableData = resp.data.employees
-        this.total = resp.data.total
+        this.tableData = resp.data.obj.list
+        this.total = resp.data.obj.total
       })
     },
     uploadError() {
@@ -722,7 +722,7 @@ export default {
       this.uploadIsDis = true
     },
     serch() {
-      this.getRequest('/personnel/emp' + this.input).then(res => {
+      this.getRequest('/personnel/emp/byEmpName/' + this.input).then(res => {
         this.tableData = res.data.obj
       })
     },
@@ -774,7 +774,7 @@ export default {
       this.initBaseData()
     },
     initBaseData() {
-      this.getRequest('/system/basic/department/all').then(res => {
+      this.getRequest('/system/basic/department/').then(res => {
         this.departmentData = res.data.obj
       })
       this.getRequest('/system/basic/jobName/').then(res => {
@@ -784,7 +784,7 @@ export default {
         this.jobLeveData = res.data.obj
       })
       if (this.isEditOrAdd === 'add') {
-        this.getRequest('/personnel/emp/max/workid').then(res => {
+        this.getRequest('/personnel/emp/maxWorkid').then(res => {
           this.empform.workid = res.data.obj
         })
       }
@@ -814,18 +814,18 @@ export default {
       }
       this.tipSerchBtn()
     },
-    Adduser() {
+    addUser() {
       if (this.isEditOrAdd === 'add') {
         this.$refs.empformRef.validate(vali => {
           if (!vali) return this.$message.error('请正确填写必填项！')
-          this.putRequest('/personnel/emp/one', this.empform).then(res => {
+          this.putRequest('/personnel/emp/add', this.empform).then(res => {
             this.$message.success(res.data.msg)
           })
           this.dialogVisible = false
           this.$refs.empformRef.resetFields()
         })
       } else if (this.isEditOrAdd === 'edit') {
-        this.putRequest('/personnel/emp/change', this.empform).then(res => {
+        this.putRequest('/personnel/emp/modify', this.empform).then(res => {
           this.$message.success(res.data.msg)
           this.resetData()
           this.init()
@@ -870,7 +870,7 @@ export default {
         type: 'warning'
       })
         .then(() => {
-          this.deleteRequest('/personnel/emp/' + id).then(res => {
+          this.deleteRequest('/personnel/emp/delete/' + id).then(res => {
             this.$message.success(res.data.msg)
             this.init()
           })

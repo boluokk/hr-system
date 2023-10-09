@@ -148,7 +148,7 @@ export default {
       this.empTrainForm = item
     },
     del(id) {
-      this.deleteRequest('/per/train/' + id).then(res => {
+      this.deleteRequest('/per/train/delete/' + id).then(res => {
         this.$message.success(res.data.msg)
         this.init()
       })
@@ -164,7 +164,7 @@ export default {
       })
     },
     update() {
-      this.putRequest('/per/train/change/one', this.empTrainForm).then(res => {
+      this.putRequest('/per/train/modify', this.empTrainForm).then(res => {
         this.$message.success(res.data.msg)
         this.editDialogVisible = false
       }).catch(error => {

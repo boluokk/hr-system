@@ -28,7 +28,7 @@
       style="margin-left: 15px;"
       >添加</el-button
     >
-    <el-table :data="jobNametableData" style="width: 100%">
+    <el-table :data="jobNameTableData" style="width: 100%">
       <el-table-column prop="id" label="编号" width="180"> </el-table-column>
       <el-table-column prop="name" label="姓名" width="180"> </el-table-column>
       <el-table-column prop="titlelevel" label="级别"> </el-table-column>
@@ -98,7 +98,7 @@
 <script>
 export default {
   props: {
-    jobNametableData: Array,
+    jobNameTableData: Array,
     initJobName: Function
   },
   data() {
@@ -139,7 +139,7 @@ export default {
         this.jobNameLevelvalue.trim() !== '' &&
         this.jobNameLevelvalue
       ) {
-        this.putRequest('/system/basic/jobName/', {
+        this.putRequest('/system/basic/jobName/add', {
           name: this.jobNameValue,
           titlelevel: this.jobNameLevelvalue
         }).then(res => {
@@ -165,7 +165,7 @@ export default {
         type: 'warning'
       })
         .then(() => {
-          this.deleteRequest('/system/basic/jobName/' + id).then(res => {
+          this.deleteRequest('/system/basic/jobName/delete/' + id).then(res => {
             this.$message.success(res.data.msg)
             this.initJobName()
           })
@@ -181,7 +181,7 @@ export default {
       this.$refs.dynamicValidateForm.validate(vali => {
         if (!vali) return this.$message.warning('请填写必要项！')
         this.putRequest(
-          '/system/basic/jobName/up',
+          '/system/basic/jobName/modify',
           this.jobdynamicValidateForm
         ).then(res => {
           this.$message.success(res.data.msg)

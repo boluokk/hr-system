@@ -25,16 +25,16 @@ public class PositionController {
     }
 
     @GetMapping("/")
-    public RespBean getAllPos() {
+    public RespBean findAllPos() {
         return RespBean.ok(positionService.selectAllPostion());
     }
 
-    @GetMapping("/{id}")
-    public RespBean getPosById(@PathVariable Integer id) {
+    @GetMapping("/byId/{id}")
+    public RespBean findPosById(@PathVariable Integer id) {
         return RespBean.ok(positionService.selectPostById(id));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public RespBean remove(@PathVariable Integer id) {
         if (positionService.delete(id)) {
             return RespBean.ok();
@@ -43,7 +43,7 @@ public class PositionController {
         }
     }
 
-    @PutMapping("/")
+    @PutMapping("/add")
     public RespBean add(Position pos) {
         pos.setEnabled(true);
         pos.setCreatedate(new Date());
@@ -54,7 +54,7 @@ public class PositionController {
         }
     }
 
-    @DeleteMapping("/many/")
+    @DeleteMapping("/delete/many/")
     public RespBean deleteMany(Integer[] ids) {
         if (positionService.deleteMany(ids)) {
             return RespBean.ok();
@@ -63,7 +63,7 @@ public class PositionController {
         }
     }
 
-    @PutMapping("/change")
+    @PutMapping("/modify")
     public RespBean modify(Position pos) {
         if (positionService.update(pos)) {
             return RespBean.ok();

@@ -15,6 +15,16 @@ public class Adjustsalary {
 
     private String remark;
 
+    private Employee employee;
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
     public Integer getId() {
         return id;
     }

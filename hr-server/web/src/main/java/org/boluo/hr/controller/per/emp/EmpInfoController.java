@@ -21,12 +21,12 @@ public class EmpInfoController {
         this.empInfoService = empInfoService;
     }
 
-    @GetMapping("/{empName}")
+    @GetMapping("/byEmpName/{empName}")
     public RespBean findAll(@PathVariable("empName") String empName) {
         return RespBean.ok(empInfoService.selectByEmpName(empName));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public RespBean removeOne(@PathVariable("id") Integer id) {
         if (empInfoService.delete(id)) {
             return RespBean.ok();
@@ -34,7 +34,7 @@ public class EmpInfoController {
         return RespBean.error();
     }
 
-    @PutMapping("/one")
+    @PutMapping("/modify")
     public RespBean modifyOne(Employee employee) {
         if (empInfoService.update(employee)) {
             return RespBean.ok();

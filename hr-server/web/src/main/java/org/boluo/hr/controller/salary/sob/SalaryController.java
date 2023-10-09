@@ -26,7 +26,7 @@ public class SalaryController {
         return RespBean.ok(salaryService.selectAllSalary());
     }
 
-    @PutMapping("/")
+    @PutMapping("/add")
     public RespBean add(Salary salary) {
         if (salaryService.insert(salary)) {
             return RespBean.ok();
@@ -34,7 +34,7 @@ public class SalaryController {
         return RespBean.error();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public RespBean remove(@PathVariable("id") Integer id) {
         if (salaryService.delete(id)) {
             return RespBean.ok();
@@ -42,7 +42,7 @@ public class SalaryController {
         return RespBean.error();
     }
 
-    @PutMapping("/change/one")
+    @PutMapping("/modify")
     public RespBean modify(Salary salary) {
         if (salaryService.update(salary)) {
             return RespBean.ok();

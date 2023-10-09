@@ -21,12 +21,8 @@ public class SobCfgService {
         this.salaryMapper = salaryMapper;
     }
 
-    public List<Employee> selectEmpWithSalary(Integer num, Integer size) {
-        if (num != null && size != null) {
-            int realNum = size * (num - 1);
-            return salaryMapper.selectEmpAndSalary(realNum, size);
-        }
-        return null;
+    public List<Employee> selectEmpWithSalary() {
+        return salaryMapper.selectEmpAndSalary();
     }
 
     public int countEmpWithSal() {

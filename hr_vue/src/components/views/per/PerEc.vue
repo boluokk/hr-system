@@ -202,7 +202,7 @@ export default {
       })
     },
     del(id) {
-      this.deleteRequest('/per/ec/del/' + id).then(res => {
+      this.deleteRequest('/per/ec/delete/' + id).then(res => {
         this.init()
         this.$message.success(res.data.msg)
       })
@@ -230,7 +230,7 @@ export default {
       }
     },
     eidtSubmit() {
-      this.putRequest('/per/ec/change', {
+      this.putRequest('/per/ec/modify', {
         id: this.id,
         ecreason: this.reason,
         remark: this.state1,
@@ -253,7 +253,7 @@ export default {
       ) {
         this.formLabelAlign.remark = this.state1
         this.formLabelAlign.ecpoint = this.grade
-        this.putRequest('/per/ec/add/one', this.formLabelAlign).then(res => {
+        this.putRequest('/per/ec/add', this.formLabelAlign).then(res => {
           if (res.data.status == 200) {
             this.$message.success(res.data.msg)
             this.init()

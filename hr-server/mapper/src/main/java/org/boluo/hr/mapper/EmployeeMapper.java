@@ -44,9 +44,7 @@ public interface EmployeeMapper {
 
     int insertMany(@Param("list") List<Employee> employees);
 
-    List<Employee> selectByPageAndEmployee(@Param("pageNum") Integer pageNum,
-                                     @Param("pageSize") Integer pageSize,
-                                     @Param("employee") Employee employee);
+    List<Employee> selectByPageAndEmployee(@Param("employee") Employee employee);
 
     int selectByEmployeeCount(@Param("employee") Employee employee);
 

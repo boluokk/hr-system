@@ -26,7 +26,7 @@ public class JobLevelController {
         return RespBean.ok(jobLevelService.selectAll());
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public RespBean remove(@PathVariable Integer id) {
         if (jobLevelService.delete(id)) {
             return RespBean.ok();
@@ -35,7 +35,7 @@ public class JobLevelController {
         }
     }
 
-    @PutMapping("/up")
+    @PutMapping("/modify")
     public RespBean modify(Joblevel job) {
         if (jobLevelService.update(job)) {
             return RespBean.ok();
@@ -44,7 +44,7 @@ public class JobLevelController {
         }
     }
 
-    @PutMapping("/")
+    @PutMapping("/add")
     public RespBean add(Joblevel job) {
         if (jobLevelService.insert(job)) {
             return RespBean.ok();

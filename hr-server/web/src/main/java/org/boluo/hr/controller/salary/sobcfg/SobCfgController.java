@@ -1,11 +1,16 @@
 package org.boluo.hr.controller.salary.sobcfg;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.boluo.hr.pojo.Employee;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.pojo.RespEmpBean;
 import org.boluo.hr.service.SobCfgService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -24,21 +29,17 @@ public class SobCfgController {
         this.sobCfgService = sobCfgService;
     }
 
-    @GetMapping("/")
-    public RespEmpBean findEmpWithSal(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-                                      @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
-        RespEmpBean rb = new RespEmpBean();
-        List<Employee> list = sobCfgService.selectEmpWithSalary(pageNum, pageSize);
-        int total = sobCfgService.countEmpWithSal();
-        rb.setTotal(total);
-        rb.setEmployees(list);
-        return rb;
+    @GetMapping("/{pageNum}/{pageSize}")
+    public RespBean findEmployeeWithSalary(@PathVariable("pageNum") Integer pageNum,
+                                              @PathVariable("pageSize") Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        return RespBean.ok(new PageInfo<>(sobCfgService.selectEmpWithSalary()));
     }
 
-    @GetMapping("/{empid}/{salid}")
-    public RespBean addSalWithEmp(@PathVariable("empid") Integer eid, @PathVariable("salid") Integer salid) {
+    @GetMapping("/{empId}/{salId}")
+    public RespBean addSalWithEmp(@PathVariable("empId") Integer empId, @PathVariable("salId") Integer salId) {
         try {
-            sobCfgService.insertSalAndEmp(eid, salid);
+            sobCfgService.insertSalAndEmp(empId, salId);
             return RespBean.ok();
         } catch (Exception e) {
             return RespBean.error();

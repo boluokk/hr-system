@@ -74,8 +74,8 @@ public class EmployeeService {
         return employeeMapper.insertMany(employees);
     }
 
-    public List<Employee> selectByPageAndEmployee(Integer pageNum, Integer pageSize, Employee employee) {
-        return employeeMapper.selectByPageAndEmployee(pageNum, pageSize, employee);
+    public List<Employee> selectByPageAndEmployee(Employee employee) {
+        return employeeMapper.selectByPageAndEmployee(employee);
     }
 
     public int selectByEmployeeCount(Employee employee) {

@@ -112,7 +112,7 @@ export default {
         this.rightsCnName.trim() !== '' &&
         this.rightsCnName
       ) {
-        this.putRequest('/system/basic/rights/', {
+        this.putRequest('/system/basic/rights/add', {
           name: this.rightsEnName,
           namezh: this.rightsCnName
         }).then(res => {
@@ -146,7 +146,7 @@ export default {
         type: 'warning'
       })
         .then(() => {
-          this.deleteRequest('/system/basic/rights/' + id).then(res => {
+          this.deleteRequest('/system/basic/rights/delete/' + id).then(res => {
             this.$message.success(res.data.msg)
             this.initRights()
           })
@@ -178,7 +178,7 @@ export default {
     async subChRoleNameZh() {
       await this.$refs.RoleruleForm.validate(vali => {
         if (!vali) return this.$message('请填写必要项！')
-        this.putRequest('/system/basic/rights/changeRoleName', {
+        this.putRequest('/system/basic/rights/modifyRoleName', {
           namezh: this.RoleruleForm.namezh,
           id: this.RoleruleForm.id
         }).then(res => {

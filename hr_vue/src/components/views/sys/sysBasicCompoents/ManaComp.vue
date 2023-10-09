@@ -153,11 +153,11 @@ export default {
     }
   },
   created() {
-    this.initEnabF()
+    this.initEnabled()
   },
   methods: {
-    initEnabF() {
-      this.getRequest('/system/basic/department/enab/f').then(res => {
+    initEnabled() {
+      this.getRequest('/system/basic/department/enabled').then(res => {
         this.manageData2 = res.data.obj
       })
     },
@@ -180,7 +180,7 @@ export default {
     },
     ManadialogVisibleSubmit() {
       if (this.formLabelAlign.name.trim() !== '' && this.formLabelAlign.name) {
-        this.putRequest('/system/basic/department/change/one', {
+        this.putRequest('/system/basic/department/modify', {
           id: this.formLabelAlign.id,
           name: this.formLabelAlign.name,
           enabled: this.formLabelAlign.enabled
@@ -189,7 +189,7 @@ export default {
           this.ManadialogVisible = false
           this.formLabelAlign.enabled = true
           this.initMana()
-          this.initEnabF()
+          this.initEnabled()
         })
       } else {
         this.$message.error('请填写必要项！')
@@ -220,13 +220,13 @@ export default {
         })
     },
     changeButton(item) {
-      this.putRequest('/system/basic/department/change/one', {
+      this.putRequest('/system/basic/department/modify', {
         id: item.id,
         enabled: item.enabled
       }).then(res => {
         this.$message.success(res.data.msg)
         this.initMana()
-        this.initEnabF()
+        this.initEnabled()
       })
     },
     add(data) {

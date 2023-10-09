@@ -93,7 +93,7 @@ export default {
       })
     },
     initMana() {
-      this.getRequest('/system/basic/department/').then(res => {
+      this.getRequest('/system/basic/department/root').then(res => {
         this.manageData = res.data.obj
       })
     }

@@ -31,7 +31,7 @@ public class PerEcController {
         return RespBean.ok(new PageInfo<>(employeecService.selectAll()));
     }
 
-    @PutMapping("/change")
+    @PutMapping("/modify")
     public RespBean modifyOne(Employeeec employeeec) {
         if (employeecService.update(employeeec)) {
             return RespBean.ok();
@@ -39,7 +39,7 @@ public class PerEcController {
         return RespBean.error();
     }
 
-    @DeleteMapping("/del/{id}")
+    @DeleteMapping("/delete/{id}")
     public RespBean removeOne(@PathVariable("id") Integer id) {
         if (employeecService.delete(id)) {
             return RespBean.ok();
@@ -47,7 +47,7 @@ public class PerEcController {
         return RespBean.error();
     }
 
-    @PutMapping("/add/one")
+    @PutMapping("/add")
     public RespBean addOne(Employeeec employeeec) {
         Integer employeeId = employeecService.selectByWorkId(employeeec.getWorkId());
         if (employeeId == null) {

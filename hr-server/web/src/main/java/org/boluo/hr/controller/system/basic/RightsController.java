@@ -40,7 +40,7 @@ public class RightsController {
         return RespBean.ok(rightsService.selectAllMenus());
     }
 
-    @PutMapping("/")
+    @PutMapping("/add")
     public RespBean addRole(Role role) {
         role.setName(PRE_ROLE_NAME + role.getName());
         if (rightsService.insertRole(role)) {
@@ -50,7 +50,7 @@ public class RightsController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public RespBean remove(@PathVariable Integer id) {
         if (rightsService.deleteRoleById(id)) {
             return RespBean.ok();
@@ -59,7 +59,7 @@ public class RightsController {
         }
     }
 
-    @PutMapping("/changeRoleName")
+    @PutMapping("/modifyRoleName")
     public RespBean modifyRole(Role role) {
         if (rightsService.updateRole(role)) {
             return RespBean.ok();

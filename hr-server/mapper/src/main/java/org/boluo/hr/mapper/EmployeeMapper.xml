@@ -116,7 +116,6 @@
      <if test="employee.engageform !=null and employee.engageform !=null">
        and emp.engageform = #{employee.engageform}
      </if>
-    limit #{pageNum},#{pageSize};
   </select>
   <delete id="deleteByManyId">
     delete 

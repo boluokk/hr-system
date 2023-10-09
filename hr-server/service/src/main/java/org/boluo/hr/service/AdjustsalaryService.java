@@ -24,4 +24,16 @@ public class AdjustsalaryService {
     public List<Adjustsalary> selectAll() {
         return adjustsalaryMapper.selectAll();
     }
+
+    public boolean update(Adjustsalary adjustsalary) {
+        return adjustsalaryMapper.updateByPrimaryKeySelective(adjustsalary) == 1;
+    }
+
+    public boolean delete(Integer id) {
+        return adjustsalaryMapper.deleteByPrimaryKey(id) == 1;
+    }
+
+    public boolean insert(Adjustsalary adjustsalary) {
+        return adjustsalaryMapper.insert(adjustsalary) == 1;
+    }
 }

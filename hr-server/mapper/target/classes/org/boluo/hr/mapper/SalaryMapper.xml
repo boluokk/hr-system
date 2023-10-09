@@ -32,9 +32,7 @@
     </association>
   </resultMap>
   <select id="insertEmpWithSal" statementType="CALLABLE">
-    call addEmpWithSal(
-    #{eId},#{salId}
-    )
+    call addEmpWithSal(#{eId}, #{salId})
   </select>
   <select id="selectEmpAndSalary" resultMap="EmpAndSalary">
     select emp.id as eid,emp.name as empname,emp.workid,emp.email,emp.phone,dep.id as depid,dep.name as depname,sa.*
@@ -42,9 +40,6 @@
     LEFT JOIN empsalary esa on emp.id = esa.eid
     LEFT JOIN salary sa on  esa.sid = sa.id
     LEFT JOIN department dep on emp.departmentId = dep.id
-    <if test="pageNum !=null and pageSize !=null">
-      limit #{pageNum},#{pageSize};
-    </if>
   </select>
   <select id="countSalaryWithEmp" resultType="Integer">
     select count(*)
@@ -123,9 +118,8 @@
     createDate, medicalBase, medicalPer, accumulationFundBase, accumulationFundPer, name
   </sql>
   <select id="selectAll" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List"/>
-    from salary;
+    select <include refid="Base_Column_List"/>
+    from salary
   </select>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.boluo.hr.pojo.SalaryExample" >
     select

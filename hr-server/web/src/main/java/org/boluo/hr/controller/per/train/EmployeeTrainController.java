@@ -36,7 +36,7 @@ public class EmployeeTrainController {
         return RespBean.ok(new PageInfo<>(employeetrainService.selectAllWithEmpName()));
     }
 
-    @PutMapping("/change/one")
+    @PutMapping("/modify")
     public RespBean modify(Employeetrain employeetrain) {
         if (employeetrainService.updateOne(employeetrain)) {
             return RespBean.ok();
@@ -44,7 +44,7 @@ public class EmployeeTrainController {
         return RespBean.error();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public RespBean removeOne(@PathVariable("id") Integer id) {
         if (employeetrainService.deleteEmpTrain(id)) {
             return RespBean.ok();

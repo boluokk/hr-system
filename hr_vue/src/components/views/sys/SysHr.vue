@@ -8,7 +8,7 @@
     <el-card class="box-card lightColor" :style="fatherCard">
       <div class="searchInput">
         <el-input
-        v-on:keydown.enter.native="serachKeyDown"
+        v-on:keydown.enter.native="searchKeyDown"
         placeholder="请输入人事名称..."
         v-model="hrname"
         style="width: 500px; margin: 0 50%;transform: translateX(-50%);display:inline-block;"
@@ -58,10 +58,10 @@
           <el-avatar :size="60" :src="item.userface" style=""></el-avatar>
         </div>
         <div style="font-size: 12px;margin-top:15px;">
-          用户名：<span>{{item.name}}</span></br>
-          手机号码：<span>{{item.phone}}</span></br>
-          电话号码：<span>{{item.telephone}}</span></br>
-          地址：<span>{{item.address}}</span></br>
+          用户名：<span>{{item.name}}</span><br>
+          手机号码：<span>{{item.phone}}</span><br>
+          电话号码：<span>{{item.telephone}}</span><br>
+          地址：<span>{{item.address}}</span><br>
           用户状态：<el-switch
                     @change="changeSelect(item)"
                       active-color="#13ce66"
@@ -70,7 +70,7 @@
                     v-model="item.enabled"
                     active-text="开启"
                     inactive-text="禁用">
-                  </el-switch></br>
+                  </el-switch><br>
           用户角色：<el-tag type="warning" size="mini" style="margin-right: 5px;margin-top: 1px;" effect="plain" v-for="(item,idx) in item.roles" v-text="item.namezh"></el-tag>
              <el-popover
               placement="bottom"
@@ -93,10 +93,10 @@
               </el-select>
              <el-link type="primary" slot="reference" :underline="false" style="margin-left:7px;font-size: 13px;" icon="el-icon-edit-outline" @click="editShow(item.id)">修改</el-link>
              </el-popover>
-            </br>
+            <br>
         </div>
          <div class="remark">
-            <b>备注：</b></el-input>
+            <b>备注：</b>
                 <div style="margin: 20px 0;"></div>
                 <el-input
                   type="textarea"
@@ -106,7 +106,7 @@
                   show-word-limit
                   @blur="remarkAdd(item)"
                 >
-                </el-input></br>
+                </el-input><br>
           </div>
       </el-card>
       </div>
@@ -222,15 +222,15 @@ export default {
     }
   },
   methods: {
-    serachKeyDown() {
-      this.postRequest('/sys/hr/hrName',{name: this.hrname}).then(res=> {
+    searchKeyDown() {
+      this.postRequest('/sys/hr/byHrName/' + this.hrname).then(res=> {
         this.initData = res.data
       })
     },
      addHr() {
         this.$refs.ruleForm.validate(vali=> {
           if(vali) {
-              this.putRequest('/sys/hr/one/',this.hrForm).then(res=>{
+              this.putRequest('/sys/hr/add',this.hrForm).then(res=>{
               this.$message.success(res.data.msg)
               this.$refs.ruleForm.resetFields()
               this.init()
@@ -275,7 +275,7 @@ export default {
       }
     },
     deleteHr(id) {
-      this.deleteRequest('/sys/hr/' + id).then(res=> {
+      this.deleteRequest('/sys/hr/delete/' + id).then(res=> {
         this.$message.success(res.data.msg)
         this.init()
       })
@@ -295,14 +295,14 @@ export default {
       this.getRequest('/sys/hr/all/roles').then(resp=> {
         this.options = resp.data
       })
-      this.getRequest('/sys/hr/' + id).then(resp=> {
+      this.getRequest('/sys/hr/byHrId/' + id).then(resp=> {
         resp.data.forEach(item=> {
           this.selectRoles.push(item.id)
         })
       })
     },
     addSlectRoles(id) {
-      this.putRequest('/sys/hr/roles/many/'+ id,{rolesId: this.selectRoles}).then(resp=>{
+      this.putRequest('/sys/hr/many/roles/'+ id,{rolesId: this.selectRoles}).then(resp=>{
         this.$message.success(resp.data.msg)
         this.init()
       })

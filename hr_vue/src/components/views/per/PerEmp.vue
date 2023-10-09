@@ -85,7 +85,7 @@ export default {
     searchBtn() {
       if (!this.searchData || this.searchData.trim() == '')
         return this.$message.error('请输入！！')
-      this.getRequest('/per/emp/' + this.searchData).then(res => {
+      this.getRequest('/per/emp/byEmpName/' + this.searchData).then(res => {
         this.tableData = res.data.obj
         if (res.data.obj.length > 0) {
           this.$message.success('查询成功')
@@ -100,13 +100,13 @@ export default {
       this.Emp.name = employee.name
     },
     delEmp(id) {
-      this.deleteRequest('/per/emp/' + id).then(res => {
+      this.deleteRequest('/per/emp/delete/' + id).then(res => {
         this.$message.success(res.data.msg)
         this.tableData = []
       })
     },
     changeEmpName() {
-      this.putRequest('/per/emp/one', this.Emp).then(res => {
+      this.putRequest('/per/emp/modify', this.Emp).then(res => {
         this.$message.success(res.data.msg)
         this.tableData = []
       })

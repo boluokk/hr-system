@@ -53,7 +53,7 @@ public class EmployeeController {
         return RespBean.ok(new PageInfo<>(employees));
     }
 
-    @GetMapping("/{empName}")
+    @GetMapping("/byEmpName/{empName}")
     public RespBean findEmpByEmpName(@PathVariable("empName") String empName) {
         return RespBean.ok(empLoyeeService.selectByEmpName(empName));
     }
@@ -63,7 +63,7 @@ public class EmployeeController {
         return RespBean.ok(empLoyeeService.selectNations());
     }
 
-    @PutMapping("/one")
+    @PutMapping("/add")
     public RespBean add(Employee employee) {
         boolean matches = Pattern.matches(PATTERN, employee.getWorkid());
         if (!matches) {
@@ -75,7 +75,7 @@ public class EmployeeController {
         return RespBean.error();
     }
 
-    @PutMapping("/change")
+    @PutMapping("/modify")
     public RespBean modify(Employee employee) {
         boolean matches = Pattern.matches(PATTERN, employee.getWorkid());
         if (!matches) {
@@ -87,14 +87,14 @@ public class EmployeeController {
         return RespBean.error();
     }
 
-    @GetMapping("/max/workid")
+    @GetMapping("/maxWorkid")
     public RespBean findMaxWorkId() {
         Object format = String.format("%08d", empLoyeeService.selectMaxWorkId());
         return RespBean.ok(format);
     }
 
-    @DeleteMapping("/{id}")
-    public RespBean deleteOne(@PathVariable Integer id) {
+    @DeleteMapping("/delete/{id}")
+    public RespBean delete(@PathVariable Integer id) {
         if (empLoyeeService.delete(id)) {
             return RespBean.ok();
         }
@@ -122,13 +122,9 @@ public class EmployeeController {
 
 
     @PostMapping("/top/search/{pageNum}/{pageSize}")
-    public RespEmpBean findByPage(@PathVariable("pageNum") Integer pageNum,
+    public RespBean findByPage(@PathVariable("pageNum") Integer pageNum,
                                   @PathVariable("pageSize") Integer pageSize, Employee employee) {
-        RespEmpBean reb = new RespEmpBean();
-        List<Employee> list = empLoyeeService.selectByPageAndEmployee(pageNum - 1, pageSize, employee);
-        int i = empLoyeeService.selectByEmployeeCount(employee);
-        reb.setEmployees(list);
-        reb.setTotal(i);
-        return reb;
+        PageHelper.startPage(pageNum, pageSize);
+        return RespBean.ok(new PageInfo<>(empLoyeeService.selectByPageAndEmployee(employee)));
     }
 }

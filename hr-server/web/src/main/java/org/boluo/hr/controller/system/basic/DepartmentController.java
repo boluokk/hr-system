@@ -24,14 +24,14 @@ public class DepartmentController {
         this.departmentService = departmentService;
     }
 
-    @GetMapping("/")
+    @GetMapping("/root")
     public RespBean findDepartment() {
         return RespBean.ok(departmentService.selectAllDepart(-1));
     }
 
     // 需要字段 parentId childrenName childrenEnabled
     @Transactional(rollbackFor = Exception.class)
-    @PutMapping("/")
+    @PutMapping("/add")
     public RespBean add(DepartRequestBean departRequestBean) {
         if (!departRequestBean.getParentIsParent()) {
             Department department = new Department();
@@ -81,12 +81,12 @@ public class DepartmentController {
         return RespBean.error();
     }
 
-    @GetMapping("/enab/f")
-    public RespBean findDepEnabledOrFalse() {
+    @GetMapping("/enabled")
+    public RespBean findDepEnabled() {
         return RespBean.ok(departmentService.selectAllDepWithDisabled());
     }
 
-    @PutMapping("/change/one")
+    @PutMapping("/modify")
     public RespBean modify(Department department) {
         if (departmentService.update(department)) {
             return RespBean.ok();
@@ -100,7 +100,7 @@ public class DepartmentController {
         return RespBean.ok(departmentService.selectByName(name));
     }
 
-    @GetMapping("/all")
+    @GetMapping("/")
     public RespBean findAll() {
         return RespBean.ok(departmentService.selectAll());
     }

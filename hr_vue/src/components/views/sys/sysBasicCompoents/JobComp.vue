@@ -1,79 +1,82 @@
 <template>
   <div>
     <el-input
-      v-model="addJobValue"
-      placeholder="+ 添加职位..."
-      size="normal"
-      style="width: 250px;"
+      v-model='addJobValue'
+      placeholder='+ 添加职位...'
+      size='normal'
+      style='width: 250px;'
     ></el-input>
     <el-button
-      type="primary"
-      size="default"
-      @click="subAddJobValue"
-      icon="el-icon-plus"
-      style="margin-left: 15px;"
-      >添加</el-button
+      type='primary'
+      @click='subAddJobValue'
+      icon='el-icon-plus'
+      style='margin-left: 15px;'
+    >添加
+    </el-button
     >
     <!-- 删除多项按钮 -->
-    <el-button type="danger" size="default" @click="deleteMany"
-      >批量删除</el-button
+    <el-button type='danger' @click='deleteMany'
+    >批量删除
+    </el-button
     >
     <el-table
-      :data="position"
-      style="width: 100%;margin-top: 20px;text-align: center;"
+      :data='position'
+      style='width: 100%;margin-top: 20px;text-align: center;'
       border
       stripe
-      @selection-change="handleSelectionChange"
+      @selection-change='handleSelectionChange'
     >
       >
-      <el-table-column type="selection" width="55"> </el-table-column>
-      <el-table-column prop="id" label="编号" width="50"></el-table-column>
-      <el-table-column prop="name" label="职位名称" width="150">
+      <el-table-column type='selection' width='55'></el-table-column>
+      <el-table-column prop='id' label='编号' width='50'></el-table-column>
+      <el-table-column prop='name' label='职位名称' width='150'>
       </el-table-column>
-      <el-table-column prop="createdate" label="创建时间" width="250">
-        <template slot-scope="scope">
+      <el-table-column prop='createdate' label='创建时间' width='250'>
+        <template slot-scope='scope'>
           {{ scope.row.createdate | dateFormat }}
         </template>
       </el-table-column>
-      <el-table-column prop="enabled" label="是否开启" width="150">
-        <template slot-scope="scope">
-          <el-tag v-if="scope.row.enabled == true" type="success">开启</el-tag>
-          <el-tag v-if="scope.row.enabled == false" type="danger"
-            >未开启</el-tag
+      <el-table-column prop='enabled' label='是否开启' width='150'>
+        <template slot-scope='scope'>
+          <el-tag v-if='scope.row.enabled === true' type='success'>开启</el-tag>
+          <el-tag v-if='scope.row.enabled === false' type='danger'
+          >未开启
+          </el-tag
           >
         </template>
       </el-table-column>
-      <el-table-column prop="address" label="操作">
-        <template slot-scope="scope">
-          <el-button size="mini" @click="handleEdit(scope.row)">编辑</el-button>
-          <el-button size="mini" type="danger" @click="handleDelete(scope.row)"
-            >删除</el-button
+      <el-table-column prop='address' label='操作'>
+        <template slot-scope='scope'>
+          <el-button size='mini' @click='handleEdit(scope.row)'>编辑</el-button>
+          <el-button size='mini' type='danger' @click='handleDelete(scope.row)'
+          >删除
+          </el-button
           >
         </template>
       </el-table-column>
     </el-table>
     <el-dialog
-      title="添加职位"
-      :visible.sync="dialogVisible"
-      width="30%"
+      title='添加职位'
+      :visible.sync='dialogVisible'
+      width='30%'
       center
     >
       <el-form
-        :model="PosruleForm"
-        :rules="Posrules"
-        ref="PosruleFormRef"
-        label-width="90px"
+        :model='posRuleForm'
+        :rules='posRules'
+        ref='posRuleFormRef'
+        label-width='90px'
       >
-        <el-form-item label="编号" prop="id">
-          <el-input v-model="PosruleForm.id" disabled></el-input>
+        <el-form-item label='编号' prop='id'>
+          <el-input v-model='posRuleForm.id' disabled></el-input>
         </el-form-item>
-        <el-form-item label="职位名称" prop="name">
-          <el-input v-model="PosruleForm.name"></el-input>
+        <el-form-item label='职位名称' prop='name'>
+          <el-input v-model='posRuleForm.name'></el-input>
         </el-form-item>
       </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="changePosNameHandel">确 定</el-button>
+      <span slot='footer' class='dialog-footer'>
+        <el-button @click='dialogVisible = false'>取 消</el-button>
+        <el-button type='primary' @click='changePosNameHandel'>确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -91,11 +94,11 @@ export default {
       addJobValue: '',
       selectIds: [],
       dialogVisible: false,
-      PosruleForm: {
+      posRuleForm: {
         id: '',
         name: ''
       },
-      Posrules: {
+      posRules: {
         name: [{ required: true, message: '请输入活动名称', trigger: 'blur' }]
       }
     }
@@ -106,7 +109,7 @@ export default {
       if (this.addJobValue.trim() === '') {
         return this.$message.error('请填写职位名称！')
       }
-      this.putRequest('/system/basic/job/', {
+      this.putRequest('/system/basic/job/modify', {
         name: this.addJobValue
       }).then(res => {
         this.$message.success(res.data.msg)
@@ -124,8 +127,8 @@ export default {
     // 编辑
     handleEdit(job) {
       this.dialogVisible = true
-      this.PosruleForm.id = job.id
-      this.PosruleForm.name = job.name
+      this.posRuleForm.id = job.id
+      this.posRuleForm.name = job.name
     },
     // 删除
     async handleDelete(job) {
@@ -141,15 +144,15 @@ export default {
       if (result !== 'confirm') {
         return this.$message('删除取消！')
       }
-      this.deleteRequest('/system/basic/job/' + job.id).then(res => {
+      this.deleteRequest('/system/basic/job/delete/' + job.id).then(res => {
         this.$message.success(res.data.msg)
         this.initPos()
       })
     },
     changePosNameHandel() {
-      this.$refs.PosruleFormRef.validate(vlida => {
-        if (vlida) {
-          this.putRequest('/system/basic/job/change', this.PosruleForm).then(
+      this.$refs.posRuleFormRef.validate(valid => {
+        if (valid) {
+          this.putRequest('/system/basic/job/modify', this.posRuleForm).then(
             res => {
               this.$message.success(res.data.msg)
               this.initPos()
@@ -182,7 +185,7 @@ export default {
       this.selectIds.forEach(item => {
         ids += 'ids=' + item + '&'
       })
-      this.deleteRequest('/system/basic/job/many/' + ids).then(res => {
+      this.deleteRequest('/system/basic/job/delete/many/' + ids).then(res => {
         this.$message.success(res.data.msg)
         this.initPos()
       })
@@ -191,4 +194,4 @@ export default {
 }
 </script>
 
-<style lang="less" scoped></style>
+<style lang='less' scoped></style>

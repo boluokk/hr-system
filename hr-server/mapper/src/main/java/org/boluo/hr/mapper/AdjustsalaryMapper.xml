@@ -9,10 +9,14 @@
     <result column="reason" property="reason" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
-  <select id="selectAll" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List"/>
-    from adjustsalary
+  
+  <resultMap id="BaseResultMapWithEmployee" type="org.boluo.hr.pojo.Adjustsalary" extends="BaseResultMap">
+    <association property="employee" resultMap="org.boluo.hr.mapper.EmployeeMapper.BaseResultMap" />
+  </resultMap>
+  <select id="selectAll" resultMap="BaseResultMapWithEmployee">
+    select a.id as aid, a.eid, a.asDate, a.salary, a.reason, a.remark, e.*
+    from adjustsalary a
+    join employee e on e.id = a.eid
   </select>
   <sql id="Example_Where_Clause" >
     <where >

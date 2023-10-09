@@ -135,7 +135,7 @@ export default {
       this.$refs['curUserRef'].validate((valid) => {
         if (valid) {
           if (!this.curUser.password) { this.curUser.password = '' }
-          this.putRequest('/sys/hr/', this.curUser).then(res => {
+          this.putRequest('/sys/hr/modify', this.curUser).then(res => {
             if (res.data.status === 200) {
               this.$message.success(res.data.msg)
               if (this.curUser.password && this.curUser.password.length > 0) {

@@ -37,7 +37,7 @@ public class SystemHr {
         return hrService.selectAll();
     }
 
-    @GetMapping("/{hid}")
+    @GetMapping("/byHrId/{hid}")
     public List<Role> findRoles(@PathVariable("hid") Integer hid) {
         return hrService.selectRoles(hid);
     }
@@ -48,7 +48,7 @@ public class SystemHr {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    @PutMapping("/roles/many/{hrId}")
+    @PutMapping("/many/roles/{hrId}")
     public RespBean modifyRoles(@PathVariable("hrId") Integer hrId, Integer[] rolesId) {
         if (hrService.deleteRoleByHrid(hrId)) {
             if (rolesId.length > 0) {
@@ -63,7 +63,7 @@ public class SystemHr {
         return RespBean.error();
     }
 
-    @PutMapping("/")
+    @PutMapping("/modify")
     public RespBean modifyHr(Hr hr, HttpSession session) {
         String password = hr.getPassword();
         if (password != null && password.length() > 0) {
@@ -82,7 +82,7 @@ public class SystemHr {
 
     }
 
-    @DeleteMapping("/{hrId}")
+    @DeleteMapping("/delete/{hrId}")
     public RespBean removeHr(@PathVariable("hrId") Integer hrId) {
         if (hrService.delete(hrId)) {
             return RespBean.ok();
@@ -90,12 +90,12 @@ public class SystemHr {
         return RespBean.error();
     }
 
-    @PostMapping("/hrName")
-    public List<Hr> findHrByName(Hr hr) {
-        return hrService.selectHrByName(hr.getName());
+    @GetMapping("/byHrName/{hrName}")
+    public List<Hr> findHrByName(@PathVariable("hrName") String hrName) {
+        return hrService.selectHrByName(hrName);
     }
 
-    @PutMapping("/one/")
+    @PutMapping("/add")
     public RespBean add(Hr hr) {
         hr.setPassword(PasswordEncoder.encode(hr.getPassword()));
         if (hrService.insert(hr)) {

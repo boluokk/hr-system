@@ -35,7 +35,7 @@ public interface SalaryMapper {
 
     int countSalaryWithEmp();
 
-    List<Employee> selectEmpAndSalary(@Param("pageNum") Integer pageNum, @Param("pageSize") Integer pageSize);
+    List<Employee> selectEmpAndSalary();
 
     void insertEmpWithSal(@Param("eId") Integer eid, @Param("salId") Integer salId);
 }

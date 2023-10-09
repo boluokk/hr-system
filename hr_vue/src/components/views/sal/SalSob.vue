@@ -316,7 +316,7 @@ export default {
         type: 'warning'
       })
         .then(() => {
-          this.deleteRequest('/sal/sob/' + id).then(resp => {
+          this.deleteRequest('/sal/sob/delete/' + id).then(resp => {
             this.$message.success(resp.data.msg)
             this.init()
           })
@@ -355,12 +355,12 @@ export default {
         return this.$message.info('请填写必要项！')
       }
       if (this.isEditOrAdd === '添加账套') {
-        this.putRequest('/sal/sob/', this.salaryDate).then(resp => {
+        this.putRequest('/sal/sob/add', this.salaryDate).then(resp => {
           this.$message.success(resp.data.msg)
           this.refiledData()
         })
       } else {
-        this.putRequest('/sal/sob/change/one', this.salaryDate).then(resp => {
+        this.putRequest('/sal/sob/modify', this.salaryDate).then(resp => {
           this.$message.success(resp.data.msg)
           this.refiledData()
         })
