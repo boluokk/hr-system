@@ -4,7 +4,6 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.boluo.hr.pojo.Employee;
 import org.boluo.hr.pojo.RespBean;
-import org.boluo.hr.pojo.RespEmpBean;
 import org.boluo.hr.service.*;
 import org.boluo.hr.service.util.ExportAndImortExcelUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +16,8 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 /**
+ * 员工信息
+ *
  * @author 🍍
  * @date 2023/10/1
  */
@@ -123,7 +124,7 @@ public class EmployeeController {
 
     @PostMapping("/top/search/{pageNum}/{pageSize}")
     public RespBean findByPage(@PathVariable("pageNum") Integer pageNum,
-                                  @PathVariable("pageSize") Integer pageSize, Employee employee) {
+                               @PathVariable("pageSize") Integer pageSize, Employee employee) {
         PageHelper.startPage(pageNum, pageSize);
         return RespBean.ok(new PageInfo<>(empLoyeeService.selectByPageAndEmployee(employee)));
     }

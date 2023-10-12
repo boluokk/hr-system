@@ -6,17 +6,19 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+
 /**
- * 考评 实体
+ *  调薪 实体
  *
  * @author boluo
  */
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Appraise {
+public class AdjustSalary {
     /**
-     * 考评id
+     * 调薪id
      */
     private Integer id;
     /**
@@ -28,16 +30,15 @@ public class Appraise {
      */
     private Date createDate;
     /**
-     * 考评结果
+     * 工资
      */
-    private String appraiseResult;
+    private Integer salary;
     /**
-     * 考评内容
+     * 原因
      */
-    private String appraiseContent;
+    private String reason;
     /**
      * 备注
      */
     private String remark;
-
 }

@@ -1,7 +1,7 @@
 package org.boluo.hr.mapper;
 
 import org.boluo.hr.pojo.FlywaySchemaHistory;
-import org.boluo.hr.pojo.FlywaySchemaHistoryExample;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 

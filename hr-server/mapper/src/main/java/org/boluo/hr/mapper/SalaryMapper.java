@@ -2,7 +2,7 @@ package org.boluo.hr.mapper;
 
 import org.boluo.hr.pojo.Employee;
 import org.boluo.hr.pojo.Salary;
-import org.boluo.hr.pojo.SalaryExample;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 

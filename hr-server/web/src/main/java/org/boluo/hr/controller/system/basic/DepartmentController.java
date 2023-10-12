@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 /**
+ * 部门信息
+ *
  * @author 🍍
  * @date 2023/10/1
  */
@@ -24,56 +26,59 @@ public class DepartmentController {
         this.departmentService = departmentService;
     }
 
+    /**
+     * 所有部门
+     */
     @GetMapping("/root")
     public RespBean findDepartment() {
         return RespBean.ok(departmentService.selectAllDepart(-1));
     }
 
-    // 需要字段 parentId childrenName childrenEnabled
+    /**
+     * 添加部门
+     */
     @Transactional(rollbackFor = Exception.class)
     @PutMapping("/add")
     public RespBean add(DepartRequestBean departRequestBean) {
         if (!departRequestBean.getParentIsParent()) {
-            Department department = new Department();
-            department.setId(departRequestBean.getParentId());
-            department.setIsparent(true);
+            Department department = new Department().setId(departRequestBean.getParentId()).setIsParent(true);
             if (!departmentService.update(department)) {
                 throw new BusinessException("更新部门失败");
             }
         }
-        Department department = new Department();
-        department.setName(departRequestBean.getChildrenName());
-        department.setParentid(departRequestBean.getParentId());
-        department.setEnabled(departRequestBean.getChildrenEnabled());
-        department.setIsparent(false);
+        Department department = new Department()
+                                .setName(departRequestBean.getChildrenName())
+                                .setParentId(departRequestBean.getParentId())
+                                .setEnabled(departRequestBean.getChildrenEnabled())
+                                .setIsParent(false);
         if (!departmentService.insert(department)) {
             throw new BusinessException("添加失败");
         }
-        int lastinserid = departmentService.lastInsertId();
-        if (lastinserid == 0) {
-            throw new BusinessException("最新id为0异常");
+        int lastInsertId = departmentService.lastInsertId();
+        if (lastInsertId == 0) {
+            throw new BusinessException("新插入部门id不能为0");
         }
-        Department newDepartment = new Department();
-        newDepartment.setId(lastinserid);
-        newDepartment.setDeppath(departRequestBean.getParentDepPath() + "." + lastinserid);
+        Department newDepartment = new Department()
+        .setId(lastInsertId)
+        // 拼接部门路径
+        .setDepPath(departRequestBean.getParentDepPath() + "." + lastInsertId);
         if (!departmentService.update(newDepartment)) {
             throw new BusinessException("更新部门失败！");
         }
         return RespBean.ok();
     }
 
-    // 需要传入的值 parentdeppath parentid
+    /**
+     * 删除部门
+     */
     @Transactional(rollbackFor = Exception.class)
     @DeleteMapping("/delete")
     public RespBean remove(@RequestBody DepartRequestBean departRequestBean) {
         if (!departmentService.deleteByDepPath(departRequestBean.getParentDepPath())) {
             throw new BusinessException("删除路径失败");
         }
-        if (!departmentService.selectCountByParenId(departRequestBean.getParentId())) {
-            Department department = new Department();
-            department.setId(departRequestBean.getParentId());
-            department.setIsparent(false);
-            if (!departmentService.update(department)) {
+        if (!departmentService.noChildren(departRequestBean.getParentId())) {
+            if (!departmentService.update(new Department().setId(departRequestBean.getParentId()).setIsParent(false))) {
                 throw new BusinessException("部门更新失败");
             }
             return RespBean.ok();
@@ -81,11 +86,17 @@ public class DepartmentController {
         return RespBean.error();
     }
 
+    /**
+     * 关闭的部门
+     */
     @GetMapping("/enabled")
-    public RespBean findDepEnabled() {
+    public RespBean findDisabledDepartment() {
         return RespBean.ok(departmentService.selectAllDepWithDisabled());
     }
 
+    /**
+     * 修改部门
+     */
     @PutMapping("/modify")
     public RespBean modify(Department department) {
         if (departmentService.update(department)) {
@@ -95,11 +106,17 @@ public class DepartmentController {
         }
     }
 
+    /**
+     * 部门名查询部门
+     */
     @GetMapping("/search/{name}")
-    public RespBean findEnabled(@PathVariable String name) {
+    public RespBean findByName(@PathVariable String name) {
         return RespBean.ok(departmentService.selectByName(name));
     }
 
+    /**
+     * 所有部门
+     */
     @GetMapping("/")
     public RespBean findAll() {
         return RespBean.ok(departmentService.selectAll());

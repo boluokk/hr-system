@@ -1,7 +1,7 @@
 package org.boluo.hr.mapper;
 
 import org.boluo.hr.pojo.Empsalary;
-import org.boluo.hr.pojo.EmpsalaryExample;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 

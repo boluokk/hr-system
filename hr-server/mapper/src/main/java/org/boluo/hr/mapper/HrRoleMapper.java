@@ -2,7 +2,6 @@ package org.boluo.hr.mapper;
 
 import org.apache.ibatis.annotations.Param;
 import org.boluo.hr.pojo.HrRole;
-import org.boluo.hr.pojo.HrRoleExample;
 
 import java.util.List;
 

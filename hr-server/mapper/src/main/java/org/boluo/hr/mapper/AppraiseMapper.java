@@ -1,33 +1,53 @@
 package org.boluo.hr.mapper;
 
 import org.boluo.hr.pojo.Appraise;
-import org.boluo.hr.pojo.AppraiseExample;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
+
+/**
+ * 考评 数据层
+ *
+ * @author boluo
+ */
 
 public interface AppraiseMapper {
-    int countByExample(AppraiseExample example);
-
-    int deleteByExample(AppraiseExample example);
-
+    /**
+     * 通过考评id 删除考评
+     *
+     * @param id 考评id
+     * @return 结果
+     */
     int deleteByPrimaryKey(Integer id);
 
-    int insert(Appraise record);
+    /**
+     * 新增考评
+     *
+     * @param appraise 考评信息
+     * @return 结果
+     */
+    int insertAppraise(Appraise appraise);
 
-    int insertSelective(Appraise record);
-
-    List<Appraise> selectByExample(AppraiseExample example);
-
+    /**
+     * 通过考评id 查询考评
+     *
+     * @param id
+     * @return 考评信息
+     */
     Appraise selectByPrimaryKey(Integer id);
 
-    int updateByExampleSelective(@Param("record") Appraise record, @Param("example") AppraiseExample example);
+    /**
+     * 修改考评
+     *
+     * @param appraise 考评信息
+     * @return 结果
+     */
+    int updateByPrimaryKey(Appraise appraise);
 
-    int updateByExample(@Param("record") Appraise record, @Param("example") AppraiseExample example);
-
-    int updateByPrimaryKeySelective(Appraise record);
-
-    int updateByPrimaryKey(Appraise record);
-
+    /**
+     * 查询所有考评
+     *
+     * @return 考评集合
+     */
     List<Appraise> selectAll();
 }

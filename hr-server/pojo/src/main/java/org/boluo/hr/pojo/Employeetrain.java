@@ -9,7 +9,7 @@ public class Employeetrain {
     private Integer id;
 
     private Integer eid;
-
+//    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date traindate;
 
     private String traincontent;

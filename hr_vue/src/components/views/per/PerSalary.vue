@@ -3,7 +3,7 @@
     <el-card shadow='always' :body-style="{ padding: '20px' }">
       <div slot='header'></div>
       <el-table :data='tableData' style='width: 100%'>
-        <el-table-column prop='employee.name' label='名称' width='90'>
+        <el-table-column prop='employeeName' label='名称' width='90'>
         </el-table-column>
         <el-table-column prop='reason' label='原因' width='180'>
         </el-table-column>
@@ -65,12 +65,13 @@
         :visible.sync='editDialogVisible'
         width='30%'
       >
-        <el-form ref='empTrainFormRef' :model='editEmpSalaryForm' label-width='80px' label-position='left'>
+        <el-form ref='editEmpSalaryFormRef' :model='editEmpSalaryForm' label-width='80px' label-position='left'>
           <el-form-item label='原因'>
             <el-input v-model='editEmpSalaryForm.reason'></el-input>
           </el-form-item>
           <el-form-item label='时间'>
             <el-date-picker type='date' placeholder='选择日期' v-model='editEmpSalaryForm.asdate'
+                            value-format='yyyy-MM-dd HH:mm:ss'
                             style='width: 100%;'></el-date-picker>
           </el-form-item>
           <el-form-item label='奖赏'>
@@ -93,11 +94,15 @@
         width='30%'
       >
         <el-form ref='addEmpSalaryFormRef' :model='addEmpSalaryForm' label-width='80px' label-position='left'>
+          <el-form-item label='员工号'>
+            <el-input v-model='workId' maxlength='8' show-word-limit></el-input>
+          </el-form-item>
           <el-form-item label='原因'>
             <el-input v-model='addEmpSalaryForm.reason'></el-input>
           </el-form-item>
           <el-form-item label='时间'>
             <el-date-picker type='date' placeholder='选择日期' v-model='addEmpSalaryForm.asdate'
+                            value-format='yyyy-MM-dd HH:mm:ss'
                             style='width: 100%;'></el-date-picker>
           </el-form-item>
           <el-form-item label='奖赏'>
@@ -128,6 +133,7 @@ export default {
       editDialogVisible: false,
       addEmpSalaryForm: {},
       editEmpSalaryForm: {},
+      workId: null,
     }
   },
   methods: {
@@ -155,8 +161,7 @@ export default {
       })
     },
     add() {
-      this.putRequest('/per/salary/add/' + this.addEmpSalaryForm.workId,
-        this.addEmpSalaryForm).then(res => {
+      this.putRequest('/per/salary/add/' + this.workId, this.addEmpSalaryForm).then(res => {
         this.$message.success(res.data.msg)
         if (res.data.status === 200) {
           this.addDialogVisible = false
@@ -165,7 +170,7 @@ export default {
       })
     },
     update() {
-      this.putRequest('/per/train/modify', this.empTrainForm).then(res => {
+      this.putRequest('/per/salary/modify', this.editEmpSalaryForm).then(res => {
         this.$message.success(res.data.msg)
         this.editDialogVisible = false
       }).catch(error => {

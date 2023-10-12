@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
+ * 考评信息
+ *
  * @author 🍍
  * @date 2023/10/1
+ *
  */
 @RestController
 @RequestMapping("/emp/adv/app")
@@ -25,6 +28,9 @@ public class AppraiseController {
         this.appraiseService = appraiseService;
     }
 
+    /**
+     * 分页考评
+     */
     @GetMapping("/{pageNum}/{pageSize}")
     public RespBean findByPage(@PathVariable("pageNum") Integer pageNum,
                                @PathVariable("pageSize") Integer pageSize) {

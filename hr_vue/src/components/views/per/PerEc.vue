@@ -254,7 +254,7 @@ export default {
         this.formLabelAlign.remark = this.state1
         this.formLabelAlign.ecpoint = this.grade
         this.putRequest('/per/ec/add', this.formLabelAlign).then(res => {
-          if (res.data.status == 200) {
+          if (res.data.status === 200) {
             this.$message.success(res.data.msg)
             this.init()
             this.dialogVisible2 = false
@@ -279,13 +279,13 @@ export default {
   },
   watch: {
     state1(val) {
-      if (val == '小功') {
+      if (val === '小功') {
         this.grade = 10
-      } else if (val == '大功') {
+      } else if (val === '大功') {
         this.grade = 20
-      } else if (val == '嘉奖') {
+      } else if (val === '嘉奖') {
         this.grade = 5
-      } else if (val == '警告') {
+      } else if (val === '警告') {
         this.grade = -5
       } else {
         this.grade = 0

@@ -11,50 +11,40 @@ public class Employeeremove {
 
     private Integer afterjobid;
 
+    private Integer beforedepid;
+
+    private Integer beforejobid;
+
     private Date removedate;
 
     private String reason;
 
     private String remark;
 
-    private String oldDepartName;
-
-    private String oldJoblevelName;
-
-    private String newDepartName;
-
-    private String newJoblevelName;
-
-    public String getOldDepartName() {
-        return oldDepartName;
+    public Integer getBeforejobid() {
+        return beforejobid;
     }
 
-    public void setOldDepartName(String oldDepartName) {
-        this.oldDepartName = oldDepartName;
+    public void setBeforejobid(Integer beforejobid) {
+        this.beforejobid = beforejobid;
     }
 
-    public String getOldJoblevelName() {
-        return oldJoblevelName;
+    public Integer getBeforedepid() {
+        return beforedepid;
     }
 
-    public void setOldJoblevelName(String oldJoblevelName) {
-        this.oldJoblevelName = oldJoblevelName;
+    public void setBeforedepid(Integer beforedepid) {
+        this.beforedepid = beforedepid;
     }
 
-    public String getNewDepartName() {
-        return newDepartName;
+    private String employeeName;
+
+    public String getEmployeeName() {
+        return employeeName;
     }
 
-    public void setNewDepartName(String newDepartName) {
-        this.newDepartName = newDepartName;
-    }
-
-    public String getNewJoblevelName() {
-        return newJoblevelName;
-    }
-
-    public void setNewJoblevelName(String newJoblevelName) {
-        this.newJoblevelName = newJoblevelName;
+    public void setEmployeeName(String employeeName) {
+        this.employeeName = employeeName;
     }
 
     public Integer getId() {

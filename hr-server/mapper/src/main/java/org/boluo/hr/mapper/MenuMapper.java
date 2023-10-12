@@ -2,7 +2,6 @@ package org.boluo.hr.mapper;
 
 import org.apache.ibatis.annotations.Param;
 import org.boluo.hr.pojo.Menu;
-import org.boluo.hr.pojo.MenuExample;
 
 import java.util.List;
 

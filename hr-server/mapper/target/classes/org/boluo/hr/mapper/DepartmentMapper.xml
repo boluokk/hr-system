@@ -1,266 +1,116 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="org.boluo.hr.mapper.DepartmentMapper" >
-  <resultMap id="BaseResultMap" type="org.boluo.hr.pojo.Department" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="parentId" property="parentid" jdbcType="INTEGER" />
-    <result column="depPath" property="deppath" jdbcType="VARCHAR" />
-    <result column="enabled" property="enabled" jdbcType="BIT" />
-    <result column="isParent" property="isparent" jdbcType="BIT" />
-  </resultMap>
-  <resultMap id="Dep" type="org.boluo.hr.pojo.Department" extends="BaseResultMap">
-    <id property="id" column="id" jdbcType="INTEGER"/>
-    <result property="name" column="name" jdbcType="VARCHAR"/>
-    <collection property="children" ofType="Dep" select="selectByParentId" column="id">
-    </collection>
-  </resultMap>
-  <sql id="Base_Column_List" >
-    id, name, parentId, depPath, enabled, isParent
-  </sql>
-  <select id="selectAll" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List"></include>
-    from department
-  </select>
-  <select id="selectByName" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List"></include>
-    from department
-    where name like concat('%',#{name},'%')
-  </select>
-  <delete id="deleteByDepPath">
-    delete
-    from department
-    where deppath like concat(#{depPath},'%')
-  </delete>
-  <select id="selectByParentId" resultMap="Dep">
-    select *
-    from department
-    where parentId = #{id} and enabled = 1
-  </select>
-  <select id="selectAllDepWithDisabled" resultMap="BaseResultMap">
-    select *
-    from department
-    where enabled = 0
-  </select>
-  <select id="lastInsertId" resultType="java.lang.Integer">
-    select last_insert_id();
-  </select>
-  <select id="selectCountParentId" resultType="java.lang.Integer">
-    select count(*)
-    from department
-    where parentId=#{id}
-  </select>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.boluo.hr.pojo.DepartmentExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from department
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from department
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from department
-    where id = #{id}
-  </delete>
-  <delete id="deleteByExample" parameterType="org.boluo.hr.pojo.DepartmentExample" >
-    delete from department
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="org.boluo.hr.pojo.Department" >
-    insert into department (id, name, parentId, 
-      depPath, enabled, isParent)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{parentid,jdbcType=INTEGER}, 
-      #{deppath,jdbcType=VARCHAR}, #{enabled,jdbcType=BIT}, #{isparent,jdbcType=BIT})
-  </insert>
-  <insert id="insertSelective" parameterType="org.boluo.hr.pojo.Department" >
-    insert into department
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="name != null" >
-        name,
-      </if>
-      <if test="parentid != null" >
-        parentId,
-      </if>
-      <if test="deppath != null" >
-        depPath,
-      </if>
-      <if test="enabled != null" >
-        enabled,
-      </if>
-      <if test="isparent != null" >
-        isParent,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="parentid != null" >
-        #{parentid,jdbcType=INTEGER},
-      </if>
-      <if test="deppath != null" >
-        #{deppath,jdbcType=VARCHAR},
-      </if>
-      <if test="enabled != null" >
-        #{enabled,jdbcType=BIT},
-      </if>
-      <if test="isparent != null" >
-        #{isparent,jdbcType=BIT},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="org.boluo.hr.pojo.DepartmentExample" resultType="java.lang.Integer" >
-    select count(*) from department
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map" >
-    update department
-    <set >
-      <if test="record.id != null" >
-        id = #{record.id,jdbcType=INTEGER},
-      </if>
-      <if test="record.name != null" >
-        name = #{record.name,jdbcType=VARCHAR},
-      </if>
-      <if test="record.parentid != null" >
-        parentId = #{record.parentid,jdbcType=INTEGER},
-      </if>
-      <if test="record.deppath != null" >
-        depPath = #{record.deppath,jdbcType=VARCHAR},
-      </if>
-      <if test="record.enabled != null" >
-        enabled = #{record.enabled,jdbcType=BIT},
-      </if>
-      <if test="record.isparent != null" >
-        isParent = #{record.isparent,jdbcType=BIT},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map" >
-    update department
-    set id = #{record.id,jdbcType=INTEGER},
-      name = #{record.name,jdbcType=VARCHAR},
-      parentId = #{record.parentid,jdbcType=INTEGER},
-      depPath = #{record.deppath,jdbcType=VARCHAR},
-      enabled = #{record.enabled,jdbcType=BIT},
-      isParent = #{record.isparent,jdbcType=BIT}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="org.boluo.hr.pojo.Department" >
-    update department
-    <set >
-      <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="parentid != null" >
-        parentId = #{parentid,jdbcType=INTEGER},
-      </if>
-      <if test="deppath != null" >
-        depPath = #{deppath,jdbcType=VARCHAR},
-      </if>
-      <if test="enabled != null" >
-        enabled = #{enabled,jdbcType=BIT},
-      </if>
-      <if test="isparent != null" >
-        isParent = #{isparent,jdbcType=BIT},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="org.boluo.hr.pojo.Department" >
-    update department
-    set name = #{name,jdbcType=VARCHAR},
-      parentId = #{parentid,jdbcType=INTEGER},
-      depPath = #{deppath,jdbcType=VARCHAR},
-      enabled = #{enabled,jdbcType=BIT},
-      isParent = #{isparent,jdbcType=BIT}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+<mapper namespace="org.boluo.hr.mapper.DepartmentMapper">
+    <resultMap id="BaseResultMap" type="org.boluo.hr.pojo.Department">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
+        <result column="dep_path" property="depPath" jdbcType="VARCHAR"/>
+        <result column="enabled" property="enabled" jdbcType="BIT"/>
+        <result column="is_iarent" property="isParent" jdbcType="BIT"/>
+    </resultMap>
+    <resultMap id="hasChildrenDepartment" type="org.boluo.hr.pojo.Department" extends="BaseResultMap">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <collection property="children" ofType="org.boluo.hr.pojo.Department" select="selectByParentId" column="id"/>
+    </resultMap>
+    <sql id="column">id, name, parent_id, dep_path, enabled, is_parent</sql>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select <include refid="column"/>
+        from department
+    </select>
+    <select id="selectByName" resultMap="BaseResultMap">
+        select <include refid="column"/>
+        from department
+        where name like concat('%',#{name},'%')
+    </select>
+    <delete id="deleteByDepPath">
+        delete from department
+        where dep_path like concat(#{depPath}, '%')
+    </delete>
+    <select id="selectByParentId" resultMap="hasChildrenDepartment">
+        select *
+        from department
+        where parent_id = #{id} and enabled = 1
+    </select>
+    <select id="selectAllDepWithDisabled" resultMap="BaseResultMap">
+        select *
+        from department
+        where enabled = 0
+    </select>
+    <select id="lastInsertId" resultType="java.lang.Integer">
+        select last_insert_id();
+    </select>
+    <select id="selectCountByParentId" resultType="java.lang.Integer">
+        select count(*)
+        from department
+        where parent_id = #{id}
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select <include refid="column"/>
+        from department
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from department
+        where id = #{id}
+    </delete>
+    <insert id="insertDepartment" parameterType="org.boluo.hr.pojo.Department">
+        insert into department
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                name,
+            </if>
+            <if test="parentId != null">
+                parentId,
+            </if>
+            <if test="depPath != null">
+                depPath,
+            </if>
+            <if test="enabled != null">
+                enabled,
+            </if>
+            <if test="isParent != null">
+                isParent,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=INTEGER},
+            </if>
+            <if test="depPath != null">
+                #{depPath,jdbcType=VARCHAR},
+            </if>
+            <if test="enabled != null">
+                #{enabled,jdbcType=BIT},
+            </if>
+            <if test="isParent != null">
+                #{isParent,jdbcType=BIT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="org.boluo.hr.pojo.Department">
+        update department
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                parent_id = #{parentId,jdbcType=INTEGER},
+            </if>
+            <if test="depPath != null">
+                dep_path = #{depPath,jdbcType=VARCHAR},
+            </if>
+            <if test="enabled != null">
+                enabled = #{enabled,jdbcType=BIT},
+            </if>
+            <if test="isParent != null">
+                is_parent = #{isParent,jdbcType=BIT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
 </mapper>

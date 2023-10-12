@@ -17,7 +17,7 @@
               <h5>账户</h5>
               <input
                 type='text'
-                v-model='LoginruleForm.username'
+                v-model='loginRuleForm.username'
                 class='input'
                 @focus='userNameFocus'
                 @blur='userNameBlur'
@@ -32,7 +32,7 @@
               <h5>密码</h5>
               <input
                 type='password'
-                v-model='LoginruleForm.password'
+                v-model='loginRuleForm.password'
                 class='input'
                 @focus='passNameFocus'
                 @blur='passNameBlur'
@@ -62,25 +62,25 @@ export default {
       img_3,
       userDivClass: 'input-group',
       passDivClass: 'input-group',
-      LoginruleForm: {
-        username: '',
-        password: ''
+      loginRuleForm: {
+        username: 'admin',
+        password: '123'
       }
     }
   },
   methods: {
     submitForm() {
       if (
-        !this.LoginruleForm.username &&
-        this.LoginruleForm.username.trim() === '' ||
-        !this.LoginruleForm.password &&
-        this.LoginruleForm.password.trim() === ''
+        !this.loginRuleForm.username &&
+        this.loginRuleForm.username.trim() === '' ||
+        !this.loginRuleForm.password &&
+        this.loginRuleForm.password.trim() === ''
       ) {
         return this.$message.warning('请正确填写账号和密码！')
       }
       this.postRequest('/login', {
-        username: this.LoginruleForm.username,
-        password: this.LoginruleForm.password
+        username: this.loginRuleForm.username,
+        password: this.loginRuleForm.password
       }).then(resp => {
         if (resp.data.status === 200) {
           this.$store.commit('login', resp.data.obj)
@@ -97,8 +97,8 @@ export default {
     },
     userNameBlur() {
       if (
-        this.LoginruleForm.username &&
-        this.LoginruleForm.username.trim() !== ''
+        this.loginRuleForm.username &&
+        this.loginRuleForm.username.trim() !== ''
       ) {
         return
       }
@@ -109,8 +109,8 @@ export default {
     },
     passNameBlur() {
       if (
-        this.LoginruleForm.password &&
-        this.LoginruleForm.password.trim() !== ''
+        this.loginRuleForm.password &&
+        this.loginRuleForm.password.trim() !== ''
       ) {
         return
       }

@@ -1,7 +1,7 @@
 package org.boluo.hr.mapper;
 
 import org.boluo.hr.pojo.Joblevel;
-import org.boluo.hr.pojo.JoblevelExample;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 

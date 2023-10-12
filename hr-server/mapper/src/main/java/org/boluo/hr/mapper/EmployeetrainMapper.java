@@ -1,7 +1,7 @@
 package org.boluo.hr.mapper;
 
 import org.boluo.hr.pojo.Employeetrain;
-import org.boluo.hr.pojo.EmployeetrainExample;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 

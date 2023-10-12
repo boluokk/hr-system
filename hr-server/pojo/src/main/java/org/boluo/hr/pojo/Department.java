@@ -1,103 +1,49 @@
 package org.boluo.hr.pojo;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+
 import java.io.Serializable;
 import java.util.List;
-import java.util.Objects;
 
+/**
+ * 部门 实体
+ *
+ * @author boluo
+ */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Accessors(chain = true)
 public class Department implements Serializable {
+    /**
+     * 部门id
+     */
     private Integer id;
-
+    /**
+     * 部门名称
+     */
     private String name;
-
-    private Integer parentid;
-
-    private String deppath;
-
+    /**
+     * 父部门id
+     */
+    private Integer parentId;
+    /**
+     * 部门路径
+     */
+    private String depPath;
+    /**
+     * 是否开启
+     */
     private Boolean enabled;
-
-    private Boolean isparent;
-
+    /**
+     * 是否父部门
+     */
+    private Boolean isParent;
+    /**
+     * 子部门
+     */
     private List<Department> children;
-
-    public List<Department> getChildren() {
-        return children;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Department)) return false;
-        Department that = (Department) o;
-        return name.equals(that.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name);
-    }
-
-    @Override
-    public String toString() {
-        return "Department{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", parentid=" + parentid +
-                ", deppath='" + deppath + '\'' +
-                ", enabled=" + enabled +
-                ", isparent=" + isparent +
-                ", children=" + children +
-                '}';
-    }
-
-    public void setChildren(List<Department> children) {
-        this.children = children;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
-    }
-
-    public Integer getParentid() {
-        return parentid;
-    }
-
-    public void setParentid(Integer parentid) {
-        this.parentid = parentid;
-    }
-
-    public String getDeppath() {
-        return deppath;
-    }
-
-    public void setDeppath(String deppath) {
-        this.deppath = deppath == null ? null : deppath.trim();
-    }
-
-    public Boolean getEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public Boolean getIsparent() {
-        return isparent;
-    }
-
-    public void setIsparent(Boolean isparent) {
-        this.isparent = isparent;
-    }
 }

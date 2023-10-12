@@ -3,55 +3,32 @@ package org.boluo.hr.pojo;
 import java.io.Serializable;
 import java.util.Date;
 
+
 /**
- * @author @1352955539(boluo)
- * @date 2021/2/22 - 21:02
+ * 聊天消息 实体
+ *
+ * @author boluo
  */
 public class ChatMsg implements Serializable {
+    /**
+     * 内容
+     */
     private String content;
+    /**
+     * 时间
+     */
     private Date date;
+    /**
+     * 发送方
+     */
     private String from;
+    /**
+     * 接收方
+     */
     private String to;
+    /**
+     * 别名
+     */
+    private String nickName;
 
-    private String NickName;
-
-    public String getNickName() {
-        return NickName;
-    }
-
-    public void setNickName(String nickName) {
-        NickName = nickName;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Date getData() {
-        return date;
-    }
-
-    public void setData(Date date) {
-        this.date = date;
-    }
-
-    public String getFrom() {
-        return from;
-    }
-
-    public void setFrom(String from) {
-        this.from = from;
-    }
-
-    public String getTo() {
-        return to;
-    }
-
-    public void setTo(String to) {
-        this.to = to;
-    }
 }

@@ -1,7 +1,7 @@
 package org.boluo.hr.mapper;
 
 import org.boluo.hr.pojo.MailSendLog;
-import org.boluo.hr.pojo.MailSendLogExample;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 

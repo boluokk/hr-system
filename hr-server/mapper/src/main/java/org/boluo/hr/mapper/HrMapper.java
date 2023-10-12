@@ -1,7 +1,6 @@
 package org.boluo.hr.mapper;
 
 import org.boluo.hr.pojo.Hr;
-import org.boluo.hr.pojo.HrExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

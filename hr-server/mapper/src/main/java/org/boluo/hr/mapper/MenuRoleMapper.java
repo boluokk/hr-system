@@ -1,7 +1,7 @@
 package org.boluo.hr.mapper;
 
 import org.boluo.hr.pojo.MenuRole;
-import org.boluo.hr.pojo.MenuRoleExample;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 

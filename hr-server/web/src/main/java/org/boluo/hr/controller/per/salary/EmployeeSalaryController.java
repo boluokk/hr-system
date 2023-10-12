@@ -4,7 +4,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.boluo.hr.pojo.Adjustsalary;
 import org.boluo.hr.pojo.RespBean;
-import org.boluo.hr.service.AdjustsalaryService;
+import org.boluo.hr.service.AdjustSalaryService;
+import org.boluo.hr.service.EmployeecService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,10 +18,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/per/salary")
 public class EmployeeSalaryController {
 
-    private final AdjustsalaryService adjustsalaryService;
+    private final AdjustSalaryService adjustsalaryService;
+    private final EmployeecService employeecService;
 
     @Autowired
-    public EmployeeSalaryController(AdjustsalaryService adjustsalaryService) {
+    public EmployeeSalaryController(AdjustSalaryService adjustsalaryService, EmployeecService employeecService) {
+        this.employeecService = employeecService;
         this.adjustsalaryService = adjustsalaryService;
     }
 
@@ -48,8 +51,14 @@ public class EmployeeSalaryController {
         return RespBean.error();
     }
 
-    @PutMapping("/add")
-    public RespBean add(Adjustsalary adjustsalary) {
+    @PutMapping("/add/{workId}")
+    public RespBean add(Adjustsalary adjustsalary,
+                        @PathVariable("workId") String workId) {
+        Integer employeeId = employeecService.selectByWorkId(workId);
+        if (employeeId == null) {
+            return RespBean.error("未找到当前员工");
+        }
+        adjustsalary.setEid(employeeId);
         if (adjustsalaryService.insert(adjustsalary)) {
             return RespBean.ok();
         }

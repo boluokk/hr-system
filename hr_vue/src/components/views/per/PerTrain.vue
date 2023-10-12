@@ -7,7 +7,7 @@
     <el-card shadow='always' :body-style="{ padding: '20px' }">
       <div slot='header'></div>
       <el-table :data='tableData' style='width: 100%'>
-        <el-table-column prop='employeeName' label='名称' width='90'>
+        <el-table-column prop='employeeName' label='员工名称' width='90'>
         </el-table-column>
         <el-table-column prop='traincontent' label='培训内容' width='180'>
         </el-table-column>
@@ -73,6 +73,7 @@
           </el-form-item>
           <el-form-item label='时间'>
             <el-date-picker type='date' placeholder='选择日期' v-model='editEmpTrainForm.traindate'
+                            value-format='yyyy-MM-dd HH:mm:ss'
                             style='width: 100%;'></el-date-picker>
           </el-form-item>
           <el-form-item label='具体'>
@@ -100,6 +101,7 @@
           </el-form-item>
           <el-form-item label='时间'>
             <el-date-picker type='date' placeholder='选择日期' v-model='addEmpTrainForm.traindate'
+                            value-format='yyyy-MM-dd HH:mm:ss'
                             style='width: 100%;'></el-date-picker>
           </el-form-item>
           <el-form-item label='具体'>
@@ -145,7 +147,7 @@ export default {
     },
     showEdit(item) {
       this.editDialogVisible = true
-      this.empTrainForm = item
+      this.editEmpTrainForm = item
     },
     del(id) {
       this.deleteRequest('/per/train/delete/' + id).then(res => {
@@ -155,7 +157,7 @@ export default {
     },
     add() {
       this.putRequest('/per/train/add/' + this.addEmpTrainForm.workId,
-                      this.addEmpTrainForm).then(res => {
+        this.addEmpTrainForm).then(res => {
         this.$message.success(res.data.msg)
         if (res.data.status === 200) {
           this.addDialogVisible = false
@@ -164,7 +166,7 @@ export default {
       })
     },
     update() {
-      this.putRequest('/per/train/modify', this.empTrainForm).then(res => {
+      this.putRequest('/per/train/modify', this.editEmpTrainForm).then(res => {
         this.$message.success(res.data.msg)
         this.editDialogVisible = false
       }).catch(error => {

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
+ * 考评 业务层
+ *
  * @author 🍍
  * @date 2023/10/1
  */
@@ -21,6 +23,10 @@ public class AppraiseService {
         this.appraiseMapper = appraiseMapper;
     }
 
+    /**
+     * 返回所有考评
+     * @return 考评集合
+     */
     public List<Appraise> selectAll() {
         return appraiseMapper.selectAll();
     }

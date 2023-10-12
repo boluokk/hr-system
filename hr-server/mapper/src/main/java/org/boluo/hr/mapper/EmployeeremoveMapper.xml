@@ -9,13 +9,16 @@
     <result column="removeDate" property="removedate" jdbcType="DATE" />
     <result column="reason" property="reason" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
-    <result column="oldJoblevelName" property="oldJoblevelName" jdbcType="VARCHAR"/>
-    <result column="oldDepartName" property="oldDepartName" jdbcType="VARCHAR"/>
+    <result column="employeeName" property="employeeName" jdbcType="VARCHAR" />
   </resultMap>
   <select id="selectAll" resultMap="BaseResultMap">
-    select dep.name as oldDepartName,job.name as oldJoblevelName,empm.*
-    from department dep,joblevel job,employeeremove empm, employee emp
-    where (dep.id =empm.afterDepId and job.id = empm.afterJobId and emp.id = empm.id) or (emp.jobLevelId = job.id and emp.departmentId = dep.id and emp.id = empm.eid)
+    select emove.*, emp.name as employeeName, oldDep.`name` as oldDepartName, oldJob.`name` as oldJoblevelName, newDep.`name` as newDepartName, newJob.`name` as newJoblevelName
+    from employeeremove emove
+    join employee emp on emp.id = emove.eid
+    join department oldDep on oldDep.id = emove.beforeDepId
+    join joblevel oldJob on oldJob.id = emove.beforeJobId
+    join department newDep on newDep.id = emove.afterDepId
+    join joblevel newJob on newJob.id = emove.afterJobId
   </select>
   <sql id="Example_Where_Clause" >
     <where >

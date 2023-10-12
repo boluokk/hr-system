@@ -1,7 +1,7 @@
 package org.boluo.hr.mapper;
 
 import org.boluo.hr.pojo.Msgcontent;
-import org.boluo.hr.pojo.MsgcontentExample;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
