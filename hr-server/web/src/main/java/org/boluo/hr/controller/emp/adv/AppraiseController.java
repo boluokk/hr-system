@@ -29,7 +29,7 @@ public class AppraiseController {
     }
 
     /**
-     * 分页考评
+     * 考评分页
      */
     @GetMapping("/{pageNum}/{pageSize}")
     public RespBean findByPage(@PathVariable("pageNum") Integer pageNum,

@@ -72,7 +72,7 @@ public interface EmployeeMapper {
      *
      * @return 最大员工id
      */
-    Integer selectMaxWorkId();
+    Integer selectMaxByWorkId();
 
     /**
      * 批量查询员工
@@ -122,4 +122,11 @@ public interface EmployeeMapper {
      */
     Employee selectEnhanceEmployeeByEmployeeId(@Param("id") Integer id);
 
+    /**
+     * 通过员工工号 查询最小员工id
+     *
+     * @param workId 员工号
+     * @return 最小员工id
+     */
+    int selectMinByWorkId(@Param("workId") String workId);
 }

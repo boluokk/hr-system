@@ -5,32 +5,65 @@ import org.boluo.hr.pojo.Menu;
 
 import java.util.List;
 
+
+/**
+ * 菜单 数据层
+ *
+ * @author boluo
+ */
 public interface MenuMapper {
-    int countByExample(MenuExample example);
 
-    int deleteByExample(MenuExample example);
-
+    /**
+     * 删除菜单
+     *
+     * @param id 菜单id
+     * @return 结果
+     */
     int deleteByPrimaryKey(Integer id);
 
-    int insert(Menu record);
+    /**
+     * 新增菜单
+     *
+     * @param menu 菜单信息
+     * @return 结果
+     */
+    int insertMenu(Menu menu);
 
-    int insertSelective(Menu record);
-
-    List<Menu> selectByExample(MenuExample example);
-
+    /**
+     * 通过主键 查询菜单
+     *
+     * @param id 菜单id
+     * @return 菜单信息
+     */
     Menu selectByPrimaryKey(Integer id);
 
-    int updateByExampleSelective(@Param("record") Menu record, @Param("example") MenuExample example);
+    /**
+     * 修改菜单
+     *
+     * @param menu 菜单信息
+     * @return 结果
+     */
+    int updateByPrimaryKey(Menu menu);
 
-    int updateByExample(@Param("record") Menu record, @Param("example") MenuExample example);
+    /**
+     * 查询所有带角色的菜单
+     *
+     * @return 带角色菜单集合
+     */
+    List<Menu> selectAllMenusWithRole();
 
-    int updateByPrimaryKeySelective(Menu record);
+    /**
+     * 通过人事id 查询所拥有的菜单
+     *
+     * @param id 人事id
+     * @return 菜单集合
+     */
+    List<Menu> selectMenusByHrId(@Param("id") Integer id);
 
-    int updateByPrimaryKey(Menu record);
-
-    List<Menu> getAllMenusWithRole();
-
-    List<Menu> getMenusByHrId(@Param("id") Integer hrid);
-
+    /**
+     * 查询所有菜单
+     *
+     * @return 菜单集合
+     */
     List<Menu> selectAllMenus();
 }

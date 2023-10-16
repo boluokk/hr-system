@@ -5,7 +5,7 @@ import com.github.pagehelper.PageInfo;
 import org.boluo.hr.pojo.Adjustsalary;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.service.AdjustSalaryService;
-import org.boluo.hr.service.EmployeecService;
+import org.boluo.hr.service.EmployeeRewardPunishmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.*;
 public class EmployeeSalaryController {
 
     private final AdjustSalaryService adjustsalaryService;
-    private final EmployeecService employeecService;
+    private final EmployeeRewardPunishmentService employeecService;
 
     @Autowired
-    public EmployeeSalaryController(AdjustSalaryService adjustsalaryService, EmployeecService employeecService) {
+    public EmployeeSalaryController(AdjustSalaryService adjustsalaryService, EmployeeRewardPunishmentService employeecService) {
         this.employeecService = employeecService;
         this.adjustsalaryService = adjustsalaryService;
     }

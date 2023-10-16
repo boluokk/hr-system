@@ -1,6 +1,8 @@
 package org.boluo.hr.pojo;
 
 /**
+ * 响应 实体
+ *
  * @author @1352955539(boluo)
  * @date 2021/1/31 - 19:38
  */
@@ -29,13 +31,6 @@ public class RespBean {
             return new RespBean(500, msg[0], null);
         }
         return new RespBean(500, "操作失败", null);
-    }
-
-    //    清除内容
-    public void clear() {
-        this.setMsg(null);
-        this.setObj(null);
-        this.setStatus(null);
     }
 
     public RespBean() {

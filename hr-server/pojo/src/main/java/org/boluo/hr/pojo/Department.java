@@ -19,7 +19,7 @@ import java.util.List;
 @Accessors(chain = true)
 public class Department implements Serializable {
     /**
-     * 部门id
+     * 主键
      */
     private Integer id;
     /**

@@ -16,7 +16,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class Appraise {
     /**
-     * 考评id
+     * 主键
      */
     private Integer id;
     /**

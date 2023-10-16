@@ -1,40 +1,41 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.boluo.hr.mapper.MenuMapper" >
+  <sql id="column">id, url, path, component, name, icon_class, keep_alive, require_auth, parent_id, enabled</sql>
   <resultMap id="BaseResultMap" type="org.boluo.hr.pojo.Menu" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="url" property="url" jdbcType="VARCHAR" />
     <result column="path" property="path" jdbcType="VARCHAR" />
     <result column="component" property="component" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="iconCls" property="iconcls" jdbcType="VARCHAR" />
-    <result column="keepAlive" property="keepalive" jdbcType="BIT" />
-    <result column="requireAuth" property="requireauth" jdbcType="BIT" />
-    <result column="parentId" property="parentid" jdbcType="INTEGER" />
+    <result column="icon_class" property="iconClass" jdbcType="VARCHAR" />
+    <result column="keep_alive" property="keepAlive" jdbcType="BIT" />
+    <result column="require_auth" property="requireAuth" jdbcType="BIT" />
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
     <result column="enabled" property="enabled" jdbcType="BIT" />
   </resultMap>
   <resultMap id="MenuWithRole" type="org.boluo.hr.pojo.Menu" extends="BaseResultMap">
     <collection property="roles" ofType="org.boluo.hr.pojo.Role">
       <id column="rid" property="id"/>
-      <result column="rname" property="name"/>
-      <result column="rnameZh" property="namezh"/>
+      <result column="role_name" property="name"/>
+      <result column="role_name_zh" property="nameZh"/>
     </collection>
   </resultMap>
-  <resultMap id="Menu2" type="org.boluo.hr.pojo.Menu" extends="BaseResultMap">
+  <resultMap id="HasChildren" type="org.boluo.hr.pojo.Menu" extends="BaseResultMap">
     <collection property="children" ofType="org.boluo.hr.pojo.Menu">
-      <id column="id2" property="id" jdbcType="INTEGER" />
-      <result column="url2" property="url" jdbcType="VARCHAR" />
-      <result column="path2" property="path" jdbcType="VARCHAR" />
-      <result column="component2" property="component" jdbcType="VARCHAR" />
-      <result column="name2" property="name" jdbcType="VARCHAR" />
-      <result column="iconCls2" property="iconcls" jdbcType="VARCHAR" />
-      <result column="keepAlive2" property="keepalive" jdbcType="BIT" />
-      <result column="requireAuth2" property="requireauth" jdbcType="BIT" />
-      <result column="parentId2" property="parentid" jdbcType="INTEGER" />
-      <result column="enabled2" property="enabled" jdbcType="BIT" />
+      <id column="children_id" property="id" jdbcType="INTEGER" />
+      <result column="children_url" property="url" jdbcType="VARCHAR" />
+      <result column="children_path" property="path" jdbcType="VARCHAR" />
+      <result column="children_component" property="component" jdbcType="VARCHAR" />
+      <result column="children_name" property="name" jdbcType="VARCHAR" />
+      <result column="children_icon_class" property="iconClass" jdbcType="VARCHAR" />
+      <result column="children_keep_alive" property="keepAlive" jdbcType="BIT" />
+      <result column="children_require_auth" property="requireAuth" jdbcType="BIT" />
+      <result column="children_parent_id" property="parentId" jdbcType="INTEGER" />
+      <result column="children_enabled" property="enabled" jdbcType="BIT" />
     </collection>
   </resultMap>
-  <resultMap id="Menu3" type="org.boluo.hr.pojo.Menu" extends="BaseResultMap">
+  <resultMap id="OnlyHasChildrenIdAndName" type="org.boluo.hr.pojo.Menu" extends="BaseResultMap">
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR"/>
     <collection property="children" ofType="org.boluo.hr.pojo.Menu">
@@ -46,99 +47,33 @@
       </collection>
     </collection>
   </resultMap>
-  <select id="selectAllMenus" resultMap="Menu3">
+  <select id="selectAllMenus" resultMap="OnlyHasChildrenIdAndName">
     select m1.id,m1.name,m2.id as id2,m2.name as name2,m3.id as id3,m3.name as name3
     from menu m1
-    inner join menu m2 on m1.id = m2.parentId
-    inner join menu m3 on m2.id = m3.parentId;
+    inner join menu m2 on m1.id = m2.parent_id
+    inner join menu m3 on m2.id = m3.parent_id;
   </select>
-  <select id="getMenusByHrId" resultMap="Menu2" parameterType="java.lang.Integer">
-    select distinct m1.*,m2.id as id2,m2.path as path2,m2.component as component2,m2.name as name2,m2.iconCls as iconCls2,m2.parentId as parentId2,m2.keepAlive as keepAlive2,m2.requireAuth as requireAuth2,m2.enabled as enabled2
+  <select id="selectMenusByHrId" resultMap="HasChildren" parameterType="java.lang.Integer">
+    select distinct m1.*,
+                    m2.id as children_id,
+                    m2.url as children_url,
+                    m2.path as children_path,
+                    m2.component as children_component,
+                    m2.name as children_name,
+                    m2.icon_class as children_icon_class,
+                    m2.parent_id as children_parent_id,
+                    m2.keep_alive as children_keep_alive,
+                    m2.require_auth as children_require_auth,
+                    m2.enabled as children_enabled
     from menu m1,menu m2,hr_role hrs,menu_role mr
-    where m1.id = m2.parentId and hrs.hrid=#{id} and hrs.rid=mr.rid and m2.id=mr.mid and m2.enabled=true and m1.id != 1
+    where m1.id = m2.parent_id and hrs.hr_id=#{id} and hrs.role_id=mr.role_id and m2.id=mr.menu_id and m2.enabled=true and m1.id != 1
     order by m1.id,m2.id
   </select>
-  <select id="getAllMenusWithRole" resultMap="MenuWithRole">
-    select m.*,r.`id` as rid,r.`name` as rname,r.`nameZh` as rnameZh from menu m,menu_role mr,role r where m.`id`=mr.`mid` and mr.`rid`=r.`id` order by m.`id`
-  </select>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List" >
-    id, url, path, component, name, iconCls, keepAlive, requireAuth, parentId, enabled
-  </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.boluo.hr.pojo.MenuExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from menu
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
+  <select id="selectAllMenusWithRole" resultMap="MenuWithRole">
+    select m.*,r.`id` as rid,r.`name` as role_name,r.`name_zh` as role_name_zh from menu m,menu_role mr,role r where m.`id`=mr.`menu_id` and mr.`role_id`=r.`id` order by m.`id`
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
+    select <include refid="column" />
     from menu
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -146,23 +81,7 @@
     delete from menu
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="org.boluo.hr.pojo.MenuExample" >
-    delete from menu
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="org.boluo.hr.pojo.Menu" >
-    insert into menu (id, url, path, 
-      component, name, iconCls, 
-      keepAlive, requireAuth, parentId, 
-      enabled)
-    values (#{id,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, 
-      #{component,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{iconcls,jdbcType=VARCHAR}, 
-      #{keepalive,jdbcType=BIT}, #{requireauth,jdbcType=BIT}, #{parentid,jdbcType=INTEGER}, 
-      #{enabled,jdbcType=BIT})
-  </insert>
-  <insert id="insertSelective" parameterType="org.boluo.hr.pojo.Menu" >
+  <insert id="insertMenu" parameterType="org.boluo.hr.pojo.Menu" >
     insert into menu
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -172,25 +91,25 @@
         url,
       </if>
       <if test="path != null" >
-        path,
+        `path`,
       </if>
       <if test="component != null" >
         component,
       </if>
       <if test="name != null" >
-        name,
+        `name`,
       </if>
-      <if test="iconcls != null" >
-        iconCls,
+      <if test="iconClass != null" >
+        icon_class,
       </if>
-      <if test="keepalive != null" >
-        keepAlive,
+      <if test="keepAlive != null" >
+        keep_alive,
       </if>
-      <if test="requireauth != null" >
-        requireAuth,
+      <if test="requireAuth != null" >
+        require_auth,
       </if>
-      <if test="parentid != null" >
-        parentId,
+      <if test="parentId != null" >
+        parent_id,
       </if>
       <if test="enabled != null" >
         enabled,
@@ -212,84 +131,24 @@
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="iconcls != null" >
-        #{iconcls,jdbcType=VARCHAR},
+      <if test="iconClass != null" >
+        #{iconClass,jdbcType=VARCHAR},
       </if>
-      <if test="keepalive != null" >
-        #{keepalive,jdbcType=BIT},
+      <if test="keepAlive != null" >
+        #{keepAlive,jdbcType=BIT},
       </if>
-      <if test="requireauth != null" >
-        #{requireauth,jdbcType=BIT},
+      <if test="requireAuth != null" >
+        #{requireAuth,jdbcType=BIT},
       </if>
-      <if test="parentid != null" >
-        #{parentid,jdbcType=INTEGER},
+      <if test="parentId != null" >
+        #{parentId,jdbcType=INTEGER},
       </if>
       <if test="enabled != null" >
         #{enabled,jdbcType=BIT},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="org.boluo.hr.pojo.MenuExample" resultType="java.lang.Integer" >
-    select count(*) from menu
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map" >
-    update menu
-    <set >
-      <if test="record.id != null" >
-        id = #{record.id,jdbcType=INTEGER},
-      </if>
-      <if test="record.url != null" >
-        url = #{record.url,jdbcType=VARCHAR},
-      </if>
-      <if test="record.path != null" >
-        path = #{record.path,jdbcType=VARCHAR},
-      </if>
-      <if test="record.component != null" >
-        component = #{record.component,jdbcType=VARCHAR},
-      </if>
-      <if test="record.name != null" >
-        name = #{record.name,jdbcType=VARCHAR},
-      </if>
-      <if test="record.iconcls != null" >
-        iconCls = #{record.iconcls,jdbcType=VARCHAR},
-      </if>
-      <if test="record.keepalive != null" >
-        keepAlive = #{record.keepalive,jdbcType=BIT},
-      </if>
-      <if test="record.requireauth != null" >
-        requireAuth = #{record.requireauth,jdbcType=BIT},
-      </if>
-      <if test="record.parentid != null" >
-        parentId = #{record.parentid,jdbcType=INTEGER},
-      </if>
-      <if test="record.enabled != null" >
-        enabled = #{record.enabled,jdbcType=BIT},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map" >
-    update menu
-    set id = #{record.id,jdbcType=INTEGER},
-      url = #{record.url,jdbcType=VARCHAR},
-      path = #{record.path,jdbcType=VARCHAR},
-      component = #{record.component,jdbcType=VARCHAR},
-      name = #{record.name,jdbcType=VARCHAR},
-      iconCls = #{record.iconcls,jdbcType=VARCHAR},
-      keepAlive = #{record.keepalive,jdbcType=BIT},
-      requireAuth = #{record.requireauth,jdbcType=BIT},
-      parentId = #{record.parentid,jdbcType=INTEGER},
-      enabled = #{record.enabled,jdbcType=BIT}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="org.boluo.hr.pojo.Menu" >
+  <update id="updateByPrimaryKey" parameterType="org.boluo.hr.pojo.Menu" >
     update menu
     <set >
       <if test="url != null" >
@@ -302,37 +161,24 @@
         component = #{component,jdbcType=VARCHAR},
       </if>
       <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
+        `name` = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="iconcls != null" >
-        iconCls = #{iconcls,jdbcType=VARCHAR},
+      <if test="iconClass != null" >
+        icon_class = #{iconcls,jdbcType=VARCHAR},
       </if>
-      <if test="keepalive != null" >
-        keepAlive = #{keepalive,jdbcType=BIT},
+      <if test="keepAlive != null" >
+        keep_alive = #{keepAlive,jdbcType=BIT},
       </if>
-      <if test="requireauth != null" >
-        requireAuth = #{requireauth,jdbcType=BIT},
+      <if test="requireAuth != null" >
+        require_auth = #{requireAuth,jdbcType=BIT},
       </if>
-      <if test="parentid != null" >
-        parentId = #{parentid,jdbcType=INTEGER},
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=INTEGER},
       </if>
       <if test="enabled != null" >
         enabled = #{enabled,jdbcType=BIT},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="org.boluo.hr.pojo.Menu" >
-    update menu
-    set url = #{url,jdbcType=VARCHAR},
-      path = #{path,jdbcType=VARCHAR},
-      component = #{component,jdbcType=VARCHAR},
-      name = #{name,jdbcType=VARCHAR},
-      iconCls = #{iconcls,jdbcType=VARCHAR},
-      keepAlive = #{keepalive,jdbcType=BIT},
-      requireAuth = #{requireauth,jdbcType=BIT},
-      parentId = #{parentid,jdbcType=INTEGER},
-      enabled = #{enabled,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

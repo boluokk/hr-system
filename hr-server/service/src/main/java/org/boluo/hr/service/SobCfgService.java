@@ -22,17 +22,17 @@ public class SobCfgService {
     }
 
     public List<Employee> selectEmpWithSalary() {
-        return salaryMapper.selectEmpAndSalary();
+        return salaryMapper.selectEmployeeAndSalary();
     }
 
     public int countEmpWithSal() {
-        return salaryMapper.countSalaryWithEmp();
+        return salaryMapper.countSalaryWithEmployee();
     }
 
     /**
      * 存储过程
      */
-    public void insertSalAndEmp(Integer eid, Integer salid) {
-        salaryMapper.insertEmpWithSal(eid, salid);
+    public void insertSalAndEmp(Integer eId, Integer salId) {
+        salaryMapper.insertEmployeeWithSalary(eId, salId);
     }
 }

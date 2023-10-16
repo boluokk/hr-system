@@ -2,7 +2,7 @@ package org.boluo.hr.service;
 
 import org.boluo.hr.mapper.EmployeeMapper;
 import org.boluo.hr.pojo.Employee;
-import org.boluo.hr.pojo.MailConstans;
+import org.boluo.hr.pojo.MailConstants;
 import org.boluo.hr.pojo.Nation;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,18 +67,26 @@ public class EmployeeService {
         int i = employeeMapper.insertEmployee(employee);
         if (i == 1) {
             Employee emp = employeeMapper.selectEnhanceEmployeeByEmployeeId(employee.getId());
-            rabbitTemplate.convertAndSend(MailConstans.MAIL_QUEUE_NAME, emp);
+            rabbitTemplate.convertAndSend(MailConstants.MAIL_QUEUE_NAME, emp);
         }
         return i == 1;
     }
 
     /**
-     * 返回员工最大id
+     * 返回员工最大id + 1
      *
-     * @return 员工最大id
+     * @return 员工最大id + 1
      */
-    public int selectMaxWorkId() {
-        return employeeMapper.selectMaxWorkId() + 1;
+    public int selectMaxByWorkId() {
+        return employeeMapper.selectMaxByWorkId() + 1;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public int selectMinByWorkId(String workId) {
+        return employeeMapper.selectMinByWorkId(workId);
     }
 
     /**
@@ -150,4 +158,6 @@ public class EmployeeService {
     public int selectByEmployeeCount(Employee employee) {
         return employeeMapper.selectByEmployeeCount(employee);
     }
+
+
 }

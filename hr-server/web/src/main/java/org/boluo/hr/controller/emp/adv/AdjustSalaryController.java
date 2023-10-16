@@ -28,7 +28,7 @@ public class AdjustSalaryController {
     }
 
     /**
-     * 分页调薪
+     * 调薪分页
      */
     @GetMapping("/{pageNum}/{pageSize}")
     public RespBean findByPage(@PathVariable("pageNum") Integer pageNum,

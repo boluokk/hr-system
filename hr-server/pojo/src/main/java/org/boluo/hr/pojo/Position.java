@@ -1,71 +1,36 @@
 package org.boluo.hr.pojo;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Objects;
 
+/**
+ * 职位 实体
+ *
+ * @author boluo
+ */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Position implements Serializable {
+    /**
+     * 主键
+     */
     private Integer id;
-
+    /**
+     * 名称
+     */
     private String name;
-
-    private Date createdate;
-
+    /**
+     * 创建时间
+     */
+    private Date createDate;
+    /**
+     * 是否开启
+     */
     private Boolean enabled;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
-    }
-
-    public Date getCreatedate() {
-        return createdate;
-    }
-
-    public void setCreatedate(Date createdate) {
-        this.createdate = createdate;
-    }
-
-    public Boolean getEnabled() {
-        return enabled;
-    }
-
-
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    @Override
-    public String toString() {
-        return "Position{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", createdate=" + createdate +
-                ", enabled=" + enabled +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Position)) return false;
-        Position position = (Position) o;
-        return name.equals(position.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name);
-    }
 }

@@ -3,20 +3,34 @@ package org.boluo.hr.mapper;
 import org.boluo.hr.pojo.MailSendLog;
 
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
+
+/**
+ * 邮件日志 数据层
+ *
+ * @author boluo
+ */
 public interface MailSendLogMapper {
-    int countByExample(MailSendLogExample example);
+    /**
+     * 新增邮件日志
+     *
+     * @param mailSendLog 邮件日志信息
+     * @return 结果
+     */
+    int insertMailSendLog(MailSendLog mailSendLog);
 
-    int deleteByExample(MailSendLogExample example);
+    /**
+     * 修改邮件日志
+     *
+     * @param mailSendLog 邮件日志信息
+     * @return 结果
+     */
+    int updateByPrimaryKey(MailSendLog mailSendLog);
 
-    int insert(MailSendLog record);
-
-    int insertSelective(MailSendLog record);
-
-    List<MailSendLog> selectByExample(MailSendLogExample example);
-
-    int updateByExampleSelective(@Param("record") MailSendLog record, @Param("example") MailSendLogExample example);
-
-    int updateByExample(@Param("record") MailSendLog record, @Param("example") MailSendLogExample example);
+    /**
+     * 查询所有邮件日志
+     *
+     * @return 邮件日志集合
+     */
+    List<MailSendLog> selectAll();
 }

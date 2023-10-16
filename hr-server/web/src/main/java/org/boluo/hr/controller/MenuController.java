@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 /**
+ * 菜单信息
+ *
  * @author 🍍
  * @date 2023/10/1
  */
@@ -26,6 +28,11 @@ public class MenuController {
         this.menuService = menuService;
     }
 
+    /**
+     * 获取菜单信息(当前已经登录用户的)
+     *
+     * @return 菜单集合
+     */
     @GetMapping("/menu")
     public List<Menu> getRoleWithMenus() {
         return menuService.selectMenusByHrId();

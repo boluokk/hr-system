@@ -2,15 +2,12 @@ package org.boluo.hr.controller.per.train;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.boluo.hr.mapper.EmployeeecMapper;
-import org.boluo.hr.pojo.Employeetrain;
+import org.boluo.hr.pojo.EmployeeTrain;
 import org.boluo.hr.pojo.RespBean;
-import org.boluo.hr.service.EmployeecService;
-import org.boluo.hr.service.EmployeetrainService;
+import org.boluo.hr.service.EmployeeRewardPunishmentService;
+import org.boluo.hr.service.EmployeeTrainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
 
 /**
  * @author 🍍
@@ -20,25 +17,26 @@ import java.util.HashMap;
 @RestController
 public class EmployeeTrainController {
 
-    private final EmployeecService employeecService;
-    private final EmployeetrainService employeetrainService;
+    private final EmployeeRewardPunishmentService employeecService;
+    private final EmployeeTrainService employeeTrainService;
 
     @Autowired
-    public EmployeeTrainController(EmployeecService employeecService, EmployeetrainService employeetrainService) {
+    public EmployeeTrainController(EmployeeRewardPunishmentService employeecService,
+                                   EmployeeTrainService employeeTrainService) {
         this.employeecService = employeecService;
-        this.employeetrainService = employeetrainService;
+        this.employeeTrainService = employeeTrainService;
     }
 
     @GetMapping("/{pageNum}/{pageSize}")
     public RespBean findByPage(@PathVariable("pageNum") Integer pageNum,
                                @PathVariable("pageSize") Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        return RespBean.ok(new PageInfo<>(employeetrainService.selectAllWithEmpName()));
+        return RespBean.ok(new PageInfo<>(employeeTrainService.selectAllWithEmployeeName()));
     }
 
     @PutMapping("/modify")
-    public RespBean modify(Employeetrain employeetrain) {
-        if (employeetrainService.updateOne(employeetrain)) {
+    public RespBean modify(EmployeeTrain employeeTrain) {
+        if (employeeTrainService.update(employeeTrain)) {
             return RespBean.ok();
         }
         return RespBean.error();
@@ -46,20 +44,20 @@ public class EmployeeTrainController {
 
     @DeleteMapping("/delete/{id}")
     public RespBean removeOne(@PathVariable("id") Integer id) {
-        if (employeetrainService.deleteEmpTrain(id)) {
+        if (employeeTrainService.delete(id)) {
             return RespBean.ok();
         }
         return RespBean.error();
     }
 
     @PutMapping("/add/{workId}")
-    public RespBean addOne(@PathVariable("workId") String workId, Employeetrain employeetrain) {
+    public RespBean addOne(@PathVariable("workId") String workId, EmployeeTrain employeeTrain) {
         Integer employeeId = employeecService.selectByWorkId(workId);
         if (employeeId == null) {
             return RespBean.error("员工号不存在");
         }
-        employeetrain.setEid(employeeId);
-        if (employeetrainService.insertOne(employeetrain)) {
+        employeeTrain.setEmployeeId(employeeId);
+        if (employeeTrainService.insert(employeeTrain)) {
             return RespBean.ok();
         }
         return RespBean.error();

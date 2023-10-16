@@ -178,7 +178,7 @@ export default {
     async subChRoleNameZh() {
       await this.$refs.RoleruleForm.validate(vali => {
         if (!vali) return this.$message('请填写必要项！')
-        this.putRequest('/system/basic/rights/modifyRoleName', {
+        this.putRequest('/system/basic/rights/modify', {
           namezh: this.RoleruleForm.namezh,
           id: this.RoleruleForm.id
         }).then(res => {

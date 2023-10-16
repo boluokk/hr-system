@@ -25,6 +25,7 @@ public class AdjustSalaryService {
 
     /**
      * 返回所有调薪
+     *
      * @return 调薪集合
      */
     public List<AdjustSalary> selectAll() {
@@ -33,6 +34,7 @@ public class AdjustSalaryService {
 
     /**
      * 更新调薪
+     *
      * @param adjustsalary 调薪信息
      * @return 结果
      */
@@ -42,7 +44,8 @@ public class AdjustSalaryService {
 
     /**
      * 删除调薪
-      * @param id 调薪id
+     *
+     * @param id 调薪id
      * @return 结果
      */
     public boolean delete(Integer id) {
@@ -51,6 +54,7 @@ public class AdjustSalaryService {
 
     /**
      * 新增调薪
+     *
      * @param adjustsalary 调薪信息
      * @return 结果
      */

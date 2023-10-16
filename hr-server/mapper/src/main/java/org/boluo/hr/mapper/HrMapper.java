@@ -1,40 +1,81 @@
 package org.boluo.hr.mapper;
 
-import org.boluo.hr.pojo.Hr;
 import org.apache.ibatis.annotations.Param;
+import org.boluo.hr.pojo.Hr;
 
 import java.util.List;
 
 public interface HrMapper {
-    int countByExample(HrExample example);
 
-    int deleteByExample(HrExample example);
-
+    /**
+     * 删除人事
+     *
+     * @param id 人事id
+     * @return 结果
+     */
     int deleteByPrimaryKey(Integer id);
 
-    int insert(Hr record);
+    /**
+     * 新增人事
+     *
+     * @param hr 人事信息
+     * @return 结果
+     */
+    int insertHr(Hr hr);
 
-    int insertSelective(Hr record);
 
-    List<Hr> selectByExample(HrExample example);
-
+    /**
+     * 通过人事id 查询人事
+     *
+     * @param id 人事id
+     * @return 人事信息
+     */
     Hr selectByPrimaryKey(Integer id);
 
-    int updateByExampleSelective(@Param("record") Hr record, @Param("example") HrExample example);
+    /**
+     * 修改人事
+     *
+     * @param hr 人事信息
+     * @return 结果
+     */
+    int updateByPrimaryKey(Hr hr);
 
-    int updateByExample(@Param("record") Hr record, @Param("example") HrExample example);
-
-    int updateByPrimaryKeySelective(Hr record);
-
-    int updateByPrimaryKey(Hr record);
-
+    /**
+     * 通过人事账号 查询人事
+     *
+     * @param username 账号
+     * @return 人事
+     */
     Hr loadByUserName(String username);
 
-    List<Hr> getRoleWithHrId(Integer id);
+    /**
+     * 通过人事id 查询带角色的人事
+     *
+     * @param id 人事id
+     * @return 带角色人事集合
+     */
+    List<Hr> selectRoleWithHrById(Integer id);
 
+    /**
+     * 查询除当前人事的其他人事
+     *
+     * @param id 当前人事id
+     * @return 人事集合
+     */
     List<Hr> selectAllExceptCurrentHr(@Param("id") Integer id);
 
+    /**
+     * 查询所有人事
+     *
+     * @return 人事集合
+     */
     List<Hr> selectAll();
 
+    /**
+     * 通过人事名字查询
+     *
+     * @param hrName 人事名称
+     * @return 人事集合
+     */
     List<Hr> selectHrByName(@Param("hrName") String hrName);
 }

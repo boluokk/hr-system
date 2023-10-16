@@ -25,6 +25,7 @@ public class AppraiseService {
 
     /**
      * 返回所有考评
+     *
      * @return 考评集合
      */
     public List<Appraise> selectAll() {

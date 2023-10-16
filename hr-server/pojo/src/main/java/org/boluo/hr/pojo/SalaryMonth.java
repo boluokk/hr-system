@@ -1,55 +1,43 @@
 package org.boluo.hr.pojo;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.Date;
 
 /**
+ * 工资月末 实体
+ *
  * @author @1352955539(boluo)
  * @date 2021/3/25 - 22:19
  */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class SalaryMonth {
+    /**
+     * 主键
+     */
     private int id;
-    private String salaryName;
-    private Date salaryTime;
+    /**
+     * 账套名称
+     */
+    private String salaryId;
+    /**
+     * 员工id
+     */
+    private Integer employeeId;
+    /**
+     * 时间
+     */
+    private Date time;
+    /**
+     * 所有工资
+     */
     private int allSalary;
+    /**
+     * 备注
+     */
     private String remark;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getSalaryName() {
-        return salaryName;
-    }
-
-    public void setSalaryName(String salaryName) {
-        this.salaryName = salaryName;
-    }
-
-    public Date getSalaryTime() {
-        return salaryTime;
-    }
-
-    public void setSalaryTime(Date salaryTime) {
-        this.salaryTime = salaryTime;
-    }
-
-    public int getAllSalary() {
-        return allSalary;
-    }
-
-    public void setAllSalary(int allSalary) {
-        this.allSalary = allSalary;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
 }

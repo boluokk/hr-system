@@ -1,5 +1,5 @@
 package org.boluo.mailserver;
-import org.boluo.hr.pojo.MailConstans;
+import org.boluo.hr.pojo.MailConstants;
 import org.springframework.amqp.core.Queue;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,6 +14,6 @@ public class MailServerApplication {
 
     @Bean
     Queue queue() {
-        return new Queue(MailConstans.MAIL_QUEUE_NAME);
+        return new Queue(MailConstants.MAIL_QUEUE_NAME);
     }
 }

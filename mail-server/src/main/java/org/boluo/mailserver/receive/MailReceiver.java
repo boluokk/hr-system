@@ -1,7 +1,7 @@
 package org.boluo.mailserver.receive;
 
 import org.boluo.hr.pojo.Employee;
-import org.boluo.hr.pojo.MailConstans;
+import org.boluo.hr.pojo.MailConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -34,7 +34,7 @@ public class MailReceiver {
     @Autowired
     TemplateEngine templateEngine;
 
-    @RabbitListener(queues = MailConstans.MAIL_QUEUE_NAME)
+    @RabbitListener(queues = MailConstants.MAIL_QUEUE_NAME)
     public void handler(Message message) {
         Employee employee = (Employee) message.getPayload();
 //        消息转发

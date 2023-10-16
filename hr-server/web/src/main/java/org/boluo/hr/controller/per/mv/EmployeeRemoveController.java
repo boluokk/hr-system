@@ -2,13 +2,11 @@ package org.boluo.hr.controller.per.mv;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.boluo.hr.mapper.EmployeeecMapper;
 import org.boluo.hr.pojo.Employeeremove;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.service.DepartmentService;
-import org.boluo.hr.service.EmployeeService;
-import org.boluo.hr.service.EmployeecService;
-import org.boluo.hr.service.EmployeeremoveService;
+import org.boluo.hr.service.EmployeeRewardPunishmentService;
+import org.boluo.hr.service.EmployeeRemoveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,13 +20,13 @@ import org.springframework.web.bind.annotation.*;
 public class EmployeeRemoveController {
 
     private final DepartmentService departmentService;
-    private final EmployeeremoveService employeeremoveService;
-    private final EmployeecService employeecService;
+    private final EmployeeRemoveService employeeremoveService;
+    private final EmployeeRewardPunishmentService employeecService;
 
     @Autowired
     public EmployeeRemoveController(DepartmentService departmentService,
-                                    EmployeeremoveService employeeremoveService,
-                                    EmployeecService employeecService) {
+                                    EmployeeRemoveService employeeremoveService,
+                                    EmployeeRewardPunishmentService employeecService) {
         this.departmentService = departmentService;
         this.employeeremoveService = employeeremoveService;
         this.employeecService = employeecService;

@@ -1,30 +1,45 @@
 package org.boluo.hr.mapper;
 
-import org.boluo.hr.pojo.Oplog;
 
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
+import org.boluo.hr.pojo.OperatorLog;
 
+/**
+ * 操作日志 数据层
+ *
+ * @author boluo
+ */
 public interface OplogMapper {
-    int countByExample(OplogExample example);
 
-    int deleteByExample(OplogExample example);
-
+    /**
+     * 删除操作日志
+     *
+     * @param id 操作日志id
+     * @return 结果
+     */
     int deleteByPrimaryKey(Integer id);
 
-    int insert(Oplog record);
+    /**
+     * 新增操作日志
+     *
+     * @param operatorLog 操作日志信息
+     * @return 结果
+     */
+    int insertOperatorLog(OperatorLog operatorLog);
 
-    int insertSelective(Oplog record);
+    /**
+     * 查询操作日志
+     *
+     * @param id 操作日志id
+     * @return 操作日志信息
+     */
+    OperatorLog selectByPrimaryKey(Integer id);
 
-    List<Oplog> selectByExample(OplogExample example);
+    /**
+     * 修改操作日志
+     *
+     * @param operatorLog 操作日志信息
+     * @return 结果
+     */
+    int updateByPrimaryKey(OperatorLog operatorLog);
 
-    Oplog selectByPrimaryKey(Integer id);
-
-    int updateByExampleSelective(@Param("record") Oplog record, @Param("example") OplogExample example);
-
-    int updateByExample(@Param("record") Oplog record, @Param("example") OplogExample example);
-
-    int updateByPrimaryKeySelective(Oplog record);
-
-    int updateByPrimaryKey(Oplog record);
 }

@@ -1,42 +1,29 @@
 package org.boluo.hr.pojo;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+/**
+ * 角色 实体
+ *
+ * @author boluo
+ */
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Role {
+    /**
+     * 主键
+     */
     private Integer id;
-
+    /**
+     * 角色名称(ex: ROLE_admin)
+     */
     private String name;
-
-    private String namezh;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
-    }
-
-    public String getNamezh() {
-        return namezh;
-    }
-
-    public void setNamezh(String namezh) {
-        this.namezh = namezh == null ? null : namezh.trim();
-    }
-
-    @Override
-    public String toString() {
-        return "Role{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", namezh='" + namezh + '\'' +
-                '}';
-    }
+    /**
+     * 角色中文名称
+     */
+    private String nameZh;
 }

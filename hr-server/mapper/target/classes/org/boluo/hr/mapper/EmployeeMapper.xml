@@ -125,7 +125,7 @@
             #{id}
         </foreach>
     </delete>
-    <select id="selectMaxWorkId" resultType="java.lang.Integer">
+    <select id="selectMaxByWorkId" resultType="java.lang.Integer">
         select max(work_id)
         from employee
     </select>
@@ -514,4 +514,9 @@
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
+    <select id="selectMinByWorkId" resultType="java.lang.Integer">
+        select min(id)
+        from employee
+        where work_id = #{workId};
+    </select>
 </mapper>

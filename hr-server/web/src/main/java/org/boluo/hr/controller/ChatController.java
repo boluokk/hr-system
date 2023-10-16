@@ -25,7 +25,7 @@ public class ChatController {
 
     @GetMapping("/hrs")
     public RespBean getAllExceptCurrentHr() {
-        return RespBean.ok(hrService.getAllExceptCurrentHr(HrUtils.getCurrentHr().getId()));
+        return RespBean.ok(hrService.selectAllExceptCurrentHr(HrUtils.getCurrentHr().getId()));
     }
 
 }

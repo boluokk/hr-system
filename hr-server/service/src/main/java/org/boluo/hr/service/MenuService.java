@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
+ * 菜单 业务层
+ *
  * @author 🍍
  * @date 2023/10/1
  */
@@ -23,12 +25,22 @@ public class MenuService {
         this.menuMapper = menuMapper;
     }
 
+    /**
+     * 查询所有带角色的菜单
+     *
+     * @return 带角色菜单集合
+     */
     public List<Menu> selectAllMenu() {
-        return menuMapper.getAllMenusWithRole();
+        return menuMapper.selectAllMenusWithRole();
     }
 
+    /**
+     * 查询人事拥有的菜单
+     *
+     * @return 菜单集合
+     */
     public List<Menu> selectMenusByHrId() {
-        return menuMapper.getMenusByHrId(((Hr) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId());
+        return menuMapper.selectMenusByHrId(((Hr) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId());
     }
 
 }

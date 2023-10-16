@@ -1,144 +1,67 @@
 package org.boluo.hr.pojo;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 
+/**
+ * 菜单 实体
+ *
+ * @author boluo
+ */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Menu {
+    /**
+     * 主键
+     */
     private Integer id;
-
+    /**
+     * 请求通配路径
+     */
     private String url;
-
+    /**
+     * 前端组件路径
+     */
     private String path;
-
+    /**
+     * 组件名
+     */
     private String component;
-
+    /**
+     * 菜单名字
+     */
     private String name;
-
-    private String iconcls;
-
-    private Boolean keepalive;
-
-    private Boolean requireauth;
-
-    private Integer parentid;
-
+    /**
+     * 菜单类名
+     */
+    private String iconClass;
+    /**
+     * 是否存活
+     */
+    private Boolean keepAlive;
+    /**
+     * 是否需要权限
+     */
+    private Boolean requireAuth;
+    /**
+     * 父菜单id
+     */
+    private Integer parentId;
+    /**
+     * 是否开启
+     */
     private Boolean enabled;
-
+    /**
+     * 角色
+     */
     private List<Role> roles;
-
-    // children
+    /**
+     * 所含子菜单
+     */
     private List<Menu> children;
 
-    public List<Menu> getChildren() {
-        return children;
-    }
-
-    public void setChildren(List<Menu> children) {
-        this.children = children;
-    }
-
-    public List<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
-
-    @Override
-    public String toString() {
-        return "Menu{" +
-                "id=" + id +
-                ", url='" + url + '\'' +
-                ", path='" + path + '\'' +
-                ", component='" + component + '\'' +
-                ", name='" + name + '\'' +
-                ", iconcls='" + iconcls + '\'' +
-                ", keepalive=" + keepalive +
-                ", requireauth=" + requireauth +
-                ", parentid=" + parentid +
-                ", enabled=" + enabled +
-                ", roles=" + roles +
-                ", children=" + children +
-                '}';
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url == null ? null : url.trim();
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path == null ? null : path.trim();
-    }
-
-    public String getComponent() {
-        return component;
-    }
-
-    public void setComponent(String component) {
-        this.component = component == null ? null : component.trim();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
-    }
-
-    public String getIconcls() {
-        return iconcls;
-    }
-
-    public void setIconcls(String iconcls) {
-        this.iconcls = iconcls == null ? null : iconcls.trim();
-    }
-
-    public Boolean getKeepalive() {
-        return keepalive;
-    }
-
-    public void setKeepalive(Boolean keepalive) {
-        this.keepalive = keepalive;
-    }
-
-    public Boolean getRequireauth() {
-        return requireauth;
-    }
-
-    public void setRequireauth(Boolean requireauth) {
-        this.requireauth = requireauth;
-    }
-
-    public Integer getParentid() {
-        return parentid;
-    }
-
-    public void setParentid(Integer parentid) {
-        this.parentid = parentid;
-    }
-
-    public Boolean getEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
-    }
 }

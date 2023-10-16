@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.boluo.hr.mapper.AdjustSalaryMapper" >
+  <sql id="column">id, employee_id, create_date, salary, reason, remark</sql>
   <resultMap id="BaseResultMap" type="org.boluo.hr.pojo.AdjustSalary" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="employee_id" property="employeeId" jdbcType="INTEGER" />
@@ -9,13 +10,11 @@
     <result column="reason" property="reason" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
-  
   <select id="selectAll" resultMap="BaseResultMap">
     select <include refid="column" />
     from adjust_salary a
     join employee e on e.id = a.employee_id
   </select>
-  <sql id="column">id, employee_id, create_date, salary, reason, remark</sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select <include refid="column" />
     from adjust_salary

@@ -2,10 +2,9 @@ package org.boluo.hr.controller.per.ec;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import javafx.concurrent.Worker;
 import org.boluo.hr.pojo.Employeeec;
 import org.boluo.hr.pojo.RespBean;
-import org.boluo.hr.service.EmployeecService;
+import org.boluo.hr.service.EmployeeRewardPunishmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,10 +16,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/per/ec")
 public class PerEcController {
 
-    private final EmployeecService employeecService;
+    private final EmployeeRewardPunishmentService employeecService;
 
     @Autowired
-    public PerEcController(EmployeecService employeecService) {
+    public PerEcController(EmployeeRewardPunishmentService employeecService) {
         this.employeecService = employeecService;
     }
 

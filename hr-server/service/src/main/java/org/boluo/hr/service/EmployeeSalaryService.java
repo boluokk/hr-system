@@ -1,8 +1,6 @@
 package org.boluo.hr.service;
 
-import org.boluo.hr.mapper.EmpsalaryMapper;
 import org.boluo.hr.mapper.SalaryMapper;
-import org.boluo.hr.pojo.Empsalary;
 import org.boluo.hr.pojo.Salary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +22,7 @@ public class EmployeeSalaryService {
         this.salaryMapper = salaryMapper;
     }
 
-    public List<Salary> selectPage(Integer pageNum, Integer pageSize) {
+    public List<Salary> selectAll() {
         return salaryMapper.selectAll();
     }
 }

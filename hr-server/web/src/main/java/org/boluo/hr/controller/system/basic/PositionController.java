@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 
 /**
+ * 职位信息
+ *
  * @author 🍍
  * @date 2023/10/1
  */
@@ -24,16 +26,25 @@ public class PositionController {
         this.positionService = positionService;
     }
 
+    /**
+     * 查询所有职位
+     */
     @GetMapping("/")
     public RespBean findAllPos() {
-        return RespBean.ok(positionService.selectAllPostion());
+        return RespBean.ok(positionService.selectAllPosition());
     }
 
+    /**
+     * 返回职位
+     */
     @GetMapping("/byId/{id}")
     public RespBean findPosById(@PathVariable Integer id) {
-        return RespBean.ok(positionService.selectPostById(id));
+        return RespBean.ok(positionService.selectPositionById(id));
     }
 
+    /**
+     * 删除职位
+     */
     @DeleteMapping("/delete/{id}")
     public RespBean remove(@PathVariable Integer id) {
         if (positionService.delete(id)) {
@@ -43,17 +54,25 @@ public class PositionController {
         }
     }
 
+    /**
+     * 新增职位
+     */
     @PutMapping("/add")
-    public RespBean add(Position pos) {
-        pos.setEnabled(true);
-        pos.setCreatedate(new Date());
-        if (positionService.insert(pos)) {
+    public RespBean add(Position position) {
+        position.setEnabled(true);
+        if (position.getCreateDate() == null) {
+            position.setCreateDate(new Date());
+        }
+        if (positionService.insert(position)) {
             return RespBean.ok();
         } else {
             return RespBean.error();
         }
     }
 
+    /**
+     * 批量删除
+     */
     @DeleteMapping("/delete/many/")
     public RespBean deleteMany(Integer[] ids) {
         if (positionService.deleteMany(ids)) {
@@ -63,6 +82,9 @@ public class PositionController {
         }
     }
 
+    /**
+     * 修改职位
+     */
     @PutMapping("/modify")
     public RespBean modify(Position pos) {
         if (positionService.update(pos)) {

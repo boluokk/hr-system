@@ -18,7 +18,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class AdjustSalary {
     /**
-     * 调薪id
+     * 主键
      */
     private Integer id;
     /**

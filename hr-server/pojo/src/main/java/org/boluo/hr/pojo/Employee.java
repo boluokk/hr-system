@@ -17,7 +17,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class Employee implements Serializable {
     /**
-     * 员工id
+     * 主键
      */
     private Integer id;
     /**
@@ -135,7 +135,7 @@ public class Employee implements Serializable {
     /**
      * 在职状态
      */
-    private Politicsstatus politicsStatus;
+    private PoliticsStatus politicsStatus;
     /**
      * 部门
      */
@@ -143,7 +143,7 @@ public class Employee implements Serializable {
     /**
      * 职称
      */
-    private Joblevel jobLevel;
+    private JobLevel jobLevel;
     /**
      * 职位
      */

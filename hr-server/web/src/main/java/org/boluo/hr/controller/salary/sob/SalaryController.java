@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
+ * 工资账套信息
+ *
  * @author 🍍
  * @date 2023/10/1
  */
@@ -21,11 +23,17 @@ public class SalaryController {
         this.salaryService = salaryService;
     }
 
+    /**
+     * 获取所有工资账套
+     */
     @GetMapping("/")
     public RespBean findAllSalary() {
         return RespBean.ok(salaryService.selectAllSalary());
     }
 
+    /**
+     * 新增工资账套
+     */
     @PutMapping("/add")
     public RespBean add(Salary salary) {
         if (salaryService.insert(salary)) {
@@ -34,6 +42,12 @@ public class SalaryController {
         return RespBean.error();
     }
 
+    /**
+     * 删除工资账套
+     *
+     * @param id
+     * @return
+     */
     @DeleteMapping("/delete/{id}")
     public RespBean remove(@PathVariable("id") Integer id) {
         if (salaryService.delete(id)) {
@@ -42,6 +56,9 @@ public class SalaryController {
         return RespBean.error();
     }
 
+    /**
+     * 修改工资账套
+     */
     @PutMapping("/modify")
     public RespBean modify(Salary salary) {
         if (salaryService.update(salary)) {
@@ -50,6 +67,9 @@ public class SalaryController {
         return RespBean.error();
     }
 
+    /**
+     * 批量删除
+     */
     @DeleteMapping("/delete/many/")
     public RespBean removeMany(Integer[] ids) {
         if (salaryService.deleteMany(ids)) {

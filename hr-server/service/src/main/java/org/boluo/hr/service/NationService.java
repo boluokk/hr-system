@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
+ * 民族 业务层
+ *
  * @author 🍍
  * @date 2023/10/1
  */
@@ -20,6 +22,11 @@ public class NationService {
         this.nationMapper = nationMapper;
     }
 
+    /**
+     * 返回所有民族
+     *
+     * @return 民族集合
+     */
     public List<Nation> selectAllNation() {
         return nationMapper.selectAll();
     }

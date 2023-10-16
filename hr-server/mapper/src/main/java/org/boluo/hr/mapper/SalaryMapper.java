@@ -1,41 +1,84 @@
 package org.boluo.hr.mapper;
 
+import org.apache.ibatis.annotations.Param;
 import org.boluo.hr.pojo.Employee;
 import org.boluo.hr.pojo.Salary;
 
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
+/**
+ * 工资账套 数据层
+ *
+ * @author boluo
+ */
 public interface SalaryMapper {
-    int countByExample(SalaryExample example);
 
-    int deleteByExample(SalaryExample example);
-
+    /**
+     * 删除工资账套
+     *
+     * @param id 工资账套id
+     * @return 结果
+     */
     int deleteByPrimaryKey(Integer id);
 
-    int insert(Salary record);
+    /**
+     * 新增工资账套
+     *
+     * @param salary 工资账套
+     * @return 结果
+     */
+    int insertSalary(Salary salary);
 
-    int insertSelective(Salary record);
-
-    List<Salary> selectByExample(SalaryExample example);
-
+    /**
+     * 查询工资账套
+     *
+     * @param id 工资账套id
+     * @return 工资账套
+     */
     Salary selectByPrimaryKey(Integer id);
 
-    int updateByExampleSelective(@Param("record") Salary record, @Param("example") SalaryExample example);
+    /**
+     * 修改工资账套
+     *
+     * @param salary 工资账套信息
+     * @return 结果
+     */
+    int updateByPrimaryKey(Salary salary);
 
-    int updateByExample(@Param("record") Salary record, @Param("example") SalaryExample example);
-
-    int updateByPrimaryKeySelective(Salary record);
-
-    int updateByPrimaryKey(Salary record);
-
+    /**
+     * 查询所有工资账套
+     *
+     * @return 工资账套集合
+     */
     List<Salary> selectAll();
 
+    /**
+     * 批量删除
+     *
+     * @param ids 工资账套id数组
+     * @return 结果
+     */
     int deleteMany(@Param("ids") Integer[] ids);
 
-    int countSalaryWithEmp();
+    /**
+     * 所有有账套的员工
+     *
+     * @return 有账套员工个数
+     */
+    int countSalaryWithEmployee();
 
-    List<Employee> selectEmpAndSalary();
+    /**
+     * 查询带员工信息的工资账套信息
+     *
+     * @return 员工信息集合
+     */
+    List<Employee> selectEmployeeAndSalary();
 
-    void insertEmpWithSal(@Param("eId") Integer eid, @Param("salId") Integer salId);
+    /**
+     * 新增或者修改员工账套信息
+     *
+     * @param eid 员工id
+     * @param salId 工资账套id
+     */
+    void insertEmployeeWithSalary(@Param("eId") Integer eid, @Param("salId") Integer salId);
 }
