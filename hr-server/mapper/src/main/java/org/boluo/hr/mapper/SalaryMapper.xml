@@ -28,8 +28,8 @@
     <result property="email" column="email" jdbcType="VARCHAR"/>
     <result property="phone" column="phone" jdbcType="VARCHAR"/>
     <association property="department" javaType="org.boluo.hr.pojo.Department">
-      <id property="id" column="depid" jdbcType="INTEGER"/>
-      <result property="name" column="depname" jdbcType="VARCHAR"/>
+      <id property="id" column="dep_id" jdbcType="INTEGER"/>
+      <result property="name" column="dep_name" jdbcType="VARCHAR"/>
     </association>
     <association property="salary" javaType="org.boluo.hr.pojo.Salary" autoMapping="true">
     </association>
@@ -38,7 +38,7 @@
     call addEmpWithSal(#{eId}, #{salId})
   </select>
   <select id="selectEmployeeAndSalary" resultMap="EmpAndSalary">
-    select emp.id as eid,emp.name as employee_name,emp.work_id,emp.email,emp.phone,dep.id as depid,dep.name as depname,sa.*
+    select emp.id as eid,emp.name as employee_name,emp.work_id,emp.email,emp.phone,dep.id as dep_id,dep.name as dep_name,sa.*
     from employee emp
     LEFT JOIN employee_salary_merge esm on emp.id = esm.employee_id
     LEFT JOIN salary sa on  esm.salary_id = sa.id

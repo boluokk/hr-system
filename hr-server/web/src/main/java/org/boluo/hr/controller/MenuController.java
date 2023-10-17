@@ -30,8 +30,6 @@ public class MenuController {
 
     /**
      * 获取菜单信息(当前已经登录用户的)
-     *
-     * @return 菜单集合
      */
     @GetMapping("/menu")
     public List<Menu> getRoleWithMenus() {

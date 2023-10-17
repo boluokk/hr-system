@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
+ * 工资配置 业务层
+ *
  * @author 🍍
  * @date 2023/10/1
  */
@@ -21,16 +23,29 @@ public class SobCfgService {
         this.salaryMapper = salaryMapper;
     }
 
+    /**
+     * 所有员工工资配置
+     *
+     * @return 员工集合
+     */
     public List<Employee> selectEmpWithSalary() {
         return salaryMapper.selectEmployeeAndSalary();
     }
 
+    /**
+     * 有工资信息员工数
+     *
+     * @return 带工资员工数
+     */
     public int countEmpWithSal() {
         return salaryMapper.countSalaryWithEmployee();
     }
 
     /**
-     * 存储过程
+     * 新增员工工资
+     *
+     * @param eId 员工id
+     * @param salId 工资账套id
      */
     public void insertSalAndEmp(Integer eId, Integer salId) {
         salaryMapper.insertEmployeeWithSalary(eId, salId);

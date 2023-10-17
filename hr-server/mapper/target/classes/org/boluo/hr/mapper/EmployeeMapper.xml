@@ -36,7 +36,7 @@
             <id property="id" column="nid"/>
             <result property="name" column="nname"/>
         </association>
-        <association property="politicsStatus" javaType="org.boluo.hr.pojo.Politicsstatus">
+        <association property="politicsStatus" javaType="org.boluo.hr.pojo.PoliticsStatus">
             <id property="id" column="poliid"/>
             <result property="name" column="poname"/>
         </association>
@@ -44,10 +44,10 @@
             <id property="id" column="depid"/>
             <result property="name" column="depname"/>
         </association>
-        <association property="jobLevel" javaType="org.boluo.hr.pojo.Joblevel">
+        <association property="jobLevel" javaType="org.boluo.hr.pojo.JobLevel">
             <id property="id" column="jobid"/>
             <result property="name" column="jobname"/>
-            <result property="titlelevel" column="joblename"/>
+            <result property="titleLevel" column="joblename"/>
         </association>
         <association property="position" javaType="org.boluo.hr.pojo.Position">
             <id property="id" column="posid"/>
@@ -86,8 +86,8 @@
     </select>
     <select id="selectByEmployee" resultMap="enhanceEmployee" parameterType="org.boluo.hr.pojo.Employee">
         select emp.*,n.name as nname,n.id as nid,poli.name as poname,poli.id as poliid,dep.`name` as depname,dep.id as
-        depid,job.name as jobname,job.id as jobid,job.titleLevel as joblename,posi.name as posiname,posi.id as posiid
-        from employee emp,nation n,politicsstatus poli,department dep,joblevel job,`position` posi
+        depid,job.name as jobname,job.id as jobid,job.title_level as joblename,posi.name as posiname,posi.id as posiid
+        from employee emp,nation n,politics_status poli,department dep,job_level job,`position` posi
         where emp.nation_id = n.id and emp.politic_id = poli.id and emp.department_id =dep.id
         and emp.job_level_id =job.id and emp.pos_id = posi.id
         <if test="employee.name != null and employee.name != ''">
@@ -139,14 +139,14 @@
                dep.id         as depid,
                job.name       as jobname,
                job.id         as jobid,
-               job.titleLevel as joblename,
+               job.title_level as joblename,
                posi.name      as posiname,
                posi.id        as posiid
         from employee emp,
              nation n,
-             politicsstatus poli,
+             politics_status poli,
              department dep,
-             joblevel job,
+             job_level job,
              position posi
         where emp.nation_id = n.id
           and emp.politic_id = poli.id
@@ -165,14 +165,14 @@
                dep.id         as depid,
                job.name       as jobname,
                job.id         as jobid,
-               job.titleLevel as joblename,
+               job.title_level as joblename,
                posi.name      as posiname,
                posi.id        as posiid
         from employee emp,
              nation n,
-             politicsstatus poli,
+             politics_status poli,
              department dep,
-             joblevel job,
+             job_level job,
              position posi
         where emp.nation_id = n.id
           and emp.politic_id = poli.id
@@ -191,14 +191,14 @@
                dep.id         as depid,
                job.name       as jobname,
                job.id         as jobid,
-               job.titleLevel as joblename,
+               job.title_level as joblename,
                posi.name      as posiname,
                posi.id        as posiid
         from employee emp,
              nation n,
-             politicsstatus poli,
+             politics_status poli,
              department dep,
-             joblevel job,
+             job_level job,
              position posi
         where emp.nation_id = n.id
           and emp.politic_id = poli.id

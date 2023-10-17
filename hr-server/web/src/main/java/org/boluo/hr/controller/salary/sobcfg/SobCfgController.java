@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
+ * 工资配置信息
+ *
  * @author 🍍
  * @date 2023/10/1
  */
@@ -25,15 +27,22 @@ public class SobCfgController {
         this.sobCfgService = sobCfgService;
     }
 
+    /**
+     * 员工工资分页
+     */
     @GetMapping("/{pageNum}/{pageSize}")
     public RespBean findEmployeeWithSalary(@PathVariable("pageNum") Integer pageNum,
-                                              @PathVariable("pageSize") Integer pageSize) {
+                                           @PathVariable("pageSize") Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         return RespBean.ok(new PageInfo<>(sobCfgService.selectEmpWithSalary()));
     }
 
+    /**
+     * 新增员工工资记录
+     */
     @GetMapping("/{empId}/{salId}")
-    public RespBean addSalWithEmp(@PathVariable("empId") Integer empId, @PathVariable("salId") Integer salId) {
+    public RespBean addSalaryWithEmployee(@PathVariable("empId") Integer empId,
+                                          @PathVariable("salId") Integer salId) {
         try {
             sobCfgService.insertSalAndEmp(empId, salId);
             return RespBean.ok();

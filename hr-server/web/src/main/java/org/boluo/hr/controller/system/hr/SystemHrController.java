@@ -33,21 +33,33 @@ public class SystemHrController {
         this.rightsService = rightsService;
     }
 
+    /**
+     * 返回所有人事信息
+     */
     @GetMapping("/")
     public List<Hr> findHrs() {
         return hrService.selectAll();
     }
 
-    @GetMapping("/byHrId/{hid}")
-    public List<Role> findRoles(@PathVariable("hid") Integer hid) {
-        return hrService.selectRoles(hid);
+    /**
+     * 返回人事所含角色
+     */
+    @GetMapping("/byHrId/{hrId}")
+    public List<Role> findRoles(@PathVariable("hrId") Integer hrId) {
+        return hrService.selectRoles(hrId);
     }
 
+    /**
+     * 返回所有角色
+     */
     @GetMapping("/all/roles")
     public List<Role> findAllRoles() {
         return rightsService.selectAllRoles();
     }
 
+    /**
+     * 修改人事角色
+     */
     @Transactional(rollbackFor = Exception.class)
     @PutMapping("/many/roles/{hrId}")
     public RespBean modifyRoles(@PathVariable("hrId") Integer hrId, Integer[] rolesId) {
@@ -64,6 +76,9 @@ public class SystemHrController {
         return RespBean.error();
     }
 
+    /**
+     * 修改人事信息
+     */
     @PutMapping("/modify")
     public RespBean modifyHr(Hr hr, HttpSession session) {
         String password = hr.getPassword();
@@ -83,6 +98,9 @@ public class SystemHrController {
 
     }
 
+    /**
+     * 删除人事
+     */
     @DeleteMapping("/delete/{hrId}")
     public RespBean removeHr(@PathVariable("hrId") Integer hrId) {
         if (hrService.delete(hrId)) {
@@ -91,11 +109,17 @@ public class SystemHrController {
         return RespBean.error();
     }
 
+    /**
+     * 查询人事 通过人事名称
+     */
     @GetMapping("/byHrName/{hrName}")
     public List<Hr> findHrByName(@PathVariable("hrName") String hrName) {
         return hrService.selectHrByName(hrName);
     }
 
+    /**
+     * 新增人事
+     */
     @PutMapping("/add")
     public RespBean add(Hr hr) {
         hr.setPassword(PasswordEncoder.encode(hr.getPassword()));

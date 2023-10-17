@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
+ * 员工信息
+ *
  * @author 🍍
  * @date 2023/10/1
  */
@@ -21,11 +23,17 @@ public class EmpInfoController {
         this.empInfoService = empInfoService;
     }
 
+    /**
+     * 通过名字查询员工
+     */
     @GetMapping("/byEmpName/{empName}")
     public RespBean findAll(@PathVariable("empName") String empName) {
         return RespBean.ok(empInfoService.selectByEmpName(empName));
     }
 
+    /**
+     * 删除员工
+     */
     @DeleteMapping("/delete/{id}")
     public RespBean removeOne(@PathVariable("id") Integer id) {
         if (empInfoService.delete(id)) {
@@ -34,6 +42,9 @@ public class EmpInfoController {
         return RespBean.error();
     }
 
+    /**
+     * 修改员工
+     */
     @PutMapping("/modify")
     public RespBean modifyOne(Employee employee) {
         if (empInfoService.update(employee)) {

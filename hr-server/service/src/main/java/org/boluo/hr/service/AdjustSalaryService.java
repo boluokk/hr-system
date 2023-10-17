@@ -16,11 +16,11 @@ import java.util.List;
 @Service
 public class AdjustSalaryService {
 
-    private final AdjustSalaryMapper adjustsalaryMapper;
+    private final AdjustSalaryMapper adjustSalaryMapper;
 
     @Autowired
-    public AdjustSalaryService(AdjustSalaryMapper adjustsalaryMapper) {
-        this.adjustsalaryMapper = adjustsalaryMapper;
+    public AdjustSalaryService(AdjustSalaryMapper adjustSalaryMapper) {
+        this.adjustSalaryMapper = adjustSalaryMapper;
     }
 
     /**
@@ -29,17 +29,17 @@ public class AdjustSalaryService {
      * @return 调薪集合
      */
     public List<AdjustSalary> selectAll() {
-        return adjustsalaryMapper.selectAll();
+        return adjustSalaryMapper.selectAll();
     }
 
     /**
      * 更新调薪
      *
-     * @param adjustsalary 调薪信息
+     * @param adjustSalary 调薪信息
      * @return 结果
      */
-    public boolean update(AdjustSalary adjustsalary) {
-        return adjustsalaryMapper.updateByPrimaryKey(adjustsalary) == 1;
+    public boolean update(AdjustSalary adjustSalary) {
+        return adjustSalaryMapper.updateByPrimaryKey(adjustSalary) == 1;
     }
 
     /**
@@ -49,16 +49,16 @@ public class AdjustSalaryService {
      * @return 结果
      */
     public boolean delete(Integer id) {
-        return adjustsalaryMapper.deleteByPrimaryKey(id) == 1;
+        return adjustSalaryMapper.deleteByPrimaryKey(id) == 1;
     }
 
     /**
      * 新增调薪
      *
-     * @param adjustsalary 调薪信息
+     * @param adjustSalary 调薪信息
      * @return 结果
      */
-    public boolean insert(AdjustSalary adjustsalary) {
-        return adjustsalaryMapper.insertAdjustSalary(adjustsalary) == 1;
+    public boolean insert(AdjustSalary adjustSalary) {
+        return adjustSalaryMapper.insertAdjustSalary(adjustSalary) == 1;
     }
 }

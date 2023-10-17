@@ -27,17 +27,23 @@ public class MailReceiver {
 
     public Logger logger = LoggerFactory.getLogger(MailReceiver.class);
 
+    private final JavaMailSender javaMailSender;
+    private final MailProperties mailProperties;
+    private final TemplateEngine templateEngine;
+
     @Autowired
-    JavaMailSender javaMailSender;
-    @Autowired
-    MailProperties mailProperties;
-    @Autowired
-    TemplateEngine templateEngine;
+    public MailReceiver(JavaMailSender javaMailSender,
+                        MailProperties mailProperties,
+                        TemplateEngine templateEngine) {
+        this.javaMailSender = javaMailSender;
+        this.mailProperties = mailProperties;
+        this.templateEngine = templateEngine;
+    }
 
     @RabbitListener(queues = MailConstants.MAIL_QUEUE_NAME)
     public void handler(Message message) {
         Employee employee = (Employee) message.getPayload();
-//        消息转发
+        // 消息转发
         MimeMessage msg = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(msg);
 
@@ -49,7 +55,7 @@ public class MailReceiver {
             Context context = new Context();  // thymeleaf的context
             context.setVariable("name", employee.getName());
             context.setVariable("posName", employee.getPosition().getName());
-            context.setVariable("joblevelName", employee.getJoblevel().getName());
+            context.setVariable("jobLevelName", employee.getJobLevel().getName());
             context.setVariable("departmentName", employee.getDepartment().getName());
             String emil = templateEngine.process("email", context);
             helper.setText(emil, true);

@@ -25,21 +25,21 @@ import java.util.regex.Pattern;
 @RequestMapping("/personnel/emp")
 public class EmployeeController {
 
-    private final EmployeeService empLoyeeService;
+    private final EmployeeService employeeService;
     private final NationService nationService;
     private final DepartmentService departmentService;
-    private final PoliticsStatusService politicsstatusService;
+    private final PoliticsStatusService politicsStatusService;
     private final JobLevelService jobLevelService;
     private final PositionService positionService;
 
     @Autowired
-    public EmployeeController(EmployeeService empLoyeeService, NationService nationService,
-                              DepartmentService departmentService, PoliticsStatusService politicsstatusService,
+    public EmployeeController(EmployeeService employeeService, NationService nationService,
+                              DepartmentService departmentService, PoliticsStatusService politicsStatusService,
                               JobLevelService jobLevelService, PositionService positionService) {
-        this.empLoyeeService = empLoyeeService;
+        this.employeeService = employeeService;
         this.nationService = nationService;
         this.departmentService = departmentService;
-        this.politicsstatusService = politicsstatusService;
+        this.politicsStatusService = politicsStatusService;
         this.jobLevelService = jobLevelService;
         this.positionService = positionService;
     }
@@ -53,7 +53,7 @@ public class EmployeeController {
     public RespBean findPages(@PathVariable("pageNum") Integer pageNum,
                               @PathVariable("pageSize") Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        List<Employee> employees = empLoyeeService.selectAll();
+        List<Employee> employees = employeeService.selectAll();
         return RespBean.ok(new PageInfo<>(employees));
     }
 
@@ -63,7 +63,7 @@ public class EmployeeController {
      */
     @GetMapping("/byEmpName/{empName}")
     public RespBean findEmpByEmpName(@PathVariable("empName") String empName) {
-        return RespBean.ok(empLoyeeService.selectByEmpName(empName));
+        return RespBean.ok(employeeService.selectByEmpName(empName));
     }
 
     /**
@@ -72,7 +72,7 @@ public class EmployeeController {
     @Deprecated
     @GetMapping("/nation")
     public RespBean findAllNation() {
-        return RespBean.ok(empLoyeeService.selectNations());
+        return RespBean.ok(employeeService.selectNations());
     }
 
     /**
@@ -84,7 +84,7 @@ public class EmployeeController {
         if (!matches) {
             return RespBean.error("workId不能为数字!!!");
         }
-        if (empLoyeeService.insertOne(employee)) {
+        if (employeeService.insertOne(employee)) {
             return RespBean.ok();
         }
         return RespBean.error();
@@ -101,7 +101,7 @@ public class EmployeeController {
         if (!matches) {
             return RespBean.error("workId不能为数字!!!");
         }
-        if (empLoyeeService.update(employee)) {
+        if (employeeService.update(employee)) {
             return RespBean.ok();
         }
         return RespBean.error();
@@ -112,7 +112,7 @@ public class EmployeeController {
      */
     @GetMapping("/maxWorkId")
     public RespBean findMaxWorkId() {
-        Object format = String.format("%08d", empLoyeeService.selectMaxByWorkId());
+        Object format = String.format("%08d", employeeService.selectMaxByWorkId());
         return RespBean.ok(format);
     }
 
@@ -121,7 +121,7 @@ public class EmployeeController {
      */
     @DeleteMapping("/delete/{id}")
     public RespBean delete(@PathVariable Integer id) {
-        if (empLoyeeService.delete(id)) {
+        if (employeeService.delete(id)) {
             return RespBean.ok();
         }
         return RespBean.error();
@@ -132,7 +132,7 @@ public class EmployeeController {
      */
     @GetMapping("/export")
     public ResponseEntity<byte[]> export() throws IOException {
-        List<Employee> list = empLoyeeService.selectAll();
+        List<Employee> list = employeeService.selectAll();
         return ExportAndImportExcelUtil.exportData(list);
     }
 
@@ -143,9 +143,9 @@ public class EmployeeController {
     public RespBean importEmployees(MultipartFile file) throws IOException {
         List<Employee> employees =
                 ExportAndImportExcelUtil.importData(file, nationService.selectAllNation(),
-                        departmentService.selectAll(), politicsstatusService.selectAllPolitic(),
+                        departmentService.selectAll(), politicsStatusService.selectAllPolitic(),
                         jobLevelService.selectAll(), positionService.selectAllPosition());
-        if (empLoyeeService.batchInsert(employees) == employees.size()) {
+        if (employeeService.batchInsert(employees) == employees.size()) {
             return RespBean.ok("上传成功！");
         }
         return RespBean.error("上传失败！");
@@ -159,6 +159,6 @@ public class EmployeeController {
     public RespBean findByPage(@PathVariable("pageNum") Integer pageNum,
                                @PathVariable("pageSize") Integer pageSize, Employee employee) {
         PageHelper.startPage(pageNum, pageSize);
-        return RespBean.ok(new PageInfo<>(empLoyeeService.selectByPageAndEmployee(employee)));
+        return RespBean.ok(new PageInfo<>(employeeService.selectByPageAndEmployee(employee)));
     }
 }

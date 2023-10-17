@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
+ * 员工信息 业务层
+ *
  * @author 🍍
  * @date 2023/10/1
  */
@@ -21,14 +23,32 @@ public class EmpInfoService {
         this.employeeMapper = employeeMapper;
     }
 
+    /**
+     * 通过员工名 查询员工
+     *
+     * @param empName 员工名
+     * @return 员工集合
+     */
     public List<Employee> selectByEmpName(String empName) {
         return employeeMapper.selectByEmpName(empName);
     }
 
-    public boolean update(Employee emp) {
-        return employeeMapper.updateByPrimaryKey(emp) == 1;
+    /**
+     * 修改员工
+     *
+     * @param employee 员工信息
+     * @return 结果
+     */
+    public boolean update(Employee employee) {
+        return employeeMapper.updateByPrimaryKey(employee) == 1;
     }
 
+    /**
+     * 删除员工
+     *
+     * @param id 员工id
+     * @return 结果
+     */
     public boolean delete(Integer id) {
         return employeeMapper.deleteByPrimaryKey(id) == 1;
     }

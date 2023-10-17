@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-
 /**
  * 政治面貌 实体
  *
@@ -14,7 +12,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PoliticsStatus implements Serializable {
+public class PoliticsStatus{
     /**
      * 主键
      */
