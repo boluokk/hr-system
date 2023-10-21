@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.boluo.hr.mapper.EmployeeRemoveMapper">
-    <sql id="column">id, employee_id, before_department_id, before_job_id, after_department_id,
-                    after_job_id, remove_date, reason, remark</sql>
+    <sql id="column">id, employee_id, before_department_id,
+                    before_job_id, after_department_id,after_job_id, remove_date, reason, remark</sql>
     <resultMap id="BaseResultMap" type="org.boluo.hr.pojo.EmployeeRemove">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="employee_id" property="employeeId" jdbcType="INTEGER"/>
@@ -13,23 +13,22 @@
         <result column="remove_date" property="removeDate" jdbcType="DATE"/>
         <result column="reason" property="reason" jdbcType="VARCHAR"/>
         <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <association property="employee" column="employee_id"
+                     select="org.boluo.hr.mapper.EmployeeMapper.selectByPrimaryKey"/>
+        <association property="beforeDepartmentName" column="before_department_id"
+                     select="org.boluo.hr.mapper.DepartmentMapper.selectNameByKey"/>
+        <association property="beforeJobName" column="before_job_id"
+                     select="org.boluo.hr.mapper.JobLevelMapper.selectNameByKey"/>
+        <association property="afterDepartmentName" column="after_department_id"
+                     select="org.boluo.hr.mapper.DepartmentMapper.selectNameByKey"/>
+        <association property="afterJobName" column="after_job_id"
+                     select="org.boluo.hr.mapper.JobLevelMapper.selectNameByKey"/>
     </resultMap>
-    <resultMap id="hasEmployeeResultMap" type="org.boluo.hr.pojo.EmployeeRemove" extends="BaseResultMap">
-        <association property="employee" javaType="org.boluo.hr.pojo.Employee">
-            <id property="id" column="employee_id"/>
-            <result column="employeeName" property="name"/>
-        </association>
-    </resultMap>
-    <select id="selectAll" resultMap="hasEmployeeResultMap">
-        select emove.*, emp.name as employeeName
-        from employee_remove emove
-        join employee emp on emp.id = emove.employee_id
-        join department oldDep on oldDep.id = emove.before_department_id
-        join joblevel oldJob on oldJob.id = emove.before_job_id
-        join department newDep on newDep.id = emove.after_department_id
-        join joblevel newJob on newJob.id = emove.after_job_id
+    <select id="selectAll" resultMap="BaseResultMap">
+        select <include refid="column"/>
+        from employee_remove
     </select>
-    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap">
         select <include refid="column"/>
         from employee_remove
         where id = #{id,jdbcType=INTEGER}
@@ -38,7 +37,7 @@
         delete from employee_remove
         where id = #{id,jdbcType=INTEGER}
     </delete>
-    <insert id="insertEmployeeRemove" parameterType="org.boluo.hr.pojo.EmployeeRemove">
+    <insert id="insertEmployeeRemove" parameterType="org.boluo.hr.pojo.BaseEmployeeRemove">
         insert into employee_remove
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -99,26 +98,26 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKey" parameterType="org.boluo.hr.pojo.EmployeeRemove">
+    <update id="updateByPrimaryKey" parameterType="org.boluo.hr.pojo.BaseEmployeeRemove">
         update employee_remove
         <set>
             <if test="employeeId != null">
-                employee_id = #{eid,jdbcType=INTEGER},
+                employee_id = #{employeeId,jdbcType=INTEGER},
             </if>
             <if test="afterDepartmentId != null">
-                after_department_id = #{afterdepid,jdbcType=INTEGER},
+                after_department_id = #{afterDepartmentId,jdbcType=INTEGER},
             </if>
             <if test="afterJobId != null">
-                after_job_id = #{afterjobid,jdbcType=INTEGER},
+                after_job_id = #{afterJobId,jdbcType=INTEGER},
             </if>
             <if test="beforeDepartmentId != null">
-                before_department_id = #{removedate,jdbcType=DATE},
+                before_department_id = #{beforeDepartmentId,jdbcType=DATE},
             </if>
             <if test="beforeJobId != null">
-                before_job_id = #{reason,jdbcType=VARCHAR},
+                before_job_id = #{beforeJobId,jdbcType=VARCHAR},
             </if>
             <if test="removeDate != null">
-                remove_date = #{remark,jdbcType=VARCHAR},
+                remove_date = #{removeDate,jdbcType=VARCHAR},
             </if>
             <if test="reason != null">
                 reason = #{reason,jdbcType=VARCHAR},

@@ -9,11 +9,13 @@
     <result column="salary" property="salary" jdbcType="INTEGER" />
     <result column="reason" property="reason" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <association property="employee" column="employee_id"
+                 select="org.boluo.hr.mapper.EmployeeMapper.selectByPrimaryKey"/>
   </resultMap>
   <select id="selectAll" resultMap="BaseResultMap">
-    select <include refid="column" />
-    from adjust_salary a
-    join employee e on e.id = a.employee_id
+    select a.id, a.employee_id, a.create_date, a.salary, a.reason, a.remark
+    from adjust_salary as a
+    join employee as e on e.id = a.employee_id
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select <include refid="column" />
@@ -24,7 +26,7 @@
     delete from adjust_salary
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insertAdjustSalary" parameterType="org.boluo.hr.pojo.AdjustSalary" >
+  <insert id="insertAdjustSalary" parameterType="org.boluo.hr.pojo.BaseAdjustSalary" >
     insert into adjust_salary
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="employeeId != null" >
@@ -61,7 +63,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKey" parameterType="org.boluo.hr.pojo.AdjustSalary" >
+  <update id="updateByPrimaryKey" parameterType="org.boluo.hr.pojo.BaseAdjustSalary" >
     update adjust_salary
     <set >
       <if test="employeeId != null" >

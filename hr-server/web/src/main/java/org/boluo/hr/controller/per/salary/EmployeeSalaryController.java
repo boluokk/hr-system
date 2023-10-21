@@ -2,10 +2,11 @@ package org.boluo.hr.controller.per.salary;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.boluo.hr.pojo.AdjustSalary;
+import org.boluo.hr.pojo.BaseAdjustSalary;
+import org.boluo.hr.pojo.Employee;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.service.AdjustSalaryService;
-import org.boluo.hr.service.EmployeeRewardPunishmentService;
+import org.boluo.hr.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,13 +22,13 @@ import org.springframework.web.bind.annotation.*;
 public class EmployeeSalaryController {
 
     private final AdjustSalaryService adjustSalaryService;
-    private final EmployeeRewardPunishmentService employeeRewardPunishmentService;
+    private final EmployeeService employeeService;
 
     @Autowired
     public EmployeeSalaryController(AdjustSalaryService adjustSalaryService,
-                                    EmployeeRewardPunishmentService employeeRewardPunishmentService) {
+                                    EmployeeService employeeService) {
         this.adjustSalaryService = adjustSalaryService;
-        this.employeeRewardPunishmentService = employeeRewardPunishmentService;
+        this.employeeService = employeeService;
     }
 
     /**
@@ -44,8 +45,8 @@ public class EmployeeSalaryController {
      * 员工工资修改
      */
     @PutMapping("/modify")
-    public RespBean modify(AdjustSalary adjustSalary) {
-        if (adjustSalaryService.update(adjustSalary)) {
+    public RespBean modify(BaseAdjustSalary baseAdjustSalary) {
+        if (adjustSalaryService.update(baseAdjustSalary)) {
             return RespBean.ok();
         }
         return RespBean.error();
@@ -66,14 +67,14 @@ public class EmployeeSalaryController {
      * 员工工资新增
      */
     @PutMapping("/add/{workId}")
-    public RespBean add(AdjustSalary adjustSalary,
+    public RespBean add(BaseAdjustSalary baseAdjustSalary,
                         @PathVariable("workId") String workId) {
-        Integer employeeId = employeeRewardPunishmentService.selectByWorkId(workId);
-        if (employeeId == null) {
+        Employee employee = employeeService.selectEmployeeByWorkId(workId);
+        if (employee == null) {
             return RespBean.error("未找到当前员工");
         }
-        adjustSalary.setEmployeeId(employeeId);
-        if (adjustSalaryService.insert(adjustSalary)) {
+        baseAdjustSalary.setEmployeeId(employee.getId());
+        if (adjustSalaryService.insert(baseAdjustSalary)) {
             return RespBean.ok();
         }
         return RespBean.error();

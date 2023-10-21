@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 
 /**
+ * 全局异常
+ *
  * @author 🍍
  * @date 2023/10/1
  */
@@ -38,7 +40,7 @@ public class GlobalExceptionCustom {
     @ExceptionHandler(Exception.class)
     public RespBean otherExceptionHandle(Exception e) {
         logger.error("其他异常: " + e.getMessage());
-        return RespBean.error("其他异常: " + e.getMessage());
+        return RespBean.error("服务器异常..");
     }
 
 }

@@ -2,9 +2,11 @@ package org.boluo.hr.controller.per.ec;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.boluo.hr.pojo.Employee;
 import org.boluo.hr.pojo.EmployeeRewardPunishment;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.service.EmployeeRewardPunishmentService;
+import org.boluo.hr.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,10 +21,13 @@ import org.springframework.web.bind.annotation.*;
 public class PerEcController {
 
     private final EmployeeRewardPunishmentService employeeRewardPunishmentService;
+    private final EmployeeService employeeService;
 
     @Autowired
-    public PerEcController(EmployeeRewardPunishmentService employeeRewardPunishmentService) {
+    public PerEcController(EmployeeRewardPunishmentService employeeRewardPunishmentService,
+                           EmployeeService employeeService) {
         this.employeeRewardPunishmentService = employeeRewardPunishmentService;
+        this.employeeService = employeeService;
     }
 
     /**
@@ -63,11 +68,11 @@ public class PerEcController {
     @PutMapping("/add/{workId}")
     public RespBean addOne(EmployeeRewardPunishment employeeRewardPunishment,
                            @PathVariable("workId") String workId) {
-        Integer employeeId = employeeRewardPunishmentService.selectByWorkId(workId);
-        if (employeeId == null) {
+        Employee employee = employeeService.selectEmployeeByWorkId(workId);
+        if (employee == null) {
             return RespBean.error("员工号不存在");
         }
-        employeeRewardPunishment.setEmployeeId(employeeId);
+        employeeRewardPunishment.setEmployeeId(employee.getId());
         if (employeeRewardPunishmentService.insert(employeeRewardPunishment)) {
             return RespBean.ok();
         }

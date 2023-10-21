@@ -8,6 +8,8 @@
     <result column="appraise_result" property="appraiseResult" jdbcType="VARCHAR" />
     <result column="appraise_content" property="appraiseContent" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <association property="employee" column="employee_id"
+                 select="org.boluo.hr.mapper.EmployeeMapper.selectByPrimaryKey"/>
   </resultMap>
   <select id="selectAll" resultMap="BaseResultMap">
     select <include refid="column"/>

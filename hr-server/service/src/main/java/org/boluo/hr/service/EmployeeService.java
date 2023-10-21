@@ -82,14 +82,6 @@ public class EmployeeService {
     }
 
     /**
-     *
-     * @return
-     */
-    public int selectMinByWorkId(String workId) {
-        return employeeMapper.selectMinByWorkId(workId);
-    }
-
-    /**
      * 修改员工
      *
      * @param employee 员工信息
@@ -160,4 +152,7 @@ public class EmployeeService {
     }
 
 
+    public Employee selectEmployeeByWorkId(String workId) {
+        return employeeMapper.selectByEmployeeByWorkId(workId);
+    }
 }

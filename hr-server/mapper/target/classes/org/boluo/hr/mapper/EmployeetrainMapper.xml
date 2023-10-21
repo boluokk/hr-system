@@ -8,20 +8,10 @@
         <result column="create_data" property="createData" jdbcType="DATE"/>
         <result column="train_content" property="trainContent" jdbcType="VARCHAR"/>
         <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <association property="employee" column="employee_id"
+                     select="org.boluo.hr.mapper.EmployeeMapper.selectByPrimaryKey"/>
     </resultMap>
-    <resultMap id="hasEmployeeResultMap" type="org.boluo.hr.pojo.EmployeeTrain" extends="BaseResultMap">
-        <association property="employee" javaType="org.boluo.hr.pojo.Employee">
-            <id column="employee_id" property="id"/>
-            <result column="employeeName" property="name"/>
-        </association>
-    </resultMap>
-    <select id="selectAllWithEmployeeName" resultMap="hasEmployeeResultMap">
-        select e.name as employeeName, et.*
-        from employee_train et,
-             employee e
-        where et.employee_id = e.id
-    </select>
-    <select id="selectAll" resultMap="hasEmployeeResultMap">
+    <select id="selectAll" resultMap="BaseResultMap">
         select <include refid="column"/>
         from employee_train
     </select>
@@ -34,7 +24,7 @@
         delete from employee_train
         where id = #{id,jdbcType=INTEGER}
     </delete>
-    <insert id="insertEmployeeTrain" parameterType="org.boluo.hr.pojo.EmployeeTrain">
+    <insert id="insertEmployeeTrain" parameterType="org.boluo.hr.pojo.BaseEmployeeTrain">
         insert into employee_train
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -71,7 +61,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKey" parameterType="org.boluo.hr.pojo.EmployeeTrain">
+    <update id="updateByPrimaryKey" parameterType="org.boluo.hr.pojo.BaseEmployeeTrain">
         update employee_train
         <set>
             <if test="employeeId != null">
@@ -81,7 +71,7 @@
                 create_data = #{createData,jdbcType=DATE},
             </if>
             <if test="trainContent != null">
-                create_data = #{trainContent,jdbcType=VARCHAR},
+                train_content = #{trainContent,jdbcType=VARCHAR},
             </if>
             <if test="remark != null">
                 remark = #{remark,jdbcType=VARCHAR},

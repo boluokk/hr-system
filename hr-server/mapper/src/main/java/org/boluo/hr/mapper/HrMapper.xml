@@ -14,6 +14,7 @@
         <result column="user_face" property="userFace" jdbcType="VARCHAR"/>
         <result column="remark" property="remark" jdbcType="VARCHAR"/>
     </resultMap>
+    <resultMap id="BaseHrResultMap" type="org.boluo.hr.pojo.BaseHr" extends="BaseResultMap"/>
     <resultMap id="HasRoleHrResultMap" type="org.boluo.hr.pojo.Hr" extends="BaseResultMap">
         <collection property="roles" ofType="org.boluo.hr.pojo.Role">
             <id property="id" column="role_id"/>
@@ -23,7 +24,7 @@
     </resultMap>
     <resultMap id="HasRoleWithHrResultMap" type="org.boluo.hr.pojo.Hr" extends="BaseResultMap">
         <collection property="roles" ofType="org.boluo.hr.pojo.Role">
-            <id property="id" column="rid"/>
+            <id property="id" column="role_id"/>
             <result property="name" column="role_name"/>
             <result property="nameZh" column="role_name_zh"/>
         </collection>
@@ -37,8 +38,9 @@
                h.enabled,
                h.user_face,
                h.remark,
-               r.id     as rid,
-               r.nameZh as rnameZh
+               r.id      as role_id,
+               r.name    as role_name,
+               r.name_zh as role_name_zh
         from hr h
                  left join hr_role hro on h.id = hro.hr_id
                  left join role r on r.id = hro.role_id
@@ -53,39 +55,34 @@
                h.enabled,
                h.user_face,
                h.remark,
-               r.id     as role_id,
-               r.nameZh as role_name_zh,
-               r.name   as role_name
+               r.id      as role_id,
+               r.name_zh as role_name_zh,
+               r.name    as role_name
         from hr h
                  left join hr_role hro on h.id = hro.hr_id
                  left join role r on r.id = hro.role_id
     </select>
-    <select id="selectAllExceptCurrentHr" resultMap="BaseResultMap">
-        select id,
-               name,
-               phone,
-               telephone,
-               address,
-               enabled,
-               username,
-               user_face,
-               remark
+    <select id="selectAllExceptCurrentHr" resultMap="BaseHrResultMap">
+        select id, `name`, phone, telephone, address, enabled, username, user_face, remark
         from hr
         where id != #{id}
     </select>
     <select id="loadByUserName" resultMap="BaseResultMap" parameterType="java.lang.String">
-        select <include refid="column"/>
+        select
+        <include refid="column"/>
         from hr
         where username = #{username};
     </select>
     <select id="selectRoleWithHrById" resultMap="HasRoleWithHrResultMap" parameterType="java.lang.Integer">
-        select r.id as rid, r.name as role_name, r.nameZh as role_name_zh
+        select r.id as rid, r.name as role_name, r.name_zh as role_name_zh
         from role r,
              hr_role hr
-        where r.id = hr.role_id and hr.hr_id = #{id}
+        where r.id = hr.role_id
+          and hr.hr_id = #{id}
     </select>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        select <include refid="column"/>
+        select
+        <include refid="column"/>
         from hr
         where id = #{id,jdbcType=INTEGER}
     </select>

@@ -87,7 +87,6 @@ public interface EmployeeMapper {
      *
      * @return 民族集合
      */
-    @Deprecated
     List<Nation> selectNations();
 
     /**
@@ -122,11 +121,12 @@ public interface EmployeeMapper {
      */
     Employee selectEnhanceEmployeeByEmployeeId(@Param("id") Integer id);
 
+
     /**
-     * 通过员工工号 查询最小员工id
+     * 通过员工号 查询员工信息
      *
      * @param workId 员工号
-     * @return 最小员工id
+     * @return 员工信息
      */
-    int selectMinByWorkId(@Param("workId") String workId);
+    Employee selectByEmployeeByWorkId(@Param("workId") String workId);
 }

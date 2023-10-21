@@ -20,7 +20,7 @@ export const formatRoutes = routes => {
   // console.log(routes)
   const ResultArr = []
   routes.forEach(router => {
-    let { path, component, name, meta, iconcls, children } = router
+    let { path, component, name, meta, iconClass, children } = router
     if (children && children instanceof Array) {
       children = formatRoutes(children)
     }
@@ -28,7 +28,7 @@ export const formatRoutes = routes => {
       path: path,
       name: name,
       meta: meta,
-      iconcls: iconcls,
+      iconcls: iconClass,
       children: children,
       component(resolve) {
         if (component.startsWith('Home')) {

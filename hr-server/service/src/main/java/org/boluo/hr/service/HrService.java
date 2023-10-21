@@ -2,8 +2,10 @@ package org.boluo.hr.service;
 
 import org.boluo.hr.mapper.HrMapper;
 import org.boluo.hr.mapper.RoleMapper;
+import org.boluo.hr.pojo.BaseHr;
 import org.boluo.hr.pojo.Hr;
 import org.boluo.hr.pojo.Role;
+import org.boluo.hr.pojo.SysHr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -54,7 +56,7 @@ public class HrService implements UserDetailsService {
      * @param currentId 当前人事id
      * @return 人事集合
      */
-    public List<Hr> selectAllExceptCurrentHr(Integer currentId) {
+    public List<BaseHr> selectAllExceptCurrentHr(Integer currentId) {
         return hrMapper.selectAllExceptCurrentHr(currentId);
     }
 

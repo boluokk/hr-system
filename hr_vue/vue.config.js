@@ -1,7 +1,7 @@
 const proxyObj = {
   '/': {
     ws: false,
-    target: 'http://127.0.0.1:9527',
+    target: 'http://127.0.0.1:44565',
     changeOrigin: true,
     pathRewrite: {
       '^/': ''
@@ -9,7 +9,7 @@ const proxyObj = {
   },
   '/ws': {
     ws: true,
-    target: 'ws://127.0.0.1:9527'
+    target: 'ws://127.0.0.1:44565'
   }
 }
 module.exports = {

@@ -8,20 +8,18 @@
       <div slot='header'></div>
       <!-- card body -->
       <el-table :data='tableData' style='width: 100%'>
-        <el-table-column prop='workId' label='工号' width='120'>
-        </el-table-column>
-        <el-table-column prop='employeeName' label='姓名' width='120'>
-        </el-table-column>
+        <el-table-column prop='employee.workId' label='工号' width='120'></el-table-column>
+        <el-table-column prop='employee.name' label='姓名' width='120'></el-table-column>
         <el-table-column label='时间' width='200'>
           <template slot-scope='scope'>
-            {{ scope.row.ecdate | dateFormat }}
+            {{ scope.row.createDate | dateFormat }}
           </template>
         </el-table-column>
-        <el-table-column prop='ecreason' label='原因' width='120'>
+        <el-table-column prop='reason' label='原因' width='120'>
         </el-table-column>
         <el-table-column prop='remark' label='奖惩级别' width='120'>
         </el-table-column>
-        <el-table-column prop='ecpoint' label='分数' width='120'>
+        <el-table-column prop='point' label='分数' width='120'>
         </el-table-column>
         <el-table-column label='操作' width='250'>
           <template slot-scope='scope'>
@@ -73,13 +71,13 @@
         >
           <el-form-item label='员工工号'>
             <el-input
-              v-model='formLabelAlign.workId'
+              v-model='workId'
               maxlength='8'
               show-word-limit
             ></el-input>
           </el-form-item>
           <el-form-item label='奖惩原因'>
-            <el-input v-model='formLabelAlign.ecreason'></el-input>
+            <el-input v-model='formLabelAlign.reason'></el-input>
           </el-form-item>
           <el-form-item label='奖惩级别'>
             <el-autocomplete
@@ -152,6 +150,7 @@
 export default {
   data() {
     return {
+      workId: '',
       pageSize: 10,
       pageNum: 1,
       pageTotal: 0,
@@ -176,12 +175,7 @@ export default {
       grade: 0,
       reason: '',
       id: '',
-      formLabelAlign: {
-        workId: '',
-        ecpoint: 0,
-        ecreason: '',
-        remark: ''
-      }
+      formLabelAlign: {}
     }
   },
   methods: {
@@ -210,7 +204,7 @@ export default {
     showEdit(item) {
       this.dialogVisible = true
       this.state1 = item.remark
-      this.reason = item.ecreason
+      this.reason = item.reason
       this.id = item.id
     },
     querySearch(queryString, cb) {
@@ -232,9 +226,9 @@ export default {
     eidtSubmit() {
       this.putRequest('/per/ec/modify', {
         id: this.id,
-        ecreason: this.reason,
+        reason: this.reason,
         remark: this.state1,
-        ecpoint: this.grade
+        point: this.grade
       }).then(res => {
         this.clearSomething()
         this.$message.success(res.data.msg)
@@ -245,15 +239,16 @@ export default {
     submit() {
       let workidReg = new RegExp('^[0-9]{8}$')
       if (
-        workidReg.test(this.formLabelAlign.workId) &&
+        workidReg.test(this.workId) &&
         this.state1 &&
         this.state1 !== '' &&
-        this.formLabelAlign.ecreason &&
-        this.formLabelAlign.ecreason !== ''
+        this.formLabelAlign.reason &&
+        this.formLabelAlign.reason !== ''
       ) {
         this.formLabelAlign.remark = this.state1
-        this.formLabelAlign.ecpoint = this.grade
-        this.putRequest('/per/ec/add', this.formLabelAlign).then(res => {
+        this.formLabelAlign.point = this.grade
+        console.log(this.formLabelAlign)
+        this.putRequest('/per/ec/add/' + this.workId, this.formLabelAlign).then(res => {
           if (res.data.status === 200) {
             this.$message.success(res.data.msg)
             this.init()

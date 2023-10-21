@@ -39,5 +39,8 @@ public class Appraise {
      * 备注
      */
     private String remark;
-
+    /**
+     * 员工信息
+     */
+    private Employee employee;
 }

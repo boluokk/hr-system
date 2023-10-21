@@ -1,7 +1,7 @@
 package org.boluo.hr.service;
 
 import org.boluo.hr.mapper.SalaryMapper;
-import org.boluo.hr.pojo.Employee;
+import org.boluo.hr.pojo.SalaryConfigView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +28,7 @@ public class SobCfgService {
      *
      * @return 员工集合
      */
-    public List<Employee> selectEmpWithSalary() {
+    public List<SalaryConfigView> selectEmpWithSalary() {
         return salaryMapper.selectEmployeeAndSalary();
     }
 
@@ -44,10 +44,9 @@ public class SobCfgService {
     /**
      * 新增员工工资
      *
-     * @param eId 员工id
-     * @param salId 工资账套id
+     * @param employeeId 员工id
+     * @param salaryId 工资账套id
      */
-    public void insertSalAndEmp(Integer eId, Integer salId) {
-        salaryMapper.insertEmployeeWithSalary(eId, salId);
+    public boolean updateEmployeeSalary(Integer employeeId, Integer salaryId) {
     }
 }

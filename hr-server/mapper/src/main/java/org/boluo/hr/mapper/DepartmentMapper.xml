@@ -14,7 +14,7 @@
         <result property="name" column="name" jdbcType="VARCHAR"/>
         <collection property="children" ofType="org.boluo.hr.pojo.Department" select="selectByParentId" column="id"/>
     </resultMap>
-    <sql id="column">id, name, parent_id, dep_path, enabled, is_parent</sql>
+    <sql id="column">id, `name`, parent_id, dep_path, enabled, is_parent</sql>
     <select id="selectAll" resultMap="BaseResultMap">
         select <include refid="column"/>
         from department
@@ -50,6 +50,11 @@
         select <include refid="column"/>
         from department
         where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectNameByKey" resultType="string">
+        select name
+        from department
+        where id = #{id}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete from department

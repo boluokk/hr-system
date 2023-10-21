@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
-import Roter from '../../router/index.js'
+import Router from '../../router/index.js'
 import store from '../../store/index'
 
 axios.interceptors.request.use(
@@ -14,14 +14,17 @@ axios.interceptors.request.use(
 )
 axios.interceptors.response.use(
   data => {
-    if (data.status && data.status === 200 && data.data.status === 'error') {
+    console.log(data
+
+    )
+    if (data.data.status && data.data.status !== 200) {
       Message.error({ message: data.data.msg })
       return
     }
     return data
   },
   err => {
-    if (err.response.status === 504 || err.response.status === 404) {
+    if (err.response.status === 504) {
       Message.error({ message: '服务器被吃了⊙﹏⊙∥' })
     } else if (err.response.status === 403) {
       if (store.state.msgCount === 0) {
@@ -30,7 +33,12 @@ axios.interceptors.response.use(
       }
     } else if (err.response.status === 401) {
       Message.error({ message: '请重新登入!' })
-      Roter.replace('/')
+      Router.replace('/')
+    } else if (err.response.status === 402) {
+      Message.error({ message: '异地登录, 请重新登入!' })
+      Router.replace('/')
+    } else if (err.response.status === 404) {
+      Message.error({message: '未知请求路径'})
     } else {
       Message.error({ message: '未知错误!' })
     }
@@ -50,8 +58,10 @@ export const postRequest = (url, params) => {
       function(data) {
         let ret = ''
         for (const it in data) {
-          ret +=
-            encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+          if (data[it]) {
+            ret +=
+              encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+          }
         }
         return ret
       }
@@ -80,8 +90,10 @@ export const putRequest = (url, params) => {
       function(data) {
         let ret = ''
         for (const it in data) {
-          ret +=
-            encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+          if (data[it]) {
+            ret +=
+              encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+          }
         }
         return ret
       }

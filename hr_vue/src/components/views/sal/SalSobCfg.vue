@@ -6,15 +6,13 @@
     </el-breadcrumb>
     <el-card shadow='always' style='margin-top: 15px;'>
       <el-table :data='tableData' border style='width: 100%'>
-        <el-table-column prop='name' label='姓名' width='180'>
-        </el-table-column>
-        <el-table-column prop='workid' label='工号' width='180'>
-        </el-table-column>
+        <el-table-column prop='employeeName' label='姓名' width='180'></el-table-column>
+        <el-table-column prop='workId' label='工号' width='180'></el-table-column>
         <el-table-column prop='email' label='电子邮箱'></el-table-column>
         <el-table-column prop='phone' label='电话号码'></el-table-column>
         <el-table-column label='所属部门'>
           <template slot-scope='scope'>
-            {{ scope.row.department.name }}
+            {{ scope.row.departmentName }}
           </template>
         </el-table-column>
         <el-table-column label='账套'>
@@ -23,38 +21,38 @@
               <div slot='content' v-if='scope.row.salary'>
                 <span v-if='scope.row.salary'
                 >启用时间：{{
-                    scope.row.salary.createdate | dateFormat
+                    scope.row.salary.createDate | dateFormat
                   }}</span
                 ><br />
                 <span v-if='scope.row.salary'
-                >基础工资：{{ scope.row.salary.basicsalary }}</span
+                >基础工资：{{ scope.row.salary.basicSalary }}</span
                 ><br />
                 <span v-if='scope.row.salary'
-                >午餐补助：{{ scope.row.salary.lunchsalary }}</span
+                >午餐补助：{{ scope.row.salary.lunchSalary }}</span
                 ><br />
                 <span v-if='scope.row.salary'
-                >交通补助：{{ scope.row.salary.trafficsalary }}</span
+                >交通补助：{{ scope.row.salary.trafficSalary }}</span
                 ><br />
                 <span v-if='scope.row.salary'
                 >奖金：{{ scope.row.salary.bonus }}</span
                 ><br />
                 <span v-if='scope.row.salary'
-                >养老金基数：{{ scope.row.salary.pensionbase }}</span
+                >养老金基数：{{ scope.row.salary.pensionBase }}</span
                 ><br />
                 <span v-if='scope.row.salary'
-                >养老金比率：{{ scope.row.salary.pensionper }}</span
+                >养老金比率：{{ scope.row.salary.pensionPer }}</span
                 ><br />
                 <span v-if='scope.row.salary'
-                >医保基数：{{ scope.row.salary.medicalbase }}</span
+                >医保基数：{{ scope.row.salary.medicalBase }}</span
                 ><br />
                 <span v-if='scope.row.salary'
-                >医保比率{{ scope.row.salary.medicalper }}</span
+                >医保比率{{ scope.row.salary.medicalPer }}</span
                 ><br />
                 <span v-if='scope.row.salary'
-                >公积金基数：{{ scope.row.salary.accumulationfundbase }}</span
+                >公积金基数：{{ scope.row.salary.accumulationFundBase }}</span
                 ><br />
                 <span v-if='scope.row.salary'
-                >公积金比率：{{ scope.row.salary.accumulationfundper }}</span
+                >公积金比率：{{ scope.row.salary.accumulationFundPer }}</span
                 ><br />
               </div>
               <el-tag hit effect='plain' size='small'>
@@ -78,7 +76,7 @@
               ></el-button>
               <el-dropdown-menu slot='dropdown'>
                 <el-dropdown-item
-                  :command="scope.row.id + '-' + item.id"
+                  :command="scope.row.salary.id + '-' + item.id"
                   v-for='(item, idx) in salarySalSobData'
                   :key='idx'
                 >{{ item.name }}
@@ -117,13 +115,12 @@ export default {
   methods: {
     changeMenu(command) {
       const arr = command.split('-')
-      this.getRequest('/sal/sobcfg/' + arr[0] + '/' + arr[1]).then(resp => {
-        this.$message(resp.data.msg)
+      this.putRequest('/sal/sobcfg/modify/' + arr[0] + '/' + arr[1]).then(resp => {
+        if (resp.data.status === 200) {
+          this.$message.success('操作成功')
+        }
         this.init()
       })
-    },
-    sureSalMenu(item) {
-      console.log(item)
     },
     handleSizeChange(newSize) {
       this.pageSize = newSize
@@ -136,11 +133,9 @@ export default {
     init() {
       this.getRequest('/sal/sobcfg/' + this.pageNum + '/' + this.pageSize
       ).then(res => {
-        this.tableData = res.data.employees
-        this.total = res.data.total
+        this.tableData = res.data.obj.list
+        this.total = res.data.obj.total
       })
-    },
-    init2() {
       this.getRequest('/sal/sob/').then(resp => {
         this.salarySalSobData = resp.data.obj
       })
@@ -148,7 +143,6 @@ export default {
   },
   created() {
     this.init()
-    this.init2()
   }
 }
 </script>

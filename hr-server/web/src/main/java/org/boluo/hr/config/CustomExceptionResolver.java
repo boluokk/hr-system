@@ -13,7 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 // 业务异常处理
 public class CustomExceptionResolver implements HandlerExceptionResolver {
     @Override
-    public ModelAndView resolveException(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) {
+    public ModelAndView resolveException(HttpServletRequest httpServletRequest,
+                                         HttpServletResponse httpServletResponse, Object o, Exception e) {
         return null;
     }
 }

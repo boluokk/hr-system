@@ -24,21 +24,41 @@ public class EmployeeRemove {
      */
     private Integer employeeId;
     /**
-     * 调岗后的部门
+     * 员工信息
+     */
+    private Employee employee;
+    /**
+     * 调岗后的部门id
      */
     private Integer afterDepartmentId;
     /**
-     * 调岗后的职位
+     * 调岗后的部门名称
+     */
+    private String afterDepartmentName;
+    /**
+     * 调岗后的职位id
      */
     private Integer afterJobId;
     /**
-     * 调岗前的部门
+     * 调岗后的职位名称
+     */
+    private String afterJobName;
+    /**
+     * 调岗前的部门id
      */
     private Integer beforeDepartmentId;
     /**
-     * 调岗前的职位
+     * 调岗前的部门名称
+     */
+    private String beforeDepartmentName;
+    /**
+     * 调岗前的职位id
      */
     private Integer beforeJobId;
+    /**
+     * 调岗前的职位名称
+     */
+    private String beforeJobName;
     /**
      * 调岗时间
      */
@@ -51,8 +71,4 @@ public class EmployeeRemove {
      * 备注
      */
     private String remark;
-    /**
-     * 员工信息
-     */
-    private Employee employee;
 }

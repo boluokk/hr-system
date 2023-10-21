@@ -34,13 +34,14 @@ import java.io.IOException;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    HrService hrService;
+    private HrService hrService;
 
     @Autowired
-    CustomUrlDecisionManager customUrlDecisionManager;
+    private CustomUrlDecisionManager customUrlDecisionManager;
 
     @Autowired
-    CustomFilterInvocationSecurityMetadataSource customFilterInvocationSecurityMetadataSource;
+    private CustomFilterInvocationSecurityMetadataSource customFilterInvocationSecurityMetadataSource;
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -66,7 +67,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/login")
                 .successHandler(new AuthenticationSuccessHandler() {
                     @Override
-                    public void onAuthenticationSuccess(HttpServletRequest req, HttpServletResponse res, Authentication authentication) throws IOException, ServletException {
+                    public void onAuthenticationSuccess(HttpServletRequest req, HttpServletResponse res,
+                                                        Authentication authentication) throws IOException {
                         res.setContentType("application/json;charset=utf-8");
                         Hr hr = (Hr) authentication.getPrincipal();
                         hr.setPassword(null);
@@ -106,7 +108,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(new AuthenticationEntryPoint() {
                     @Override
-                    public void commence(HttpServletRequest req, HttpServletResponse res, AuthenticationException e) throws IOException, ServletException {
+                    public void commence(HttpServletRequest req, HttpServletResponse res, AuthenticationException e) throws IOException {
                         res.setContentType("application/json;charset=utf-8");
                         res.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
                         RespBean respBean = RespBean.error("登入失败!");
@@ -116,6 +118,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         }
                         res.getWriter().print(new ObjectMapper().writeValueAsString(respBean));
                     }
+                })
+                // 踢掉之前的登录 + 过期策略
+                .and().sessionManagement().maximumSessions(1).expiredSessionStrategy(event -> {
+                    HttpServletResponse response = event.getResponse();
+                    response.setStatus(402);
+                    response.setContentType("application/json;charset=utf-8");
+                    response.getWriter().print(new ObjectMapper().
+                            writeValueAsString(RespBean.error("异地登录, 请重新登录..")));
                 });
     }
 }

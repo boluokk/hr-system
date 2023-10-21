@@ -7,13 +7,13 @@
     <el-card shadow='always' :body-style="{ padding: '20px' }">
       <div slot='header'></div>
       <el-table :data='tableData' style='width: 100%'>
-        <el-table-column prop='employeeName' label='员工名称' width='90'>
+        <el-table-column prop='employee.name' label='员工名称' width='90'>
         </el-table-column>
-        <el-table-column prop='traincontent' label='培训内容' width='180'>
+        <el-table-column prop='trainContent' label='培训内容' width='180'>
         </el-table-column>
         <el-table-column label='时间' width='200'>
           <template slot-scope='scope'>
-            {{ scope.row.traindate | dateFormat }}
+            {{ scope.row.createData | dateFormat }}
           </template>
         </el-table-column>
         <el-table-column prop='remark' label='具体'></el-table-column>
@@ -69,10 +69,10 @@
       >
         <el-form ref='empTrainFormRef' :model='editEmpTrainForm' label-width='80px' label-position='left'>
           <el-form-item label='培训内容'>
-            <el-input v-model='editEmpTrainForm.traincontent'></el-input>
+            <el-input v-model='editEmpTrainForm.trainContent'></el-input>
           </el-form-item>
           <el-form-item label='时间'>
-            <el-date-picker type='date' placeholder='选择日期' v-model='editEmpTrainForm.traindate'
+            <el-date-picker type='date' placeholder='选择日期' v-model='editEmpTrainForm.createData'
                             value-format='yyyy-MM-dd HH:mm:ss'
                             style='width: 100%;'></el-date-picker>
           </el-form-item>
@@ -97,10 +97,10 @@
             <el-input v-model='addEmpTrainForm.workId' maxlength='8' show-word-limit></el-input>
           </el-form-item>
           <el-form-item label='培训内容'>
-            <el-input v-model='addEmpTrainForm.traincontent'></el-input>
+            <el-input v-model='addEmpTrainForm.trainContent'></el-input>
           </el-form-item>
           <el-form-item label='时间'>
-            <el-date-picker type='date' placeholder='选择日期' v-model='addEmpTrainForm.traindate'
+            <el-date-picker type='date' placeholder='选择日期' v-model='addEmpTrainForm.trainDate'
                             value-format='yyyy-MM-dd HH:mm:ss'
                             style='width: 100%;'></el-date-picker>
           </el-form-item>

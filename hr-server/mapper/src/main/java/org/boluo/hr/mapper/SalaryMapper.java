@@ -3,6 +3,7 @@ package org.boluo.hr.mapper;
 import org.apache.ibatis.annotations.Param;
 import org.boluo.hr.pojo.Employee;
 import org.boluo.hr.pojo.Salary;
+import org.boluo.hr.pojo.SalaryConfigView;
 
 import java.util.List;
 
@@ -72,13 +73,5 @@ public interface SalaryMapper {
      *
      * @return 员工信息集合
      */
-    List<Employee> selectEmployeeAndSalary();
-
-    /**
-     * 新增或者修改员工账套信息
-     *
-     * @param eid 员工id
-     * @param salId 工资账套id
-     */
-    void insertEmployeeWithSalary(@Param("eId") Integer eid, @Param("salId") Integer salId);
+    List<SalaryConfigView> selectEmployeeAndSalary();
 }

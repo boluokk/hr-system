@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.boluo.hr.mapper.EmployeeMapper">
+    <sql id="column">
+        id, `name`, gender, birthday, id_card, wedlock, nation_id, native_place, politic_id, email,
+        phone, address, department_id, job_level_id, pos_id, engage_form, tiptop_degree, specialty,
+        school, begin_date, work_state, work_id, contract_term, conversion_time, not_work_date,
+        begin_contract, end_contract, work_age
+    </sql>
     <resultMap id="BaseResultMap" type="org.boluo.hr.pojo.Employee">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
@@ -103,19 +109,19 @@
             and emp.job_level_id = #{employee.jobLevelId}
         </if>
         <if test="employee.politicId != null and employee.jobLevelId != ''">
-            and emp.politic_id = #{employee.politicid}
+            and emp.politic_id = #{employee.politicId}
         </if>
         <if test="employee.posId != null and employee.posId!= ''">
-            and emp.pos_id = #{employee.posid}
+            and emp.pos_id = #{employee.posId}
         </if>
         <if test="employee.departmentId != null and employee.departmentId!= ''">
-            and emp.department_id = #{employee.departmentid}
+            and emp.department_id = #{employee.departmentId}
         </if>
         <if test="employee.beginDate !=null and employee.conversionTime !=null">
-            and emp.begin_date between #{employee.begindate} and #{employee.conversiontime}
+            and emp.begin_date between #{employee.beginDate} and #{employee.conversionTime}
         </if>
         <if test="employee.engageForm !=null and employee.engageForm !=null">
-            and emp.engage_form = #{employee.engageform}
+            and emp.engage_form = #{employee.engageForm}
         </if>
     </select>
     <delete id="batchDeleteEmployee">
@@ -210,12 +216,6 @@
         select count(*)
         from employee
     </select>
-    <sql id="column">
-        id, name, gender, birthday, id_card, wedlock, nation_id, native_place, politic_id, email,
-        phone, address, department_id, job_level_id, posId, engage_form, tiptop_degree, specialty,
-        school, begin_date, work_state, work_id, contract_term, conversion_time, not_work_date,
-        begin_contract, end_contract, work_age
-    </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select <include refid="column"/>
         from employee
@@ -265,7 +265,7 @@
                 birthday,
             </if>
             <if test="idCard != null">
-                idCard,
+                id_card,
             </if>
             <if test="wedlock != null">
                 wedlock,
@@ -440,7 +440,7 @@
                 birthday = #{birthday,jdbcType=DATE},
             </if>
             <if test="idCard != null">
-                idCard = #{idCard,jdbcType=CHAR},
+                id_card = #{idCard,jdbcType=CHAR},
             </if>
             <if test="wedlock != null">
                 wedlock = #{wedlock,jdbcType=CHAR},
@@ -514,9 +514,9 @@
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
-    <select id="selectMinByWorkId" resultType="java.lang.Integer">
-        select min(id)
+    <select id="selectByEmployeeByWorkId" resultMap="BaseResultMap">
+        select <include refid="column"/>
         from employee
-        where work_id = #{workId};
+        where work_id = #{workId}
     </select>
 </mapper>

@@ -1,6 +1,7 @@
 package org.boluo.hr.service;
 
 import org.boluo.hr.mapper.EmployeeRemoveMapper;
+import org.boluo.hr.pojo.BaseEmployeeRemove;
 import org.boluo.hr.pojo.EmployeeRemove;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,20 +45,20 @@ public class EmployeeRemoveService {
     /**
      * 修改调岗
      *
-     * @param employeeRemove 调岗信息
+     * @param baseEmployeeRemove 调岗信息
      * @return 结果
      */
-    public boolean update(EmployeeRemove employeeRemove) {
-        return employeeRemoveMapper.updateByPrimaryKey(employeeRemove) == 1;
+    public boolean update(BaseEmployeeRemove baseEmployeeRemove) {
+        return employeeRemoveMapper.updateByPrimaryKey(baseEmployeeRemove) == 1;
     }
 
     /**
      * 新增调岗
      *
-     * @param employeeRemove 调岗信息
+     * @param baseEmployeeRemove 调岗信息
      * @return 结果
      */
-    public boolean insert(EmployeeRemove employeeRemove) {
-        return employeeRemoveMapper.insertEmployeeRemove(employeeRemove) == 1;
+    public boolean insert(BaseEmployeeRemove baseEmployeeRemove) {
+        return employeeRemoveMapper.insertEmployeeRemove(baseEmployeeRemove) == 1;
     }
 }

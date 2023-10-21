@@ -5,10 +5,7 @@ import com.github.pagehelper.PageInfo;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.service.SobCfgService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 工资配置信息
@@ -40,11 +37,11 @@ public class SobCfgController {
     /**
      * 新增员工工资记录
      */
-    @GetMapping("/{empId}/{salId}")
-    public RespBean addSalaryWithEmployee(@PathVariable("empId") Integer empId,
-                                          @PathVariable("salId") Integer salId) {
+    @PutMapping("/modify/{employeeId}/{salaryId}")
+    public RespBean addSalaryWithEmployee(@PathVariable("employeeId") Integer employeeId,
+                                          @PathVariable("salaryId") Integer salaryId) {
         try {
-            sobCfgService.insertSalAndEmp(empId, salId);
+            sobCfgService.updateEmployeeSalary(employeeId, salaryId);
             return RespBean.ok();
         } catch (Exception e) {
             return RespBean.error();

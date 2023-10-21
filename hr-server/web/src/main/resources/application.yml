@@ -1,5 +1,5 @@
 server:
-  port: 44545
+  port: 44565
 
 spring:
   datasource:
@@ -33,3 +33,8 @@ page helper:
   reasonable: true
   support-methods-arguments: true
   params: count=countSql
+
+# sql 日志
+logging:
+  level:
+    sql: debug

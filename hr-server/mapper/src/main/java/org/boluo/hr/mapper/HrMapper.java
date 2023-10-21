@@ -1,7 +1,9 @@
 package org.boluo.hr.mapper;
 
 import org.apache.ibatis.annotations.Param;
+import org.boluo.hr.pojo.BaseHr;
 import org.boluo.hr.pojo.Hr;
+import org.boluo.hr.pojo.SysHr;
 
 import java.util.List;
 
@@ -62,7 +64,7 @@ public interface HrMapper {
      * @param id 当前人事id
      * @return 人事集合
      */
-    List<Hr> selectAllExceptCurrentHr(@Param("id") Integer id);
+    List<BaseHr> selectAllExceptCurrentHr(@Param("id") Integer id);
 
     /**
      * 查询所有人事

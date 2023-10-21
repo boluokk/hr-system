@@ -33,6 +33,10 @@ public class SalaryMonth {
      */
     private Date time;
     /**
+     * 账套名称
+     */
+    private String salaryName;
+    /**
      * 所有工资
      */
     private int allSalary;
@@ -40,4 +44,8 @@ public class SalaryMonth {
      * 备注
      */
     private String remark;
+    /**
+     * 员工信息
+     */
+    private Employee employee;
 }

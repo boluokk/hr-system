@@ -6,17 +6,17 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-
 /**
- *  调薪 实体
+ * 基础调岗 实体
  *
- * @author boluo
+ * @author 🍍
+ * @date 2023/10/20
  */
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AdjustSalary {
+public class BaseEmployeeRemove {
     /**
      * 主键
      */
@@ -26,13 +26,25 @@ public class AdjustSalary {
      */
     private Integer employeeId;
     /**
-     * 创建时间
+     * 调岗后的部门id
      */
-    private Date createDate;
+    private Integer afterDepartmentId;
     /**
-     * 工资
+     * 调岗后的职位id
      */
-    private Integer salary;
+    private Integer afterJobId;
+    /**
+     * 调岗前的部门id
+     */
+    private Integer beforeDepartmentId;
+    /**
+     * 调岗前的职位id
+     */
+    private Integer beforeJobId;
+    /**
+     * 调岗时间
+     */
+    private Date removeDate;
     /**
      * 原因
      */
@@ -41,8 +53,4 @@ public class AdjustSalary {
      * 备注
      */
     private String remark;
-    /**
-     * 员工信息
-     */
-    private Employee employee;
 }

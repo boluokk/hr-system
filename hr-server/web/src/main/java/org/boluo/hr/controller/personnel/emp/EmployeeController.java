@@ -61,9 +61,12 @@ public class EmployeeController {
     /**
      * 通过名称返回员工信息
      */
-    @GetMapping("/byEmpName/{empName}")
-    public RespBean findEmpByEmpName(@PathVariable("empName") String empName) {
-        return RespBean.ok(employeeService.selectByEmpName(empName));
+    @GetMapping("/byEmpName/{empName}/{pageNum}/{pageSize}")
+    public RespBean findEmpByEmpName(@PathVariable("empName") String empName,
+                                     @PathVariable("pageNum") Integer pageNum,
+                                     @PathVariable("pageSize") Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        return RespBean.ok(new PageInfo<>(employeeService.selectByEmpName(empName)));
     }
 
     /**
@@ -92,14 +95,12 @@ public class EmployeeController {
 
     /**
      * 修改员工
-     *
-     * @param employee 员工信息
      */
     @PutMapping("/modify")
     public RespBean modify(Employee employee) {
         boolean matches = Pattern.matches(PATTERN, employee.getWorkId());
         if (!matches) {
-            return RespBean.error("workId不能为数字!!!");
+            return RespBean.error("workId非法!");
         }
         if (employeeService.update(employee)) {
             return RespBean.ok();

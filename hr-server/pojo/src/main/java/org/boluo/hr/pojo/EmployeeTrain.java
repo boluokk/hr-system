@@ -39,5 +39,4 @@ public class EmployeeTrain {
      * 员工信息
      */
     private Employee employee;
-
 }

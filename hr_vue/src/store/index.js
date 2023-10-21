@@ -15,10 +15,10 @@ const store = new Vuex.Store({
         window.sessionStorage.getItem('user') === null
           ? '未登入'
           : JSON.parse(window.sessionStorage.getItem('user')).name,
-      userface:
+      userFace:
         window.sessionStorage.getItem('user') === null
           ? ''
-          : JSON.parse(window.sessionStorage.getItem('user')).userface,
+          : JSON.parse(window.sessionStorage.getItem('user')).userFace,
       username:
         window.sessionStorage.getItem('user') === null
           ? ''

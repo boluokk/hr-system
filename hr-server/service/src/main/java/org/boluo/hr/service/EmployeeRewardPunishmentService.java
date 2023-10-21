@@ -73,13 +73,4 @@ public class EmployeeRewardPunishmentService {
         return employeeRewardPunishmentMapper.insertEmployeeRewardPunishment(employeeRewardPunishment) == 1;
     }
 
-    /**
-     * 最小员工id
-     *
-     * @param workId 员工工号
-     * @return 最小员工id
-     */
-    public Integer selectByWorkId(String workId) {
-        return employeeMapper.selectMinByWorkId(workId);
-    }
 }

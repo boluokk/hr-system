@@ -6,17 +6,17 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-
 /**
- *  调薪 实体
+ * 基础培训 实体
  *
- * @author boluo
+ * @author 🍍
+ * @date 2023/10/20
  */
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AdjustSalary {
+public class BaseEmployeeTrain {
     /**
      * 主键
      */
@@ -28,21 +28,13 @@ public class AdjustSalary {
     /**
      * 创建时间
      */
-    private Date createDate;
+    private Date createData;
     /**
-     * 工资
+     * 培训内容
      */
-    private Integer salary;
-    /**
-     * 原因
-     */
-    private String reason;
+    private String trainContent;
     /**
      * 备注
      */
     private String remark;
-    /**
-     * 员工信息
-     */
-    private Employee employee;
 }

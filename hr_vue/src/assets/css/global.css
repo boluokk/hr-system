@@ -1,19 +1,19 @@
 html,
 body {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 .el-table th > .cell,
 .el-table .cell {
-  text-align: center;
+    text-align: center;
 }
 
 .el-badge__content {
-  border: none !important;
-  line-height: 16px!important;
+    border: none !important;
+    line-height: 16px !important;
 }
 
 .el_page_div {
-  margin-top: 10px;
+    margin-top: 10px;
 }

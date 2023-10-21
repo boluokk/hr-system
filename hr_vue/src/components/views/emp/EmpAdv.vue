@@ -7,32 +7,107 @@
     <el-tabs type='border-card' @tab-click='tabChange'>
       <el-tab-pane>
         <span slot='label'><i class='el-icon-bank-card'></i> 奖惩资料</span>
-        <el-table :data='employeeC' style='width: 100%'>
+        <el-table :data='employeeAdv' style='width: 100%'>
           <el-table-column label='#' type='index' width='50'>
           </el-table-column>
+          <el-table-column prop='employee.name' label='员工名' width='100'>
+            <template slot-scope='scope'>
+              <span>{{ scope.row.employee.name }} </span>
+              <el-tooltip placement='right'>
+                <div slot='content'>
+                  <div>
+                    <span>名称: </span>
+                    <span>{{ scope.row.employee.name }}</span>
+                  </div>
+                  <div>
+                    <span>性别: </span>
+                    <span>{{ scope.row.employee.gender }}</span>
+                  </div>
+                  <div>
+                    <span>生日: </span>
+                    <span>{{ scope.row.employee.birthday }}</span>
+                  </div>
+                  <div>
+                    <span>身份证号: </span>
+                    <span>{{ scope.row.employee.idCard }}</span>
+                  </div>
+                  <div>
+                    <span>结婚状态: </span>
+                    <span>{{ scope.row.employee.wedlock }}</span>
+                  </div>
+                  <div>
+                    <span>籍贯: </span>
+                    <span>{{ scope.row.employee.nativePlace }}</span>
+                  </div>
+                  <div>
+                    <span>邮箱: </span>
+                    <span>{{ scope.row.employee.email }}</span>
+                  </div>
+                  <div>
+                    <span>手机号: </span>
+                    <span>{{ scope.row.employee.phone }}</span>
+                  </div>
+                  <div>
+                    <span>工号: </span>
+                    <span>{{ scope.row.employee.workId }}</span>
+                  </div>
+                  <div>
+                    <span>住址: </span>
+                    <span>{{ scope.row.employee.address }}</span>
+                  </div>
+                  <div>
+                    <span>聘用形式: </span>
+                    <span>{{ scope.row.employee.engageForm }}</span>
+                  </div>
+                  <div>
+                    <span>最高学历: </span>
+                    <span>{{ scope.row.employee.tiptopDegree }}</span>
+                  </div>
+                  <div>
+                    <span>专业: </span>
+                    <span>{{ scope.row.employee.specialty }}</span>
+                  </div>
+                  <div>
+                    <span>毕业学校: </span>
+                    <span>{{ scope.row.employee.school }}</span>
+                  </div>
+                  <div>
+                    <span>在职状态: </span>
+                    <span>{{ scope.row.employee.workState }}</span>
+                  </div>
+                  <div>
+                    <span>工年: </span>
+                    <span>{{ scope.row.employee.workAge }}</span>
+                  </div>
+                </div>
+                <i class='el-icon-question'></i>
+              </el-tooltip>
+            </template>
+          </el-table-column>
+          <el-table-column prop='employee.workId' label='员工号' width='100'></el-table-column>
           <el-table-column label='奖惩日期' width='200'>
             <template slot-scope='scope'>
-              {{ scope.row.ecdate | dateFormat }}
+              {{ scope.row.createDate | dateFormat }}
             </template>
           </el-table-column>
-          <el-table-column prop='ecDate' label='奖惩分数'>
+          <el-table-column prop='point' label='奖惩分数' width='200'>
             <template slot-scope='scope'>
-              <el-tag v-if='scope.row.ecpoint >= 0' type='success' size='small' effect='dark'>
-                +{{ scope.row.ecpoint }}
+              <el-tag v-if='scope.row.point >= 0' type='success' size='small' effect='dark'>
+                +{{ scope.row.point }}
               </el-tag>
-              <el-tag v-if='scope.row.ecpoint < 0' type='danger' size='small' effect='dark'>
-                {{ scope.row.ecpoint }}
+              <el-tag v-if='scope.row.point < 0' type='danger' size='small' effect='dark'>
+                {{ scope.row.point }}
               </el-tag>
             </template>
           </el-table-column>
-          <el-table-column prop='ecreason' label='奖惩原因'>
+          <el-table-column prop='reason' label='奖惩原因' width='200'>
             <template slot-scope='scope'>
-              <span v-if='scope.row.ecpoint >=0'>
-                {{ scope.row.ecreason }}
+              <span v-if='scope.row.point >=0'>
+                {{ scope.row.reason }}
                 <i class='fa fa-thumbs-up' style='color: red;'></i>
               </span>
               <span v-else>
-                {{ scope.row.ecreason }}
+                {{ scope.row.reason }}
                 <i class='fa fa-thumbs-down'></i>
               </span>
             </template>
@@ -41,17 +116,90 @@
       </el-tab-pane>
       <el-tab-pane>
         <span slot='label'><i class='el-icon-thumb'></i> 培训资料</span>
-
         <el-table :data='employeeTrain' style='width: 100%'>
           <el-table-column label='#' type='index' width='50'>
           </el-table-column>
-          <el-table-column label='奖惩日期' width='200'>
+          <el-table-column prop='employee.name' label='员工名' width='100'>
             <template slot-scope='scope'>
-              {{ scope.row.traindate | dateFormat }}
+              <span>{{ scope.row.employee.name }} </span>
+              <el-tooltip placement='right'>
+                <div slot='content'>
+                  <div>
+                    <span>名称: </span>
+                    <span>{{ scope.row.employee.name }}</span>
+                  </div>
+                  <div>
+                    <span>性别: </span>
+                    <span>{{ scope.row.employee.gender }}</span>
+                  </div>
+                  <div>
+                    <span>生日: </span>
+                    <span>{{ scope.row.employee.birthday }}</span>
+                  </div>
+                  <div>
+                    <span>身份证号: </span>
+                    <span>{{ scope.row.employee.idCard }}</span>
+                  </div>
+                  <div>
+                    <span>结婚状态: </span>
+                    <span>{{ scope.row.employee.wedlock }}</span>
+                  </div>
+                  <div>
+                    <span>籍贯: </span>
+                    <span>{{ scope.row.employee.nativePlace }}</span>
+                  </div>
+                  <div>
+                    <span>邮箱: </span>
+                    <span>{{ scope.row.employee.email }}</span>
+                  </div>
+                  <div>
+                    <span>手机号: </span>
+                    <span>{{ scope.row.employee.phone }}</span>
+                  </div>
+                  <div>
+                    <span>工号: </span>
+                    <span>{{ scope.row.employee.workId }}</span>
+                  </div>
+                  <div>
+                    <span>住址: </span>
+                    <span>{{ scope.row.employee.address }}</span>
+                  </div>
+                  <div>
+                    <span>聘用形式: </span>
+                    <span>{{ scope.row.employee.engageForm }}</span>
+                  </div>
+                  <div>
+                    <span>最高学历: </span>
+                    <span>{{ scope.row.employee.tiptopDegree }}</span>
+                  </div>
+                  <div>
+                    <span>专业: </span>
+                    <span>{{ scope.row.employee.specialty }}</span>
+                  </div>
+                  <div>
+                    <span>毕业学校: </span>
+                    <span>{{ scope.row.employee.school }}</span>
+                  </div>
+                  <div>
+                    <span>在职状态: </span>
+                    <span>{{ scope.row.employee.workState }}</span>
+                  </div>
+                  <div>
+                    <span>工年: </span>
+                    <span>{{ scope.row.employee.workAge }}</span>
+                  </div>
+                </div>
+                <i class='el-icon-question'></i>
+              </el-tooltip>
             </template>
           </el-table-column>
-          <el-table-column prop='traincontent' label='培训内容' width='120'>
+          <el-table-column prop='employee.workId' label='员工号' width='100'></el-table-column>
+          <el-table-column label='培训日期' width='200'>
+            <template slot-scope='scope'>
+              {{ scope.row.createData | dateFormat }}
+            </template>
           </el-table-column>
+          <el-table-column prop='trainContent' label='培训内容' width='120'></el-table-column>
         </el-table>
       </el-tab-pane>
       <el-tab-pane>
@@ -61,21 +209,96 @@
         <el-table :data='employeeAppraise' style='width: 100%'>
           <el-table-column label='#' type='index' width='50'>
           </el-table-column>
-          <el-table-column label='培训日期' width='200'>
+          <el-table-column prop='employee.name' label='员工名' width='100'>
             <template slot-scope='scope'>
-              {{ scope.row.appdate | dateFormat }}
+              <span>{{ scope.row.employee.name }} </span>
+              <el-tooltip placement='right'>
+                <div slot='content'>
+                  <div>
+                    <span>名称: </span>
+                    <span>{{ scope.row.employee.name }}</span>
+                  </div>
+                  <div>
+                    <span>性别: </span>
+                    <span>{{ scope.row.employee.gender }}</span>
+                  </div>
+                  <div>
+                    <span>生日: </span>
+                    <span>{{ scope.row.employee.birthday }}</span>
+                  </div>
+                  <div>
+                    <span>身份证号: </span>
+                    <span>{{ scope.row.employee.idCard }}</span>
+                  </div>
+                  <div>
+                    <span>结婚状态: </span>
+                    <span>{{ scope.row.employee.wedlock }}</span>
+                  </div>
+                  <div>
+                    <span>籍贯: </span>
+                    <span>{{ scope.row.employee.nativePlace }}</span>
+                  </div>
+                  <div>
+                    <span>邮箱: </span>
+                    <span>{{ scope.row.employee.email }}</span>
+                  </div>
+                  <div>
+                    <span>手机号: </span>
+                    <span>{{ scope.row.employee.phone }}</span>
+                  </div>
+                  <div>
+                    <span>工号: </span>
+                    <span>{{ scope.row.employee.workId }}</span>
+                  </div>
+                  <div>
+                    <span>住址: </span>
+                    <span>{{ scope.row.employee.address }}</span>
+                  </div>
+                  <div>
+                    <span>聘用形式: </span>
+                    <span>{{ scope.row.employee.engageForm }}</span>
+                  </div>
+                  <div>
+                    <span>最高学历: </span>
+                    <span>{{ scope.row.employee.tiptopDegree }}</span>
+                  </div>
+                  <div>
+                    <span>专业: </span>
+                    <span>{{ scope.row.employee.specialty }}</span>
+                  </div>
+                  <div>
+                    <span>毕业学校: </span>
+                    <span>{{ scope.row.employee.school }}</span>
+                  </div>
+                  <div>
+                    <span>在职状态: </span>
+                    <span>{{ scope.row.employee.workState }}</span>
+                  </div>
+                  <div>
+                    <span>工年: </span>
+                    <span>{{ scope.row.employee.workAge }}</span>
+                  </div>
+                </div>
+                <i class='el-icon-question'></i>
+              </el-tooltip>
             </template>
           </el-table-column>
-          <el-table-column prop='appcontent' label='考评内容' width='120'>
-          </el-table-column>
-          <el-table-column prop='appresult' label='考评结果' width='130'>
+          <el-table-column prop='employee.workId' label='员工号' width='100'></el-table-column>
+          <el-table-column label='考评日期' width='200'>
             <template slot-scope='scope'>
-              <span v-if="scope.row.appresult==='优秀'">
-                {{ scope.row.appresult }}
+              {{ scope.row.createDate | dateFormat }}
+            </template>
+          </el-table-column>
+          <el-table-column prop='appraiseContent' label='考评内容' width='120'>
+          </el-table-column>
+          <el-table-column prop='appraiseResult' label='考评结果' width='130'>
+            <template slot-scope='scope'>
+              <span v-if="scope.row.appraiseResult==='优秀'">
+                {{ scope.row.appraiseResult }}
                 <i class='el-icon-star-on' style='color: red;'></i>
               </span>
               <span v-else>
-                {{ scope.row.appresult }}
+                {{ scope.row.appraiseResult }}
               </span>
             </template>
           </el-table-column>
@@ -86,9 +309,84 @@
         <el-table :data='employeeAdjustSalary' style='width: 100%'>
           <el-table-column label='#' type='index' width='50'>
           </el-table-column>
+          <el-table-column prop='employee.name' label='员工名' width='100'>
+            <template slot-scope='scope'>
+              <span>{{ scope.row.employee.name }} </span>
+              <el-tooltip placement='right'>
+                <div slot='content'>
+                  <div>
+                    <span>名称: </span>
+                    <span>{{ scope.row.employee.name }}</span>
+                  </div>
+                  <div>
+                    <span>性别: </span>
+                    <span>{{ scope.row.employee.gender }}</span>
+                  </div>
+                  <div>
+                    <span>生日: </span>
+                    <span>{{ scope.row.employee.birthday }}</span>
+                  </div>
+                  <div>
+                    <span>身份证号: </span>
+                    <span>{{ scope.row.employee.idCard }}</span>
+                  </div>
+                  <div>
+                    <span>结婚状态: </span>
+                    <span>{{ scope.row.employee.wedlock }}</span>
+                  </div>
+                  <div>
+                    <span>籍贯: </span>
+                    <span>{{ scope.row.employee.nativePlace }}</span>
+                  </div>
+                  <div>
+                    <span>邮箱: </span>
+                    <span>{{ scope.row.employee.email }}</span>
+                  </div>
+                  <div>
+                    <span>手机号: </span>
+                    <span>{{ scope.row.employee.phone }}</span>
+                  </div>
+                  <div>
+                    <span>工号: </span>
+                    <span>{{ scope.row.employee.workId }}</span>
+                  </div>
+                  <div>
+                    <span>住址: </span>
+                    <span>{{ scope.row.employee.address }}</span>
+                  </div>
+                  <div>
+                    <span>聘用形式: </span>
+                    <span>{{ scope.row.employee.engageForm }}</span>
+                  </div>
+                  <div>
+                    <span>最高学历: </span>
+                    <span>{{ scope.row.employee.tiptopDegree }}</span>
+                  </div>
+                  <div>
+                    <span>专业: </span>
+                    <span>{{ scope.row.employee.specialty }}</span>
+                  </div>
+                  <div>
+                    <span>毕业学校: </span>
+                    <span>{{ scope.row.employee.school }}</span>
+                  </div>
+                  <div>
+                    <span>在职状态: </span>
+                    <span>{{ scope.row.employee.workState }}</span>
+                  </div>
+                  <div>
+                    <span>工年: </span>
+                    <span>{{ scope.row.employee.workAge }}</span>
+                  </div>
+                </div>
+                <i class='el-icon-question'></i>
+              </el-tooltip>
+            </template>
+          </el-table-column>
+          <el-table-column prop='employee.workId' label='员工号' width='100'></el-table-column>
           <el-table-column label='调薪日期' width='200'>
             <template slot-scope='scope'>
-              {{ scope.row.asdate | dateFormat }}
+              {{ scope.row.createDate | dateFormat }}
             </template>
           </el-table-column>
           <el-table-column label='薪资' width='120'>
@@ -102,7 +400,7 @@
               </span>
             </template>
           </el-table-column>
-          <el-table-column prop='reason' label='调薪原因' width='120'>
+          <el-table-column prop='reason' label='调薪原因' width='300'>
           </el-table-column>
         </el-table>
       </el-tab-pane>
@@ -111,20 +409,95 @@
         <el-table :data='employeeMove' style='width: 100%'>
           <el-table-column label='#' type='index' width='50'>
           </el-table-column>
-          <el-table-column label='调动日期' width='200'>
+          <el-table-column prop='employee.name' label='员工名' width='100'>
             <template slot-scope='scope'>
-              {{ scope.row.removedate | dateFormat }}
+              <span>{{ scope.row.employee.name }} </span>
+              <el-tooltip placement='right'>
+                <div slot='content'>
+                  <div>
+                    <span>名称: </span>
+                    <span>{{ scope.row.employee.name }}</span>
+                  </div>
+                  <div>
+                    <span>性别: </span>
+                    <span>{{ scope.row.employee.gender }}</span>
+                  </div>
+                  <div>
+                    <span>生日: </span>
+                    <span>{{ scope.row.employee.birthday }}</span>
+                  </div>
+                  <div>
+                    <span>身份证号: </span>
+                    <span>{{ scope.row.employee.idCard }}</span>
+                  </div>
+                  <div>
+                    <span>结婚状态: </span>
+                    <span>{{ scope.row.employee.wedlock }}</span>
+                  </div>
+                  <div>
+                    <span>籍贯: </span>
+                    <span>{{ scope.row.employee.nativePlace }}</span>
+                  </div>
+                  <div>
+                    <span>邮箱: </span>
+                    <span>{{ scope.row.employee.email }}</span>
+                  </div>
+                  <div>
+                    <span>手机号: </span>
+                    <span>{{ scope.row.employee.phone }}</span>
+                  </div>
+                  <div>
+                    <span>工号: </span>
+                    <span>{{ scope.row.employee.workId }}</span>
+                  </div>
+                  <div>
+                    <span>住址: </span>
+                    <span>{{ scope.row.employee.address }}</span>
+                  </div>
+                  <div>
+                    <span>聘用形式: </span>
+                    <span>{{ scope.row.employee.engageForm }}</span>
+                  </div>
+                  <div>
+                    <span>最高学历: </span>
+                    <span>{{ scope.row.employee.tiptopDegree }}</span>
+                  </div>
+                  <div>
+                    <span>专业: </span>
+                    <span>{{ scope.row.employee.specialty }}</span>
+                  </div>
+                  <div>
+                    <span>毕业学校: </span>
+                    <span>{{ scope.row.employee.school }}</span>
+                  </div>
+                  <div>
+                    <span>在职状态: </span>
+                    <span>{{ scope.row.employee.workState }}</span>
+                  </div>
+                  <div>
+                    <span>工年: </span>
+                    <span>{{ scope.row.employee.workAge }}</span>
+                  </div>
+                </div>
+                <i class='el-icon-question'></i>
+              </el-tooltip>
             </template>
           </el-table-column>
-          <el-table-column prop='oldDepartName' label='调前部门' width='120'>
+          <el-table-column prop='employee.workId' label='员工号' width='100'></el-table-column>
+          <el-table-column label='调动日期' width='200'>
+            <template slot-scope='scope'>
+              {{ scope.row.removeDate | dateFormat }}
+            </template>
           </el-table-column>
-          <el-table-column prop='oldJoblevelName' label='调前职位' width='120'>
+          <el-table-column prop='beforeDepartmentName' label='调前部门' width='120'>
+          </el-table-column>
+          <el-table-column prop='beforeJobName' label='调前职位' width='120'>
           </el-table-column>
           <el-table-column prop='reason' label='调薪原因' width='180'>
           </el-table-column>
-          <el-table-column prop='newDepartName' label='调后部门' width='120'>
+          <el-table-column prop='afterDepartmentName' label='调后部门' width='120'>
           </el-table-column>
-          <el-table-column prop='newJoblevelName' label='调后职位' width='120'>
+          <el-table-column prop='afterJobName' label='调后职位' width='120'>
           </el-table-column>
           <el-table-column prop='remark' label='备注' width='120'>
           </el-table-column>
@@ -135,11 +508,86 @@
         <el-table :data='empSalaryInfo' stripe>
           <el-table-column label='#' type='index' width='50'>
           </el-table-column>
+          <el-table-column prop='employee.name' label='员工名' width='100'>
+            <template slot-scope='scope'>
+              <span>{{ scope.row.employee.name }} </span>
+              <el-tooltip placement='right'>
+                <div slot='content'>
+                  <div>
+                    <span>名称: </span>
+                    <span>{{ scope.row.employee.name }}</span>
+                  </div>
+                  <div>
+                    <span>性别: </span>
+                    <span>{{ scope.row.employee.gender }}</span>
+                  </div>
+                  <div>
+                    <span>生日: </span>
+                    <span>{{ scope.row.employee.birthday }}</span>
+                  </div>
+                  <div>
+                    <span>身份证号: </span>
+                    <span>{{ scope.row.employee.idCard }}</span>
+                  </div>
+                  <div>
+                    <span>结婚状态: </span>
+                    <span>{{ scope.row.employee.wedlock }}</span>
+                  </div>
+                  <div>
+                    <span>籍贯: </span>
+                    <span>{{ scope.row.employee.nativePlace }}</span>
+                  </div>
+                  <div>
+                    <span>邮箱: </span>
+                    <span>{{ scope.row.employee.email }}</span>
+                  </div>
+                  <div>
+                    <span>手机号: </span>
+                    <span>{{ scope.row.employee.phone }}</span>
+                  </div>
+                  <div>
+                    <span>工号: </span>
+                    <span>{{ scope.row.employee.workId }}</span>
+                  </div>
+                  <div>
+                    <span>住址: </span>
+                    <span>{{ scope.row.employee.address }}</span>
+                  </div>
+                  <div>
+                    <span>聘用形式: </span>
+                    <span>{{ scope.row.employee.engageForm }}</span>
+                  </div>
+                  <div>
+                    <span>最高学历: </span>
+                    <span>{{ scope.row.employee.tiptopDegree }}</span>
+                  </div>
+                  <div>
+                    <span>专业: </span>
+                    <span>{{ scope.row.employee.specialty }}</span>
+                  </div>
+                  <div>
+                    <span>毕业学校: </span>
+                    <span>{{ scope.row.employee.school }}</span>
+                  </div>
+                  <div>
+                    <span>在职状态: </span>
+                    <span>{{ scope.row.employee.workState }}</span>
+                  </div>
+                  <div>
+                    <span>工年: </span>
+                    <span>{{ scope.row.employee.workAge }}</span>
+                  </div>
+                </div>
+                <i class='el-icon-question'></i>
+              </el-tooltip>
+            </template>
+          </el-table-column>
+          <el-table-column prop='employee.workId' label='员工号' width='100'></el-table-column>
           <el-table-column prop='salaryName' label='账套名称' width='120'>
           </el-table-column>
-          <el-table-column label='月份' width='50'>
+          <el-table-column label='月份' width='100'>
             <template slot-scope='scope'>
-              {{ scope.row.salaryTime | DateFilterMonth }}
+              {{ scope.row.time | DateFilterMonth }}
             </template>
           </el-table-column>
           <el-table-column prop='allSalary' label='工资' width='120'>
@@ -170,7 +618,7 @@ export default {
       pageSize: 5,
       pageNum: 1,
       pageTotal: 0,
-      employeeC: [],
+      employeeAdv: [],
       employeeTrain: [],
       employeeAppraise: [],
       employeeAdjustSalary: [],
@@ -210,7 +658,7 @@ export default {
     },
     init() {
       this.getRequest('/emp/adv/c/' + this.pageNum + '/' + this.pageSize).then(res => {
-        this.employeeC = res.data.obj.list
+        this.employeeAdv = res.data.obj.list
         this.pageTotal = res.data.obj.total
       })
     },
@@ -251,7 +699,7 @@ export default {
   filters: {
     DateFilterMonth: function(time) {
       const t = new Date(time)
-      return t.getMonth() + 1
+      return t.getFullYear() + '/' + (t.getMonth() + 1)
     }
   }
 }

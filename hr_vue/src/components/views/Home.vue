@@ -16,7 +16,7 @@
           <span class='el-dropdown-link'>
             <el-avatar class='avatar' :src='currentHrImg'></el-avatar>
           </span>
-          <el-dropdown-menu slot='dropdown'>
+          <el-dropdown-menu>
             <el-dropdown-item icon='el-icon-user' command='my'
             >我的
             </el-dropdown-item
@@ -39,15 +39,15 @@
       </el-header>
       <!-- 菜单栏 -->
       <el-container>
-        <el-aside width='205px'>
-          <el-menu background-color='#00BFFF' unique-opened router>
+        <el-aside width='230px'>
+          <el-menu background-color='#00BFFF' unique-opened router :default-active=currentMenu>
             <el-submenu
               :index="index + ''"
               v-for='(item, index) in routes'
               :key='index'
             >
               <template slot='title'
-              ><i :class=item.iconcls></i>{{ item.name }}
+              ><i :class=item.iconClass></i>{{ item.name }}
               </template
               >
               <el-menu-item-group
@@ -81,7 +81,7 @@
                 </el-descriptions-item>
                 <el-descriptions-item label='密码'>**********</el-descriptions-item>
                 <el-descriptions-item label='头像地址'>
-                  {{ curUser.userface.length > 0 ? curUser.userface.substring(0, 100) + '....' : '' }}
+                  {{ curUser.userFace.length > 0 ? curUser.userFace.substring(0, 100) + '....' : '' }}
                 </el-descriptions-item>
               </el-descriptions>
               <el-form :model='curUser' ref='curUserRef' label-position='left'
@@ -95,8 +95,8 @@
                 <el-form-item label='居住地' prop='address' required>
                   <el-input v-model='curUser.address' style='width: 40%;'></el-input>
                 </el-form-item>
-                <el-form-item label='头像地址' prop='userface' required>
-                  <el-input v-model='curUser.userface' style='width: 40%;'></el-input>
+                <el-form-item label='头像地址' prop='userFace' required>
+                  <el-input v-model='curUser.userFace' style='width: 40%;'></el-input>
                 </el-form-item>
                 <el-form-item label='密码' prop='password'>
                   <el-input v-model='curUser.password' maxlength='16' show-word-limit style='width: 40%;'></el-input>
@@ -125,8 +125,9 @@
 export default {
   data() {
     return {
+      currentMenu: '',
       userInfoVisible: false,
-      currentHrImg: this.$store.state.user.userface,
+      currentHrImg: this.$store.state.user.userFace,
       curUser: JSON.parse(window.sessionStorage.getItem(('user')))
     }
   },
@@ -134,7 +135,9 @@ export default {
     changeUserInfo() {
       this.$refs['curUserRef'].validate((valid) => {
         if (valid) {
-          if (!this.curUser.password) { this.curUser.password = '' }
+          if (!this.curUser.password) {
+            this.curUser.password = ''
+          }
           this.putRequest('/sys/hr/modify', this.curUser).then(res => {
             if (res.data.status === 200) {
               this.$message.success(res.data.msg)
@@ -196,6 +199,10 @@ export default {
         })
         .catch(_ => {
         })
+    },
+    getUrl() {
+      let currentUrl = window.location.href
+      this.currentMenu = currentUrl.split('#')[1]
     }
   },
   computed: {
@@ -206,7 +213,10 @@ export default {
       return this.$store.state.messageCount
     }
   },
-  watch: {}
+  watch: {},
+  created() {
+    this.getUrl()
+  }
 }
 </script>
 

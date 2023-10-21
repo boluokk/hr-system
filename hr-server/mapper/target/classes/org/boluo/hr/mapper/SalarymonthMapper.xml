@@ -7,11 +7,14 @@
         <result column="salary_id" property="salaryId" jdbcType="VARCHAR"/>
         <result column="employee_id" property="employeeId" jdbcType="INTEGER"/>
         <result column="time" property="time" jdbcType="VARCHAR"/>
+        <result column="salary_name" property="salaryName" jdbcType="VARCHAR"/>
         <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <association property="employee" column="employee_id"
+                     select="org.boluo.hr.mapper.EmployeeMapper.selectByPrimaryKey" />
     </resultMap>
 
     <select id="selectAll" resultMap="BaseResultMap">
-        select <include refid="column"/>
+        select sm.id, sm.salary_id, sm.employee_id, sm.time, sm.remark, s.name as salary_name
         from salary_month as sm
         join salary as s
         where s.id = sm.salary_id

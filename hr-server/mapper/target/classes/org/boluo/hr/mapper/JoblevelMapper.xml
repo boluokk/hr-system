@@ -20,6 +20,11 @@
         from job_level
         where id = #{id,jdbcType=INTEGER}
     </select>
+    <select id="selectNameByKey" resultType="string">
+        select name
+        from job_level
+        where id = #{id}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete
         from job_level

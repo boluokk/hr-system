@@ -44,9 +44,6 @@ public class SalaryController {
 
     /**
      * 删除工资账套
-     *
-     * @param id
-     * @return
      */
     @DeleteMapping("/delete/{id}")
     public RespBean remove(@PathVariable("id") Integer id) {

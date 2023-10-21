@@ -3,7 +3,7 @@
     <el-card shadow='always' :body-style="{ padding: '20px' }">
       <div slot='header'></div>
       <el-table :data='tableData' style='width: 100%'>
-        <el-table-column prop='employeeName' label='名称' width='90'>
+        <el-table-column prop='employee.name' label='名称' width='90'>
         </el-table-column>
         <el-table-column prop='reason' label='原因' width='180'>
         </el-table-column>
@@ -11,7 +11,7 @@
         </el-table-column>
         <el-table-column label='时间' width='200'>
           <template slot-scope='scope'>
-            {{ scope.row.asdate | dateFormat }}
+            {{ scope.row.createDate | dateFormat }}
           </template>
         </el-table-column>
         <el-table-column prop='remark' label='备注' width='350'></el-table-column>
@@ -70,7 +70,7 @@
             <el-input v-model='editEmpSalaryForm.reason'></el-input>
           </el-form-item>
           <el-form-item label='时间'>
-            <el-date-picker type='date' placeholder='选择日期' v-model='editEmpSalaryForm.asdate'
+            <el-date-picker type='date' placeholder='选择日期' v-model='editEmpSalaryForm.createDate'
                             value-format='yyyy-MM-dd HH:mm:ss'
                             style='width: 100%;'></el-date-picker>
           </el-form-item>
@@ -101,7 +101,7 @@
             <el-input v-model='addEmpSalaryForm.reason'></el-input>
           </el-form-item>
           <el-form-item label='时间'>
-            <el-date-picker type='date' placeholder='选择日期' v-model='addEmpSalaryForm.asdate'
+            <el-date-picker type='date' placeholder='选择日期' v-model='addEmpSalaryForm.createDate'
                             value-format='yyyy-MM-dd HH:mm:ss'
                             style='width: 100%;'></el-date-picker>
           </el-form-item>

@@ -4,12 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
+/**
+ * 基础人事 实体
+ *
+ * @author 🍍
+ * @date 2023/10/18
+ */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class SysHr {
+@NoArgsConstructor
+public class BaseHr {
     /**
      * 主键
      */
@@ -19,11 +23,11 @@ public class SysHr {
      */
     private String name;
     /**
-     * 手机号
+     * 手机
      */
     private String phone;
     /**
-     * 电话号
+     * 电话
      */
     private String telephone;
     /**
@@ -31,13 +35,17 @@ public class SysHr {
      */
     private String address;
     /**
-     * 是否开启
+     * 是否可用
      */
     private Boolean enabled;
     /**
      * 用户名
      */
     private String username;
+    /**
+     * 密码
+     */
+    private String password;
     /**
      * 头像
      */
@@ -46,8 +54,4 @@ public class SysHr {
      * 备注
      */
     private String remark;
-    /**
-     * 角色
-     */
-    private List<Role> roles;
 }

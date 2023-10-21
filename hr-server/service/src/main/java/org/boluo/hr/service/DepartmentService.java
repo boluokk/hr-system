@@ -117,9 +117,10 @@ public class DepartmentService {
     /**
      * 返回所有部门
      *
-     * @return
+     * @return 部门集合
      */
     public List<Department> selectAll() {
         return departmentMapper.selectAll();
     }
+
 }

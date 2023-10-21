@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -69,10 +70,6 @@ public class Hr implements UserDetails {
     @JsonIgnore
     private List<Role> roles;
 
-    public List<Role> getRoles() {
-        return roles;
-    }
-
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -107,4 +104,16 @@ public class Hr implements UserDetails {
         return authorities;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Hr hr = (Hr) o;
+        return Objects.equals(name, hr.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
 }
