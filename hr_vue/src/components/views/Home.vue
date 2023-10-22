@@ -21,10 +21,7 @@
             >我的
             </el-dropdown-item
             >
-            <el-dropdown-item icon='el-icon-s-tools' command='setting'
-            >设置
-            </el-dropdown-item
-            >
+            <!--<el-dropdown-item icon='el-icon-s-tools' command='setting'>设置</el-dropdown-item>-->
             <el-dropdown-item icon='el-icon-chat-dot-square' command='msg'>
               聊天室
               <el-badge :value='msgCount' class='item' type='danger'></el-badge
@@ -166,7 +163,7 @@ export default {
     }
     ,
     logout() {
-      this.$confirm('此操作将退出注销, 是否继续?', '提示', {
+      this.$confirm('此操作将注销, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'

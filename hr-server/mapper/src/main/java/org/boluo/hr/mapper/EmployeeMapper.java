@@ -27,7 +27,7 @@ public interface EmployeeMapper {
      * @param employee 员工信息
      * @return 结果
      */
-    int insertEmployee(Employee employee);
+    Integer insertEmployee(Employee employee);
 
     /**
      * 通过员工id 查询员工
@@ -66,13 +66,6 @@ public interface EmployeeMapper {
      * @return 员工集合
      */
     List<Employee> selectByEmpName(@Param("empName") String empName);
-
-    /**
-     * 查询最大员工id
-     *
-     * @return 最大员工id
-     */
-    Integer selectMaxByWorkId();
 
     /**
      * 批量查询员工

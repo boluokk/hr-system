@@ -5,6 +5,11 @@
       <el-breadcrumb-item>工资账套设置</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card shadow='always' style='margin-top: 15px;'>
+      <el-input v-model='searchInput'
+                placeholder='请输入员工工号'
+                maxlength='8'
+                show-word-limit style='width: 250px; margin-bottom: 15px;margin-right: 15px;' />
+      <el-button type='primary' @click='searchCommit'>搜索</el-button>
       <el-table :data='tableData' border style='width: 100%'>
         <el-table-column prop='employeeName' label='姓名' width='180'></el-table-column>
         <el-table-column prop='workId' label='工号' width='180'></el-table-column>
@@ -76,7 +81,7 @@
               ></el-button>
               <el-dropdown-menu slot='dropdown'>
                 <el-dropdown-item
-                  :command="scope.row.salary.id + '-' + item.id"
+                  :command="scope.row.employeeId + '-' + item.id"
                   v-for='(item, idx) in salarySalSobData'
                   :key='idx'
                 >{{ item.name }}
@@ -105,6 +110,7 @@
 export default {
   data() {
     return {
+      searchInput: '',
       tableData: [],
       pageNum: 1,
       pageSize: 10,
@@ -113,11 +119,19 @@ export default {
     }
   },
   methods: {
+    searchCommit() {
+      if (this.searchInput.length == 0) return this.$message.warning('内容不能为空')
+      this.getRequest('/sal/sobcfg/byWorkId/' + this.searchInput).then(res => {
+        this.tableData = res.data.obj && [res.data.obj]
+        this.total = this.tableData && this.tableData.length || 0
+      })
+    },
     changeMenu(command) {
       const arr = command.split('-')
+      console.log(command)
       this.putRequest('/sal/sobcfg/modify/' + arr[0] + '/' + arr[1]).then(resp => {
         if (resp.data.status === 200) {
-          this.$message.success('操作成功')
+          this.$message.success(resp.data.msg)
         }
         this.init()
       })

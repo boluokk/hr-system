@@ -64,21 +64,18 @@ public class EmployeeService {
      * todo 未保证发送到rabbitMQ
      */
     public boolean insertOne(Employee employee) {
-        int i = employeeMapper.insertEmployee(employee);
-        if (i == 1) {
-            Employee emp = employeeMapper.selectEnhanceEmployeeByEmployeeId(employee.getId());
-            rabbitTemplate.convertAndSend(MailConstants.MAIL_QUEUE_NAME, emp);
+        Integer employeeId = employeeMapper.insertEmployee(employee);
+        // 修改workId
+        if (employeeId != null) {
+            if (employeeMapper.updateByPrimaryKey(new Employee()
+                    .setId(employeeId)
+                    .setWorkId(String.format("%08d", employeeId))) != 1) {
+                return false;
+            }
         }
-        return i == 1;
-    }
-
-    /**
-     * 返回员工最大id + 1
-     *
-     * @return 员工最大id + 1
-     */
-    public int selectMaxByWorkId() {
-        return employeeMapper.selectMaxByWorkId() + 1;
+//        Employee enhanceEmployee = employeeMapper.selectEnhanceEmployeeByEmployeeId(employeeId);
+//        rabbitTemplate.convertAndSend(MailConstants.MAIL_QUEUE_NAME, enhanceEmployee);
+        return true;
     }
 
     /**

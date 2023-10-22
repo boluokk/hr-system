@@ -1,6 +1,9 @@
 package org.boluo.hr.service;
 
+import org.boluo.hr.mapper.EmployeeSalaryMergeMapper;
 import org.boluo.hr.mapper.SalaryMapper;
+import org.boluo.hr.pojo.Employee;
+import org.boluo.hr.pojo.EmployeeSalaryMerge;
 import org.boluo.hr.pojo.SalaryConfigView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,10 +20,13 @@ import java.util.List;
 public class SobCfgService {
 
     private final SalaryMapper salaryMapper;
+    private final EmployeeSalaryMergeMapper employeeSalaryMergeMapper;
 
     @Autowired
-    public SobCfgService(SalaryMapper salaryMapper) {
+    public SobCfgService(SalaryMapper salaryMapper,
+                         EmployeeSalaryMergeMapper employeeSalaryMergeMapper) {
         this.salaryMapper = salaryMapper;
+        this.employeeSalaryMergeMapper = employeeSalaryMergeMapper;
     }
 
     /**
@@ -42,11 +48,24 @@ public class SobCfgService {
     }
 
     /**
-     * 新增员工工资
+     * 更换员工账套
      *
-     * @param employeeId 员工id
-     * @param salaryId 工资账套id
+     * @param employeeSalaryMerge 员工账套关系信息
+     * @return 结果
      */
-    public boolean updateEmployeeSalary(Integer employeeId, Integer salaryId) {
+    public boolean updateEmployeeSalary(EmployeeSalaryMerge employeeSalaryMerge) {
+        return employeeSalaryMergeMapper.updateEmployeeSalaryMerge(employeeSalaryMerge) == 1;
+    }
+
+    public EmployeeSalaryMerge selectEmployeeSalaryMergeByEmployeeId(Integer employeeId) {
+        return employeeSalaryMergeMapper.selectByEmployeeId(employeeId);
+    }
+
+    public boolean insertEmployeeSalaryMerge(EmployeeSalaryMerge employeeSalaryMerge) {
+        return employeeSalaryMergeMapper.insertEmployeeSalaryMerge(employeeSalaryMerge) == 1;
+    }
+
+    public SalaryConfigView selectEmployeeSalaryByWorkId(String workId) {
+        return salaryMapper.selectEmployeeSalaryByWorkId(workId);
     }
 }

@@ -2,9 +2,11 @@ package org.boluo.hr.controller.salary.sobcfg;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.boluo.hr.pojo.EmployeeSalaryMerge;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.service.SobCfgService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -28,23 +30,40 @@ public class SobCfgController {
      * 员工工资分页
      */
     @GetMapping("/{pageNum}/{pageSize}")
-    public RespBean findEmployeeWithSalary(@PathVariable("pageNum") Integer pageNum,
+    public RespBean findEmployeeSalaryPage(@PathVariable("pageNum") Integer pageNum,
                                            @PathVariable("pageSize") Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         return RespBean.ok(new PageInfo<>(sobCfgService.selectEmpWithSalary()));
     }
 
     /**
-     * 新增员工工资记录
+     * 通过员工号查询
      */
-    @PutMapping("/modify/{employeeId}/{salaryId}")
+    @GetMapping("/byWorkId/{workId}")
+    public RespBean findEmployeeSalaryByWorkId(@PathVariable("workId") String workId) {
+        return RespBean.ok(sobCfgService.selectEmployeeSalaryByWorkId(workId));
+    }
+
+    /**
+     * 新增员工账套
+     */
+    @PutMapping("/modify/{employeeId}/{newSalaryId}")
+    @Transactional(rollbackFor = Exception.class)
     public RespBean addSalaryWithEmployee(@PathVariable("employeeId") Integer employeeId,
-                                          @PathVariable("salaryId") Integer salaryId) {
-        try {
-            sobCfgService.updateEmployeeSalary(employeeId, salaryId);
-            return RespBean.ok();
-        } catch (Exception e) {
-            return RespBean.error();
+                                          @PathVariable("newSalaryId") Integer newSalaryId) {
+        EmployeeSalaryMerge employeeSalaryMerge = sobCfgService.selectEmployeeSalaryMergeByEmployeeId(employeeId);
+        // 没有就新增
+        if (employeeSalaryMerge == null) {
+            if (sobCfgService.insertEmployeeSalaryMerge(
+                    new EmployeeSalaryMerge().setEmployeeId(employeeId).setSalaryId(newSalaryId))) {
+                return RespBean.ok();
+            }
+            return RespBean.error("员工账套不存在, 并且新增失败");
+        } else {
+            if (sobCfgService.updateEmployeeSalary(employeeSalaryMerge.setSalaryId(newSalaryId))) {
+                return RespBean.ok();
+            }
+            return RespBean.error("更新失败");
         }
     }
 }

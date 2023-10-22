@@ -1,7 +1,6 @@
 package org.boluo.hr.mapper;
 
 import org.apache.ibatis.annotations.Param;
-import org.boluo.hr.pojo.Employee;
 import org.boluo.hr.pojo.Salary;
 import org.boluo.hr.pojo.SalaryConfigView;
 
@@ -71,7 +70,15 @@ public interface SalaryMapper {
     /**
      * 查询带员工信息的工资账套信息
      *
-     * @return 员工信息集合
+     * @return 员工账套信息集合
      */
     List<SalaryConfigView> selectEmployeeAndSalary();
+
+    /**
+     * 通过员工工号查询
+     *
+     * @param workId 员工工号
+     * @return 员工账套信息
+     */
+    SalaryConfigView selectEmployeeSalaryByWorkId(@Param("workId") String workId);
 }

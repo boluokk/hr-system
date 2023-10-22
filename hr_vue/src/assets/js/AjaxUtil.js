@@ -14,9 +14,6 @@ axios.interceptors.request.use(
 )
 axios.interceptors.response.use(
   data => {
-    console.log(data
-
-    )
     if (data.data.status && data.data.status !== 200) {
       Message.error({ message: data.data.msg })
       return

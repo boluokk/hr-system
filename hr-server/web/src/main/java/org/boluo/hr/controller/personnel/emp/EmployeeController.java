@@ -5,15 +5,15 @@ import com.github.pagehelper.PageInfo;
 import org.boluo.hr.pojo.Employee;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.service.*;
-import org.boluo.hr.service.util.ExportAndImportExcelUtil;
+import org.boluo.hr.service.util.ExportImportExcelUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.regex.Pattern;
 
 /**
  * 员工信息
@@ -43,8 +43,6 @@ public class EmployeeController {
         this.jobLevelService = jobLevelService;
         this.positionService = positionService;
     }
-
-    private final static String PATTERN = "^[0-9]{8}";
 
     /**
      * 员工分页
@@ -82,11 +80,8 @@ public class EmployeeController {
      * 添加员工
      */
     @PutMapping("/add")
+    @Transactional(rollbackFor = Exception.class)
     public RespBean add(Employee employee) {
-        boolean matches = Pattern.matches(PATTERN, employee.getWorkId());
-        if (!matches) {
-            return RespBean.error("workId不能为数字!!!");
-        }
         if (employeeService.insertOne(employee)) {
             return RespBean.ok();
         }
@@ -98,23 +93,10 @@ public class EmployeeController {
      */
     @PutMapping("/modify")
     public RespBean modify(Employee employee) {
-        boolean matches = Pattern.matches(PATTERN, employee.getWorkId());
-        if (!matches) {
-            return RespBean.error("workId非法!");
-        }
         if (employeeService.update(employee)) {
             return RespBean.ok();
         }
         return RespBean.error();
-    }
-
-    /**
-     * 最大员工号
-     */
-    @GetMapping("/maxWorkId")
-    public RespBean findMaxWorkId() {
-        Object format = String.format("%08d", employeeService.selectMaxByWorkId());
-        return RespBean.ok(format);
     }
 
     /**
@@ -134,7 +116,7 @@ public class EmployeeController {
     @GetMapping("/export")
     public ResponseEntity<byte[]> export() throws IOException {
         List<Employee> list = employeeService.selectAll();
-        return ExportAndImportExcelUtil.exportData(list);
+        return ExportImportExcelUtil.exportEmployeeData(list);
     }
 
     /**
@@ -143,7 +125,7 @@ public class EmployeeController {
     @PostMapping("/import")
     public RespBean importEmployees(MultipartFile file) throws IOException {
         List<Employee> employees =
-                ExportAndImportExcelUtil.importData(file, nationService.selectAllNation(),
+                ExportImportExcelUtil.importEmployeeData(file, nationService.selectAllNation(),
                         departmentService.selectAll(), politicsStatusService.selectAllPolitic(),
                         jobLevelService.selectAll(), positionService.selectAllPosition());
         if (employeeService.batchInsert(employees) == employees.size()) {

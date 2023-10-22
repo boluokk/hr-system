@@ -526,11 +526,6 @@
               <el-radio v-model='employeeFrom.wedlock' label='未婚'>未婚</el-radio>
             </el-form-item>
           </el-col>
-          <el-col :span='6' :offset='0'>
-            <el-form-item label='工号:'>
-              <el-input v-model='employeeFrom.workId' disabled></el-input>
-            </el-form-item>
-          </el-col>
         </el-row>
       </el-form>
       <span slot='footer' class='dialog-footer'>
@@ -789,11 +784,6 @@ export default {
       this.getRequest('/system/basic/job/').then(res => {
         this.jobLeveData = res.data.obj
       })
-      if (this.isEditOrAdd === 'add') {
-        this.getRequest('/personnel/emp/maxWorkId').then(res => {
-          this.employeeFrom.workid = res.data.obj
-        })
-      }
     },
     init() {
       this.getRequest(

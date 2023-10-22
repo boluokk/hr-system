@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.boluo.hr.mapper.SalaryTableMapper">
+    <sql id="column">employee_name, work_id, department_name, job_level_name, punishment, reward, tax</sql>
+    <resultMap id="baseResultMap" type="org.boluo.hr.pojo.SalaryTableView">
+        <result column="employee_name" property="employeeName"/>
+        <result column="work_id" property="workId"/>
+        <result column="department_name" property="departmentName"/>
+        <result column="job_level_name" property="jobLevelName"/>
+        <result column="punishment" property="punishment"/>
+        <result column="reward" property="reward"/>
+        <result column="tax" property="tax"/>
+        <result column="wages_payable" property="wagesPayable"/>
+        <association property="salary" resultMap="org.boluo.hr.mapper.SalaryMapper.BaseResultMap"/>
+    </resultMap>
+    <select id="selectAll"
+            resultMap="baseResultMap"
+            parameterType="org.boluo.hr.pojo.SalaryTableSearch">
+        select
+        <include refid="column"/>,
+        <include refid="org.boluo.hr.mapper.SalaryMapper.column"/>,
+        if((all_salary - tax + reward + punishment) > 0, (all_salary - tax + reward + punishment), 0) as wages_payable
+        from (
+        select
+        emp.`name` as employee_name, emp.work_id as work_id,
+        dep.`name` as department_name,
+        jl.`name` as job_level_name,
+        sal.*,
+        if(year(ads.create_date) = year(#{date}) and month(ads.create_date) = month(#{date}),
+            if(ads.salary &gt; 0, ads.salary, 0), 0) as reward,
+        if(year(ads.create_date) = year(#{date}) and month(ads.create_date) = month(#{date}),
+            if(ads.salary &lt; 0, ads.salary, 0), 0) as punishment,
+        case
+        when all_salary &lt;= 3000 then all_salary * 0.03
+        when all_salary &lt;= 12000 then all_salary * 0.10
+        when all_salary &lt;= 25000 then all_salary * 0.20
+        when all_salary &lt;= 35000 then all_salary * 0.25
+        when all_salary &lt;= 55000 then all_salary * 0.30
+        when all_salary &lt;= 80000 then all_salary * 0.35
+        when all_salary &gt; 80000 then all_salary * 0.45
+        end as tax
+        from employee as emp
+        join employee_salary_merge as ems on ems.employee_id = emp.id
+        join salary as sal on sal.id = ems.salary_id
+        join department as dep on dep.id = emp.department_id
+        join job_level as jl on jl.id = emp.job_level_id
+        left join adjust_salary as ads on ads.employee_id = emp.id
+        <where>
+            <if test="workId != null and workId != ''">
+                work_id = #{workId}
+            </if>
+        </where>
+        ) as t
+    </select>
+</mapper>

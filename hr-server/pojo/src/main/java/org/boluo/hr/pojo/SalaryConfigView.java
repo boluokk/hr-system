@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 工资账套设置显示 实体
+ * 工资账套设置视图 实体
  *
  * @author 🍍
  * @date 2023/10/21

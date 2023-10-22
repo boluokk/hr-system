@@ -29,8 +29,11 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @date 2023/10/1
  */
 @Slf4j
-public class ExportAndImportExcelUtil {
-    public static ResponseEntity<byte[]> exportData(List<Employee> employeeList) throws IOException {
+public class ExportImportExcelUtil {
+    /**
+     * 导出员工信息
+     */
+    public static ResponseEntity<byte[]> exportEmployeeData(List<Employee> employeeList) throws IOException {
         // 创建工作簿
         ByteArrayOutputStream bass;
         HttpHeaders headers;
@@ -41,31 +44,9 @@ public class ExportAndImportExcelUtil {
                     "workId", "contractTerm", "conversionTime", "beginContract", "endContract"};
             // 创建sheet表单
             Sheet sheet = workbook.createSheet();
-            sheet.setColumnWidth(0, 5 * 256);
-            sheet.setColumnWidth(1, 12 * 256);
-            sheet.setColumnWidth(2, 10 * 256);
-            sheet.setColumnWidth(3, 10 * 256);
-            sheet.setColumnWidth(4, 12 * 256);
-            sheet.setColumnWidth(5, 20 * 256);
-            sheet.setColumnWidth(6, 10 * 256);
-            sheet.setColumnWidth(7, 10 * 256);
-            sheet.setColumnWidth(8, 16 * 256);
-            sheet.setColumnWidth(9, 12 * 256);
-            sheet.setColumnWidth(10, 15 * 256);
-            sheet.setColumnWidth(11, 20 * 256);
-            sheet.setColumnWidth(12, 16 * 256);
-            sheet.setColumnWidth(13, 14 * 256);
-            sheet.setColumnWidth(14, 14 * 256);
-            sheet.setColumnWidth(15, 12 * 256);
-            sheet.setColumnWidth(16, 8 * 256);
-            sheet.setColumnWidth(17, 20 * 256);
-            sheet.setColumnWidth(18, 20 * 256);
-            sheet.setColumnWidth(19, 15 * 256);
-            sheet.setColumnWidth(20, 8 * 256);
-            sheet.setColumnWidth(21, 25 * 256);
-            sheet.setColumnWidth(22, 14 * 256);
-            sheet.setColumnWidth(23, 15 * 256);
-            sheet.setColumnWidth(24, 15 * 256);
+            for (int i = 0; i < titles.length; i++) {
+                sheet.setColumnWidth(i, 5 * 256);
+            }
             Row row = sheet.createRow(0);
             AtomicInteger atomicInteger = new AtomicInteger();
             for (String title : titles) {
@@ -159,7 +140,10 @@ public class ExportAndImportExcelUtil {
         return new ResponseEntity<>(bass.toByteArray(), headers, HttpStatus.CREATED);
     }
 
-    public static List<Employee> importData(MultipartFile file, List<Nation> allNation, List<Department> allDepInfo, List<PoliticsStatus> allPolitic, List<JobLevel> allJobLevel, List<Position> allPosition) throws IOException {
+    /**
+     * 导入员工信息
+     */
+    public static List<Employee> importEmployeeData(MultipartFile file, List<Nation> allNation, List<Department> allDepInfo, List<PoliticsStatus> allPolitic, List<JobLevel> allJobLevel, List<Position> allPosition) throws IOException {
         XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
         int numberOfSheets = workbook.getNumberOfSheets();
         List<Employee> list = new ArrayList<>();
@@ -284,5 +268,61 @@ public class ExportAndImportExcelUtil {
             }
         }
         return list;
+    }
+
+    /**
+     * 导出员工工资表信息
+     */
+    public static ResponseEntity<byte[]> exportSalaryTable(SalaryTableView salaryTableView) throws IOException {
+        ByteArrayOutputStream bass;
+        HttpHeaders headers;
+        String[] titles = {
+                "员工名", "员工号", "部门名", "职称名", "工资", "罚款", "奖励",
+                "奖金", "午餐补助", "交通补助", "个人所得税", "实发工资",
+        };
+        try (XSSFWorkbook workbook = new XSSFWorkbook()) {
+            // 创建sheet表单
+            Sheet sheet = workbook.createSheet();
+            for (int i = 0; i < titles.length; i++) {
+                sheet.setColumnWidth(i, 5 * 256);
+            }
+            Row titleRow = sheet.createRow(0);
+            AtomicInteger atomicInteger = new AtomicInteger();
+            for (String title : titles) {
+                Cell cell = titleRow.createCell(atomicInteger.getAndIncrement());
+                cell.setCellValue(title);
+            }
+
+            XSSFCellStyle dataStyle = workbook.createCellStyle();
+            dataStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("m/d/yy"));
+            // 开始插入值
+            Row valueRow = sheet.createRow(1);
+            valueRow.createCell(0).setCellValue(salaryTableView.getEmployeeName());
+            valueRow.createCell(1).setCellValue(salaryTableView.getWorkId());
+            valueRow.createCell(2).setCellValue(salaryTableView.getDepartmentName());
+            valueRow.createCell(3).setCellValue(salaryTableView.getJobLevelName());
+            Salary salary = salaryTableView.getSalary();
+            valueRow.createCell(4).setCellValue(salary.getAllSalary());
+            valueRow.createCell(5).setCellValue(salaryTableView.getPunishment());
+            valueRow.createCell(6).setCellValue(salaryTableView.getReward());
+            valueRow.createCell(7).setCellValue(salary.getBonus());
+            valueRow.createCell(8).setCellValue(salary.getLunchSalary());
+            valueRow.createCell(9).setCellValue(salary.getTrafficSalary());
+            valueRow.createCell(10).setCellValue(salaryTableView.getTax());
+            valueRow.createCell(11).setCellValue(salaryTableView.getWagesPayable());
+
+            bass = new ByteArrayOutputStream();
+            headers = new HttpHeaders();
+            try {
+                headers.setContentDispositionFormData("attachment",
+                        new String((salaryTableView.getWorkId() + salaryTableView.getEmployeeName() + ".xlsx")
+                                .getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1));
+                headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+                workbook.write(bass);
+            } catch (IOException e) {
+                log.debug("导出数据异常: {}", e.getMessage());
+            }
+        }
+        return new ResponseEntity<>(bass.toByteArray(), headers, HttpStatus.CREATED);
     }
 }

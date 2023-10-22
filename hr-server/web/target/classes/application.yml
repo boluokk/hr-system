@@ -37,4 +37,4 @@ page helper:
 # sql 日志
 logging:
   level:
-    sql: debug
+    org.boluo.hr.mapper: debug

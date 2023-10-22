@@ -131,10 +131,6 @@
             #{id}
         </foreach>
     </delete>
-    <select id="selectMaxByWorkId" resultType="java.lang.Integer">
-        select max(work_id)
-        from employee
-    </select>
     <select id="selectEnhanceEmployeeByEmployeeId" resultMap="enhanceEmployee">
         select emp.*,
                n.name         as nname,
@@ -249,7 +245,10 @@
             )
         </foreach>
     </insert>
-    <insert id="insertEmployee" parameterType="org.boluo.hr.pojo.Employee" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertEmployee"
+            parameterType="org.boluo.hr.pojo.Employee"
+            useGeneratedKeys="true"
+            keyProperty="id">
         insert into employee
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -489,9 +488,6 @@
             </if>
             <if test="workState != null">
                 work_state = #{workState,jdbcType=CHAR},
-            </if>
-            <if test="workId != null">
-                work_id = #{workId,jdbcType=CHAR},
             </if>
             <if test="contractTerm != null">
                 contract_term = #{contractTerm,jdbcType=DOUBLE},

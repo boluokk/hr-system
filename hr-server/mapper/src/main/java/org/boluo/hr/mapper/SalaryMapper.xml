@@ -44,6 +44,7 @@
         <association property="salary" resultMap="org.boluo.hr.mapper.SalaryMapper.BaseResultMap"/>
     </resultMap>
 
+
     <select id="selectEmployeeAndSalary" resultMap="SalaryConfigViewMap">
         select
         emp.id as employee_id, emp.name as employee_name, emp.email as email, emp.phone as phone, emp.work_id as work_id,
@@ -70,15 +71,25 @@
         </foreach>
     </delete>
     <select id="selectAll" resultMap="BaseResultMap">
-        select
-        <include refid="column"/>
+        select <include refid="column"/>
         from salary
     </select>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        select
-        <include refid="column"/>
+        select <include refid="column"/>
         from salary
         where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectEmployeeSalaryByWorkId" resultMap="SalaryConfigViewMap">
+        select
+        emp.id as employee_id, emp.name as employee_name, emp.email as email, emp.phone as phone, emp.work_id as work_id,
+        dep.id   as department_id,
+        dep.name as department_name,
+        sa.*
+        from employee emp
+        LEFT JOIN employee_salary_merge esm on emp.id = esm.employee_id
+        LEFT JOIN salary sa on esm.salary_id = sa.id
+        LEFT JOIN department dep on emp.department_id = dep.id
+        where emp.work_id = #{workId}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete
