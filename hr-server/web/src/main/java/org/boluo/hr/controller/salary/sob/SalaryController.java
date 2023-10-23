@@ -35,7 +35,7 @@ public class SalaryController {
      * 新增工资账套
      */
     @PutMapping("/add")
-    public RespBean add(Salary salary) {
+    public RespBean add(@RequestBody Salary salary) {
         if (salaryService.insert(salary)) {
             return RespBean.ok();
         }
@@ -57,7 +57,7 @@ public class SalaryController {
      * 修改工资账套
      */
     @PutMapping("/modify")
-    public RespBean modify(Salary salary) {
+    public RespBean modify(@RequestBody Salary salary) {
         if (salaryService.update(salary)) {
             return RespBean.ok();
         }

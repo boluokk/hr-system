@@ -13,6 +13,8 @@
         value-format='yyyy-MM-dd HH:mm:ss'>
       </el-date-picker>
       <el-button type='primary' @click='searchCommit' style='margin-left: 15px'>搜索</el-button>
+      <el-button type='primary' @click='printSalaryInfo' style='float: right'>打印工资单 <i
+        class='el-icon-download'></i></el-button>
       <el-table :data='tableData' border style='width: 100%'>
         <el-table-column prop='employeeName' label='姓名'></el-table-column>
         <el-table-column prop='workId' label='工号'></el-table-column>
@@ -78,7 +80,7 @@
         <el-table-column prop='wagesPayable' label='应发工资'></el-table-column>
         <el-table-column label='操作'>
           <template slot-scope='scope'>
-            <el-button type='primary' size='mini' @click='printSalaryInfo(scope.row)'>打印工资单</el-button>
+            <el-button type='danger' size='mini' @click='sendSalaryInfo(scope.row)'>发送工资单</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -99,6 +101,7 @@
 <script>
 
 import { formatDate } from '@/assets/js/MenuUtil'
+import { downloadFiles } from '@/assets/js/AjaxUtil'
 
 export default {
   data() {
@@ -112,12 +115,17 @@ export default {
     }
   },
   methods: {
+    sendSalaryInfo(item) {
+    },
     printSalaryInfo(item) {
       if (!this.searchDate) return this.$message.warning('时间不能为空')
-      window.open('/sal/table/export', '_parent')
+      downloadFiles('/sal/table/export', {
+        workId: this.searchInput,
+        date: this.searchDate
+      })
     },
     searchCommit() {
-      this.init()
+      this.init(true)
     },
     handleCurrentChange(newNum) {
       this.pageNum = newNum
@@ -127,7 +135,7 @@ export default {
       this.pageSize = newSize
       this.init()
     },
-    init() {
+    init(t) {
       if (!this.searchDate) return this.$message.warning('时间不能为空!')
       this.postRequest('/sal/table/' + this.pageNum + '/' + this.pageSize, {
         workId: this.searchInput,
@@ -135,7 +143,7 @@ export default {
       }).then(res => {
         this.tableData = res.data.obj.list
         this.total = res.data.obj.total
-        if (res.data.status === 200) {
+        if (res.data.status === 200 && t) {
           this.$message.success('查询成功')
         }
       })

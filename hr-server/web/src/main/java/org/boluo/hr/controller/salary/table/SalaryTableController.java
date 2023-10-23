@@ -9,13 +9,9 @@ import org.boluo.hr.service.SalaryTableService;
 import org.boluo.hr.service.util.ExportImportExcelUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -50,13 +46,11 @@ public class SalaryTableController {
     /**
      * 导出员工的工资表
      */
-    @PostMapping("/export/workId/date")
-    public ResponseEntity<byte[]> exportSalaryTable(@PathVariable("workId") String workId,
-                                                    @PathVariable("date") Date date) {
-        List<SalaryTableView> salaryTableViews = salaryTableService.selectAll(
-                new SalaryTableSearch().setWorkId(workId).setDate(date));
+    @PostMapping("/export")
+    public ResponseEntity<byte[]> exportSalaryTable(@RequestBody SalaryTableSearch salaryTableSearch) {
+        List<SalaryTableView> salaryTableViews = salaryTableService.selectAll(salaryTableSearch);
         try {
-            return ExportImportExcelUtil.exportSalaryTable(salaryTableViews.get(0));
+            return ExportImportExcelUtil.exportSalaryTable(salaryTableViews);
         } catch (IOException e) {
             return null;
         }

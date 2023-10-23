@@ -273,7 +273,7 @@ public class ExportImportExcelUtil {
     /**
      * 导出员工工资表信息
      */
-    public static ResponseEntity<byte[]> exportSalaryTable(SalaryTableView salaryTableView) throws IOException {
+    public static ResponseEntity<byte[]> exportSalaryTable(List<SalaryTableView> salaryTableView) throws IOException {
         ByteArrayOutputStream bass;
         HttpHeaders headers;
         String[] titles = {
@@ -284,7 +284,7 @@ public class ExportImportExcelUtil {
             // 创建sheet表单
             Sheet sheet = workbook.createSheet();
             for (int i = 0; i < titles.length; i++) {
-                sheet.setColumnWidth(i, 5 * 256);
+                sheet.setColumnWidth(i, 5 * 256 * 2);
             }
             Row titleRow = sheet.createRow(0);
             AtomicInteger atomicInteger = new AtomicInteger();
@@ -296,27 +296,29 @@ public class ExportImportExcelUtil {
             XSSFCellStyle dataStyle = workbook.createCellStyle();
             dataStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("m/d/yy"));
             // 开始插入值
-            Row valueRow = sheet.createRow(1);
-            valueRow.createCell(0).setCellValue(salaryTableView.getEmployeeName());
-            valueRow.createCell(1).setCellValue(salaryTableView.getWorkId());
-            valueRow.createCell(2).setCellValue(salaryTableView.getDepartmentName());
-            valueRow.createCell(3).setCellValue(salaryTableView.getJobLevelName());
-            Salary salary = salaryTableView.getSalary();
-            valueRow.createCell(4).setCellValue(salary.getAllSalary());
-            valueRow.createCell(5).setCellValue(salaryTableView.getPunishment());
-            valueRow.createCell(6).setCellValue(salaryTableView.getReward());
-            valueRow.createCell(7).setCellValue(salary.getBonus());
-            valueRow.createCell(8).setCellValue(salary.getLunchSalary());
-            valueRow.createCell(9).setCellValue(salary.getTrafficSalary());
-            valueRow.createCell(10).setCellValue(salaryTableView.getTax());
-            valueRow.createCell(11).setCellValue(salaryTableView.getWagesPayable());
+            for (int i = 0; i < salaryTableView.size(); i++) {
+                SalaryTableView currentSalaryTableView = salaryTableView.get(i);
+                Salary salary = currentSalaryTableView.getSalary();
+                Row valueRow = sheet.createRow(i + 1);
+                valueRow.createCell(0).setCellValue(currentSalaryTableView.getEmployeeName());
+                valueRow.createCell(1).setCellValue(currentSalaryTableView.getWorkId());
+                valueRow.createCell(2).setCellValue(currentSalaryTableView.getDepartmentName());
+                valueRow.createCell(3).setCellValue(currentSalaryTableView.getJobLevelName());
+                valueRow.createCell(4).setCellValue(salary.getAllSalary());
+                valueRow.createCell(5).setCellValue(currentSalaryTableView.getPunishment());
+                valueRow.createCell(6).setCellValue(currentSalaryTableView.getReward());
+                valueRow.createCell(7).setCellValue(salary.getBonus());
+                valueRow.createCell(8).setCellValue(salary.getLunchSalary());
+                valueRow.createCell(9).setCellValue(salary.getTrafficSalary());
+                valueRow.createCell(10).setCellValue(currentSalaryTableView.getTax());
+                valueRow.createCell(11).setCellValue(currentSalaryTableView.getWagesPayable());
+            }
 
             bass = new ByteArrayOutputStream();
             headers = new HttpHeaders();
             try {
                 headers.setContentDispositionFormData("attachment",
-                        new String((salaryTableView.getWorkId() + salaryTableView.getEmployeeName() + ".xlsx")
-                                .getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1));
+                        new String("工资表.xlsx".getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1));
                 headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
                 workbook.write(bass);
             } catch (IOException e) {

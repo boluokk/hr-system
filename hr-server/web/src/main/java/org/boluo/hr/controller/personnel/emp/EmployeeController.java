@@ -92,7 +92,7 @@ public class EmployeeController {
      * 修改员工
      */
     @PutMapping("/modify")
-    public RespBean modify(Employee employee) {
+    public RespBean modify(@RequestBody Employee employee) {
         if (employeeService.update(employee)) {
             return RespBean.ok();
         }
@@ -103,7 +103,7 @@ public class EmployeeController {
      * 删除员工
      */
     @DeleteMapping("/delete/{id}")
-    public RespBean delete(@PathVariable Integer id) {
+    public RespBean delete(@PathVariable("id") Integer id) {
         if (employeeService.delete(id)) {
             return RespBean.ok();
         }
@@ -140,7 +140,8 @@ public class EmployeeController {
      */
     @PostMapping("/top/search/{pageNum}/{pageSize}")
     public RespBean findByPage(@PathVariable("pageNum") Integer pageNum,
-                               @PathVariable("pageSize") Integer pageSize, Employee employee) {
+                               @PathVariable("pageSize") Integer pageSize,
+                               @RequestBody Employee employee) {
         PageHelper.startPage(pageNum, pageSize);
         return RespBean.ok(new PageInfo<>(employeeService.selectByPageAndEmployee(employee)));
     }

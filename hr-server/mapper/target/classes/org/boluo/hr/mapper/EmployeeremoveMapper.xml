@@ -3,7 +3,7 @@
 <mapper namespace="org.boluo.hr.mapper.EmployeeRemoveMapper">
     <sql id="column">id, employee_id, before_department_id,
                     before_job_id, after_department_id,after_job_id, remove_date, reason, remark</sql>
-    <resultMap id="BaseResultMap" type="org.boluo.hr.pojo.EmployeeRemove">
+    <resultMap id="BaseResultMap" type="org.boluo.hr.pojo.EmployeeRemoveView">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="employee_id" property="employeeId" jdbcType="INTEGER"/>
         <result column="after_department_id" property="afterDepartmentId" jdbcType="INTEGER"/>
@@ -37,7 +37,7 @@
         delete from employee_remove
         where id = #{id,jdbcType=INTEGER}
     </delete>
-    <insert id="insertEmployeeRemove" parameterType="org.boluo.hr.pojo.BaseEmployeeRemove">
+    <insert id="insertEmployeeRemove" parameterType="org.boluo.hr.pojo.EmployeeRemove">
         insert into employee_remove
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -98,7 +98,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKey" parameterType="org.boluo.hr.pojo.BaseEmployeeRemove">
+    <update id="updateByPrimaryKey" parameterType="org.boluo.hr.pojo.EmployeeRemove">
         update employee_remove
         <set>
             <if test="employeeId != null">

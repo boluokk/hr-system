@@ -1,6 +1,6 @@
 package org.boluo.hr.mapper;
 
-import org.boluo.hr.pojo.SalaryMonth;
+import org.boluo.hr.pojo.SalaryMonthView;
 import java.util.List;
 
 /**
@@ -16,7 +16,7 @@ public interface SalaryMonthMapper {
      *
      * @return 工资月末集合
      */
-    List<SalaryMonth> selectAll();
+    List<SalaryMonthView> selectAll();
 
-    List<SalaryMonth> selectByEmployeeWorkId(Integer employeeWorkId);
+    List<SalaryMonthView> selectByEmployeeWorkId(Integer employeeWorkId);
 }

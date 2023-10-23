@@ -62,7 +62,8 @@ public class SystemHrController {
      */
     @Transactional(rollbackFor = Exception.class)
     @PutMapping("/many/roles/{hrId}")
-    public RespBean modifyRoles(@PathVariable("hrId") Integer hrId, Integer[] rolesId) {
+    public RespBean modifyRoles(@PathVariable("hrId") Integer hrId,
+                                @RequestBody Integer[] rolesId) {
         if (hrService.deleteRoleByHrId(hrId)) {
             if (rolesId.length > 0) {
                 if (hrService.insertRoles(hrId, rolesId)) {
@@ -80,7 +81,7 @@ public class SystemHrController {
      * 修改人事信息
      */
     @PutMapping("/modify")
-    public RespBean modifyHr(Hr hr, HttpSession session) {
+    public RespBean modifyHr(@RequestBody Hr hr, HttpSession session) {
         String password = hr.getPassword();
         if (password != null && !password.isEmpty()) {
             hr.setPassword(PasswordEncoder.encode(password));
@@ -121,7 +122,7 @@ public class SystemHrController {
      * 新增人事
      */
     @PutMapping("/add")
-    public RespBean add(Hr hr) {
+    public RespBean add(@RequestBody Hr hr) {
         hr.setPassword(PasswordEncoder.encode(hr.getPassword()));
         if (hrService.insert(hr)) {
             return RespBean.ok();

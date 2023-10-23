@@ -7,10 +7,12 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 /**
- * 培训 实体
+ * 基础培训 实体
  *
- * @author boluo
+ * @author 🍍
+ * @date 2023/10/20
  */
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -35,8 +37,4 @@ public class EmployeeTrain {
      * 备注
      */
     private String remark;
-    /**
-     * 员工信息
-     */
-    private Employee employee;
 }

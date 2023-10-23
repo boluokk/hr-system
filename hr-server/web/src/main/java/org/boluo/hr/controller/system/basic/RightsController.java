@@ -60,7 +60,7 @@ public class RightsController {
      * 新增角色
      */
     @PutMapping("/add")
-    public RespBean addRole(Role role) {
+    public RespBean addRole(@RequestBody Role role) {
         role.setName(PRE_ROLE_NAME + role.getName());
         if (rightsService.insertRole(role)) {
             return RespBean.ok();
@@ -85,7 +85,7 @@ public class RightsController {
      * 修改角色
      */
     @PutMapping("/modify")
-    public RespBean modifyRole(Role role) {
+    public RespBean modifyRole(@RequestBody Role role) {
         if (rightsService.updateRole(role)) {
             return RespBean.ok();
         } else {
@@ -97,7 +97,8 @@ public class RightsController {
      * 修改权限
      */
     @PutMapping("/reRights/{roleId}")
-    public RespBean modifyRights(@PathVariable("roleId") Integer roleId, Integer[] ids) {
+    public RespBean modifyRights(@PathVariable("roleId") Integer roleId,
+                                 @RequestBody Integer[] ids) {
         int countRight = rightsService.selectRightsCountByRoleId(roleId);
         if (countRight > 0) {
             if (rightsService.deleteRights(roleId)) {

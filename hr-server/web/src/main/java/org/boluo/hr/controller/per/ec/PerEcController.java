@@ -44,7 +44,7 @@ public class PerEcController {
      * 修改奖惩信息
      */
     @PutMapping("/modify")
-    public RespBean modify(EmployeeRewardPunishment employeeRewardPunishment) {
+    public RespBean modify(@RequestBody EmployeeRewardPunishment employeeRewardPunishment) {
         if (employeeRewardPunishmentService.update(employeeRewardPunishment)) {
             return RespBean.ok();
         }
@@ -66,7 +66,7 @@ public class PerEcController {
      * 新增奖惩信息
      */
     @PutMapping("/add/{workId}")
-    public RespBean addOne(EmployeeRewardPunishment employeeRewardPunishment,
+    public RespBean addOne(@RequestBody EmployeeRewardPunishment employeeRewardPunishment,
                            @PathVariable("workId") String workId) {
         Employee employee = employeeService.selectEmployeeByWorkId(workId);
         if (employee == null) {

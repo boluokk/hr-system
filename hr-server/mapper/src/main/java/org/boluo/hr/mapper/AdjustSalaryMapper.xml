@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.boluo.hr.mapper.AdjustSalaryMapper" >
   <sql id="column">id, employee_id, create_date, salary, reason, remark</sql>
-  <resultMap id="BaseResultMap" type="org.boluo.hr.pojo.AdjustSalary" >
+  <resultMap id="BaseResultMap" type="org.boluo.hr.pojo.AdjustSalaryView" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="employee_id" property="employeeId" jdbcType="INTEGER" />
     <result column="create_date" property="createDate" jdbcType="DATE" />
@@ -26,7 +26,7 @@
     delete from adjust_salary
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insertAdjustSalary" parameterType="org.boluo.hr.pojo.BaseAdjustSalary" >
+  <insert id="insertAdjustSalary" parameterType="org.boluo.hr.pojo.AdjustSalary" >
     insert into adjust_salary
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="employeeId != null" >
@@ -63,7 +63,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKey" parameterType="org.boluo.hr.pojo.BaseAdjustSalary" >
+  <update id="updateByPrimaryKey" parameterType="org.boluo.hr.pojo.AdjustSalary" >
     update adjust_salary
     <set >
       <if test="employeeId != null" >

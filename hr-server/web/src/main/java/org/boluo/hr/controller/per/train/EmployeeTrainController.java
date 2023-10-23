@@ -2,7 +2,7 @@ package org.boluo.hr.controller.per.train;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.boluo.hr.pojo.BaseEmployeeTrain;
+import org.boluo.hr.pojo.EmployeeTrain;
 import org.boluo.hr.pojo.Employee;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.service.EmployeeService;
@@ -44,8 +44,8 @@ public class EmployeeTrainController {
      * 培训修改
      */
     @PutMapping("/modify")
-    public RespBean modify(BaseEmployeeTrain baseEmployeeTrain) {
-        if (employeeTrainService.update(baseEmployeeTrain)) {
+    public RespBean modify(@RequestBody EmployeeTrain employeeTrain) {
+        if (employeeTrainService.update(employeeTrain)) {
             return RespBean.ok();
         }
         return RespBean.error();
@@ -66,13 +66,14 @@ public class EmployeeTrainController {
      * 培训新增
      */
     @PutMapping("/add/{workId}")
-    public RespBean addOne(@PathVariable("workId") String workId, BaseEmployeeTrain baseEmployeeTrain) {
+    public RespBean addOne(@PathVariable("workId") String workId,
+                           @RequestBody EmployeeTrain employeeTrain) {
         Employee employee = employeeService.selectEmployeeByWorkId(workId);
         if (employee == null) {
             return RespBean.error("员工号不存在");
         }
-        baseEmployeeTrain.setEmployeeId(employee.getId());
-        if (employeeTrainService.insert(baseEmployeeTrain)) {
+        employeeTrain.setEmployeeId(employee.getId());
+        if (employeeTrainService.insert(employeeTrain)) {
             return RespBean.ok();
         }
         return RespBean.error();

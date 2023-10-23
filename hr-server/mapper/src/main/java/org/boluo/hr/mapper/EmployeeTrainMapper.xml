@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.boluo.hr.mapper.EmployeeTrainMapper">
     <sql id="column"> id, employee_id, create_data, train_content, remark</sql>
-    <resultMap id="BaseResultMap" type="org.boluo.hr.pojo.EmployeeTrain">
+    <resultMap id="BaseResultMap" type="org.boluo.hr.pojo.EmployeeTrainView">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="employee_id" property="employeeId" jdbcType="INTEGER"/>
         <result column="create_data" property="createData" jdbcType="DATE"/>
@@ -24,7 +24,7 @@
         delete from employee_train
         where id = #{id,jdbcType=INTEGER}
     </delete>
-    <insert id="insertEmployeeTrain" parameterType="org.boluo.hr.pojo.BaseEmployeeTrain">
+    <insert id="insertEmployeeTrain" parameterType="org.boluo.hr.pojo.EmployeeTrain">
         insert into employee_train
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -61,7 +61,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKey" parameterType="org.boluo.hr.pojo.BaseEmployeeTrain">
+    <update id="updateByPrimaryKey" parameterType="org.boluo.hr.pojo.EmployeeTrain">
         update employee_train
         <set>
             <if test="employeeId != null">

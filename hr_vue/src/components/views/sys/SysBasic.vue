@@ -1,37 +1,42 @@
 <template>
   <div>
-    <el-breadcrumb separator="/">
+    <el-breadcrumb separator='/'>
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>基本资料设置</el-breadcrumb-item>
     </el-breadcrumb>
-    <el-card shadow="always">
+    <el-card shadow='always'>
       <el-tabs
-        v-model="activeName"
-        type="border-card"
-        @tab-click="tablesHandel"
+        v-model='activeName'
+        type='border-card'
+        @tab-click='tablesHandel'
       >
-        <el-tab-pane label="部门管理" name="mana"
-          ><ManaComp :manageData="manageData" :initMana="initMana"></ManaComp
-        ></el-tab-pane>
-        <el-tab-pane label="职位管理" name="job"
-          ><JobComp :position="position" :initPos="initPos"></JobComp
-        ></el-tab-pane>
-        <el-tab-pane label="职称管理" name="jobName"
-          ><JobNameComp
-            :jobNametableData="jobNametableData"
-            :initJobName="initJobName"
-          ></JobNameComp
-        ></el-tab-pane>
-        <el-tab-pane label="奖惩规则" name="reward"
-          ><RewardComp></RewardComp
-        ></el-tab-pane>
-        <el-tab-pane label="权限组" name="rights"
-          ><RightsComp
-            :rightsData="rightsData"
-            :rightsData2="rightsData2"
-            :initRights="initRights"
+        <el-tab-pane label='部门管理' name='mana'
+        >
+          <ManaComp :manageData='manageData' :initMana='initMana'></ManaComp
+          >
+        </el-tab-pane>
+        <el-tab-pane label='职位管理' name='job'
+        >
+          <JobComp :position='position' :initPos='initPos'></JobComp
+          >
+        </el-tab-pane>
+        <el-tab-pane label='职称管理' name='jobName'>
+          <JobNameComp :jobNameTableData='jobNameTableData' :initJobName='initJobName'></JobNameComp>
+        </el-tab-pane>
+        <el-tab-pane label='奖惩规则' name='reward'
+        >
+          <RewardComp></RewardComp
+          >
+        </el-tab-pane>
+        <el-tab-pane label='权限组' name='rights'
+        >
+          <RightsComp
+            :rightsData='rightsData'
+            :rightsData2='rightsData2'
+            :initRights='initRights'
           ></RightsComp
-        ></el-tab-pane>
+          >
+        </el-tab-pane>
       </el-tabs>
     </el-card>
   </div>
@@ -49,7 +54,7 @@ export default {
     return {
       activeName: 'job',
       position: [],
-      jobNametableData: [],
+      jobNameTableData: [],
       rightsData: [],
       rightsData2: [],
       manageData: []
@@ -81,7 +86,7 @@ export default {
     },
     initJobName() {
       this.getRequest('/system/basic/jobName/').then(res => {
-        this.jobNametableData = res.data.obj
+        this.jobNameTableData = res.data.obj
       })
     },
     async initRights() {
@@ -104,7 +109,7 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang='less' scoped>
 .el-card {
   margin-top: 15px;
 }

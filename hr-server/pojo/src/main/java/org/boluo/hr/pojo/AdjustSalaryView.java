@@ -6,17 +6,17 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+
 /**
- * 基础调薪 实体
+ *  调薪 实体
  *
- * @author 🍍
- * @date 2023/10/20
+ * @author boluo
  */
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BaseAdjustSalary {
+public class AdjustSalaryView {
     /**
      * 主键
      */
@@ -41,4 +41,8 @@ public class BaseAdjustSalary {
      * 备注
      */
     private String remark;
+    /**
+     * 员工信息
+     */
+    private Employee employee;
 }

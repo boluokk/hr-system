@@ -46,7 +46,7 @@ public class EmpInfoController {
      * 修改员工
      */
     @PutMapping("/modify")
-    public RespBean modifyOne(Employee employee) {
+    public RespBean modifyOne(@RequestBody Employee employee) {
         if (empInfoService.update(employee)) {
             return RespBean.ok();
         }

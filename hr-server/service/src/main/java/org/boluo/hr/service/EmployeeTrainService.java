@@ -1,8 +1,8 @@
 package org.boluo.hr.service;
 
 import org.boluo.hr.mapper.EmployeeTrainMapper;
-import org.boluo.hr.pojo.BaseEmployeeTrain;
 import org.boluo.hr.pojo.EmployeeTrain;
+import org.boluo.hr.pojo.EmployeeTrainView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +30,7 @@ public class EmployeeTrainService {
      *
      * @return 培训集合
      */
-    public List<EmployeeTrain> selectAll() {
+    public List<EmployeeTrainView> selectAll() {
         return employeeTrainMapper.selectAll();
     }
 
@@ -40,8 +40,8 @@ public class EmployeeTrainService {
      * @param employeetrain 培新信息
      * @return 结果
      */
-    public boolean update(BaseEmployeeTrain baseEmployeeTrain) {
-        return employeeTrainMapper.updateByPrimaryKey(baseEmployeeTrain) == 1;
+    public boolean update(EmployeeTrain employeeTrain) {
+        return employeeTrainMapper.updateByPrimaryKey(employeeTrain) == 1;
     }
 
 
@@ -62,7 +62,7 @@ public class EmployeeTrainService {
      * @param employeetrain 培训信息
      * @return 结果
      */
-    public boolean insert(BaseEmployeeTrain baseEmployeeTrain) {
-        return employeeTrainMapper.insertEmployeeTrain(baseEmployeeTrain) == 1;
+    public boolean insert(EmployeeTrain employeeTrain) {
+        return employeeTrainMapper.insertEmployeeTrain(employeeTrain) == 1;
     }
 }

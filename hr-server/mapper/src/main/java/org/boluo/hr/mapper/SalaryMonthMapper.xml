@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.boluo.hr.mapper.SalaryMonthMapper">
     <sql id="column">id, salary_id, employee_id, time, remark</sql>
-    <resultMap id="BaseResultMap" type="org.boluo.hr.pojo.SalaryMonth">
+    <resultMap id="BaseResultMap" type="org.boluo.hr.pojo.SalaryMonthView">
         <id column="id" property="id" jdbcType="INTEGER" />
         <result column="salary_id" property="salaryId" jdbcType="VARCHAR"/>
         <result column="employee_id" property="employeeId" jdbcType="INTEGER"/>

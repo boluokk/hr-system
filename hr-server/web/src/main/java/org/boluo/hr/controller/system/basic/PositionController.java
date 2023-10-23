@@ -58,7 +58,7 @@ public class PositionController {
      * 新增职位
      */
     @PutMapping("/add")
-    public RespBean add(Position position) {
+    public RespBean add(@RequestBody Position position) {
         position.setEnabled(true);
         if (position.getCreateDate() == null) {
             position.setCreateDate(new Date());
@@ -86,7 +86,7 @@ public class PositionController {
      * 修改职位
      */
     @PutMapping("/modify")
-    public RespBean modify(Position pos) {
+    public RespBean modify(@RequestBody Position pos) {
         if (positionService.update(pos)) {
             return RespBean.ok();
         } else {

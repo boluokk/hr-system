@@ -1,7 +1,7 @@
 package org.boluo.hr.mapper;
 
+import org.boluo.hr.pojo.AdjustSalaryView;
 import org.boluo.hr.pojo.AdjustSalary;
-import org.boluo.hr.pojo.BaseAdjustSalary;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public interface AdjustSalaryMapper {
      * @param adjustSalary 调薪信息
      * @return 结果
      */
-    int insertAdjustSalary(BaseAdjustSalary baseAdjustSalary);
+    int insertAdjustSalary(AdjustSalary adjustSalary);
 
     /**
      * 通过调薪id 查询调薪
@@ -34,7 +34,7 @@ public interface AdjustSalaryMapper {
      * @param id 调薪id
      * @return 调薪信息
      */
-    AdjustSalary selectByPrimaryKey(Integer id);
+    AdjustSalaryView selectByPrimaryKey(Integer id);
 
     /**
      * 通过调薪id 修改调薪
@@ -42,12 +42,12 @@ public interface AdjustSalaryMapper {
      * @param adjustSalary 调薪信息
      * @return 结果
      */
-    int updateByPrimaryKey(BaseAdjustSalary baseAdjustSalary);
+    int updateByPrimaryKey(AdjustSalary adjustSalary);
 
     /**
      * 查询所有调薪
      *
      * @return 调薪集合
      */
-    List<AdjustSalary> selectAll();
+    List<AdjustSalaryView> selectAll();
 }

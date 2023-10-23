@@ -1,7 +1,7 @@
 package org.boluo.hr.service;
 
 import org.boluo.hr.mapper.SalaryMonthMapper;
-import org.boluo.hr.pojo.SalaryMonth;
+import org.boluo.hr.pojo.SalaryMonthView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +28,7 @@ public class SalaryMontService {
      *
      * @return 工资月末集合
      */
-    public List<SalaryMonth> selectAll() {
+    public List<SalaryMonthView> selectAll() {
         return salaryMonthMapper.selectAll();
     }
 
@@ -38,7 +38,7 @@ public class SalaryMontService {
      * @param employeeWorkId 员工号
      * @return 工资月末集合
      */
-    public List<SalaryMonth> selectByEmployeeWorkId(Integer employeeWorkId) {
+    public List<SalaryMonthView> selectByEmployeeWorkId(Integer employeeWorkId) {
         return salaryMonthMapper.selectByEmployeeWorkId(employeeWorkId);
     }
 }

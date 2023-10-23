@@ -35,7 +35,7 @@ axios.interceptors.response.use(
       Message.error({ message: '异地登录, 请重新登入!' })
       Router.replace('/')
     } else if (err.response.status === 404) {
-      Message.error({message: '未知请求路径'})
+      Message.error({ message: '未知请求路径' })
     } else {
       Message.error({ message: '未知错误!' })
     }
@@ -113,3 +113,27 @@ export const getRequest = url => {
     url: `${base}${url}`
   })
 }
+export const downloadFiles = (url, formData, fullFileName) => {
+  axios({
+    method: 'post',
+    url: `${base}${url}`,
+    data: formData,
+    responseType: 'blob', // 响应类型设置为blob
+    headers: {}
+  })
+    .then(response => {
+      // 创建一个下载链接并模拟点击
+      const url = window.URL.createObjectURL(new Blob([response.data]))
+      const a = document.createElement('a')
+      a.style.display = 'none'
+      a.href = url
+      a.download = fullFileName || '报表.xlsx' // 可以自定义文件名
+      document.body.appendChild(a)
+      a.click()
+      window.URL.revokeObjectURL(url)
+    })
+    .catch(error => {
+      console.error('下载失败: ' + error)
+    })
+}
+

@@ -2,7 +2,7 @@ package org.boluo.hr.controller.per.salary;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.boluo.hr.pojo.BaseAdjustSalary;
+import org.boluo.hr.pojo.AdjustSalary;
 import org.boluo.hr.pojo.Employee;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.service.AdjustSalaryService;
@@ -45,8 +45,8 @@ public class EmployeeSalaryController {
      * 员工工资修改
      */
     @PutMapping("/modify")
-    public RespBean modify(BaseAdjustSalary baseAdjustSalary) {
-        if (adjustSalaryService.update(baseAdjustSalary)) {
+    public RespBean modify(@RequestBody AdjustSalary adjustSalary) {
+        if (adjustSalaryService.update(adjustSalary)) {
             return RespBean.ok();
         }
         return RespBean.error();
@@ -67,14 +67,14 @@ public class EmployeeSalaryController {
      * 员工工资新增
      */
     @PutMapping("/add/{workId}")
-    public RespBean add(BaseAdjustSalary baseAdjustSalary,
+    public RespBean add(@RequestBody AdjustSalary adjustSalary,
                         @PathVariable("workId") String workId) {
         Employee employee = employeeService.selectEmployeeByWorkId(workId);
         if (employee == null) {
             return RespBean.error("未找到当前员工");
         }
-        baseAdjustSalary.setEmployeeId(employee.getId());
-        if (adjustSalaryService.insert(baseAdjustSalary)) {
+        adjustSalary.setEmployeeId(employee.getId());
+        if (adjustSalaryService.insert(adjustSalary)) {
             return RespBean.ok();
         }
         return RespBean.error();

@@ -7,7 +7,7 @@
       style="width: 250px;"
     ></el-input>
     <el-select
-      v-model="jobNameLevelvalue"
+      v-model="jobNameLevelValue"
       placeholder="职称等级"
       style="margin-left: 20px;"
       clearable
@@ -22,7 +22,6 @@
     </el-select>
     <el-button
       type="primary"
-      size="default"
       @click="subAddJobValue"
       icon="el-icon-plus"
       style="margin-left: 15px;"
@@ -31,10 +30,10 @@
     <el-table :data="jobNameTableData" style="width: 100%">
       <el-table-column prop="id" label="编号" width="180"> </el-table-column>
       <el-table-column prop="name" label="姓名" width="180"> </el-table-column>
-      <el-table-column prop="titlelevel" label="级别"> </el-table-column>
+      <el-table-column prop="titleLevel" label="级别"> </el-table-column>
       <el-table-column prop="createDate" label="创建时间">
         <template slot-scope="scope">
-          {{ scope.row.createdate | dateFormat }}
+          {{ scope.row.createDate | dateFormat }}
         </template>
       </el-table-column>
       <el-table-column prop="address" label="操作">
@@ -51,7 +50,7 @@
     </el-table>
     <el-dialog title="提示" :visible.sync="dialogVisible" width="30%">
       <el-form
-        :model="jobdynamicValidateForm"
+        :model="jobNameValidateForm"
         ref="dynamicValidateForm"
         label-width="100px"
       >
@@ -62,17 +61,17 @@
             { required: true, message: '请输入职位名称', trigger: 'blur' }
           ]"
         >
-          <el-input v-model="jobdynamicValidateForm.name"></el-input>
+          <el-input v-model="jobNameValidateForm.name"></el-input>
         </el-form-item>
         <el-form-item
-          prop="titlelevel"
+          prop="titleLevel"
           label="职位等级"
           :rules="[
             { required: true, message: '请输入邮箱地址', trigger: 'blur' }
           ]"
         >
           <el-select
-            v-model="jobdynamicValidateForm.titlelevel"
+            v-model="jobNameValidateForm.titleLevel"
             placeholder="职称等级"
             style="margin-left: 20px;"
             clearable
@@ -121,13 +120,13 @@ export default {
           label: '中级'
         }
       ],
-      jobNameLevelvalue: '',
+      jobNameLevelValue: '',
       jobNameValue: '',
       dialogVisible: false,
-      jobdynamicValidateForm: {
+      jobNameValidateForm: {
         id: '',
         name: '',
-        titlelevel: ''
+        titleLevel: ''
       }
     }
   },
@@ -136,26 +135,26 @@ export default {
       if (
         this.jobNameValue.trim() !== '' &&
         this.jobNameValue &&
-        this.jobNameLevelvalue.trim() !== '' &&
-        this.jobNameLevelvalue
+        this.jobNameLevelValue.trim() !== '' &&
+        this.jobNameLevelValue
       ) {
         this.putRequest('/system/basic/jobName/add', {
           name: this.jobNameValue,
-          titlelevel: this.jobNameLevelvalue
+          titleLevel: this.jobNameLevelValue
         }).then(res => {
           this.$message.success(res.data.msg)
           this.initJobName()
           this.jobNameValue = ''
-          this.jobNameLevelvalue = ''
+          this.jobNameLevelValue = ''
         })
       } else {
         this.$message('请填写职称或选择职称等级！')
       }
     },
     handleEdit(jobNameDatas) {
-      this.jobdynamicValidateForm.name = jobNameDatas.name
-      this.jobdynamicValidateForm.titlelevel = jobNameDatas.titlelevel
-      this.jobdynamicValidateForm.id = jobNameDatas.id
+      this.jobNameValidateForm.name = jobNameDatas.name
+      this.jobNameValidateForm.titleLevel = jobNameDatas.titleLevel
+      this.jobNameValidateForm.id = jobNameDatas.id
       this.dialogVisible = true
     },
     handleDelete(id) {
@@ -182,7 +181,7 @@ export default {
         if (!vali) return this.$message.warning('请填写必要项！')
         this.putRequest(
           '/system/basic/jobName/modify',
-          this.jobdynamicValidateForm
+          this.jobNameValidateForm
         ).then(res => {
           this.$message.success(res.data.msg)
           this.dialogVisible = false

@@ -12,27 +12,30 @@
           >
         </span>
 
-        <el-dropdown style='margin-right: 15px;' @command='commandHandel' trigger='click'>
+        <div style='display: flex;justify-content: center;align-items: center'>
+          <span style='margin-right: 10px;'>{{curUser.username}}</span>
+          <el-dropdown style='margin-right: 10px;' @command='commandHandel' trigger='click'>
           <span class='el-dropdown-link'>
             <el-avatar class='avatar' :src='currentHrImg'></el-avatar>
           </span>
-          <el-dropdown-menu>
-            <el-dropdown-item icon='el-icon-user' command='my'
-            >我的
-            </el-dropdown-item
-            >
-            <!--<el-dropdown-item icon='el-icon-s-tools' command='setting'>设置</el-dropdown-item>-->
-            <el-dropdown-item icon='el-icon-chat-dot-square' command='msg'>
-              聊天室
-              <el-badge :value='msgCount' class='item' type='danger'></el-badge
+            <el-dropdown-menu>
+              <el-dropdown-item icon='el-icon-user' command='my'
+              >我的
+              </el-dropdown-item
               >
-            </el-dropdown-item>
-            <el-dropdown-item icon='el-icon-switch-button' command='logout'
-            >退出
-            </el-dropdown-item
-            >
-          </el-dropdown-menu>
-        </el-dropdown>
+              <!--<el-dropdown-item icon='el-icon-s-tools' command='setting'>设置</el-dropdown-item>-->
+              <el-dropdown-item icon='el-icon-chat-dot-square' command='msg'>
+                聊天室
+                <el-badge :value='msgCount' class='item' type='danger'></el-badge
+                >
+              </el-dropdown-item>
+              <el-dropdown-item icon='el-icon-switch-button' command='logout'
+              >退出
+              </el-dropdown-item
+              >
+            </el-dropdown-menu>
+          </el-dropdown>
+        </div>
       </el-header>
       <!-- 菜单栏 -->
       <el-container>

@@ -39,7 +39,7 @@ public class DepartmentController {
      */
     @Transactional(rollbackFor = Exception.class)
     @PutMapping("/add")
-    public RespBean add(DepartRequestBean departRequestBean) {
+    public RespBean add(@RequestBody DepartRequestBean departRequestBean) {
         if (!departRequestBean.getParentIsParent()) {
             Department department = new Department().setId(departRequestBean.getParentId()).setIsParent(true);
             if (!departmentService.update(department)) {
@@ -47,10 +47,10 @@ public class DepartmentController {
             }
         }
         Department department = new Department()
-                                .setName(departRequestBean.getChildrenName())
-                                .setParentId(departRequestBean.getParentId())
-                                .setEnabled(departRequestBean.getChildrenEnabled())
-                                .setIsParent(false);
+                .setName(departRequestBean.getChildrenName())
+                .setParentId(departRequestBean.getParentId())
+                .setEnabled(departRequestBean.getChildrenEnabled())
+                .setIsParent(false);
         if (!departmentService.insert(department)) {
             throw new BusinessException("添加失败");
         }
@@ -59,9 +59,9 @@ public class DepartmentController {
             throw new BusinessException("新插入部门id不能为0");
         }
         Department newDepartment = new Department()
-        .setId(lastInsertId)
-        // 拼接部门路径
-        .setDepPath(departRequestBean.getParentDepPath() + "." + lastInsertId);
+                .setId(lastInsertId)
+                // 拼接部门路径
+                .setDepPath(departRequestBean.getParentDepPath() + "." + lastInsertId);
         if (!departmentService.update(newDepartment)) {
             throw new BusinessException("更新部门失败！");
         }
@@ -98,7 +98,7 @@ public class DepartmentController {
      * 修改部门
      */
     @PutMapping("/modify")
-    public RespBean modify(Department department) {
+    public RespBean modify(@RequestBody Department department) {
         if (departmentService.update(department)) {
             return RespBean.ok();
         } else {

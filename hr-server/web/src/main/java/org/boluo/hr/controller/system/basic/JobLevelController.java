@@ -49,7 +49,7 @@ public class JobLevelController {
      * 修改职称等级
      */
     @PutMapping("/modify")
-    public RespBean modify(JobLevel jobLevel) {
+    public RespBean modify(@RequestBody JobLevel jobLevel) {
         if (jobLevelService.update(jobLevel)) {
             return RespBean.ok();
         } else {
@@ -61,7 +61,7 @@ public class JobLevelController {
      * 新增职称等级
      */
     @PutMapping("/add")
-    public RespBean add(JobLevel jobLevel) {
+    public RespBean add(@RequestBody JobLevel jobLevel) {
         if (jobLevelService.insert(jobLevel)) {
             return RespBean.ok();
         } else {

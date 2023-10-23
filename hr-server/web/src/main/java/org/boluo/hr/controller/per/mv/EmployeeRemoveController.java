@@ -2,8 +2,7 @@ package org.boluo.hr.controller.per.mv;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.boluo.hr.pojo.BaseEmployeeRemove;
-import org.boluo.hr.pojo.BaseEmployeeTrain;
+import org.boluo.hr.pojo.EmployeeRemove;
 import org.boluo.hr.pojo.Employee;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.service.DepartmentService;
@@ -82,8 +81,8 @@ public class EmployeeRemoveController {
      * 修改调岗
      */
     @PutMapping("/modify")
-    public RespBean modify(BaseEmployeeRemove baseEmployeeRemove) {
-        if (employeeRemoveService.update(baseEmployeeRemove)) {
+    public RespBean modify(@RequestBody EmployeeRemove employeeRemove) {
+        if (employeeRemoveService.update(employeeRemove)) {
             return RespBean.ok();
         }
         return RespBean.error();
@@ -94,24 +93,24 @@ public class EmployeeRemoveController {
      */
     @PutMapping("/add/{workId}")
     @Transactional(rollbackFor = Exception.class)
-    public RespBean add(BaseEmployeeRemove baseEmployeeRemove,
+    public RespBean add(@RequestBody EmployeeRemove employeeRemove,
                         @PathVariable("workId") String workId) {
         Employee employee = employeeService.selectEmployeeByWorkId(workId);
         if (employee == null) {
             return RespBean.error("员工不存在!");
         }
-        baseEmployeeRemove.setEmployeeId(employee.getId());
+        employeeRemove.setEmployeeId(employee.getId());
         // 记录当前部门和职称
-        baseEmployeeRemove.setBeforeDepartmentId(employee.getDepartmentId());
-        baseEmployeeRemove.setBeforeJobId(employee.getJobLevelId());
+        employeeRemove.setBeforeDepartmentId(employee.getDepartmentId());
+        employeeRemove.setBeforeJobId(employee.getJobLevelId());
         // 修改部门和职称
-        employee.setDepartmentId(baseEmployeeRemove.getAfterDepartmentId());
-        employee.setJobLevelId(baseEmployeeRemove.getAfterJobId());
+        employee.setDepartmentId(employeeRemove.getAfterDepartmentId());
+        employee.setJobLevelId(employeeRemove.getAfterJobId());
         // 更新原来员工
         if (!employeeService.update(employee)) {
             return RespBean.error("部门或职称更新失败!");
         }
-        if (employeeRemoveService.insert(baseEmployeeRemove)) {
+        if (employeeRemoveService.insert(employeeRemove)) {
             return RespBean.ok();
         }
         return RespBean.error();
