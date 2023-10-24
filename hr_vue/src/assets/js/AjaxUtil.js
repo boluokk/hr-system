@@ -47,56 +47,34 @@ axios.interceptors.response.use(
 const base = ''
 
 export const postRequest = (url, params) => {
-  return axios({
-    method: 'post',
-    url: `${base}${url}`,
-    data: params,
-    transformRequest: [
-      function(data) {
-        let ret = ''
-        for (const it in data) {
-          if (data[it]) {
-            ret +=
-              encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
-          }
-        }
-        return ret
-      }
-    ],
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
+  let ans = {}
+  for (let it in params) {
+    if (params[it] !== undefined || params[it] !== null) {
+      ans[it] = params[it]
     }
-  })
-}
-export const uploadFileRequest = (url, params) => {
+  }
   return axios({
     method: 'post',
     url: `${base}${url}`,
-    data: params,
+    data: ans,
     headers: {
-      'Content-Type': 'multipart/form-data'
+      'Content-Type': 'application/json'
     }
   })
 }
 export const putRequest = (url, params) => {
+  let ans = {}
+  for (let it in params) {
+    if (params[it] !== undefined || params[it] !== null) {
+      ans[it] = params[it]
+    }
+  }
   return axios({
     method: 'put',
     url: `${base}${url}`,
-    data: params,
-    transformRequest: [
-      function(data) {
-        let ret = ''
-        for (const it in data) {
-          if (data[it]) {
-            ret +=
-              encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
-          }
-        }
-        return ret
-      }
-    ],
+    data: ans,
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/json'
     }
   })
 }

@@ -74,7 +74,7 @@ public class PositionController {
      * 批量删除
      */
     @DeleteMapping("/delete/many/")
-    public RespBean deleteMany(Integer[] ids) {
+    public RespBean deleteMany(@RequestBody Integer[] ids) {
         if (positionService.deleteMany(ids)) {
             return RespBean.ok();
         } else {

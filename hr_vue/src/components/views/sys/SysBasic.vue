@@ -10,13 +10,10 @@
         type='border-card'
         @tab-click='tablesHandel'
       >
-        <el-tab-pane label='部门管理' name='mana'
-        >
-          <ManaComp :manageData='manageData' :initMana='initMana'></ManaComp
-          >
+        <el-tab-pane label='部门管理' name='mana'>
+          <ManaComp :manageData='manageData' :initMana='initMana'></ManaComp>
         </el-tab-pane>
-        <el-tab-pane label='职位管理' name='job'
-        >
+        <el-tab-pane label='职位管理' name='job'>
           <JobComp :position='position' :initPos='initPos'></JobComp
           >
         </el-tab-pane>
@@ -32,7 +29,7 @@
         >
           <RightsComp
             :rightsData='rightsData'
-            :rightsData2='rightsData2'
+            :rightsDataMenu='rightsDataMenu'
             :initRights='initRights'
           ></RightsComp
           >
@@ -56,7 +53,7 @@ export default {
       position: [],
       jobNameTableData: [],
       rightsData: [],
-      rightsData2: [],
+      rightsDataMenu: [],
       manageData: []
     }
   },
@@ -94,7 +91,7 @@ export default {
         this.rightsData = res.data.obj
       })
       this.getRequest('/system/basic/rights/menus').then(res => {
-        this.rightsData2 = res.data.obj
+        this.rightsDataMenu = res.data.obj
       })
     },
     initMana() {

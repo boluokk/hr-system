@@ -1,10 +1,9 @@
 package org.boluo.hr.controller.system.hr;
 
-import org.boluo.hr.pojo.Hr;
-import org.boluo.hr.pojo.RespBean;
-import org.boluo.hr.pojo.Role;
+import org.boluo.hr.pojo.*;
 import org.boluo.hr.service.HrService;
 import org.boluo.hr.service.RightsService;
+import org.boluo.hr.util.CheckUtil;
 import org.boluo.hr.util.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,16 +60,16 @@ public class SystemHrController {
      * 修改人事角色
      */
     @Transactional(rollbackFor = Exception.class)
-    @PutMapping("/many/roles/{hrId}")
-    public RespBean modifyRoles(@PathVariable("hrId") Integer hrId,
-                                @RequestBody Integer[] rolesId) {
-        if (hrService.deleteRoleByHrId(hrId)) {
-            if (rolesId.length > 0) {
-                if (hrService.insertRoles(hrId, rolesId)) {
+    @PutMapping("/many/roles")
+    public RespBean modifyRoles(@RequestBody UploadHrRole uploadHrRole) {
+        if (hrService.deleteRoleByHrId(uploadHrRole.getHrId())) {
+            if (CheckUtil.hasLength(uploadHrRole.getRoleIds())) {
+                if (hrService.insertRoles(uploadHrRole.getHrId(), uploadHrRole.getRoleIds())) {
                     return RespBean.ok();
                 }
                 return RespBean.error();
             } else {
+                // 未传角色id
                 return RespBean.ok();
             }
         }
@@ -81,7 +80,7 @@ public class SystemHrController {
      * 修改人事信息
      */
     @PutMapping("/modify")
-    public RespBean modifyHr(@RequestBody Hr hr, HttpSession session) {
+    public RespBean modifyHr(@RequestBody UploadHr hr, HttpSession session) {
         String password = hr.getPassword();
         if (password != null && !password.isEmpty()) {
             hr.setPassword(PasswordEncoder.encode(password));
@@ -122,7 +121,10 @@ public class SystemHrController {
      * 新增人事
      */
     @PutMapping("/add")
-    public RespBean add(@RequestBody Hr hr) {
+    public RespBean add(@RequestBody UploadHr hr) {
+        if (!CheckUtil.isNull(hrService.selectByUsername(hr.getUsername()))) {
+            return RespBean.error("当前用户名已经存在");
+        }
         hr.setPassword(PasswordEncoder.encode(hr.getPassword()));
         if (hrService.insert(hr)) {
             return RespBean.ok();

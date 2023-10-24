@@ -51,6 +51,12 @@
     from role
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectByName" resultType="org.boluo.hr.pojo.Role">
+    select
+    <include refid="column"/>
+    from role
+    where name = #{name}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from role
     where id = #{id,jdbcType=INTEGER}

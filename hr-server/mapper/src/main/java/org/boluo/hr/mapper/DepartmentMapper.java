@@ -80,7 +80,7 @@ public interface DepartmentMapper {
      * @param path 部门路径
      * @return 结果
      */
-    int deleteByDepPath(@Param("depPath") String path);
+    int deleteByDepPath(@Param("depPath") String depPath);
 
     /**
      * 通过部门名称 查询部门

@@ -97,11 +97,11 @@ public class DepartmentService {
     /**
      * 通过部门路径 删除部门
      *
-     * @param path 部门路径
+     * @param depPath 部门路径
      * @return 结果
      */
-    public boolean deleteByDepPath(String path) {
-        return departmentMapper.deleteByDepPath(path) == 1;
+    public boolean deleteByDepPath(String depPath) {
+        return departmentMapper.deleteByDepPath(depPath) >= 1;
     }
 
     /**

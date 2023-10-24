@@ -10,17 +10,17 @@
         <el-input
           v-on:keydown.enter.native='searchKeyDown'
           placeholder='请输入人事名称...'
-          v-model='hrname'
+          v-model='hrName'
           style='width: 500px; margin: 0 50%;transform: translateX(-50%);display:inline-block;'
           clearable>
         </el-input>
       </div>
       <div style='margin-bottom:20px;'>
-        <span class='lightbox' :style='changeCloStyle'>
-          <span class='light'>
-          <i class='el-icon-eleme light2' @click='changeTop'></i>
-        </span>
-        </span>
+        <!--        <span class='lightbox' :style='changeCloStyle'>-->
+        <!--          <span class='light'>-->
+        <!--          <i class='el-icon-eleme light2' @click='changeTop'></i>-->
+        <!--        </span>-->
+        <!--        </span>-->
         <el-tag
           class='tagCls'
           @click='ShowAddHr'
@@ -57,7 +57,7 @@
 
           </div>
           <div style='text-align:center;'>
-            <el-avatar :size='60' :src='item.userface' style=''></el-avatar>
+            <el-avatar :size='60' :src='item.userFace' style=''></el-avatar>
           </div>
           <div style='font-size: 12px;margin-top:15px;'>
             用户名：<span>{{ item.name }}</span><br>
@@ -77,10 +77,10 @@
             <br>
             用户角色：
             <el-tag type='warning' size='mini' style='margin-right: 5px;margin-top: 1px;' effect='plain'
-                    v-for='(item,idx) in item.roles' v-text='item.namezh'></el-tag>
+                    v-for='(item,idx) in item.roles' v-text='item.nameZh'></el-tag>
             <el-popover
               placement='bottom'
-              @hide='addSlectRoles(item.id)'
+              @hide='addSelectRoles(item.id)'
               width='100'
               trigger='click'>
               <el-select
@@ -93,7 +93,7 @@
                 <el-option
                   v-for='item in options'
                   :key='item.id'
-                  :label='item.namezh'
+                  :label='item.nameZh'
                   :value='item.id'>
                 </el-option>
               </el-select>
@@ -122,7 +122,7 @@
     </el-card>
     <el-drawer
       :before-close='handleClose'
-      :visible.sync='queryTableVisibeldDialog'
+      :visible.sync='queryTableVisibleDialog'
       direction='ltr'
       custom-class='demo-drawer'
       ref='drawer'
@@ -136,7 +136,7 @@
             <el-input v-model='hrForm.name'></el-input>
           </el-form-item>
           <el-form-item label='手机' prop='phone'>
-            <el-input v-model='hrForm.phone' autocomplete='off'></el-input>
+            <el-input v-model='hrForm.phone' autocomplete='off' maxlength='11' show-word-limit></el-input>
           </el-form-item>
           <el-form-item label='电话' prop='telephone'>
             <el-input v-model='hrForm.telephone' autocomplete='off'></el-input>
@@ -144,14 +144,14 @@
           <el-form-item label='地址' prop='address'>
             <el-input v-model='hrForm.address' autocomplete='off'></el-input>
           </el-form-item>
-          <el-form-item label='账号名称' prop='username'>
+          <el-form-item label='账号' prop='username'>
             <el-input v-model='hrForm.username' autocomplete='off'></el-input>
           </el-form-item>
           <el-form-item label='密码' prop='password'>
             <el-input v-model='hrForm.password' autocomplete='off'></el-input>
           </el-form-item>
-          <el-form-item label='头像网址' prop='userface'>
-            <el-input v-model='hrForm.userface' autocomplete='off'></el-input>
+          <el-form-item label='头像网址' prop='userFace'>
+            <el-input v-model='hrForm.userFace' autocomplete='off'></el-input>
           </el-form-item>
         </el-form>
         <div class='demo-drawer__footer' style='width: 200px;margin: 0 50%;transform: translateX(-50%);'>
@@ -185,9 +185,9 @@ export default {
       selectRoles: [],
       // 拉链style
       changeCloStyle: {},
-      queryTableVisibeldDialog: false,
+      queryTableVisibleDialog: false,
       loading: false,
-      hrname: '',
+      hrName: '',
       fatherCard: {
         isRight: true,
         position: 'relative',
@@ -226,14 +226,14 @@ export default {
         address: '',
         username: '',
         password: '',
-        userface: '',
+        userFace: '',
         enabled: true
       }
     }
   },
   methods: {
     searchKeyDown() {
-      this.postRequest('/sys/hr/byHrName/' + this.hrname).then(res => {
+      this.postRequest('/sys/hr/byHrName/' + this.hrName).then(res => {
         this.initData = res.data
       })
     },
@@ -250,30 +250,13 @@ export default {
         }
       })
     },
-    changeTop() {
-      this.changeCloStyle = {
-        top: '2px'
-      }
-      const that = this
-      setTimeout(() => {
-        that.changeCloStyle = {
-          top: '-11px'
-        }
-      }, 500)
-      this.fatherCard.isRight = !this.fatherCard.isRight
-      if (!this.fatherCard.isRight) {
-        this.fatherCard.background = '#eee'
-      } else {
-        this.fatherCard.background = ''
-      }
-    },
     ShowAddHr() {
-      this.queryTableVisibeldDialog = true
+      this.queryTableVisibleDialog = true
     },
     remarkAdd(role) {
       if (role.remark) {
         if (role.remark.trim() !== '') {
-          this.putRequest('/sys/hr/', {
+          this.putRequest('/sys/hr/modify', {
             id: role.id,
             enabled: role.enabled,
             remark: role.remark
@@ -291,7 +274,10 @@ export default {
       })
     },
     changeSelect(role) {
-      this.putRequest('/sys/hr/', { enabled: role.enabled, id: role.id }).then(resp => {
+      this.putRequest('/sys/hr/modify', {
+        enabled: role.enabled,
+        id: role.id
+      }).then(resp => {
         this.$message.success(resp.data.msg)
       })
     },
@@ -311,8 +297,11 @@ export default {
         })
       })
     },
-    addSlectRoles(id) {
-      this.putRequest('/sys/hr/many/roles/' + id, { rolesId: this.selectRoles }).then(resp => {
+    addSelectRoles(id) {
+      this.putRequest('/sys/hr/many/roles', {
+        hrId: id,
+        roleIds: this.selectRoles
+      }).then(resp => {
         this.$message.success(resp.data.msg)
         this.init()
       })
@@ -334,12 +323,12 @@ export default {
           }, 2000)
         })
         .catch(_ => {
-          this.queryTableVisibeldDialog = false
+          this.queryTableVisibleDialog = false
         })
     },
     cancelForm() {
       this.loading = false
-      this.queryTableVisibeldDialog = false
+      this.queryTableVisibleDialog = false
       clearTimeout(this.timer)
     }
   },

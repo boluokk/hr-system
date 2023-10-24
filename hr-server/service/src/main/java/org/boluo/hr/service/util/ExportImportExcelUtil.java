@@ -45,7 +45,7 @@ public class ExportImportExcelUtil {
             // 创建sheet表单
             Sheet sheet = workbook.createSheet();
             for (int i = 0; i < titles.length; i++) {
-                sheet.setColumnWidth(i, 5 * 256);
+                sheet.setColumnWidth(i, 5 * 256 * 2);
             }
             Row row = sheet.createRow(0);
             AtomicInteger atomicInteger = new AtomicInteger();

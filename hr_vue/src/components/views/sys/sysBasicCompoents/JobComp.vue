@@ -15,10 +15,7 @@
     </el-button
     >
     <!-- 删除多项按钮 -->
-    <el-button type='danger' @click='deleteMany'
-    >批量删除
-    </el-button
-    >
+    <el-button type='danger' @click='deleteMany'>批量删除</el-button>
     <el-table
       :data='position'
       style='width: 100%;margin-top: 20px;text-align: center;'
@@ -33,10 +30,10 @@
       </el-table-column>
       <el-table-column prop='createdate' label='创建时间' width='250'>
         <template slot-scope='scope'>
-          {{ scope.row.createdate | dateFormat }}
+          {{ scope.row.createDate}}
         </template>
       </el-table-column>
-      <el-table-column prop='enabled' label='是否开启' width='150'>
+      <el-table-column prop='enabled' label='是否开启'>
         <template slot-scope='scope'>
           <el-tag v-if='scope.row.enabled === true' type='success'>开启</el-tag>
           <el-tag v-if='scope.row.enabled === false' type='danger'
@@ -45,7 +42,7 @@
           >
         </template>
       </el-table-column>
-      <el-table-column prop='address' label='操作'>
+      <el-table-column label='操作'>
         <template slot-scope='scope'>
           <el-button size='mini' @click='handleEdit(scope.row)'>编辑</el-button>
           <el-button size='mini' type='danger' @click='handleDelete(scope.row)'
@@ -109,7 +106,7 @@ export default {
       if (this.addJobValue.trim() === '') {
         return this.$message.error('请填写职位名称！')
       }
-      this.putRequest('/system/basic/job/modify', {
+      this.putRequest('/system/basic/job/add', {
         name: this.addJobValue
       }).then(res => {
         this.$message.success(res.data.msg)

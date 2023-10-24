@@ -63,7 +63,15 @@
                  left join role r on r.id = hro.role_id
     </select>
     <select id="selectAllExceptCurrentHr" resultMap="BaseHrResultMap">
-        select id, `name`, phone, telephone, address, enabled, username, user_face, remark
+        select id,
+               `name`,
+               phone,
+               telephone,
+               address,
+               enabled,
+               username,
+               user_face,
+               remark
         from hr
         where id != #{id}
     </select>
@@ -86,12 +94,18 @@
         from hr
         where id = #{id,jdbcType=INTEGER}
     </select>
+    <select id="selectByUsername" resultMap="BaseResultMap">
+        select
+        <include refid="column"/>
+        from `hr`
+        where username = #{username}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete
         from hr
         where id = #{id,jdbcType=INTEGER}
     </delete>
-    <insert id="insertHr" parameterType="org.boluo.hr.pojo.Hr">
+    <insert id="insertHr" parameterType="org.boluo.hr.pojo.UploadHr">
         insert into hr
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -118,7 +132,7 @@
             <if test="password != null">
                 password,
             </if>
-            <if test="user_face != null">
+            <if test="userFace != null">
                 user_face,
             </if>
             <if test="remark != null">
@@ -150,15 +164,15 @@
             <if test="password != null">
                 #{password,jdbcType=VARCHAR},
             </if>
-            <if test="user_face != null">
-                #{user_face,jdbcType=VARCHAR},
+            <if test="userFace != null">
+                #{userFace,jdbcType=VARCHAR},
             </if>
             <if test="remark != null">
                 #{remark,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKey" parameterType="org.boluo.hr.pojo.Hr">
+    <update id="updateByPrimaryKey" parameterType="org.boluo.hr.pojo.UploadHr">
         update hr
         <set>
             <if test="name != null">
@@ -182,8 +196,8 @@
             <if test="password != null">
                 password = #{password,jdbcType=VARCHAR},
             </if>
-            <if test="user_face != null">
-                user_face = #{user_face,jdbcType=VARCHAR},
+            <if test="userFace != null">
+                user_face = #{userFace,jdbcType=VARCHAR},
             </if>
             <if test="remark != null">
                 remark = #{remark,jdbcType=VARCHAR},

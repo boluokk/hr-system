@@ -67,7 +67,6 @@ public class Hr implements UserDetails {
     /**
      * 所含角色
      */
-    @JsonIgnore
     private List<Role> roles;
 
     @Override

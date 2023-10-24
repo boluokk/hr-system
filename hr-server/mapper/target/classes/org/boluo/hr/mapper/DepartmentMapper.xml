@@ -67,16 +67,16 @@
                 name,
             </if>
             <if test="parentId != null">
-                parentId,
+                parent_id,
             </if>
             <if test="depPath != null">
-                depPath,
+                dep_path,
             </if>
             <if test="enabled != null">
                 enabled,
             </if>
             <if test="isParent != null">
-                isParent,
+                is_parent,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">

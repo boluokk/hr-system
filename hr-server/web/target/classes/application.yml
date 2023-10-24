@@ -35,6 +35,6 @@ page helper:
   params: count=countSql
 
 # sql 日志
-logging:
-  level:
-    org.boluo.hr.mapper: debug
+#logging:
+#  level:
+#    org.boluo.hr.mapper: debug

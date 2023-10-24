@@ -5,6 +5,7 @@ import org.boluo.hr.pojo.DepartRequestBean;
 import org.boluo.hr.pojo.Department;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.service.DepartmentService;
+import org.boluo.hr.util.CheckUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -37,10 +38,11 @@ public class DepartmentController {
     /**
      * 添加部门
      */
-    @Transactional(rollbackFor = Exception.class)
+
     @PutMapping("/add")
+    @Transactional(rollbackFor = Exception.class)
     public RespBean add(@RequestBody DepartRequestBean departRequestBean) {
-        if (!departRequestBean.getParentIsParent()) {
+        if (CheckUtil.isNull(departRequestBean.getParentIsParent()) || !departRequestBean.getParentIsParent()) {
             Department department = new Department().setId(departRequestBean.getParentId()).setIsParent(true);
             if (!departmentService.update(department)) {
                 throw new BusinessException("更新部门失败");
@@ -78,7 +80,8 @@ public class DepartmentController {
             throw new BusinessException("删除路径失败");
         }
         if (!departmentService.noChildren(departRequestBean.getParentId())) {
-            if (!departmentService.update(new Department().setId(departRequestBean.getParentId()).setIsParent(false))) {
+            if (!departmentService.update(new Department()
+                    .setId(departRequestBean.getParentId()).setIsParent(false))) {
                 throw new BusinessException("部门更新失败");
             }
             return RespBean.ok();

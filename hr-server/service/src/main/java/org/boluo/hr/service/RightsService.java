@@ -28,6 +28,10 @@ public class RightsService {
         this.menuMapper = menuMapper;
     }
 
+    public Role selectRoleByName(String roleName) {
+        return roleMapper.selectByName(roleName);
+    }
+
     /**
      * 返回所有角色
      *

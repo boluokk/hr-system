@@ -506,91 +506,58 @@
       <el-tab-pane>
         <span slot='label'><i class='el-icon-chat-dot-round'></i> 工资信息</span>
         <el-table :data='empSalaryInfo' stripe>
-          <el-table-column label='#' type='index' width='50'>
-          </el-table-column>
-          <el-table-column prop='employee.name' label='员工名' width='100'>
+          <el-table-column label='#' type='index' width='50'></el-table-column>
+          <el-table-column prop='employeeName' label='员工名' width='100'></el-table-column>
+          <el-table-column prop='workId' label='员工号' width='100'></el-table-column>
+          <el-table-column prop='departmentName' label='部门' width='100'></el-table-column>
+          <el-table-column prop='jobLevelName' label='职称' width='100'></el-table-column>
+          <el-table-column prop='salary.name' label='账套名称' width='120'></el-table-column>
+          <el-table-column prop='wagesPayable' label='工资' width='120'>
             <template slot-scope='scope'>
-              <span>{{ scope.row.employee.name }} </span>
-              <el-tooltip placement='right'>
-                <div slot='content'>
-                  <div>
-                    <span>名称: </span>
-                    <span>{{ scope.row.employee.name }}</span>
-                  </div>
-                  <div>
-                    <span>性别: </span>
-                    <span>{{ scope.row.employee.gender }}</span>
-                  </div>
-                  <div>
-                    <span>生日: </span>
-                    <span>{{ scope.row.employee.birthday }}</span>
-                  </div>
-                  <div>
-                    <span>身份证号: </span>
-                    <span>{{ scope.row.employee.idCard }}</span>
-                  </div>
-                  <div>
-                    <span>结婚状态: </span>
-                    <span>{{ scope.row.employee.wedlock }}</span>
-                  </div>
-                  <div>
-                    <span>籍贯: </span>
-                    <span>{{ scope.row.employee.nativePlace }}</span>
-                  </div>
-                  <div>
-                    <span>邮箱: </span>
-                    <span>{{ scope.row.employee.email }}</span>
-                  </div>
-                  <div>
-                    <span>手机号: </span>
-                    <span>{{ scope.row.employee.phone }}</span>
-                  </div>
-                  <div>
-                    <span>工号: </span>
-                    <span>{{ scope.row.employee.workId }}</span>
-                  </div>
-                  <div>
-                    <span>住址: </span>
-                    <span>{{ scope.row.employee.address }}</span>
-                  </div>
-                  <div>
-                    <span>聘用形式: </span>
-                    <span>{{ scope.row.employee.engageForm }}</span>
-                  </div>
-                  <div>
-                    <span>最高学历: </span>
-                    <span>{{ scope.row.employee.tiptopDegree }}</span>
-                  </div>
-                  <div>
-                    <span>专业: </span>
-                    <span>{{ scope.row.employee.specialty }}</span>
-                  </div>
-                  <div>
-                    <span>毕业学校: </span>
-                    <span>{{ scope.row.employee.school }}</span>
-                  </div>
-                  <div>
-                    <span>在职状态: </span>
-                    <span>{{ scope.row.employee.workState }}</span>
-                  </div>
-                  <div>
-                    <span>工年: </span>
-                    <span>{{ scope.row.employee.workAge }}</span>
-                  </div>
+              <span style='display: flex;justify-content: right;align-items: center'>
+                <span>{{ scope.row.wagesPayable }}</span>
+                 <el-tooltip placement='right' effect='light' :enterable='false'>
+                <div slot='content' v-if='scope.row.salary'>
+                  <span v-if='scope.row.salary'
+                  >启用时间：{{
+                      scope.row.salary.createDate | dateFormat
+                    }}</span
+                  ><br />
+                  <span v-if='scope.row.salary'
+                  >基础工资：{{ scope.row.salary.basicSalary }}</span
+                  ><br />
+                  <span v-if='scope.row.salary'
+                  >午餐补助：{{ scope.row.salary.lunchSalary }}</span
+                  ><br />
+                  <span v-if='scope.row.salary'
+                  >交通补助：{{ scope.row.salary.trafficSalary }}</span
+                  ><br />
+                  <span v-if='scope.row.salary'
+                  >奖金：{{ scope.row.salary.bonus }}</span
+                  ><br />
+                  <span v-if='scope.row.salary'
+                  >养老金基数：{{ scope.row.salary.pensionBase }}</span
+                  ><br />
+                  <span v-if='scope.row.salary'
+                  >养老金比率：{{ scope.row.salary.pensionPer }}</span
+                  ><br />
+                  <span v-if='scope.row.salary'
+                  >医保基数：{{ scope.row.salary.medicalBase }}</span
+                  ><br />
+                  <span v-if='scope.row.salary'
+                  >医保比率{{ scope.row.salary.medicalPer }}</span
+                  ><br />
+                  <span v-if='scope.row.salary'
+                  >公积金基数：{{ scope.row.salary.accumulationFundBase }}</span
+                  ><br />
+                  <span v-if='scope.row.salary'
+                  >公积金比率：{{ scope.row.salary.accumulationFundPer }}</span
+                  ><br />
                 </div>
-                <i class='el-icon-question'></i>
-              </el-tooltip>
+                <i class='el-icon-question' style='margin-left: 10px;' />
+            </el-tooltip>
+              </span>
             </template>
-          </el-table-column>
-          <el-table-column prop='employee.workId' label='员工号' width='100'></el-table-column>
-          <el-table-column prop='salaryName' label='账套名称' width='120'>
-          </el-table-column>
-          <el-table-column label='月份' width='100'>
-            <template slot-scope='scope'>
-              {{ scope.row.time | DateFilterMonth }}
-            </template>
-          </el-table-column>
-          <el-table-column prop='allSalary' label='工资' width='120'>
           </el-table-column>
         </el-table>
       </el-tab-pane>

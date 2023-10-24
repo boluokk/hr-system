@@ -33,10 +33,10 @@
       <el-table-column prop="titleLevel" label="级别"> </el-table-column>
       <el-table-column prop="createDate" label="创建时间">
         <template slot-scope="scope">
-          {{ scope.row.createDate | dateFormat }}
+          {{ scope.row.createDate}}
         </template>
       </el-table-column>
-      <el-table-column prop="address" label="操作">
+      <el-table-column label="操作" width='180'>
         <template slot-scope="scope">
           <el-button size="mini" @click="handleEdit(scope.row)">编辑</el-button>
           <el-button

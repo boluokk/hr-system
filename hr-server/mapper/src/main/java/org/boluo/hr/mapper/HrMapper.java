@@ -3,7 +3,7 @@ package org.boluo.hr.mapper;
 import org.apache.ibatis.annotations.Param;
 import org.boluo.hr.pojo.BaseHr;
 import org.boluo.hr.pojo.Hr;
-import org.boluo.hr.pojo.SysHr;
+import org.boluo.hr.pojo.UploadHr;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ public interface HrMapper {
      * @param hr 人事信息
      * @return 结果
      */
-    int insertHr(Hr hr);
+    int insertHr(UploadHr uploadHr);
 
 
     /**
@@ -40,7 +40,7 @@ public interface HrMapper {
      * @param hr 人事信息
      * @return 结果
      */
-    int updateByPrimaryKey(Hr hr);
+    int updateByPrimaryKey(UploadHr hr);
 
     /**
      * 通过人事账号 查询人事
@@ -80,4 +80,12 @@ public interface HrMapper {
      * @return 人事集合
      */
     List<Hr> selectHrByName(@Param("hrName") String hrName);
+
+    /**
+     * 通过用户名查询
+     *
+     * @param username 用户名
+     * @return 人事信息
+     */
+    Hr selectByUsername(@Param("username") String username);
 }

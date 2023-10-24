@@ -5,7 +5,7 @@ import org.boluo.hr.mapper.RoleMapper;
 import org.boluo.hr.pojo.BaseHr;
 import org.boluo.hr.pojo.Hr;
 import org.boluo.hr.pojo.Role;
-import org.boluo.hr.pojo.SysHr;
+import org.boluo.hr.pojo.UploadHr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -75,7 +75,7 @@ public class HrService implements UserDetailsService {
      * @param hr 人事信息
      * @return 结果
      */
-    public boolean update(Hr hr) {
+    public boolean update(UploadHr hr) {
         return hrMapper.updateByPrimaryKey(hr) == 1;
     }
 
@@ -136,7 +136,11 @@ public class HrService implements UserDetailsService {
      * @param hr 人事信息
      * @return 结果
      */
-    public boolean insert(Hr hr) {
-        return hrMapper.insertHr(hr) == 1;
+    public boolean insert(UploadHr uploadHr) {
+        return hrMapper.insertHr(uploadHr) == 1;
+    }
+
+    public Hr selectByUsername(String username) {
+        return hrMapper.selectByUsername(username);
     }
 }

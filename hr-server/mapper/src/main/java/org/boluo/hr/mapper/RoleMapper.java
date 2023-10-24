@@ -1,10 +1,10 @@
 package org.boluo.hr.mapper;
 
+import org.apache.ibatis.annotations.Param;
 import org.boluo.hr.pojo.RightsBean;
 import org.boluo.hr.pojo.Role;
 
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
 /**
  * 角色 数据层
@@ -12,6 +12,8 @@ import org.apache.ibatis.annotations.Param;
  * @author boluo
  */
 public interface RoleMapper {
+
+    Role selectByName(@Param("name") String name);
 
     /**
      * 删除角色
@@ -96,16 +98,16 @@ public interface RoleMapper {
      * 删除人事角色
      *
      * @param hrId 人事id
-     * @return
+     * @return 结果
      */
     int deleteByHrId(@Param("hrId") Integer hrId);
 
     /**
      * 对人事 新增角色
      *
-     * @param hid 人事id
+     * @param hid     人事id
      * @param roleIds 角色id数组
      * @return 结果
      */
-    int insertRolesByRoleIds(@Param("hid") Integer hid,@Param("roleIds") Integer[] roleIds);
+    int insertRolesByRoleIds(@Param("hid") Integer hid, @Param("roleIds") Integer[] roleIds);
 }

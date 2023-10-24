@@ -129,7 +129,7 @@ public class EmployeeController {
                         departmentService.selectAll(), politicsStatusService.selectAllPolitic(),
                         jobLevelService.selectAll(), positionService.selectAllPosition());
         if (employeeService.batchInsert(employees) == employees.size()) {
-            return RespBean.ok("上传成功！");
+            return RespBean.ok("上传成功", true);
         }
         return RespBean.error("上传失败！");
     }

@@ -3,7 +3,9 @@ package org.boluo.hr.controller.system.basic;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.pojo.RightsBean;
 import org.boluo.hr.pojo.Role;
+import org.boluo.hr.pojo.UploadRoleMenu;
 import org.boluo.hr.service.RightsService;
+import org.boluo.hr.util.CheckUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -62,6 +64,9 @@ public class RightsController {
     @PutMapping("/add")
     public RespBean addRole(@RequestBody Role role) {
         role.setName(PRE_ROLE_NAME + role.getName());
+        if (!CheckUtil.isNull(rightsService.selectRoleByName(role.getName()))) {
+            return RespBean.error("当前角色英文名已经存在");
+        }
         if (rightsService.insertRole(role)) {
             return RespBean.ok();
         } else {
@@ -96,16 +101,16 @@ public class RightsController {
     /**
      * 修改权限
      */
-    @PutMapping("/reRights/{roleId}")
-    public RespBean modifyRights(@PathVariable("roleId") Integer roleId,
-                                 @RequestBody Integer[] ids) {
-        int countRight = rightsService.selectRightsCountByRoleId(roleId);
+    @PutMapping("/modify/rights")
+    public RespBean modifyRights(@RequestBody UploadRoleMenu uploadRoleMenu) {
+        int countRight = rightsService.selectRightsCountByRoleId(uploadRoleMenu.getRoleId());
         if (countRight > 0) {
-            if (rightsService.deleteRights(roleId)) {
-                if (ids == null) {
+            if (rightsService.deleteRights(uploadRoleMenu.getRoleId())) {
+                if (!CheckUtil.hasLength(uploadRoleMenu.getMenuIds())) {
                     return RespBean.ok();
                 }
-                if (rightsService.insertRights(new RightsBean(ids, roleId))) {
+                if (rightsService.insertRights(new RightsBean(uploadRoleMenu.getMenuIds(),
+                        uploadRoleMenu.getRoleId()))) {
                     return RespBean.ok();
                 } else {
                     return RespBean.error();
@@ -114,10 +119,10 @@ public class RightsController {
                 return RespBean.error();
             }
         } else {
-            if (ids == null) {
+            if (!CheckUtil.hasLength(uploadRoleMenu.getMenuIds())) {
                 return RespBean.ok();
             }
-            if (rightsService.insertRights(new RightsBean(ids, roleId))) {
+            if (rightsService.insertRights(new RightsBean(uploadRoleMenu.getMenuIds(), uploadRoleMenu.getRoleId()))) {
                 return RespBean.ok();
             } else {
                 return RespBean.error();
