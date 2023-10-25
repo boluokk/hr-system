@@ -2,6 +2,7 @@ package org.boluo.hr.controller.per.ec;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.boluo.hr.annotation.Log;
 import org.boluo.hr.pojo.Employee;
 import org.boluo.hr.pojo.EmployeeRewardPunishment;
 import org.boluo.hr.pojo.RespBean;
@@ -34,6 +35,7 @@ public class PerEcController {
      * 奖惩信息分页
      */
     @GetMapping("/{pageNum}/{pageSize}")
+    @Log("查询奖惩信息分页")
     public RespBean findByPage(@PathVariable("pageNum") Integer pageNum,
                                @PathVariable("pageSize") Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
@@ -44,6 +46,7 @@ public class PerEcController {
      * 修改奖惩信息
      */
     @PutMapping("/modify")
+    @Log("修改奖惩信息")
     public RespBean modify(@RequestBody EmployeeRewardPunishment employeeRewardPunishment) {
         if (employeeRewardPunishmentService.update(employeeRewardPunishment)) {
             return RespBean.ok();
@@ -55,6 +58,7 @@ public class PerEcController {
      * 删除奖惩信息
      */
     @DeleteMapping("/delete/{id}")
+    @Log("删除奖惩信息")
     public RespBean removeOne(@PathVariable("id") Integer id) {
         if (employeeRewardPunishmentService.delete(id)) {
             return RespBean.ok();
@@ -66,6 +70,7 @@ public class PerEcController {
      * 新增奖惩信息
      */
     @PutMapping("/add/{workId}")
+    @Log("新增奖惩信息")
     public RespBean addOne(@RequestBody EmployeeRewardPunishment employeeRewardPunishment,
                            @PathVariable("workId") String workId) {
         Employee employee = employeeService.selectEmployeeByWorkId(workId);

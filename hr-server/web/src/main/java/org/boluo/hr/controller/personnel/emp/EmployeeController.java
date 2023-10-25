@@ -2,6 +2,7 @@ package org.boluo.hr.controller.personnel.emp;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.boluo.hr.annotation.Log;
 import org.boluo.hr.pojo.Employee;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.service.*;
@@ -48,6 +49,7 @@ public class EmployeeController {
      * 员工分页
      */
     @GetMapping("/{pageNum}/{pageSize}")
+    @Log("查询员工分页")
     public RespBean findPages(@PathVariable("pageNum") Integer pageNum,
                               @PathVariable("pageSize") Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
@@ -60,6 +62,7 @@ public class EmployeeController {
      * 通过名称返回员工信息
      */
     @GetMapping("/byEmpName/{empName}/{pageNum}/{pageSize}")
+    @Log("通过名称返回员工信息")
     public RespBean findEmpByEmpName(@PathVariable("empName") String empName,
                                      @PathVariable("pageNum") Integer pageNum,
                                      @PathVariable("pageSize") Integer pageSize) {
@@ -72,6 +75,7 @@ public class EmployeeController {
      */
     @Deprecated
     @GetMapping("/nation")
+    @Log("查询所有民族")
     public RespBean findAllNation() {
         return RespBean.ok(employeeService.selectNations());
     }
@@ -80,6 +84,7 @@ public class EmployeeController {
      * 添加员工
      */
     @PutMapping("/add")
+    @Log("添加员工")
     @Transactional(rollbackFor = Exception.class)
     public RespBean add(Employee employee) {
         if (employeeService.insertOne(employee)) {
@@ -92,6 +97,7 @@ public class EmployeeController {
      * 修改员工
      */
     @PutMapping("/modify")
+    @Log("修改员工")
     public RespBean modify(@RequestBody Employee employee) {
         if (employeeService.update(employee)) {
             return RespBean.ok();
@@ -103,6 +109,7 @@ public class EmployeeController {
      * 删除员工
      */
     @DeleteMapping("/delete/{id}")
+    @Log("删除员工")
     public RespBean delete(@PathVariable("id") Integer id) {
         if (employeeService.delete(id)) {
             return RespBean.ok();
@@ -114,6 +121,7 @@ public class EmployeeController {
      * 导出员工信息
      */
     @GetMapping("/export")
+    @Log("导出员工信息")
     public ResponseEntity<byte[]> export() throws IOException {
         List<Employee> list = employeeService.selectAll();
         return ExportImportExcelUtil.exportEmployeeData(list);
@@ -123,6 +131,7 @@ public class EmployeeController {
      * 导入员工信息
      */
     @PostMapping("/import")
+    @Log("导入员工信息")
     public RespBean importEmployees(MultipartFile file) throws IOException {
         List<Employee> employees =
                 ExportImportExcelUtil.importEmployeeData(file, nationService.selectAllNation(),
@@ -139,6 +148,7 @@ public class EmployeeController {
      * 条件员工分页
      */
     @PostMapping("/top/search/{pageNum}/{pageSize}")
+    @Log("查询条件员工分页")
     public RespBean findByPage(@PathVariable("pageNum") Integer pageNum,
                                @PathVariable("pageSize") Integer pageSize,
                                @RequestBody Employee employee) {

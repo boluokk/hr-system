@@ -1,5 +1,6 @@
 package org.boluo.hr.controller;
 
+import org.boluo.hr.annotation.Log;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.service.HrService;
 import org.boluo.hr.service.util.HrUtils;
@@ -23,7 +24,11 @@ public class ChatController {
         this.hrService = hrService;
     }
 
+    /**
+     * 获取当前人事信息
+     */
     @GetMapping("/hrs")
+    @Log("获取当前人事信息")
     public RespBean getAllExceptCurrentHr() {
         return RespBean.ok(hrService.selectAllExceptCurrentHr(HrUtils.getCurrentHr().getId()));
     }

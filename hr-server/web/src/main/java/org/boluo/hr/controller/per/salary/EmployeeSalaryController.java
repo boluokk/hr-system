@@ -2,6 +2,7 @@ package org.boluo.hr.controller.per.salary;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.boluo.hr.annotation.Log;
 import org.boluo.hr.pojo.AdjustSalary;
 import org.boluo.hr.pojo.Employee;
 import org.boluo.hr.pojo.RespBean;
@@ -35,6 +36,7 @@ public class EmployeeSalaryController {
      * 员工工资分页
      */
     @GetMapping("/{pageNum}/{pageSize}")
+    @Log("查询员工工资分页")
     public RespBean findPage(@PathVariable("pageNum") Integer pageNum,
                              @PathVariable("pageSize") Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
@@ -45,6 +47,7 @@ public class EmployeeSalaryController {
      * 员工工资修改
      */
     @PutMapping("/modify")
+    @Log("员工工资修改")
     public RespBean modify(@RequestBody AdjustSalary adjustSalary) {
         if (adjustSalaryService.update(adjustSalary)) {
             return RespBean.ok();
@@ -56,6 +59,7 @@ public class EmployeeSalaryController {
      * 员工工资删除
      */
     @DeleteMapping("/delete/{id}")
+    @Log("员工工资删除")
     public RespBean remove(@PathVariable("id") Integer id) {
         if (adjustSalaryService.delete(id)) {
             return RespBean.ok();
@@ -64,9 +68,10 @@ public class EmployeeSalaryController {
     }
 
     /**
-     * 员工工资新增
+     * 新增员工工资
      */
     @PutMapping("/add/{workId}")
+    @Log("新增员工工资")
     public RespBean add(@RequestBody AdjustSalary adjustSalary,
                         @PathVariable("workId") String workId) {
         Employee employee = employeeService.selectEmployeeByWorkId(workId);

@@ -2,6 +2,7 @@ package org.boluo.hr.controller.salary.table;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.boluo.hr.annotation.Log;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.pojo.SalaryTableSearch;
 import org.boluo.hr.pojo.SalaryTableView;
@@ -36,6 +37,7 @@ public class SalaryTableController {
      * 返回所有工资表
      */
     @PostMapping("/{pageNum}/{pageSize}")
+    @Log("查询所有工资表")
     public RespBean findPage(@PathVariable("pageNum") Integer pageNum,
                              @PathVariable("pageSize") Integer pageSize,
                              SalaryTableSearch salaryTableSearch) {
@@ -47,6 +49,7 @@ public class SalaryTableController {
      * 导出员工的工资表
      */
     @PostMapping("/export")
+    @Log("导出员工的工资表")
     public ResponseEntity<byte[]> exportSalaryTable(@RequestBody SalaryTableSearch salaryTableSearch) {
         List<SalaryTableView> salaryTableViews = salaryTableService.selectAll(salaryTableSearch);
         try {

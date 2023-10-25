@@ -22,6 +22,7 @@ spring:
 
   main:
     banner-mode: off
+    allow-bean-definition-overriding: true
   # 前端时间参数接收格式
   mvc:
     format:
@@ -33,6 +34,7 @@ page helper:
   reasonable: true
   support-methods-arguments: true
   params: count=countSql
+
 
 # sql 日志
 #logging:

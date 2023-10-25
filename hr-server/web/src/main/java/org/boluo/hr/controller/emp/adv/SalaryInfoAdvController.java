@@ -2,6 +2,7 @@ package org.boluo.hr.controller.emp.adv;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.boluo.hr.annotation.Log;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.pojo.SalaryTableSearch;
 import org.boluo.hr.service.SalaryTableService;
@@ -34,6 +35,7 @@ public class SalaryInfoAdvController {
      * 工资信息分页
      */
     @GetMapping("/{pageNum}/{pageSize}")
+    @Log("查询工资信息分页")
     public RespBean findByPage(@PathVariable("pageNum") Integer pageNum,
                                @PathVariable("pageSize") Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);

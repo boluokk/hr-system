@@ -1,5 +1,6 @@
 package org.boluo.hr.controller.system.hr;
 
+import org.boluo.hr.annotation.Log;
 import org.boluo.hr.pojo.*;
 import org.boluo.hr.service.HrService;
 import org.boluo.hr.service.RightsService;
@@ -36,6 +37,7 @@ public class SystemHrController {
      * 返回所有人事信息
      */
     @GetMapping("/")
+    @Log("查询所有人事信息")
     public List<Hr> findHrs() {
         return hrService.selectAll();
     }
@@ -44,6 +46,7 @@ public class SystemHrController {
      * 返回人事所含角色
      */
     @GetMapping("/byHrId/{hrId}")
+    @Log("查询人事所含角色")
     public List<Role> findRoles(@PathVariable("hrId") Integer hrId) {
         return hrService.selectRoles(hrId);
     }
@@ -52,6 +55,7 @@ public class SystemHrController {
      * 返回所有角色
      */
     @GetMapping("/all/roles")
+    @Log("查询所有角色")
     public List<Role> findAllRoles() {
         return rightsService.selectAllRoles();
     }
@@ -61,6 +65,7 @@ public class SystemHrController {
      */
     @Transactional(rollbackFor = Exception.class)
     @PutMapping("/many/roles")
+    @Log("修改人事角色")
     public RespBean modifyRoles(@RequestBody UploadHrRole uploadHrRole) {
         if (hrService.deleteRoleByHrId(uploadHrRole.getHrId())) {
             if (CheckUtil.hasLength(uploadHrRole.getRoleIds())) {
@@ -80,6 +85,7 @@ public class SystemHrController {
      * 修改人事信息
      */
     @PutMapping("/modify")
+    @Log("修改人事信息")
     public RespBean modifyHr(@RequestBody UploadHr hr, HttpSession session) {
         String password = hr.getPassword();
         if (password != null && !password.isEmpty()) {
@@ -102,6 +108,7 @@ public class SystemHrController {
      * 删除人事
      */
     @DeleteMapping("/delete/{hrId}")
+    @Log("删除人事")
     public RespBean removeHr(@PathVariable("hrId") Integer hrId) {
         if (hrService.delete(hrId)) {
             return RespBean.ok();
@@ -113,6 +120,7 @@ public class SystemHrController {
      * 查询人事 通过人事名称
      */
     @GetMapping("/byHrName/{hrName}")
+    @Log("通过人事名称查询人事")
     public List<Hr> findHrByName(@PathVariable("hrName") String hrName) {
         return hrService.selectHrByName(hrName);
     }
@@ -121,6 +129,7 @@ public class SystemHrController {
      * 新增人事
      */
     @PutMapping("/add")
+    @Log("新增人事")
     public RespBean add(@RequestBody UploadHr hr) {
         if (!CheckUtil.isNull(hrService.selectByUsername(hr.getUsername()))) {
             return RespBean.error("当前用户名已经存在");

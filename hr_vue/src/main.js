@@ -9,20 +9,17 @@ import './assets/css/global.css'
 // 导入element
 import './plugins/element.js'
 import 'element-ui/lib/theme-chalk/index.css'
-
 // 导入login页面需要的css文件
 import './assets/css/loginRequire01.css'
 import './assets/css/font-awesome.min.css'
 
-import {
-  getRequest,
-  postRequest,
-  deleteRequest,
-  putRequest
-} from './assets/js/AjaxUtil.js'
+import { deleteRequest, getRequest, postRequest, putRequest } from './assets/js/AjaxUtil.js'
 import axios from 'axios'
+import echarts from '@/assets/js/echarts'
 
+Vue.prototype.$echarts = echarts
 Vue.config.productionTip = false
+
 
 // 挂载请求工具
 Vue.prototype.getRequest = getRequest
@@ -31,6 +28,7 @@ Vue.prototype.deleteRequest = deleteRequest
 Vue.prototype.putRequest = putRequest
 
 Vue.prototype.$http = axios
+
 
 // 路由导航守卫
 router.beforeEach((to, from, next) => {

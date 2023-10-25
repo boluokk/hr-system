@@ -14,4 +14,8 @@ public class CheckUtil {
     public static boolean hasLength(Integer[] target) {
         return target != null && target.length > 0;
     }
+
+    public static boolean isNotNull(Object target) {
+        return target != null;
+    }
 }

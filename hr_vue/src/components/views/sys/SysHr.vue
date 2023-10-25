@@ -77,7 +77,7 @@
             <br>
             用户角色：
             <el-tag type='warning' size='mini' style='margin-right: 5px;margin-top: 1px;' effect='plain'
-                    v-for='(item,idx) in item.roles' v-text='item.nameZh'></el-tag>
+                    v-for='(item,idx) in item.roles' :key='idx' v-text='item.nameZh'></el-tag>
             <el-popover
               placement='bottom'
               @hide='addSelectRoles(item.id)'
@@ -156,8 +156,7 @@
         </el-form>
         <div class='demo-drawer__footer' style='width: 200px;margin: 0 50%;transform: translateX(-50%);'>
           <el-button @click='cancelForm' size='small'>取 消</el-button>
-          <!-- $refs.drawer.closeDrawer() -->
-          <el-button type='primary' size='small' @click='$refs.drawer.closeDrawer()' :loading='loading'>
+          <el-button type='primary' size='small' :loading='loading'>
             {{ loading ? '提交中 ...' : '确 定' }}
           </el-button>
         </div>

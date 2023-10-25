@@ -1,5 +1,6 @@
 package org.boluo.hr.controller.system.basic;
 
+import org.boluo.hr.annotation.Log;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.pojo.RightsBean;
 import org.boluo.hr.pojo.Role;
@@ -34,10 +35,9 @@ public class RightsController {
 
     /**
      * 返回所有角色
-     *
-     * @return
      */
     @GetMapping("/")
+    @Log("查询所有角色")
     public RespBean findAllRoles() {
         return RespBean.ok(rightsService.selectAllRoles());
     }
@@ -46,6 +46,7 @@ public class RightsController {
      * 返回角色权限
      */
     @GetMapping("/{roleId}")
+    @Log("查询角色权限")
     public RespBean findRightByRoleId(@PathVariable("roleId") Integer roleId) {
         return RespBean.ok(rightsService.selectRightsByRoleId(roleId));
     }
@@ -54,6 +55,7 @@ public class RightsController {
      * 返回所有菜单
      */
     @GetMapping("/menus")
+    @Log("查询所有菜单")
     public RespBean findAllMenus() {
         return RespBean.ok(rightsService.selectAllMenus());
     }
@@ -62,6 +64,7 @@ public class RightsController {
      * 新增角色
      */
     @PutMapping("/add")
+    @Log("新增角色")
     public RespBean addRole(@RequestBody Role role) {
         role.setName(PRE_ROLE_NAME + role.getName());
         if (!CheckUtil.isNull(rightsService.selectRoleByName(role.getName()))) {
@@ -78,6 +81,7 @@ public class RightsController {
      * 删除角色
      */
     @DeleteMapping("/delete/{roleId}")
+    @Log("删除角色")
     public RespBean remove(@PathVariable("roleId") Integer roleId) {
         if (rightsService.deleteRoleById(roleId)) {
             return RespBean.ok();
@@ -90,6 +94,7 @@ public class RightsController {
      * 修改角色
      */
     @PutMapping("/modify")
+    @Log("修改角色")
     public RespBean modifyRole(@RequestBody Role role) {
         if (rightsService.updateRole(role)) {
             return RespBean.ok();
@@ -102,6 +107,7 @@ public class RightsController {
      * 修改权限
      */
     @PutMapping("/modify/rights")
+    @Log("修改权限")
     public RespBean modifyRights(@RequestBody UploadRoleMenu uploadRoleMenu) {
         int countRight = rightsService.selectRightsCountByRoleId(uploadRoleMenu.getRoleId());
         if (countRight > 0) {

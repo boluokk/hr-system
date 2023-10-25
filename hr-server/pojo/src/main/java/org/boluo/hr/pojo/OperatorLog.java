@@ -24,11 +24,23 @@ public class OperatorLog {
      */
     private Date createDate;
     /**
-     * 事件内容
+     * 事件内容(记录接口)
      */
     private String event;
     /**
      * 人事id（操作员）
      */
     private Integer hrId;
+    /**
+     * 操作地址
+     */
+    private String address;
+    /**
+     * 内容
+     */
+    private String content;
+    /**
+     * 类型
+     */
+    private String type;
 }

@@ -2,6 +2,7 @@ package org.boluo.hr.controller.emp.adv;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.boluo.hr.annotation.Log;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.service.EmployeeTrainService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,7 @@ public class EmployeeTrainAdvController {
      * 培训分页
      */
     @GetMapping("/{pageNum}/{pageSize}")
+    @Log("查询培训分页")
     public RespBean findByPage(@PathVariable("pageNum") Integer pageNum,
                                @PathVariable("pageSize") Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);

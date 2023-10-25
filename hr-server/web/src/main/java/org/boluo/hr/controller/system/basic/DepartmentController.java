@@ -1,5 +1,6 @@
 package org.boluo.hr.controller.system.basic;
 
+import org.boluo.hr.annotation.Log;
 import org.boluo.hr.exception.BusinessException;
 import org.boluo.hr.pojo.DepartRequestBean;
 import org.boluo.hr.pojo.Department;
@@ -31,6 +32,7 @@ public class DepartmentController {
      * 所有部门
      */
     @GetMapping("/root")
+    @Log("查询所有部门")
     public RespBean findDepartment() {
         return RespBean.ok(departmentService.selectAllDepart(-1));
     }
@@ -40,6 +42,7 @@ public class DepartmentController {
      */
 
     @PutMapping("/add")
+    @Log("添加部门")
     @Transactional(rollbackFor = Exception.class)
     public RespBean add(@RequestBody DepartRequestBean departRequestBean) {
         if (CheckUtil.isNull(departRequestBean.getParentIsParent()) || !departRequestBean.getParentIsParent()) {
@@ -74,6 +77,7 @@ public class DepartmentController {
      * 删除部门
      */
     @Transactional(rollbackFor = Exception.class)
+    @Log("删除部门")
     @DeleteMapping("/delete")
     public RespBean remove(@RequestBody DepartRequestBean departRequestBean) {
         if (!departmentService.deleteByDepPath(departRequestBean.getParentDepPath())) {
@@ -90,9 +94,10 @@ public class DepartmentController {
     }
 
     /**
-     * 关闭的部门
+     * 关闭部门
      */
     @GetMapping("/enabled")
+    @Log("关闭部门")
     public RespBean findDisabledDepartment() {
         return RespBean.ok(departmentService.selectAllDepWithDisabled());
     }
@@ -101,6 +106,7 @@ public class DepartmentController {
      * 修改部门
      */
     @PutMapping("/modify")
+    @Log("修改部门")
     public RespBean modify(@RequestBody Department department) {
         if (departmentService.update(department)) {
             return RespBean.ok();
@@ -113,6 +119,7 @@ public class DepartmentController {
      * 部门名查询部门
      */
     @GetMapping("/search/{name}")
+    @Log("部门名查询部门")
     public RespBean findByName(@PathVariable String name) {
         return RespBean.ok(departmentService.selectByName(name));
     }
@@ -121,6 +128,7 @@ public class DepartmentController {
      * 所有部门
      */
     @GetMapping("/")
+    @Log("查询所有部门")
     public RespBean findAll() {
         return RespBean.ok(departmentService.selectAll());
     }

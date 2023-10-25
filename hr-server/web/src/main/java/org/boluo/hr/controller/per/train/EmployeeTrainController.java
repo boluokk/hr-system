@@ -2,8 +2,9 @@ package org.boluo.hr.controller.per.train;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.boluo.hr.pojo.EmployeeTrain;
+import org.boluo.hr.annotation.Log;
 import org.boluo.hr.pojo.Employee;
+import org.boluo.hr.pojo.EmployeeTrain;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.service.EmployeeService;
 import org.boluo.hr.service.EmployeeTrainService;
@@ -34,6 +35,7 @@ public class EmployeeTrainController {
      * 培训分页
      */
     @GetMapping("/{pageNum}/{pageSize}")
+    @Log("查询培训分页")
     public RespBean findByPage(@PathVariable("pageNum") Integer pageNum,
                                @PathVariable("pageSize") Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
@@ -44,6 +46,7 @@ public class EmployeeTrainController {
      * 培训修改
      */
     @PutMapping("/modify")
+    @Log("培训修改")
     public RespBean modify(@RequestBody EmployeeTrain employeeTrain) {
         if (employeeTrainService.update(employeeTrain)) {
             return RespBean.ok();
@@ -55,6 +58,7 @@ public class EmployeeTrainController {
      * 培训删除
      */
     @DeleteMapping("/delete/{id}")
+    @Log("培训删除")
     public RespBean removeOne(@PathVariable("id") Integer id) {
         if (employeeTrainService.delete(id)) {
             return RespBean.ok();
@@ -63,9 +67,10 @@ public class EmployeeTrainController {
     }
 
     /**
-     * 培训新增
+     * 新增培训
      */
     @PutMapping("/add/{workId}")
+    @Log("新增培训")
     public RespBean addOne(@PathVariable("workId") String workId,
                            @RequestBody EmployeeTrain employeeTrain) {
         Employee employee = employeeService.selectEmployeeByWorkId(workId);

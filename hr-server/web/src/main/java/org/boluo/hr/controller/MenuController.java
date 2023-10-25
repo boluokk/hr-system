@@ -1,5 +1,6 @@
 package org.boluo.hr.controller;
 
+import org.boluo.hr.annotation.Log;
 import org.boluo.hr.pojo.Menu;
 import org.boluo.hr.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ public class MenuController {
      * 获取菜单信息(当前已经登录用户的)
      */
     @GetMapping("/menu")
+    @Log("查询当前用户的菜单")
     public List<Menu> getRoleWithMenus() {
         return menuService.selectMenusByHrId();
     }

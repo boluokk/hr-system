@@ -14,7 +14,7 @@ import java.time.Duration;
  * @date 2023/10/1
  */
 @Configuration
-public class CORSWebMvcConfig implements WebMvcConfigurer {
+public class CORSWebMVCConfig implements WebMvcConfigurer {
     public CorsConfiguration buildConfig(){
         CorsConfiguration config = new CorsConfiguration();
         config.addAllowedOrigin("*"); //允许任何域名

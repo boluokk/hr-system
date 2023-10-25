@@ -2,6 +2,7 @@ package org.boluo.hr.controller.salary.sobcfg;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.boluo.hr.annotation.Log;
 import org.boluo.hr.pojo.EmployeeSalaryMerge;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.service.SobCfgService;
@@ -30,6 +31,7 @@ public class SobCfgController {
      * 员工工资分页
      */
     @GetMapping("/{pageNum}/{pageSize}")
+    @Log("查询员工工资分页")
     public RespBean findEmployeeSalaryPage(@PathVariable("pageNum") Integer pageNum,
                                            @PathVariable("pageSize") Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
@@ -40,6 +42,7 @@ public class SobCfgController {
      * 通过员工号查询
      */
     @GetMapping("/byWorkId/{workId}")
+    @Log("通过员工号查询")
     public RespBean findEmployeeSalaryByWorkId(@PathVariable("workId") String workId) {
         return RespBean.ok(sobCfgService.selectEmployeeSalaryByWorkId(workId));
     }
@@ -48,6 +51,7 @@ public class SobCfgController {
      * 新增员工账套
      */
     @PutMapping("/modify/{employeeId}/{newSalaryId}")
+    @Log("新增员工账套")
     @Transactional(rollbackFor = Exception.class)
     public RespBean addSalaryWithEmployee(@PathVariable("employeeId") Integer employeeId,
                                           @PathVariable("newSalaryId") Integer newSalaryId) {

@@ -2,6 +2,7 @@ package org.boluo.hr.controller.per.mv;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.boluo.hr.annotation.Log;
 import org.boluo.hr.pojo.EmployeeRemove;
 import org.boluo.hr.pojo.Employee;
 import org.boluo.hr.pojo.RespBean;
@@ -43,6 +44,7 @@ public class EmployeeRemoveController {
      * 调岗分页
      */
     @GetMapping("/{pageNum}/{pageSize}")
+    @Log("查询调岗分页")
     public RespBean findPage(@PathVariable("pageNum") Integer pageNum,
                              @PathVariable("pageSize") Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
@@ -53,6 +55,7 @@ public class EmployeeRemoveController {
      * 返回所有职称
      */
     @GetMapping("/joblevels")
+    @Log("查询所有职称")
     public RespBean findAllJobLevel() {
         return RespBean.ok(jobLevelService.selectAll());
     }
@@ -62,14 +65,16 @@ public class EmployeeRemoveController {
      * 返回所有部门
      */
     @GetMapping("/departments")
+    @Log("查询所有部门")
     public RespBean findAllDepartment() {
         return RespBean.ok(departmentService.selectAll());
     }
 
     /**
-     * 删除员工
+     * 删除调岗
      */
     @DeleteMapping("/delete/{id}")
+    @Log("删除调岗")
     public RespBean remove(@PathVariable("id") Integer id) {
         if (employeeRemoveService.delete(id)) {
             return RespBean.ok();
@@ -81,6 +86,7 @@ public class EmployeeRemoveController {
      * 修改调岗
      */
     @PutMapping("/modify")
+    @Log("修改调岗")
     public RespBean modify(@RequestBody EmployeeRemove employeeRemove) {
         if (employeeRemoveService.update(employeeRemove)) {
             return RespBean.ok();
@@ -92,6 +98,7 @@ public class EmployeeRemoveController {
      * 新增调岗
      */
     @PutMapping("/add/{workId}")
+    @Log("新增调岗")
     @Transactional(rollbackFor = Exception.class)
     public RespBean add(@RequestBody EmployeeRemove employeeRemove,
                         @PathVariable("workId") String workId) {

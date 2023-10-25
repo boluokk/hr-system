@@ -1,5 +1,6 @@
 package org.boluo.hr.controller.system.basic;
 
+import org.boluo.hr.annotation.Log;
 import org.boluo.hr.pojo.JobLevel;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.service.JobLevelService;
@@ -27,16 +28,16 @@ public class JobLevelController {
      * 获取所有职称等级信息
      */
     @GetMapping("/")
+    @Log("获取所有职称等级信息")
     public RespBean findAll() {
         return RespBean.ok(jobLevelService.selectAll());
     }
 
     /**
      * 删除职称等级
-     *
-     * @param id 职称等级id
      */
     @DeleteMapping("/delete/{id}")
+    @Log("删除职称等级")
     public RespBean remove(@PathVariable Integer id) {
         if (jobLevelService.delete(id)) {
             return RespBean.ok();
@@ -49,6 +50,7 @@ public class JobLevelController {
      * 修改职称等级
      */
     @PutMapping("/modify")
+    @Log("修改职称等级")
     public RespBean modify(@RequestBody JobLevel jobLevel) {
         if (jobLevelService.update(jobLevel)) {
             return RespBean.ok();
@@ -61,6 +63,7 @@ public class JobLevelController {
      * 新增职称等级
      */
     @PutMapping("/add")
+    @Log("新增职称等级")
     public RespBean add(@RequestBody JobLevel jobLevel) {
         if (jobLevelService.insert(jobLevel)) {
             return RespBean.ok();
