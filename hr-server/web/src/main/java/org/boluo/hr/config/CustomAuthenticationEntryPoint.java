@@ -1,6 +1,7 @@
 package org.boluo.hr.config;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
@@ -17,10 +18,10 @@ import java.io.PrintWriter;
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        response.setContentType("application/json;charset=utf-8");
+        response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         PrintWriter out = response.getWriter();
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        out.write("您未登录，请先登录！");
+        out.write("未登录，请先登录！");
         out.flush();
         out.close();
     }

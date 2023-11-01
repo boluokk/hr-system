@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.boluo.hr.mapper.AllStatisticsMapper">
+    <resultMap id="allStatisticsHeaderResultMap" type="org.boluo.hr.pojo.AllStatisticsHeader">
+        <result column="employee_count" property="employeeCount"/>
+        <result column="department_count" property="departmentCount"/>
+        <result column="job_level_count" property="jobLevelCount"/>
+        <result column="role_count" property="roleCount"/>
+    </resultMap>
+    <resultMap id="salaryResultMap" type="org.boluo.hr.pojo.SalaryStatistics">
+        <result column="name" property="name"/>
+        <result column="salary" property="salary"/>
+    </resultMap>
+    <resultMap id="departmentStruct" type="org.boluo.hr.pojo.DepartmentStatistics">
+        <result column="name" property="name"/>
+        <collection property="children" ofType="org.boluo.hr.pojo.DepartmentStatistics" column="id" select="selectByParentIdOnlyName"/>
+    </resultMap>
+    <select id="selectHeaderCount" resultMap="allStatisticsHeaderResultMap">
+        select (select count(id) from employee)   as employee_count,
+               (select count(id) from department) as department_count,
+               (select count(id) from job_level)  as job_level_count,
+               (select count(id) from role)       as role_count
+    </select>
+    <select id="selectSalaryStatistics" resultType="org.boluo.hr.pojo.SalaryStatistics">
+        select name, all_salary as salary
+        from salary
+    </select>
+    <select id="selectByParentIdOnlyName" resultMap="departmentStruct">
+        select id, name
+        from department
+        where parent_id = #{id} and enabled = 1
+    </select>
+</mapper>

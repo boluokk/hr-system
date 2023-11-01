@@ -39,7 +39,7 @@ public class GlobalExceptionCustom {
 
     @ExceptionHandler(Exception.class)
     public RespBean otherExceptionHandle(Exception e) {
-        logger.error("其他异常: " + e.getMessage());
+        logger.error("其他异常: {}", e.getClass());
         return RespBean.error("服务器异常..");
     }
 

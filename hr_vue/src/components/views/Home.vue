@@ -4,16 +4,17 @@
       <!-- 头部 -->
       <el-header>
         <span>
+          ©
           <svg class='icon' aria-hidden='true'>
             <use xlink:href='#icon-boluo3'></use>
           </svg>
           <span style='font-size: 30px; font-family: 华文新魏,serif;'
-          ><b>@人事管理</b></span
+          ><b>Yo人事管理</b></span
           >
         </span>
 
         <div style='display: flex;justify-content: center;align-items: center'>
-          <span style='margin-right: 10px;'>{{curUser.username}}</span>
+          <span style='margin-right: 10px;'>{{ curUser.username }}</span>
           <el-dropdown style='margin-right: 10px;' @command='commandHandel' trigger='click'>
           <span class='el-dropdown-link'>
             <el-avatar class='avatar' :src='currentHrImg'></el-avatar>
@@ -39,7 +40,7 @@
       </el-header>
       <!-- 菜单栏 -->
       <el-container>
-        <el-aside width='230px'>
+        <el-aside width='230px' class='el-aside'>
           <el-menu background-color='#00BFFF' unique-opened router :default-active=currentMenu>
             <el-submenu
               :index="index + ''"
@@ -245,4 +246,16 @@ export default {
 .avatar {
   cursor: pointer;
 }
+
+
+
+.el-container {
+  overflow: hidden;
+  height: 100vh;
+}
+.el-aside {
+  background-color: #00bfff;
+}
+
+
 </style>

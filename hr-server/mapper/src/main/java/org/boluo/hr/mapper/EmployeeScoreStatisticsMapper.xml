@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.boluo.hr.mapper.EmployeeScoreStatisticsMapper">
+    <resultMap id="headerResultMap" type="org.boluo.hr.pojo.EmployeeScoreHeaderStatistics">
+        <result column="all_count" property="allCount" />
+        <result column="reward_count" property="rewardCount" />
+        <result column="punishment_count" property="punishmentCount" />
+    </resultMap>
+    <resultMap id="EmployeeScoreStatisticsResultMap" type="org.boluo.hr.pojo.EmployeeScoreStatistics">
+        <result column="time" property="time"/>
+        <result column="count" property="count"/>
+        <result column="mark" property="rewardOrPunishment"/>
+    </resultMap>
+    <select id="selectHeaderData" resultMap="headerResultMap">
+        select count(id) as all_count,
+        sum(if(point &gt; 0, 1, 0)) as reward_count,
+        sum(if(point &lt; 0, 1, 0)) as punishment_count
+        from employee_reward_punishment
+    </select>
+    <select id="selectRewardPunishment" resultMap="EmployeeScoreStatisticsResultMap">
+        WITH RECURSIVE hourlySequence AS (
+        SELECT
+        DATE_ADD(CURDATE(), INTERVAL -#{days} day) AS day_time
+        UNION ALL
+        SELECT
+        DATE_ADD(day_time, INTERVAL 1 day)
+        FROM hourlySequence
+        WHERE day_time &lt; NOW()
+        )
+        select
+        c.day_time as time,
+        sum(if(substr(a.create_date, 1, 10) = substr(c.day_time, 1, 10),
+        if(b.mark = '奖励', if(a.point &gt; 0, 1, 0), if(a.point &lt; 0, 1, 0))
+        , 0)) as count,
+        b.mark
+        from employee_reward_punishment as a,
+        (select '奖励' as mark, 0 as pivot union select '惩罚' as mark, 0 as pivot) as b,
+        hourlySequence as c
+        group by c.day_time, b.mark
+        order by time
+    </select>
+
+</mapper>

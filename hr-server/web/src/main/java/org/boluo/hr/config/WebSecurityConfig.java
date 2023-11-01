@@ -5,24 +5,25 @@ import org.boluo.hr.config.login_handle.CustomLogoutHandle;
 import org.boluo.hr.service.HrService;
 import org.boluo.hr.service.OperatorLogService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
- * 授权和验证
+ * 授权和验证配置
  *
  * @author 🍍
  * @date 2023/10/1
  */
 @Configuration
-@ComponentScan("org.boluo.hr.config")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private HrService hrService;
@@ -45,17 +46,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private CustomLogoutHandle customLogoutHandle;
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(hrService).passwordEncoder(new BCryptPasswordEncoder());
-    }
+    @Autowired
+    private CustomExpiredSessionStrategy customExpiredSessionStrategy;
 
+    @Autowired
+    private CustomInvalidSessionStrategy customInvalidSessionStrategy;
+
+
+    @Autowired
+    public void customAuthenticationManager(AuthenticationManagerBuilder builder) throws Exception {
+        builder.userDetailsService(hrService).passwordEncoder(new BCryptPasswordEncoder());
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         PasswordFilter passwordFilter = new PasswordFilter(authenticationManager(),
                 operatorLogService, customLoginSuccessHandle);
-        http.addFilterBefore(passwordFilter, UsernamePasswordAuthenticationFilter.class);
+
+        http.addFilter(passwordFilter);
         http.authorizeRequests()
                 .antMatchers("/login").permitAll()
                 .anyRequest().authenticated()
@@ -74,6 +82,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
                 .and().csrf().disable()
                 // 踢掉之前的登录 + 过期策略
-                .sessionManagement().maximumSessions(1).expiredSessionStrategy(new CustomExpiredSessionStrategy());
+                .sessionManagement().invalidSessionStrategy(customInvalidSessionStrategy)
+                .maximumSessions(1).expiredSessionStrategy(customExpiredSessionStrategy);
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -18,13 +19,13 @@ import java.util.Collection;
 @Component
 public class CustomUrlDecisionManager implements AccessDecisionManager {
 
-    //collection 角色
     @Override
-    public void decide(Authentication authentication, Object o, Collection<ConfigAttribute> collection) throws
+    public void decide(Authentication authentication, Object o,
+                       Collection<ConfigAttribute> collection) throws
             AccessDeniedException, InsufficientAuthenticationException {
         for (ConfigAttribute attribute: collection) {
             String needRole = attribute.getAttribute();
-            if(needRole.equals("ROLE_LOGIN")) {
+            if("ROLE_LOGIN".equals(needRole)) {
                 if(authentication instanceof AnonymousAuthenticationToken) {
                     throw new AccessDeniedException("未登入，请登入");
                 }else {

@@ -9,6 +9,7 @@ import org.boluo.hr.annotation.Log;
 import org.boluo.hr.pojo.OperatorLog;
 import org.boluo.hr.service.OperatorLogService;
 import org.boluo.hr.service.util.HrUtils;
+import org.boluo.hr.util.CheckUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -44,18 +45,26 @@ public class WebLogAspect {
         Method method = methodSignature.getMethod();
         Log logContent = method.getAnnotation(Log.class);
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        OperatorLog operatorLog = null;
+        if (CheckUtil.isNotNull(attributes)) {
+            operatorLog = getOperatorLog(attributes, logContent);
+        }
+        if (!operatorLogService.insertOperatorLog(operatorLog)) {
+            log.warn("未新增记录成功: {}", operatorLog);
+        }
+    }
+
+    private static OperatorLog getOperatorLog(ServletRequestAttributes attributes, Log logContent) {
         assert attributes != null;
         HttpServletRequest request = attributes.getRequest();
         OperatorLog operatorLog = new OperatorLog();
         operatorLog.setHrId(HrUtils.getCurrentHr().getId());
         operatorLog.setAddress(request.getRemoteAddr());
-        operatorLog.setContent(logContent.value());
+        operatorLog.setContent(CheckUtil.isNotNull(logContent) ? logContent.value() : "当前接口未定义");
         operatorLog.setEvent(request.getRequestURI());
         operatorLog.setCreateDate(new Date());
         operatorLog.setType(request.getMethod());
-        if (!operatorLogService.insertOperatorLog(operatorLog)) {
-            log.warn("未新增记录成功: {}", operatorLog);
-        }
+        return operatorLog;
     }
 
     @Before("execution(public * org.boluo.hr.config.login_handle..*(..))")

@@ -41,7 +41,7 @@
       </trim>
       <trim prefix="values (" suffix=")" suffixOverrides=",">
           <if test="createDate != null">
-              #{createDate,jdbcType=DATE},
+              #{createDate},
           </if>
           <if test="event != null">
               #{event,jdbcType=VARCHAR},
@@ -64,7 +64,7 @@
     update operator_log
     <set >
       <if test="createDate != null" >
-        create_date = #{createDate,jdbcType=DATE},
+        create_date = #{createDate},
       </if>
       <if test="event != null" >
         `event` = #{event,jdbcType=VARCHAR},

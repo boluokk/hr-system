@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/chat")
 public class ChatController {
 
-    private HrService hrService;
+    private final HrService hrService;
 
     @Autowired
     public ChatController(HrService hrService) {

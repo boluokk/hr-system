@@ -29,12 +29,12 @@
         where dep_path like concat(#{depPath}, '%')
     </delete>
     <select id="selectByParentId" resultMap="hasChildrenDepartment">
-        select *
+        select <include refid="column"/>
         from department
         where parent_id = #{id} and enabled = 1
     </select>
     <select id="selectAllDepWithDisabled" resultMap="BaseResultMap">
-        select *
+        select <include refid="column"/>
         from department
         where enabled = 0
     </select>

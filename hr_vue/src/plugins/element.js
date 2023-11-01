@@ -50,9 +50,11 @@ import {
   Autocomplete,
   Empty,
   Descriptions,
-  DescriptionsItem
+  DescriptionsItem,
+  Statistic
 } from 'element-ui'
 
+Vue.use(Statistic)
 Vue.use(DescriptionsItem)
 Vue.use(Autocomplete)
 Vue.use(Drawer)

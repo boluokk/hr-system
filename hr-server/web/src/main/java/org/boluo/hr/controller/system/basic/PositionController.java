@@ -4,6 +4,7 @@ import org.boluo.hr.annotation.Log;
 import org.boluo.hr.pojo.Position;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.service.PositionService;
+import org.boluo.hr.util.CheckUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,7 +42,7 @@ public class PositionController {
      */
     @GetMapping("/byId/{id}")
     @Log("通过id查询职位")
-    public RespBean findPosById(@PathVariable Integer id) {
+    public RespBean findPosById(@PathVariable("id") Integer id) {
         return RespBean.ok(positionService.selectPositionById(id));
     }
 
@@ -65,7 +66,7 @@ public class PositionController {
     @Log("新增职位")
     public RespBean add(@RequestBody Position position) {
         position.setEnabled(true);
-        if (position.getCreateDate() == null) {
+        if (CheckUtil.isNull(position.getCreateDate())) {
             position.setCreateDate(new Date());
         }
         if (positionService.insert(position)) {

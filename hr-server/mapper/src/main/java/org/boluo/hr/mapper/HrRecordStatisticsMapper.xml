@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.boluo.hr.mapper.HrRecordStatisticsMapper">
+    <resultMap id="baseResultMap" type="org.boluo.hr.pojo.HrRecordStatistics">
+        <result column="name" property="name"/>
+        <result column="count" property="count"/>
+        <result column="time" property="time"/>
+    </resultMap>
+    <resultMap id="warpBaseResultMap" type="org.boluo.hr.pojo.WrapHrRecordStatistics">
+        <result column="name" property="name"/>
+        <collection property="hrRecordStatistics" resultMap="baseResultMap"/>
+    </resultMap>
+    <select id="selectAll" resultMap="warpBaseResultMap">
+        WITH RECURSIVE hourlySequence AS (
+        SELECT
+        DATE_ADD(CURDATE(), INTERVAL -((#{days} * 24) - 1) HOUR) AS hour_time
+        UNION ALL
+        SELECT
+        DATE_ADD(hour_time, INTERVAL 1 hour)
+        FROM hourlySequence
+        WHERE hour_time &lt; NOW()
+        )
+        select a.name, c.hour_time as time, sum(if((a.id = b.hr_id and substr(b.create_date, 1, 13) = substr(c.hour_time, 1, 13)), 1, 0)) as count
+        from hr as a, operator_log as b, hourlySequence as c
+        where b.type != 'GET'
+        group by a.id, c.hour_time
+    </select>
+</mapper>

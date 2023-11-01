@@ -81,4 +81,5 @@ public interface SalaryMapper {
      * @return 员工账套信息
      */
     SalaryConfigView selectEmployeeSalaryByWorkId(@Param("workId") String workId);
+
 }

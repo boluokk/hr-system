@@ -28,11 +28,8 @@ axios.interceptors.response.use(
         Message.error({ message: '权限不足,请联系管理员!' })
         store.commit('addMsgCount')
       }
-    } else if (err.response.status === 401) {
-      Message.error({ message: '请重新登入!' })
-      Router.replace('/')
-    } else if (err.response.status === 402) {
-      Message.error({ message: '异地登录, 请重新登入!' })
+    } else if (err.response.status === 402 || err.response.status === 401) {
+      Message.error({ message: '请重新登录' })
       Router.replace('/')
     } else if (err.response.status === 404) {
       Message.error({ message: '未知请求路径' })
@@ -58,7 +55,7 @@ export const postRequest = (url, params) => {
     url: `${base}${url}`,
     data: ans,
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json;charset=UTF-8'
     }
   })
 }
@@ -74,7 +71,7 @@ export const putRequest = (url, params) => {
     url: `${base}${url}`,
     data: ans,
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json;charset=UTF-8'
     }
   })
 }

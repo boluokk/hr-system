@@ -30,7 +30,8 @@ public class PasswordFilter extends UsernamePasswordAuthenticationFilter {
     private final OperatorLogService operatorLogService;
 
     public PasswordFilter(AuthenticationManager manager,
-                          OperatorLogService operatorLogService, CustomLoginSuccessHandle customLoginSuccessHandle) {
+                          OperatorLogService operatorLogService,
+                          CustomLoginSuccessHandle customLoginSuccessHandle) {
         this.operatorLogService = operatorLogService;
         this.setFilterProcessesUrl("/login");
         this.setAuthenticationManager(manager);
@@ -42,7 +43,7 @@ public class PasswordFilter extends UsernamePasswordAuthenticationFilter {
             public void onAuthenticationFailure(HttpServletRequest req,
                                                 HttpServletResponse res,
                                                 AuthenticationException e) throws IOException {
-                res.setContentType("application/json;charset=utf-8");
+                res.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
                 RespBean respBean = RespBean.error(e.getMessage());
                 if (e instanceof LockedException) {
                     respBean.setMsg("账户被锁定，请联系管理员！");
@@ -69,7 +70,7 @@ public class PasswordFilter extends UsernamePasswordAuthenticationFilter {
         if (!"POST".equalsIgnoreCase(request.getMethod())) {
             throw new AuthenticationServiceException("不支持的请求类型");
         }
-        if (request.getContentType().equals(MediaType.APPLICATION_JSON_VALUE)) {
+        if (request.getContentType().equals(MediaType.APPLICATION_JSON_UTF8_VALUE)) {
             try {
                 LoginUser loginUser = new ObjectMapper().readValue(request.getInputStream(), LoginUser.class);
                 if (!StringUtils.hasLength(loginUser.getUsername())) {
@@ -88,7 +89,7 @@ public class PasswordFilter extends UsernamePasswordAuthenticationFilter {
                 throw new AuthenticationServiceException("账户名称格式不正确");
             }
         } else {
-            return super.attemptAuthentication(request, response);
+            throw new AuthenticationServiceException("请求类型不匹配");
         }
     }
 }

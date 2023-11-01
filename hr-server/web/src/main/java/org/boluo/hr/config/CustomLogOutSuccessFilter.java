@@ -2,6 +2,7 @@ package org.boluo.hr.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.boluo.hr.pojo.RespBean;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -18,7 +19,7 @@ import java.io.IOException;
 public class CustomLogOutSuccessFilter implements LogoutSuccessHandler {
     @Override
     public void onLogoutSuccess(HttpServletRequest req, HttpServletResponse res, Authentication authentication) throws IOException {
-        res.setContentType("application/json;charset=utf-8");
+        res.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         res.getWriter().print(new ObjectMapper().writeValueAsString(RespBean.ok("注销成功")));
     }
 }
