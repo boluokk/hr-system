@@ -17,9 +17,7 @@ import java.util.List;
  */
 @Service
 public class AllStatisticsService {
-
     private final AllStatisticsMapper allStatisticsMapper;
-
     @Autowired
     public AllStatisticsService(AllStatisticsMapper allStatisticsMapper) {
         this.allStatisticsMapper = allStatisticsMapper;
