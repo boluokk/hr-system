@@ -4,15 +4,15 @@
     <sql id="column">id, employee_id, before_department_id,
                     before_job_id, after_department_id,after_job_id, remove_date, reason, remark</sql>
     <resultMap id="BaseResultMap" type="org.boluo.hr.pojo.EmployeeRemoveView">
-        <id column="id" property="id" jdbcType="INTEGER"/>
-        <result column="employee_id" property="employeeId" jdbcType="INTEGER"/>
-        <result column="after_department_id" property="afterDepartmentId" jdbcType="INTEGER"/>
-        <result column="after_job_id" property="afterJobId" jdbcType="INTEGER"/>
-        <result column="before_department_id" property="beforeDepartmentId" jdbcType="INTEGER"/>
-        <result column="before_job_id" property="beforeJobId" jdbcType="INTEGER"/>
-        <result column="remove_date" property="removeDate" jdbcType="DATE"/>
-        <result column="reason" property="reason" jdbcType="VARCHAR"/>
-        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <id column="id" property="id"/>
+        <result column="employee_id" property="employeeId"/>
+        <result column="after_department_id" property="afterDepartmentId"/>
+        <result column="after_job_id" property="afterJobId"/>
+        <result column="before_department_id" property="beforeDepartmentId"/>
+        <result column="before_job_id" property="beforeJobId"/>
+        <result column="remove_date" property="removeDate"/>
+        <result column="reason" property="reason"/>
+        <result column="remark" property="remark"/>
         <association property="employee" column="employee_id"
                      select="org.boluo.hr.mapper.EmployeeMapper.selectByPrimaryKey"/>
         <association property="beforeDepartmentName" column="before_department_id"
@@ -25,16 +25,19 @@
                      select="org.boluo.hr.mapper.JobLevelMapper.selectNameByKey"/>
     </resultMap>
     <select id="selectAll" resultMap="BaseResultMap">
-        select <include refid="column"/>
+        select
+        <include refid="column"/>
         from employee_remove
     </select>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap">
-        select <include refid="column"/>
+        select
+        <include refid="column"/>
         from employee_remove
         where id = #{id,jdbcType=INTEGER}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-        delete from employee_remove
+        delete
+        from employee_remove
         where id = #{id,jdbcType=INTEGER}
     </delete>
     <insert id="insertEmployeeRemove" parameterType="org.boluo.hr.pojo.EmployeeRemove">

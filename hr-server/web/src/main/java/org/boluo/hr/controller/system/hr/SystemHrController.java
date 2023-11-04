@@ -88,7 +88,7 @@ public class SystemHrController {
     @Log("修改人事信息")
     public RespBean modifyHr(@RequestBody UploadHr hr, HttpSession session) {
         String password = hr.getPassword();
-        if (password != null && !password.isEmpty()) {
+        if (CheckUtil.hasLength(password)) {
             hr.setPassword(PasswordEncoder.encode(password));
         } else {
             hr.setPassword(null);
@@ -110,6 +110,10 @@ public class SystemHrController {
     @DeleteMapping("/delete/{hrId}")
     @Log("删除人事")
     public RespBean removeHr(@PathVariable("hrId") Integer hrId) {
+        Hr hr = hrService.selectById(hrId);
+        if (CheckUtil.isNotNull(hr) && "admin".equals(hr.getUsername())) {
+            return RespBean.error("admin用户不能删除");
+        }
         if (hrService.delete(hrId)) {
             return RespBean.ok();
         }

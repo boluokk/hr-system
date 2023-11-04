@@ -1,5 +1,9 @@
 <template>
   <div>
+    <el-breadcrumb separator='/' style='margin-bottom:15px;'>
+      <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>工资表管理</el-breadcrumb-item>
+    </el-breadcrumb>
     <el-card shadow='always' style='margin-top: 15px;'>
       <el-input v-model='searchInput'
                 placeholder='请输入员工工号'

@@ -51,9 +51,11 @@ import {
   Empty,
   Descriptions,
   DescriptionsItem,
-  Statistic
+  Statistic,
+  Progress
 } from 'element-ui'
 
+Vue.use(Progress)
 Vue.use(Statistic)
 Vue.use(DescriptionsItem)
 Vue.use(Autocomplete)

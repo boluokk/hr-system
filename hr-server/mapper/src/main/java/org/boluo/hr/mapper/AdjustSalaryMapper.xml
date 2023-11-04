@@ -3,12 +3,12 @@
 <mapper namespace="org.boluo.hr.mapper.AdjustSalaryMapper" >
   <sql id="column">id, employee_id, create_date, salary, reason, remark</sql>
   <resultMap id="BaseResultMap" type="org.boluo.hr.pojo.AdjustSalaryView" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="employee_id" property="employeeId" jdbcType="INTEGER" />
-    <result column="create_date" property="createDate" jdbcType="DATE" />
-    <result column="salary" property="salary" jdbcType="INTEGER" />
-    <result column="reason" property="reason" jdbcType="VARCHAR" />
-    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <id column="id" property="id"/>
+    <result column="employee_id" property="employeeId"/>
+    <result column="create_date" property="createDate"/>
+    <result column="salary" property="salary"/>
+    <result column="reason" property="reason" />
+    <result column="remark" property="remark"/>
     <association property="employee" column="employee_id"
                  select="org.boluo.hr.mapper.EmployeeMapper.selectByPrimaryKey"/>
   </resultMap>

@@ -8,34 +8,34 @@
         begin_contract, end_contract, work_age
     </sql>
     <resultMap id="BaseResultMap" type="org.boluo.hr.pojo.Employee">
-        <id column="id" property="id" jdbcType="INTEGER"/>
-        <result column="name" property="name" jdbcType="VARCHAR"/>
-        <result column="gender" property="gender" jdbcType="CHAR"/>
-        <result column="birthday" property="birthday" jdbcType="DATE"/>
-        <result column="id_card" property="idCard" jdbcType="CHAR"/>
-        <result column="wedlock" property="wedlock" jdbcType="CHAR"/>
-        <result column="nation_id" property="nationId" jdbcType="INTEGER"/>
-        <result column="native_place" property="nativePlace" jdbcType="VARCHAR"/>
-        <result column="politic_id" property="politicId" jdbcType="INTEGER"/>
-        <result column="email" property="email" jdbcType="VARCHAR"/>
-        <result column="phone" property="phone" jdbcType="VARCHAR"/>
-        <result column="address" property="address" jdbcType="VARCHAR"/>
-        <result column="department_id" property="departmentId" jdbcType="INTEGER"/>
-        <result column="job_level_id" property="jobLevelId" jdbcType="INTEGER"/>
-        <result column="pos_id" property="posId" jdbcType="INTEGER"/>
-        <result column="engage_form" property="engageForm" jdbcType="VARCHAR"/>
-        <result column="tiptop_degree" property="tiptopDegree" jdbcType="CHAR"/>
-        <result column="specialty" property="specialty" jdbcType="VARCHAR"/>
-        <result column="school" property="school" jdbcType="VARCHAR"/>
-        <result column="begin_date" property="beginDate" jdbcType="DATE"/>
-        <result column="work_state" property="workState" jdbcType="CHAR"/>
-        <result column="work_id" property="workId" jdbcType="CHAR"/>
-        <result column="contract_term" property="contractTerm" jdbcType="DOUBLE"/>
-        <result column="conversion_time" property="conversionTime" jdbcType="DATE"/>
-        <result column="not_work_date" property="notWorkDate" jdbcType="DATE"/>
-        <result column="begin_contract" property="beginContract" jdbcType="DATE"/>
-        <result column="end_contract" property="endContract" jdbcType="DATE"/>
-        <result column="work_age" property="workAge" jdbcType="INTEGER"/>
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="gender" property="gender"/>
+        <result column="birthday" property="birthday"/>
+        <result column="id_card" property="idCard"/>
+        <result column="wedlock" property="wedlock"/>
+        <result column="nation_id" property="nationId"/>
+        <result column="native_place" property="nativePlace"/>
+        <result column="politic_id" property="politicId"/>
+        <result column="email" property="email"/>
+        <result column="phone" property="phone"/>
+        <result column="address" property="address"/>
+        <result column="department_id" property="departmentId"/>
+        <result column="job_level_id" property="jobLevelId"/>
+        <result column="pos_id" property="posId"/>
+        <result column="engage_form" property="engageForm"/>
+        <result column="tiptop_degree" property="tiptopDegree"/>
+        <result column="specialty" property="specialty"/>
+        <result column="school" property="school"/>
+        <result column="begin_date" property="beginDate"/>
+        <result column="work_state" property="workState"/>
+        <result column="work_id" property="workId"/>
+        <result column="contract_term" property="contractTerm"/>
+        <result column="conversion_time" property="conversionTime"/>
+        <result column="not_work_date" property="notWorkDate"/>
+        <result column="begin_contract" property="beginContract"/>
+        <result column="end_contract" property="endContract"/>
+        <result column="work_age" property="workAge"/>
     </resultMap>
     <resultMap id="enhanceEmployee" type="org.boluo.hr.pojo.Employee" extends="BaseResultMap">
         <association property="nation" javaType="org.boluo.hr.pojo.Nation">
@@ -133,17 +133,17 @@
     </delete>
     <select id="selectEnhanceEmployeeByEmployeeId" resultMap="enhanceEmployee">
         select emp.*,
-               n.name         as nname,
-               n.id           as nid,
-               poli.name      as poname,
-               poli.id        as poliid,
-               dep.`name`     as depname,
-               dep.id         as depid,
-               job.name       as jobname,
-               job.id         as jobid,
+               n.name          as nname,
+               n.id            as nid,
+               poli.name       as poname,
+               poli.id         as poliid,
+               dep.`name`      as depname,
+               dep.id          as depid,
+               job.name        as jobname,
+               job.id          as jobid,
                job.title_level as joblename,
-               posi.name      as posiname,
-               posi.id        as posiid
+               posi.name       as posiname,
+               posi.id         as posiid
         from employee emp,
              nation n,
              politics_status poli,
@@ -159,17 +159,17 @@
     </select>
     <select id="selectByEmpName" resultMap="enhanceEmployee">
         select emp.*,
-               n.name         as nname,
-               n.id           as nid,
-               poli.name      as poname,
-               poli.id        as poliid,
-               dep.`name`     as depname,
-               dep.id         as depid,
-               job.name       as jobname,
-               job.id         as jobid,
+               n.name          as nname,
+               n.id            as nid,
+               poli.name       as poname,
+               poli.id         as poliid,
+               dep.`name`      as depname,
+               dep.id          as depid,
+               job.name        as jobname,
+               job.id          as jobid,
                job.title_level as joblename,
-               posi.name      as posiname,
-               posi.id        as posiid
+               posi.name       as posiname,
+               posi.id         as posiid
         from employee emp,
              nation n,
              politics_status poli,
@@ -185,17 +185,17 @@
     </select>
     <select id="selectAll" resultMap="enhanceEmployee">
         select emp.*,
-               n.name         as nname,
-               n.id           as nid,
-               poli.name      as poname,
-               poli.id        as poliid,
-               dep.`name`     as depname,
-               dep.id         as depid,
-               job.name       as jobname,
-               job.id         as jobid,
+               n.name          as nname,
+               n.id            as nid,
+               poli.name       as poname,
+               poli.id         as poliid,
+               dep.`name`      as depname,
+               dep.id          as depid,
+               job.name        as jobname,
+               job.id          as jobid,
                job.title_level as joblename,
-               posi.name      as posiname,
-               posi.id        as posiid
+               posi.name       as posiname,
+               posi.id         as posiid
         from employee emp,
              nation n,
              politics_status poli,
@@ -213,25 +213,28 @@
         from employee
     </select>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        select <include refid="column"/>
+        select
+        <include refid="column"/>
         from employee
         where id = #{id,jdbcType=INTEGER}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-        delete from employee
+        delete
+        from employee
         where id = #{id,jdbcType=INTEGER}
     </delete>
     <insert id="batchInsertEmployee">
         insert into employee (name, gender,
-                              birthday, id_card, wedlock, nation_id,
-                              nation_id, politic_id, email,
-                              phone, address, department_id,
-                              job_level_id, pos_id, engage_form,
-                              tiptop_degree, specialty, school,
-                              begin_date, work_state, work_id,
-                              contract_term, conversion_time, not_work_date,
-                              begin_contract, end_contract, work_age)
-        values <foreach collection="list" item="emp" separator=",">
+        birthday, id_card, wedlock, nation_id,
+        nation_id, politic_id, email,
+        phone, address, department_id,
+        job_level_id, pos_id, engage_form,
+        tiptop_degree, specialty, school,
+        begin_date, work_state, work_id,
+        contract_term, conversion_time, not_work_date,
+        begin_contract, end_contract, work_age)
+        values
+        <foreach collection="list" item="emp" separator=",">
             (#{emp.name,jdbcType=VARCHAR}, #{emp.gender,jdbcType=CHAR},
             #{emp.birthday,jdbcType=DATE}, #{emp.idcard,jdbcType=CHAR}, #{emp.wedlock,jdbcType=CHAR},
             #{emp.nationid,jdbcType=INTEGER},
@@ -511,7 +514,8 @@
         where id = #{id,jdbcType=INTEGER}
     </update>
     <select id="selectByEmployeeByWorkId" resultMap="BaseResultMap">
-        select <include refid="column"/>
+        select
+        <include refid="column"/>
         from employee
         where work_id = #{workId}
     </select>

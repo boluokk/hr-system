@@ -1,5 +1,9 @@
 package org.boluo.hr.util;
 
+import org.apache.poi.ss.formula.functions.T;
+
+import java.util.Set;
+
 /**
  * 检查工具
  *
@@ -11,8 +15,20 @@ public class CheckUtil {
         return target == null;
     }
 
+    public static boolean isEmpty(byte[] target) {
+        return target == null || target.length == 0;
+    }
+
+    public static boolean isEmpty(Object[] target) {
+        return target == null || target.length == 0;
+    }
+
     public static boolean hasLength(Integer[] target) {
         return target != null && target.length > 0;
+    }
+
+    public static boolean hasLength(String target) {
+        return target != null && !target.isEmpty();
     }
 
     public static boolean isNotNull(Object target) {

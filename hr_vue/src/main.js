@@ -13,7 +13,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import './assets/css/loginRequire01.css'
 import './assets/css/font-awesome.min.css'
 
-import { deleteRequest, getRequest, postRequest, putRequest } from './assets/js/AjaxUtil.js'
+import { deleteRequest, downloadFiles, getRequest, postRequest, putRequest, uploadFiles } from './assets/js/AjaxUtil.js'
 import axios from 'axios'
 import echarts from '@/assets/js/echarts'
 
@@ -26,6 +26,8 @@ Vue.prototype.getRequest = getRequest
 Vue.prototype.postRequest = postRequest
 Vue.prototype.deleteRequest = deleteRequest
 Vue.prototype.putRequest = putRequest
+Vue.prototype.uploadFiles = uploadFiles
+Vue.prototype.downloadFiles = downloadFiles
 
 Vue.prototype.$http = axios
 

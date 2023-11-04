@@ -140,7 +140,23 @@ public class HrService implements UserDetailsService {
         return hrMapper.insertHr(uploadHr) == 1;
     }
 
+    /**
+     * 通过用户名获取人事
+     *
+     * @param username 用户名
+     * @return 人事
+     */
     public Hr selectByUsername(String username) {
         return hrMapper.selectByUsername(username);
+    }
+
+    /**
+     * 通过人事id获取人事
+     *
+     * @param id 人事id
+     * @return 人事
+     */
+    public Hr selectById(Integer id) {
+        return hrMapper.selectByPrimaryKey(id);
     }
 }

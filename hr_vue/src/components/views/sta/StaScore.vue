@@ -1,5 +1,9 @@
 <template>
   <div id='app'>
+    <el-breadcrumb separator='/' style='margin-bottom:15px;'>
+      <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>员工积分统计</el-breadcrumb-item>
+    </el-breadcrumb>
     <el-card>
       <el-row :gutter='20'>
         <el-col :span='6'>

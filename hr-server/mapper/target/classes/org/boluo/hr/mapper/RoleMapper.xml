@@ -1,101 +1,112 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="org.boluo.hr.mapper.RoleMapper" >
-  <sql id="column" > id, name, name_zh</sql>
-  <resultMap id="BaseResultMap" type="org.boluo.hr.pojo.Role" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="name_zh" property="nameZh" jdbcType="VARCHAR" />
-  </resultMap>
-  <delete id="deleteByHrId" parameterType="java.lang.Integer">
-    delete from hr_role
-    where hr_id=#{hrId}
-  </delete>
-  <insert id="insertRolesByRoleIds">
-    insert into hr_role(hr_id,role_id)
-    values
-    <foreach collection="roleIds" item="id" separator=",">
-      (#{hid},#{id})
-    </foreach>
-  </insert>
-  <select id="selectByHrId" resultMap="BaseResultMap">
-      select r.id,r.name,r.name_zh
-      from hr h,hr_role hro,role r
-      where h.id = hro.hr_id and hro.role_id = r.id and h.id = #{hid}
-  </select>
-  <select id="selectAllRole" resultMap="BaseResultMap">
-    select <include refid="column"/> from role;
-  </select>
-  <select id="selectRightsByRoleId" resultType="java.lang.Integer">
-    select menu_id as id from menu_role
-    where role_id=#{id}
-  </select>
-  <delete id="deleteRightsByRoleId" parameterType="java.lang.Integer">
-    delete from menu_role
-    where role_id=#{id}
-  </delete>
-  <insert id="insertRightsByRoleId" parameterType="org.boluo.hr.pojo.RightsBean">
-    insert into menu_role(menu_id, role_id)
-    values
-    <foreach collection="bean.ids" separator="," item="id">
-      (#{id},#{bean.roleId})
-    </foreach>
-  </insert>
-  <select id="selectRightsCountByRoleId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
-    select count(*)
-    from menu_role
-    where role_id=#{id}
-  </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select <include refid="column" />
-    from role
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <select id="selectByName" resultType="org.boluo.hr.pojo.Role">
-    select
-    <include refid="column"/>
-    from role
-    where name = #{name}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from role
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insertRole" parameterType="org.boluo.hr.pojo.Role" >
-    insert into role
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="name != null" >
-        name,
-      </if>
-      <if test="nameZh != null" >
-        name_zh,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="nameZh != null" >
-        #{nameZh,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="org.boluo.hr.pojo.Role" >
-    update role
-    <set >
-      <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="nameZh != null" >
-        name_zh = #{nameZh,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+<mapper namespace="org.boluo.hr.mapper.RoleMapper">
+    <sql id="column"> id, name, name_zh</sql>
+    <resultMap id="BaseResultMap" type="org.boluo.hr.pojo.Role">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="name_zh" property="nameZh"/>
+    </resultMap>
+    <delete id="deleteByHrId" parameterType="java.lang.Integer">
+        delete
+        from hr_role
+        where hr_id = #{hrId}
+    </delete>
+    <insert id="insertRolesByRoleIds">
+        insert into hr_role(hr_id,role_id)
+        values
+        <foreach collection="roleIds" item="id" separator=",">
+            (#{hid},#{id})
+        </foreach>
+    </insert>
+    <select id="selectByHrId" resultMap="BaseResultMap">
+        select r.id, r.name, r.name_zh
+        from hr h,
+             hr_role hro,
+             role r
+        where h.id = hro.hr_id
+          and hro.role_id = r.id
+          and h.id = #{hid}
+    </select>
+    <select id="selectAllRole" resultMap="BaseResultMap">
+        select
+        <include refid="column"/>
+        from role;
+    </select>
+    <select id="selectRightsByRoleId" resultType="java.lang.Integer">
+        select menu_id as id
+        from menu_role
+        where role_id = #{id}
+    </select>
+    <delete id="deleteRightsByRoleId" parameterType="java.lang.Integer">
+        delete
+        from menu_role
+        where role_id = #{id}
+    </delete>
+    <insert id="insertRightsByRoleId" parameterType="org.boluo.hr.pojo.RightsBean">
+        insert into menu_role(menu_id, role_id)
+        values
+        <foreach collection="bean.ids" separator="," item="id">
+            (#{id},#{bean.roleId})
+        </foreach>
+    </insert>
+    <select id="selectRightsCountByRoleId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select count(*)
+        from menu_role
+        where role_id = #{id}
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="column"/>
+        from role
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectByName" resultType="org.boluo.hr.pojo.Role">
+        select
+        <include refid="column"/>
+        from role
+        where name = #{name}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from role
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insertRole" parameterType="org.boluo.hr.pojo.Role">
+        insert into role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="nameZh != null">
+                name_zh,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="nameZh != null">
+                #{nameZh,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="org.boluo.hr.pojo.Role">
+        update role
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="nameZh != null">
+                name_zh = #{nameZh,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
 </mapper>

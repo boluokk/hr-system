@@ -1,5 +1,9 @@
 <template>
   <div id='app'>
+    <el-breadcrumb separator='/' style='margin-bottom:15px;'>
+      <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>人事信息统计</el-breadcrumb-item>
+    </el-breadcrumb>
     <div class='gh_top'>
       <div class='gh_top_box'>
         <el-card class='box-card'>

@@ -1,12 +1,27 @@
 server:
   port: 44565
 
+
+# 一些自定义配置
+custom:
+  config:
+    # 需要做卷映射 (docker 映射到本地)
+    docker_database_path: /var/log/mysql
+    # 数据库服务器备份路径
+    server_database_path: E:\todo_files\docker\mysql80\log
+    # docker镜像名字
+    docker_name: mysql80
+    # 数据库备份过期时间（秒）
+    backup_expire: 7200
+    # 定时备份时间 cron
+    auto_backup_cron: 0 0,30 * * * ?
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     url: jdbc:mysql://localhost:10101/hr?useTimezone=true&serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8&useSSL=false
     username: root
     password: root
+    name: hr
   # 后端向前端序列化时间格式
   jackson:
     time-zone: GMT+8
@@ -26,6 +41,10 @@ spring:
   mvc:
     format:
       date: yyyy-MM-dd HH:mm:ss
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 10MB
 # 分页配置参数
 page helper:
   page-size-zero: true

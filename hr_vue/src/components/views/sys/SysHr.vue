@@ -232,7 +232,7 @@ export default {
   },
   methods: {
     searchKeyDown() {
-      this.postRequest('/sys/hr/byHrName/' + this.hrName).then(res => {
+      this.getRequest('/sys/hr/byHrName/' + this.hrName).then(res => {
         this.initData = res.data
       })
     },

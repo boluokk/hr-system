@@ -16,7 +16,7 @@ axios.interceptors.response.use(
   data => {
     if (data.data.status && data.data.status !== 200) {
       Message.error({ message: data.data.msg })
-      return
+      return Promise.reject(data)
     }
     return data
   },
@@ -93,16 +93,15 @@ export const downloadFiles = (url, formData, fullFileName) => {
     method: 'post',
     url: `${base}${url}`,
     data: formData,
-    responseType: 'blob', // 响应类型设置为blob
+    responseType: 'blob',
     headers: {}
   })
     .then(response => {
-      // 创建一个下载链接并模拟点击
       const url = window.URL.createObjectURL(new Blob([response.data]))
       const a = document.createElement('a')
       a.style.display = 'none'
       a.href = url
-      a.download = fullFileName || '报表.xlsx' // 可以自定义文件名
+      a.download = fullFileName || '报表.xlsx'
       document.body.appendChild(a)
       a.click()
       window.URL.revokeObjectURL(url)
@@ -111,4 +110,15 @@ export const downloadFiles = (url, formData, fullFileName) => {
       console.error('下载失败: ' + error)
     })
 }
-
+export const uploadFiles = (url, file) => {
+  let formData = new FormData()
+  formData.append('file', file.file)
+  return axios({
+    method: 'post',
+    url: `${base}${url}`,
+    data: formData,
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  })
+}

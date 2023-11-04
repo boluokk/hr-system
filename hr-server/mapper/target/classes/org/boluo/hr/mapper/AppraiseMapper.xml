@@ -1,89 +1,92 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="org.boluo.hr.mapper.AppraiseMapper" >
-  <resultMap id="BaseResultMap" type="org.boluo.hr.pojo.Appraise" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="employee_id" property="employeeId" jdbcType="INTEGER" />
-    <result column="create_date" property="createDate" jdbcType="DATE" />
-    <result column="appraise_result" property="appraiseResult" jdbcType="VARCHAR" />
-    <result column="appraise_content" property="appraiseContent" jdbcType="VARCHAR" />
-    <result column="remark" property="remark" jdbcType="VARCHAR" />
-    <association property="employee" column="employee_id"
-                 select="org.boluo.hr.mapper.EmployeeMapper.selectByPrimaryKey"/>
-  </resultMap>
-  <select id="selectAll" resultMap="BaseResultMap">
-    select <include refid="column"/>
-    from appraise
-  </select>
-  <sql id="column" >id, employee_id, create_date, appraise_result, appraise_content, remark</sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select <include refid="column" />
-    from appraise
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from appraise
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insertAppraise" parameterType="org.boluo.hr.pojo.Appraise" >
-    insert into appraise
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="employee_id != null" >
-        employee_id,
-      </if>
-      <if test="create_date != null" >
-        create_date,
-      </if>
-      <if test="appraise_result != null" >
-        appraise_result,
-      </if>
-      <if test="appraise_content != null" >
-        appraise_content,
-      </if>
-      <if test="remark != null" >
-        remark,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="employee_id != null" >
-        #{employeeId,jdbcType=INTEGER},
-      </if>
-      <if test="create_date != null" >
-        #{createDate,jdbcType=DATE},
-      </if>
-      <if test="appraise_result != null" >
-        #{appraiseResult,jdbcType=VARCHAR},
-      </if>
-      <if test="appraise_content != null" >
-        #{appraiseContent,jdbcType=VARCHAR},
-      </if>
-      <if test="remark != null" >
-        #{remark,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="org.boluo.hr.pojo.Appraise" >
-    update appraise
-    <set >
-      <if test="employeeId != null" >
-        employee_id = #{employeeId,jdbcType=INTEGER},
-      </if>
-      <if test="createDate != null" >
-        create_date = #{createDate,jdbcType=DATE},
-      </if>
-      <if test="appraiseResult != null" >
-        appraise_result = #{appraiseResult,jdbcType=VARCHAR},
-      </if>
-      <if test="appraiseContent != null" >
-        appraise_content = #{appraiseContent,jdbcType=VARCHAR},
-      </if>
-      <if test="remark != null" >
-        remark = #{remark,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+<mapper namespace="org.boluo.hr.mapper.AppraiseMapper">
+    <resultMap id="BaseResultMap" type="org.boluo.hr.pojo.Appraise">
+        <id column="id" property="id"/>
+        <result column="employee_id" property="employeeId"/>
+        <result column="create_date" property="createDate"/>
+        <result column="appraise_result" property="appraiseResult"/>
+        <result column="appraise_content" property="appraiseContent"/>
+        <result column="remark" property="remark"/>
+        <association property="employee" column="employee_id"
+                     select="org.boluo.hr.mapper.EmployeeMapper.selectByPrimaryKey"/>
+    </resultMap>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="column"/>
+        from appraise
+    </select>
+    <sql id="column">id, employee_id, create_date, appraise_result, appraise_content, remark</sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="column"/>
+        from appraise
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from appraise
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insertAppraise" parameterType="org.boluo.hr.pojo.Appraise">
+        insert into appraise
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="employee_id != null">
+                employee_id,
+            </if>
+            <if test="create_date != null">
+                create_date,
+            </if>
+            <if test="appraise_result != null">
+                appraise_result,
+            </if>
+            <if test="appraise_content != null">
+                appraise_content,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="employee_id != null">
+                #{employeeId,jdbcType=INTEGER},
+            </if>
+            <if test="create_date != null">
+                #{createDate,jdbcType=DATE},
+            </if>
+            <if test="appraise_result != null">
+                #{appraiseResult,jdbcType=VARCHAR},
+            </if>
+            <if test="appraise_content != null">
+                #{appraiseContent,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="org.boluo.hr.pojo.Appraise">
+        update appraise
+        <set>
+            <if test="employeeId != null">
+                employee_id = #{employeeId,jdbcType=INTEGER},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=DATE},
+            </if>
+            <if test="appraiseResult != null">
+                appraise_result = #{appraiseResult,jdbcType=VARCHAR},
+            </if>
+            <if test="appraiseContent != null">
+                appraise_content = #{appraiseContent,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
 </mapper>

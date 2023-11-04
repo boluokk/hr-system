@@ -20,7 +20,7 @@ import java.lang.reflect.Method;
 import java.util.Date;
 
 /**
- * 全局日志
+ * 记录前端请求AOP
  *
  * @author 🍍
  * @date 2023/10/25

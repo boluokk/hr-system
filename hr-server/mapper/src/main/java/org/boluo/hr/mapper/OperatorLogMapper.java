@@ -1,7 +1,10 @@
 package org.boluo.hr.mapper;
 
 
+import org.boluo.hr.pojo.OperatorHeaderCount;
 import org.boluo.hr.pojo.OperatorLog;
+
+import java.util.List;
 
 /**
  * 操作日志 数据层
@@ -42,4 +45,17 @@ public interface OperatorLogMapper {
      */
     int updateByPrimaryKey(OperatorLog operatorLog);
 
+    /**
+     * 查询所有操作日志
+     *
+     * @return 操作日志集合
+     */
+    List<OperatorLog> selectAllOperatorLog();
+
+    /**
+     * 查询操作日志页头
+     *
+     * @return 操作日志页头
+     */
+    OperatorHeaderCount selectOperatorHeaderCount();
 }

@@ -3,14 +3,15 @@
 <mapper namespace="org.boluo.hr.mapper.EmployeeRewardPunishmentMapper">
     <sql id="column">id, employee_id, create_date, reason, point, type, remark</sql>
     <resultMap id="BaseResultMap" type="org.boluo.hr.pojo.EmployeeRewardPunishment">
-        <id column="id" property="id" jdbcType="INTEGER"/>
-        <result column="employee_id" property="employeeId" jdbcType="INTEGER"/>
-        <result column="create_date" property="createDate" jdbcType="DATE"/>
-        <result column="reason" property="reason" jdbcType="VARCHAR"/>
-        <result column="point" property="point" jdbcType="INTEGER"/>
-        <result column="type" property="type" jdbcType="INTEGER"/>
-        <result column="remark" property="remark" jdbcType="VARCHAR"/>
-        <association property="employee" column="employee_id" select="org.boluo.hr.mapper.EmployeeMapper.selectByPrimaryKey"/>
+        <id column="id" property="id"/>
+        <result column="employee_id" property="employeeId"/>
+        <result column="create_date" property="createDate"/>
+        <result column="reason" property="reason"/>
+        <result column="point" property="point"/>
+        <result column="type" property="type"/>
+        <result column="remark" property="remark"/>
+        <association property="employee" column="employee_id"
+                     select="org.boluo.hr.mapper.EmployeeMapper.selectByPrimaryKey"/>
     </resultMap>
     <select id="selectAll" resultMap="BaseResultMap">
         select

@@ -3,25 +3,28 @@
 <mapper namespace="org.boluo.hr.mapper.EmployeeTrainMapper">
     <sql id="column"> id, employee_id, create_data, train_content, remark</sql>
     <resultMap id="BaseResultMap" type="org.boluo.hr.pojo.EmployeeTrainView">
-        <id column="id" property="id" jdbcType="INTEGER"/>
-        <result column="employee_id" property="employeeId" jdbcType="INTEGER"/>
-        <result column="create_data" property="createData" jdbcType="DATE"/>
-        <result column="train_content" property="trainContent" jdbcType="VARCHAR"/>
-        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <id column="id" property="id"/>
+        <result column="employee_id" property="employeeId"/>
+        <result column="create_data" property="createData"/>
+        <result column="train_content" property="trainContent"/>
+        <result column="remark" property="remark"/>
         <association property="employee" column="employee_id"
                      select="org.boluo.hr.mapper.EmployeeMapper.selectByPrimaryKey"/>
     </resultMap>
     <select id="selectAll" resultMap="BaseResultMap">
-        select <include refid="column"/>
+        select
+        <include refid="column"/>
         from employee_train
     </select>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        select <include refid="column"/>
+        select
+        <include refid="column"/>
         from employee_train
         where id = #{id,jdbcType=INTEGER}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-        delete from employee_train
+        delete
+        from employee_train
         where id = #{id,jdbcType=INTEGER}
     </delete>
     <insert id="insertEmployeeTrain" parameterType="org.boluo.hr.pojo.EmployeeTrain">

@@ -2,39 +2,44 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.boluo.hr.mapper.DepartmentMapper">
     <resultMap id="BaseResultMap" type="org.boluo.hr.pojo.Department">
-        <id column="id" property="id" jdbcType="INTEGER"/>
-        <result column="name" property="name" jdbcType="VARCHAR"/>
-        <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
-        <result column="dep_path" property="depPath" jdbcType="VARCHAR"/>
-        <result column="enabled" property="enabled" jdbcType="BIT"/>
-        <result column="is_iarent" property="isParent" jdbcType="BIT"/>
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="dep_path" property="depPath"/>
+        <result column="enabled" property="enabled"/>
+        <result column="is_iarent" property="isParent"/>
     </resultMap>
     <resultMap id="hasChildrenDepartment" type="org.boluo.hr.pojo.Department" extends="BaseResultMap">
-        <id property="id" column="id" jdbcType="INTEGER"/>
-        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <id property="id" column="id"/>
+        <result property="name" column="name" />
         <collection property="children" ofType="org.boluo.hr.pojo.Department" select="selectByParentId" column="id"/>
     </resultMap>
     <sql id="column">id, `name`, parent_id, dep_path, enabled, is_parent</sql>
     <select id="selectAll" resultMap="BaseResultMap">
-        select <include refid="column"/>
+        select
+        <include refid="column"/>
         from department
     </select>
     <select id="selectByName" resultMap="BaseResultMap">
-        select <include refid="column"/>
+        select
+        <include refid="column"/>
         from department
         where name like concat('%',#{name},'%')
     </select>
     <delete id="deleteByDepPath">
-        delete from department
+        delete
+        from department
         where dep_path like concat(#{depPath}, '%')
     </delete>
     <select id="selectByParentId" resultMap="hasChildrenDepartment">
-        select <include refid="column"/>
+        select
+        <include refid="column"/>
         from department
         where parent_id = #{id} and enabled = 1
     </select>
     <select id="selectAllDepWithDisabled" resultMap="BaseResultMap">
-        select <include refid="column"/>
+        select
+        <include refid="column"/>
         from department
         where enabled = 0
     </select>
@@ -47,7 +52,8 @@
         where parent_id = #{id}
     </select>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        select <include refid="column"/>
+        select
+        <include refid="column"/>
         from department
         where id = #{id,jdbcType=INTEGER}
     </select>
@@ -57,7 +63,8 @@
         where id = #{id}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-        delete from department
+        delete
+        from department
         where id = #{id}
     </delete>
     <insert id="insertDepartment" parameterType="org.boluo.hr.pojo.Department">

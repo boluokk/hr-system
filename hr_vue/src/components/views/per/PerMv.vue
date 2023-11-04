@@ -1,5 +1,9 @@
 <template>
   <div>
+    <el-breadcrumb separator='/' style='margin-bottom:15px;'>
+      <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>员工调动</el-breadcrumb-item>
+    </el-breadcrumb>
     <el-card shadow='always' :body-style="{ padding: '20px' }">
       <div slot='header'></div>
       <el-table :data='tableData' style='width: 100%'>
