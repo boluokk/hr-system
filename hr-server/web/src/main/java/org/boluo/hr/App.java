@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
- * @author 🍍
+ * @author boluo
  * @date 2023/10/1
  */
 @MapperScan("org.boluo.hr.mapper")
