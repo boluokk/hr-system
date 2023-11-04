@@ -18,7 +18,8 @@ import java.io.IOException;
 @Component
 public class CustomLogOutSuccessFilter implements LogoutSuccessHandler {
     @Override
-    public void onLogoutSuccess(HttpServletRequest req, HttpServletResponse res, Authentication authentication) throws IOException {
+    public void onLogoutSuccess(HttpServletRequest req, HttpServletResponse res, Authentication authentication)
+            throws IOException {
         res.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         res.getWriter().print(new ObjectMapper().writeValueAsString(RespBean.ok("注销成功")));
     }

@@ -9,9 +9,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  * @author 🍍
  * @date 2023/10/1
  */
-@SpringBootApplication
 @MapperScan("org.boluo.hr.mapper")
 @EnableScheduling
+@SpringBootApplication
 public class App {
     public static void main(String[] args) {
         SpringApplication.run(App.class, args);

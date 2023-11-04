@@ -12,7 +12,7 @@
         v-on:click="changecurrentSession(item)"
       >
         <!--   :class="[item.id === currentSession ? 'active':'']" -->
-        <img class="avatar" :src="item.userface" :alt="item.name" />
+        <img class="avatar" :src="item.userFace" :alt="item.name" />
         <p class="name">
           {{ item.name }}
         </p>
@@ -26,7 +26,7 @@
 import { mapState } from 'vuex'
 
 export default {
-  name: 'list',
+  name: 'List',
   data() {
     return {}
   },

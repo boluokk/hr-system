@@ -45,6 +45,11 @@ spring:
     multipart:
       max-file-size: 100MB
       max-request-size: 10MB
+  redis:
+    password: 123456
+    port: 6379
+    host: 127.0.0.1
+
 # 分页配置参数
 page helper:
   page-size-zero: true

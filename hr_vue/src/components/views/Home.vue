@@ -143,7 +143,7 @@ export default {
             if (res.data.status === 200) {
               this.$message.success(res.data.msg)
               if (this.curUser.password && this.curUser.password.length > 0) {
-                this.logoutHandle()
+                this.$router.replace('/')
               } else {
                 this.userInfoVisible = false
               }

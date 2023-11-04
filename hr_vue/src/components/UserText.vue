@@ -1,5 +1,5 @@
 <template>
-  <div id="uesrtext">
+  <div id="userText">
     <textarea
       placeholder="按 Ctrl + Enter 发送"
       v-model="content"
@@ -12,7 +12,7 @@
 import { mapState } from 'vuex'
 
 export default {
-  name: 'uesrtext',
+  name: 'UserText',
   data() {
     return {
       content: ''
@@ -37,7 +37,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#uesrtext {
+#userText {
   position: absolute;
   bottom: 0;
   right: 0;

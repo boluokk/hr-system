@@ -32,7 +32,7 @@
         </span>
         <span class='rightBtn'>
           <el-upload
-            action='/personnel/emp/import'
+            action='/basic/emp/import'
             :before-upload='beforeUpload'
             :show-file-list='false'
             :on-success='uploadSuccess'
@@ -686,7 +686,7 @@ export default {
     },
     initTipDataSer(obj) {
       this.postRequest(
-        '/personnel/emp/top/search/' + this.pageNum + '/' + this.pageSize,
+        '/basic/emp/top/search/' + this.pageNum + '/' + this.pageSize,
         obj
       ).then(resp => {
         this.tableData = resp.data.obj.list
@@ -720,7 +720,7 @@ export default {
       if (this.input.length === 0) {
         return this.$message.warning("输入框不能为空!!");
       }
-      this.getRequest('/personnel/emp/byEmpName/' + this.input + '/' +
+      this.getRequest('/basic/emp/byEmpName/' + this.input + '/' +
         this.pageNum + '/' + this.pageSize).then(res => {
         this.tableData = res.data.obj.list
         this.total = res.data.obj.total
@@ -767,7 +767,7 @@ export default {
     importExcel() {
     },
     exportExcel() {
-      window.open('/personnel/emp/export', '_parent')
+      window.open('/basic/emp/export', '_parent')
     },
     showAddDia() {
       this.dialogVisible = true
@@ -787,7 +787,7 @@ export default {
     },
     init() {
       this.getRequest(
-        '/personnel/emp/' + this.pageNum + '/' + this.pageSize
+        '/basic/emp/' + this.pageNum + '/' + this.pageSize
       ).then(res => {
         this.tableData = res.data.obj.list
         this.total = res.data.obj.total
@@ -814,14 +814,14 @@ export default {
       if (this.isEditOrAdd === 'add') {
         this.$refs.empFormRef.validate(vali => {
           if (!vali) return this.$message.error('请正确填写必填项！')
-          this.putRequest('/personnel/emp/add', this.employeeFrom).then(res => {
+          this.putRequest('/basic/emp/add', this.employeeFrom).then(res => {
             this.$message.success(res.data.msg)
           })
           this.dialogVisible = false
           this.$refs.empFormRef.resetFields()
         })
       } else if (this.isEditOrAdd === 'edit') {
-        this.putRequest('/personnel/emp/modify', this.employeeFrom).then(res => {
+        this.putRequest('/basic/emp/modify', this.employeeFrom).then(res => {
           this.$message.success(res.data.msg)
           this.resetData()
           this.init()
@@ -866,7 +866,7 @@ export default {
         type: 'warning'
       })
         .then(() => {
-          this.deleteRequest('/personnel/emp/delete/' + id).then(res => {
+          this.deleteRequest('/basic/emp/delete/' + id).then(res => {
             this.$message.success(res.data.msg)
             this.init()
           })

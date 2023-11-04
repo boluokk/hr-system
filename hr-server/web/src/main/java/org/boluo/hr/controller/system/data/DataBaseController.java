@@ -2,7 +2,7 @@ package org.boluo.hr.controller.system.data;
 
 import cn.hutool.core.io.FileUtil;
 import org.boluo.hr.annotation.Log;
-import org.boluo.hr.annotation.uploadFileCheck;
+import org.boluo.hr.annotation.UploadFileCheck;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.service.DataBaseService;
 import org.boluo.hr.service.util.CustomFileUtil;
@@ -92,7 +92,7 @@ public class DataBaseController {
      */
     @PostMapping("/upload")
     @Log("上传备份文件")
-    @uploadFileCheck(checkType = uploadFileCheck.checkType.SUFFIX, supportTypeStr = {"sql"})
+    @UploadFileCheck(checkType = UploadFileCheck.checkType.SUFFIX, supportTypeStr = {"sql"})
     public RespBean uploadBackupFile(MultipartFile file) {
         if (!customFileUtil.saveFile(customFileUtil.getEnhanceServerBackupFilePath("/upload/"), file)) {
             return RespBean.error("文件保存失败");

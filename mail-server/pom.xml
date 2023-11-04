@@ -10,7 +10,6 @@
     <artifactId>mail-server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>mail-server</name>
-    <description>hr system</description>
     <properties>
         <java.version>1.8</java.version>
     </properties>

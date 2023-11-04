@@ -1,6 +1,5 @@
 package org.boluo.hr.controller;
 
-import org.boluo.hr.annotation.Log;
 import org.boluo.hr.pojo.ChatMessage;
 import org.boluo.hr.pojo.Hr;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +30,6 @@ public class WebSocketController {
      * 聊天
      */
     @MessageMapping("/ws/chat")
-    @Log("开始聊天连接")
     public void handel(Authentication authentication, ChatMessage chatMessage) {
         Hr hr = (Hr) authentication.getPrincipal();
         chatMessage.setDate(new Date());

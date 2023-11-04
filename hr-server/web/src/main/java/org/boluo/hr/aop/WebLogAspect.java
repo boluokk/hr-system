@@ -11,6 +11,7 @@ import org.boluo.hr.service.OperatorLogService;
 import org.boluo.hr.service.util.HrUtils;
 import org.boluo.hr.util.CheckUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -67,13 +68,10 @@ public class WebLogAspect {
         return operatorLog;
     }
 
-    @Before("execution(public * org.boluo.hr.config.login_handle..*(..))")
-    public void beforeLogout(JoinPoint joinPoint) {
-        recordLog(joinPoint);
-    }
-
-    @Before("execution(public * org.boluo.hr.controller..*(..))")
-    public void doBefore(JoinPoint joinPoint) {
-        recordLog(joinPoint);
+    @Before("@annotation(log)")
+    public void doBefore(JoinPoint joinPoint, Log log) {
+        if (CheckUtil.isNotNull(SecurityContextHolder.getContext().getAuthentication())) {
+            recordLog(joinPoint);
+        }
     }
 }

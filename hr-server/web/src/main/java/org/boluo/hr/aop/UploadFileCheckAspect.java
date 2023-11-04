@@ -5,11 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.boluo.hr.annotation.uploadFileCheck;
+import org.boluo.hr.annotation.UploadFileCheck;
 import org.boluo.hr.enums.uploadFileEnum;
 import org.boluo.hr.exception.BusinessException;
 import org.boluo.hr.util.CheckUtil;
-import org.etsi.uri.x01903.v13.OCSPIdentifierType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,12 +28,12 @@ import java.util.Set;
 @Component
 @Slf4j
 @Aspect
-public class uploadFileCheckAspect {
+public class UploadFileCheckAspect {
 
     @Before("@annotation(uploadFileCheck)")
-    public void checkFile(JoinPoint joinPoint, uploadFileCheck uploadFileCheck) {
+    public void checkFile(JoinPoint joinPoint, UploadFileCheck uploadFileCheck) {
         String message = uploadFileCheck.message();
-        org.boluo.hr.annotation.uploadFileCheck.checkType checkType = uploadFileCheck.checkType();
+        UploadFileCheck.checkType checkType = uploadFileCheck.checkType();
         uploadFileEnum[] supportType = uploadFileCheck.supportType();
         Set<String> supportTypeStr = new HashSet<>(Arrays.asList(uploadFileCheck.supportTypeStr()));
         if (CheckUtil.isEmpty(supportType) &&
@@ -54,14 +53,14 @@ public class uploadFileCheckAspect {
     }
 
     private void doCheck(MultipartFile file, String message,
-                         uploadFileCheck.checkType checkType,
+                         UploadFileCheck.checkType checkType,
                          uploadFileEnum[] supportType,
                          Set<String> supportTypeStr) {
-        if (checkType == uploadFileCheck.checkType.SUFFIX) {
+        if (checkType == UploadFileCheck.checkType.SUFFIX) {
             checkSuffix(file, message, supportType, supportTypeStr);
-        } else if (checkType == uploadFileCheck.checkType.MAGIC_NUMBER) {
+        } else if (checkType == UploadFileCheck.checkType.MAGIC_NUMBER) {
             checkMagicNumber(file, message, supportType);
-        } else if (checkType == uploadFileCheck.checkType.SUFFIX_MAGIC_NUMBER) {
+        } else if (checkType == UploadFileCheck.checkType.SUFFIX_MAGIC_NUMBER) {
             checkSuffix(file, message, supportType, supportTypeStr);
             checkMagicNumber(file, message, supportType);
         }

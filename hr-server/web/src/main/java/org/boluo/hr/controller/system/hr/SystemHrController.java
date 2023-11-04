@@ -96,7 +96,9 @@ public class SystemHrController {
         if (hrService.update(hr)) {
             // session 失效
             if (hr.getPassword() != null) {
-                session.invalidate();
+                if (CheckUtil.isNotNull(session)) {
+                    session.invalidate();
+                }
             }
             return RespBean.ok();
         }

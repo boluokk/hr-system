@@ -1,7 +1,7 @@
 <template>
   <div id="card">
     <header>
-      <img class="avatar" v-bind:src="user.userface" v-bind:alt="user.name" />
+      <img class="avatar" v-bind:src="user.userFace" v-bind:alt="user.name" />
       <p class="name">{{ user.name }}</p>
     </header>
     <footer>
@@ -17,7 +17,7 @@
 
 <script>
 export default {
-  name: 'card',
+  name: 'Card',
   data() {
     return {
       user: this.$store.state.user

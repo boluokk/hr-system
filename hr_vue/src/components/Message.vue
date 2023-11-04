@@ -13,7 +13,7 @@
         <div class="main" :class="{ self: entry.self }">
           <img
             class="avatar"
-            :src="entry.self ? user.userface : currentSession.userface"
+            :src="entry.self ? user.userFace : currentSession.userFace"
             alt=""
           />
           <p class="text">{{ entry.content.content }}</p>
