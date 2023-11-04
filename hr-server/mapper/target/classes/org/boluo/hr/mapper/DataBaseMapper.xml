@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.boluo.hr.mapper.DataBaseMapper">
+    <resultMap id="baseResultMap" type="org.boluo.hr.pojo.DataBaseTable">
+        <id column="table_name" property="tableName" />
+        <id column="table_size" property="tableSize" />
+        <id column="table_rows" property="tableRows" />
+    </resultMap>
+    <update id="truncateTable">
+        truncate table ${tableName};
+    </update>
+    <select id="selectAllTablesInfo" resultMap="baseResultMap">
+        select table_name                                             as `table_name`,
+               ROUND(((data_length + index_length) / 1024 / 1024), 2) as `table_size`,
+               table_rows                                             as `table_rows`
+        from information_schema.tables
+        where table_schema = 'hr'
+        order by (data_length + index_length) desc;
+    </select>
+    <select id="selectTruncateTable" resultType="java.lang.String">
+        SELECT table_name
+        FROM information_schema.tables
+        WHERE table_schema = 'hr'
+          and table_name not in ('hr', 'role', 'menu_role', 'menu', 'hr_role')
+    </select>
+
+</mapper>

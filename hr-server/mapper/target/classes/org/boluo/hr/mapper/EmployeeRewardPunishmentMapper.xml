@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.boluo.hr.mapper.EmployeeRewardPunishmentMapper">
+    <sql id="column">id, employee_id, create_date, reason, point, type, remark</sql>
+    <resultMap id="BaseResultMap" type="org.boluo.hr.pojo.EmployeeRewardPunishment">
+        <id column="id" property="id"/>
+        <result column="employee_id" property="employeeId"/>
+        <result column="create_date" property="createDate"/>
+        <result column="reason" property="reason"/>
+        <result column="point" property="point"/>
+        <result column="type" property="type"/>
+        <result column="remark" property="remark"/>
+        <association property="employee" column="employee_id"
+                     select="org.boluo.hr.mapper.EmployeeMapper.selectByPrimaryKey"/>
+    </resultMap>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="column"/>
+        from employee_reward_punishment
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="column"/>
+        from employee_reward_punishment
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from employee_reward_punishment
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insertEmployeeRewardPunishment" parameterType="org.boluo.hr.pojo.EmployeeRewardPunishment">
+        insert into employee_reward_punishment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="employeeId != null">
+                employee_id,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="reason != null">
+                reason,
+            </if>
+            <if test="point != null">
+                `point`,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="employeeId != null">
+                #{employeeId,jdbcType=INTEGER},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=DATE},
+            </if>
+            <if test="reason != null">
+                #{reason,jdbcType=VARCHAR},
+            </if>
+            <if test="point != null">
+                #{point,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="org.boluo.hr.pojo.EmployeeRewardPunishment">
+        update employee_reward_punishment
+        <set>
+            <if test="employeeId != null">
+                employee_id = #{employeeId,jdbcType=INTEGER},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=DATE},
+            </if>
+            <if test="reason != null">
+                reason = #{reason,jdbcType=VARCHAR},
+            </if>
+            <if test="point != null">
+                `point` = #{point,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

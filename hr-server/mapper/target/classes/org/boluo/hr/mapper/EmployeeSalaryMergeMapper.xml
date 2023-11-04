@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.boluo.hr.mapper.EmployeeSalaryMergeMapper">
+    <sql id="column">id, employee_id, salary_id</sql>
+    <resultMap id="BaseResultMap" type="org.boluo.hr.pojo.EmployeeSalaryMerge">
+        <id column="id" property="id"/>
+        <result column="employee_id" property="employeeId"/>
+        <result column="salary_id" property="salaryId"/>
+    </resultMap>
+    <update id="updateEmployeeSalaryMerge" parameterType="org.boluo.hr.pojo.EmployeeSalaryMerge">
+        update employee_salary_merge
+        <set>
+            <if test="employeeId != null">
+                employee_id = #{employeeId},
+            </if>
+            <if test="salaryId != null">
+                salary_id = #{salaryId}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <insert id="insertEmployeeSalaryMerge" parameterType="org.boluo.hr.pojo.EmployeeSalaryMerge">
+        insert into employee_salary_merge(employee_id, salary_id)
+        values (#{employeeId}, #{salaryId})
+    </insert>
+    <select id="selectByEmployeeId" resultMap="BaseResultMap">
+        select <include refid="column"/>
+        from employee_salary_merge
+        where employee_id = #{employeeId}
+    </select>
+</mapper>

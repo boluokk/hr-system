@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.boluo.hr.mapper.HrInfoStatisticsMapper">
+    <sql id="column">id, count, time</sql>
+    <resultMap id="onlineCountResultMap" type="org.boluo.hr.pojo.HrInfoStatistics">
+        <result column="time" property="time"/>
+        <result column="count" property="count"/>
+    </resultMap>
+    <insert id="insertOnlineCount">
+        insert into online_count(count, time)
+        values (#{count}, #{time})
+    </insert>
+    <select id="selectRecentOnline" resultMap="onlineCountResultMap">
+        WITH RECURSIVE hourlySequence AS (
+        SELECT
+        DATE_ADD(CURDATE(), INTERVAL -((#{days} * 24) - 1) HOUR) AS minute_time
+        UNION ALL
+        SELECT
+        DATE_ADD(minute_time, INTERVAL 30 minute)
+        FROM hourlySequence
+        WHERE minute_time &lt; NOW()
+        )
+        select hs.minute_time as time, sum(if(count is null, 0, count)) as count
+        from online_count as oc
+        right join hourlySequence as hs on substr(hs.minute_time, 1, 13) = substr(oc.time, 1, 13)
+        group by hs.minute_time
+    </select>
+    <select id="selectHrCount" resultType="java.lang.Integer">
+        select count(*)
+        from hr
+    </select>
+    <select id="selectOperateCount" resultType="java.lang.Integer">
+        select count(*)
+        from operator_log
+        where type != 'GET'
+    </select>
+    <select id="selectRecentLogin" resultType="org.boluo.hr.pojo.HrInfoStatistics">
+        WITH RECURSIVE hourlySequence AS (
+        SELECT
+        DATE_ADD(CURDATE(), INTERVAL -((#{days} * 24) - 1) HOUR) AS time
+        UNION ALL
+        SELECT
+        DATE_ADD(time, INTERVAL 1 HOUR)
+        FROM hourlySequence
+        WHERE time &lt; NOW()
+        )
+        select hs.time, sum(if(ol.`event` = '/login', 1, 0)) as count
+        from operator_log as ol
+        right join hourlySequence as hs on substr(hs.time, 1, 13) = substr(ol.create_date, 1, 13)
+        group by hs.time
+    </select>
+</mapper>
