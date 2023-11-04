@@ -16,9 +16,7 @@ import java.util.List;
  */
 @Service
 public class AdjustSalaryService {
-
     private final AdjustSalaryMapper adjustSalaryMapper;
-
     @Autowired
     public AdjustSalaryService(AdjustSalaryMapper adjustSalaryMapper) {
         this.adjustSalaryMapper = adjustSalaryMapper;
