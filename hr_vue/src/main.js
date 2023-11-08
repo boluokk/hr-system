@@ -58,8 +58,7 @@ router.beforeEach((to, from, next) => {
   }
 })
 
-// 时间格式过滤
-Vue.filter('dateFormat', function(originData) {
+const dateFilter = function(originData) {
   const time = new Date(originData)
   // 年
   const y = (time.getFullYear() + '').padStart(2, '0')
@@ -75,7 +74,10 @@ Vue.filter('dateFormat', function(originData) {
   const ss = (time.getSeconds() + '').padStart(2, '0')
 
   return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
-})
+}
+Vue.prototype.dateFilter = dateFilter
+// 时间格式过滤
+Vue.filter('dateFormat', dateFilter)
 
 new Vue({
   router,

@@ -32,7 +32,7 @@ public class RedisCache {
 
     @SuppressWarnings("AlibabaThreadShouldSetName")
     private static final ExecutorService CACHE_REBUILD_EXECUTOR = new ThreadPoolExecutor(
-            5, 10,
+            Runtime.getRuntime().availableProcessors() / 2, Runtime.getRuntime().availableProcessors(),
             0L, TimeUnit.MILLISECONDS,
             new LinkedBlockingQueue<>());
 
@@ -46,6 +46,10 @@ public class RedisCache {
      */
     public void set(String key, Object value, Long time, TimeUnit unit) {
         stringRedisTemplate.opsForValue().set(key, JSONUtil.toJsonStr(value), time, unit);
+    }
+
+    public String get(String key) {
+        return stringRedisTemplate.opsForValue().get(key);
     }
 
     /**
@@ -90,7 +94,7 @@ public class RedisCache {
         }
         // 3.2 判断命中的是否是为null
         if (json != null) {
-            // 不为null，说明该值缓存了空对象，返回null
+            // 不为 null，说明该值缓存了空对象，返回null
             return null;
         }
 

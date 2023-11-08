@@ -59,7 +59,7 @@ export default {
       let tSeries = []
       this.getRequest('/sta/record/all/3').then(res => {
         if (res.data.status === 200) {
-          let data = res.data.obj
+          let data = res.data.obj.data
           data.forEach((item, index) => {
             nameArr.push(item.name)
             tSeries.push({
@@ -70,7 +70,7 @@ export default {
             })
             item.hrRecordStatistics.forEach(inItem => {
               if (index === 0) {
-                tXAxis.push(inItem.time)
+                tXAxis.push(this.dateFilter(inItem.time))
               }
               tSeries[index].data.push(inItem.count)
             })

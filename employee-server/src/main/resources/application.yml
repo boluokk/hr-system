@@ -1,0 +1,17 @@
+server:
+  port: 10107
+
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://localhost:10101/hr?useTimezone=true&serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    username: root
+    password: root
+    name: hr
+
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  mvc:
+    format:
+      date: yyyy-MM-dd HH:mm:ss

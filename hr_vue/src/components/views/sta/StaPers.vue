@@ -150,18 +150,18 @@ export default {
         this.headerData = res.data.obj
       })
       this.getRequest('/sta/pers/online/1').then(res => {
-        let temp = res.data.obj
+        let temp = res.data.obj.data
         temp.forEach(item => {
-          this.online.xAxis.data.push(item.time)
+          this.online.xAxis.data.push(this.dateFilter(item.time))
           this.online.series[0].data.push(item.count)
           // 获取数据成功后再调用, 不然会渲染不出来
           this.createGh()
         })
       })
       this.getRequest('/sta/pers/login/7').then(res => {
-        let temp = res.data.obj
+        let temp = res.data.obj.data
         temp.forEach(item => {
-          this.login.xAxis.data.push(item.time)
+          this.login.xAxis.data.push(this.dateFilter(item.time))
           this.login.series[0].data.push(item.count)
         })
         this.createGh()

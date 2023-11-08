@@ -18,6 +18,7 @@
     <modules>
         <module>mail-server</module>
         <module>hr-server</module>
+        <module>employee-server</module>
     </modules>
     <properties>
         <junit.version>4.10</junit.version>

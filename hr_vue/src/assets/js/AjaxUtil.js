@@ -12,11 +12,17 @@ axios.interceptors.request.use(
     return Promise.resolve(err)
   }
 )
+let flushTime
+let interval = 1500
 axios.interceptors.response.use(
   data => {
     if (data.data.status && data.data.status !== 200) {
+      if (flushTime && Date.now() - flushTime < interval) {
+        return
+      }
       Message.error({ message: data.data.msg })
-      return Promise.reject(data)
+      flushTime = Date.now()
+      return Promise.resolve(data)
     }
     return data
   },
@@ -28,7 +34,10 @@ axios.interceptors.response.use(
         Message.error({ message: '权限不足,请联系管理员!' })
         store.commit('addMsgCount')
       }
-    } else if (err.response.status === 402 || err.response.status === 401) {
+    } else if (err.response.status === 402) {
+      Message.error('账号有其他人登录, 请修改密码')
+      Router.replace('/')
+    } else if (err.response.status === 401) {
       Message.error({ message: '请重新登录' })
       Router.replace('/')
     } else if (err.response.status === 404) {

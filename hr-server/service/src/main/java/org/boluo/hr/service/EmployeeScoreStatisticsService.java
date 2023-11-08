@@ -3,6 +3,7 @@ package org.boluo.hr.service;
 import org.boluo.hr.mapper.EmployeeScoreStatisticsMapper;
 import org.boluo.hr.pojo.EmployeeScoreHeaderStatistics;
 import org.boluo.hr.pojo.EmployeeScoreStatistics;
+import org.boluo.hr.pojo.TableStaData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +38,7 @@ public class EmployeeScoreStatisticsService {
      *
      * @return 奖惩统计集合
      */
-    public List<EmployeeScoreStatistics> selectRewardPunishment(Integer days) {
-        return employeeScoreStatisticsMapper.selectRewardPunishment(days);
+    public TableStaData<EmployeeScoreStatistics> selectRewardPunishment(Integer days) {
+        return new TableStaData<>(employeeScoreStatisticsMapper.selectRewardPunishment(days));
     }
 }

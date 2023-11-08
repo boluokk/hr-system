@@ -2,10 +2,9 @@ package org.boluo.hr.service;
 
 import org.boluo.hr.mapper.HrInfoStatisticsMapper;
 import org.boluo.hr.pojo.HrInfoStatistics;
+import org.boluo.hr.pojo.TableStaData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * 在线人数 业务层
@@ -37,8 +36,8 @@ public class HrInfoStatisticsService {
      *
      * @return 在线人数信息统计
      */
-    public List<HrInfoStatistics> selectRecentOnline(Integer days) {
-        return hrInfoStatisticsMapper.selectRecentOnline(days);
+    public TableStaData<HrInfoStatistics> selectRecentOnline(Integer days) {
+        return new TableStaData<>(hrInfoStatisticsMapper.selectRecentOnline(days));
     }
 
     /**
@@ -64,8 +63,8 @@ public class HrInfoStatisticsService {
      *
      * @return 操作员登录统计集合
      */
-    public List<HrInfoStatistics> selectRecentLogin(Integer days) {
-        return hrInfoStatisticsMapper.selectRecentLogin(days);
+    public TableStaData<HrInfoStatistics> selectRecentLogin(Integer days) {
+        return new TableStaData<>(hrInfoStatisticsMapper.selectRecentLogin(days));
     }
 
 }

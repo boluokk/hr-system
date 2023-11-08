@@ -1,6 +1,7 @@
 package org.boluo.hr.service;
 
 import org.boluo.hr.mapper.HrRecordStatisticsMapper;
+import org.boluo.hr.pojo.TableStaData;
 import org.boluo.hr.pojo.WrapHrRecordStatistics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,7 @@ public class HrRecordStatisticsService {
      * @param days 天数
      * @return 人事记录统计集合
      */
-    public List<WrapHrRecordStatistics> selectAll(Integer days) {
-        return hrRecordStatisticsMapper.selectAll(days);
+    public TableStaData<WrapHrRecordStatistics> selectAll(Integer days) {
+        return new TableStaData<>(hrRecordStatisticsMapper.selectAll(days));
     }
 }

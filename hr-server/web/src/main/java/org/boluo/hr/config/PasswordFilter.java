@@ -11,10 +11,13 @@ import org.springframework.http.MediaType;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.session.ConcurrentSessionControlAuthenticationStrategy;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -29,9 +32,11 @@ public class PasswordFilter extends UsernamePasswordAuthenticationFilter {
 
     private final OperatorLogService operatorLogService;
 
+
     public PasswordFilter(AuthenticationManager manager,
                           OperatorLogService operatorLogService,
-                          CustomLoginSuccessHandle customLoginSuccessHandle) {
+                          CustomLoginSuccessHandle customLoginSuccessHandle,
+                          SessionRegistry sessionRegistry) {
         this.operatorLogService = operatorLogService;
         this.setFilterProcessesUrl("/login");
         this.setAuthenticationManager(manager);
@@ -61,6 +66,10 @@ public class PasswordFilter extends UsernamePasswordAuthenticationFilter {
                 res.getWriter().write(new ObjectMapper().writeValueAsString(respBean));
             }
         });
+        ConcurrentSessionControlAuthenticationStrategy concurrentSessionControlAuthenticationStrategy =
+                new ConcurrentSessionControlAuthenticationStrategy(sessionRegistry);
+        concurrentSessionControlAuthenticationStrategy.setMaximumSessions(1);
+        this.setSessionAuthenticationStrategy(concurrentSessionControlAuthenticationStrategy);
     }
 
     @Override

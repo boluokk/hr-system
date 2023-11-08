@@ -84,7 +84,6 @@ export default {
       }).then(resp => {
         if (resp.data.status === 200) {
           this.$store.commit('login', resp.data.obj)
-          this.$store.dispatch('initData')
           this.$router.replace('/home')
           this.$message.success('登入成功')
         } else {

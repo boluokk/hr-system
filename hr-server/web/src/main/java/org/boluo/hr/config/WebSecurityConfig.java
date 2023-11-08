@@ -10,8 +10,11 @@ import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
+
+import javax.annotation.Resource;
 
 /**
  * 授权和验证配置
@@ -21,33 +24,32 @@ import org.springframework.security.web.access.intercept.FilterSecurityIntercept
  */
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
+    @Resource
     private HrService hrService;
 
-    @Autowired
+    @Resource
     private CustomUrlDecisionManager customUrlDecisionManager;
 
-    @Autowired
+    @Resource
     private CustomFilterInvocationSecurityMetadataSource customFilterInvocationSecurityMetadataSource;
 
-    @Autowired
+    @Resource
     private CustomLogOutSuccessFilter customLogOutSuccessFilter;
 
-    @Autowired
+    @Resource
     private OperatorLogService operatorLogService;
 
-    @Autowired
+    @Resource
     private CustomLoginSuccessHandle customLoginSuccessHandle;
 
-    @Autowired
+    @Resource
     private CustomLogoutHandle customLogoutHandle;
 
-    @Autowired
+    @Resource
+    private SessionRegistry sessionRegistry;
+
+    @Resource
     private CustomExpiredSessionStrategy customExpiredSessionStrategy;
-
-    @Autowired
-    private CustomInvalidSessionStrategy customInvalidSessionStrategy;
-
 
     @Autowired
     public void customAuthenticationManager(AuthenticationManagerBuilder builder) throws Exception {
@@ -57,8 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         PasswordFilter passwordFilter = new PasswordFilter(authenticationManager(),
-                operatorLogService, customLoginSuccessHandle);
-
+                operatorLogService, customLoginSuccessHandle, sessionRegistry);
         http.addFilter(passwordFilter);
         http.authorizeRequests()
                 .antMatchers("/login").permitAll()
@@ -77,8 +78,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessHandler(customLogOutSuccessFilter)
                 .and().exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
                 .and().csrf().disable()
-                // 踢掉之前的登录 + 过期策略
-                .sessionManagement().invalidSessionStrategy(customInvalidSessionStrategy)
-                .maximumSessions(1).expiredSessionStrategy(customExpiredSessionStrategy);
+                .sessionManagement().maximumSessions(1).expiredSessionStrategy(customExpiredSessionStrategy)
+                .sessionRegistry(sessionRegistry);
     }
 }

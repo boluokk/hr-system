@@ -128,10 +128,10 @@ export default {
             data: []
           }
         ]
-          let data = res.data.obj
+          let data = res.data.obj.data
           data.forEach(item => {
             if (item.rewardOrPunishment === '惩罚') {
-              tXAxis.push(item.time)
+              tXAxis.push(this.dateFilter(item.time))
               tSeries[0].data.push(item.count)
             } else {
               tSeries[1].data.push(item.count)

@@ -20,7 +20,7 @@ public class CustomExpiredSessionStrategy implements SessionInformationExpiredSt
     @Override
     public void onExpiredSessionDetected(SessionInformationExpiredEvent event) throws IOException {
         HttpServletResponse response = event.getResponse();
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        response.setStatus(HttpStatus.PAYMENT_REQUIRED.value());
         response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         response.getWriter().print(new ObjectMapper().
                 writeValueAsString(RespBean.error("异地登录, 请重新登录..")));

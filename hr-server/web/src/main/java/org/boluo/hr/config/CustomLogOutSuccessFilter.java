@@ -17,6 +17,7 @@ import java.io.IOException;
  */
 @Component
 public class CustomLogOutSuccessFilter implements LogoutSuccessHandler {
+
     @Override
     public void onLogoutSuccess(HttpServletRequest req, HttpServletResponse res, Authentication authentication)
             throws IOException {

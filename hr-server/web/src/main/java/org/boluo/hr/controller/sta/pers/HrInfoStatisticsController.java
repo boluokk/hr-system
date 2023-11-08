@@ -2,14 +2,22 @@ package org.boluo.hr.controller.sta.pers;
 
 import org.boluo.hr.annotation.Log;
 import org.boluo.hr.auto.CustomHttpSessionListener;
+import org.boluo.hr.common.redis.RedisCache;
 import org.boluo.hr.pojo.EmployeePageHeadCount;
 import org.boluo.hr.pojo.RespBean;
+import org.boluo.hr.pojo.TableStaData;
 import org.boluo.hr.service.HrInfoStatisticsService;
+import org.boluo.hr.util.RedisKey;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 人事信息统计信息
@@ -20,16 +28,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/sta/pers")
+@Validated
 public class HrInfoStatisticsController {
 
     private final CustomHttpSessionListener sessionListener;
     private final HrInfoStatisticsService hrInfoStatisticsService;
+    private final RedisCache redisCache;
 
     @Autowired
     public HrInfoStatisticsController(CustomHttpSessionListener sessionListener,
-                                      HrInfoStatisticsService hrInfoStatisticsService) {
+                                      HrInfoStatisticsService hrInfoStatisticsService, RedisCache redisCache) {
         this.sessionListener = sessionListener;
         this.hrInfoStatisticsService = hrInfoStatisticsService;
+        this.redisCache = redisCache;
     }
 
 
@@ -54,12 +65,11 @@ public class HrInfoStatisticsController {
      */
     @GetMapping("/online/{days}")
     @Log("获取人事在线数据统计")
-    public RespBean findOnlineData(@PathVariable(value = "days") Integer days) {
-        // 默认最近 1 天
-        if (days < 1) {
-            days = 1;
-        }
-        return RespBean.ok(hrInfoStatisticsService.selectRecentOnline(days));
+    public RespBean findOnlineData(@Min(value = 1, message = "最少查询 1 天")
+                                   @Max(value = 15, message = "最多查询 15 天")
+                                   @PathVariable(value = "days") Integer days) {
+        return RespBean.ok(redisCache.getWithPassThrough(RedisKey.HR_ONLINE_COUNT_KEY,
+                days, TableStaData.class, hrInfoStatisticsService::selectRecentOnline, 15L, TimeUnit.MINUTES));
     }
 
     /**
@@ -67,11 +77,11 @@ public class HrInfoStatisticsController {
      */
     @GetMapping("/login/{days}")
     @Log("获取人事登录数据统计")
-    public RespBean findLoginData(@PathVariable(value = "days") Integer days) {
-        // 默认最近 7 天
-        if (days < 1) {
-            days = 7;
-        }
-        return RespBean.ok(hrInfoStatisticsService.selectRecentLogin(days));
+    public RespBean findLoginData(@PathVariable
+                                  @Max(value = 30, message = "最多查询 30 天")
+                                  @Min(value = 1, message = "最少查询 1 天")
+                                  Integer days) {
+        return RespBean.ok(redisCache.getWithPassThrough(RedisKey.HR_LOGIN_COUNT_KEY,
+                days, TableStaData.class, hrInfoStatisticsService::selectRecentLogin, 15L, TimeUnit.MINUTES));
     }
 }
