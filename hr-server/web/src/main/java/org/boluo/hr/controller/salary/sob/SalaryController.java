@@ -1,11 +1,18 @@
 package org.boluo.hr.controller.salary.sob;
 
 import org.boluo.hr.annotation.Log;
+import org.boluo.hr.pojo.InsertSalary;
 import org.boluo.hr.pojo.RespBean;
-import org.boluo.hr.pojo.Salary;
+import org.boluo.hr.pojo.UploadSalary;
 import org.boluo.hr.service.SalaryService;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 /**
  * 工资账套信息
@@ -15,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/sal/sob")
+@Validated
 public class SalaryController {
 
     private final SalaryService salaryService;
@@ -38,8 +46,8 @@ public class SalaryController {
      */
     @PutMapping("/add")
     @Log("新增工资账套")
-    public RespBean add(@RequestBody Salary salary) {
-        if (salaryService.insert(salary)) {
+    public RespBean add(@Valid @RequestBody InsertSalary insertSalary) {
+        if (salaryService.insert(insertSalary)) {
             return RespBean.ok();
         }
         return RespBean.error();
@@ -50,7 +58,8 @@ public class SalaryController {
      */
     @DeleteMapping("/delete/{id}")
     @Log("删除工资账套")
-    public RespBean remove(@PathVariable("id") Integer id) {
+    public RespBean remove(@Min(value = 1, message = "id 必须大于 0")
+                           @PathVariable("id") Integer id) {
         if (salaryService.delete(id)) {
             return RespBean.ok();
         }
@@ -62,8 +71,8 @@ public class SalaryController {
      */
     @PutMapping("/modify")
     @Log("修改工资账套")
-    public RespBean modify(@RequestBody Salary salary) {
-        if (salaryService.update(salary)) {
+    public RespBean modify(@Valid @RequestBody UploadSalary uploadSalary) {
+        if (salaryService.update(uploadSalary)) {
             return RespBean.ok();
         }
         return RespBean.error();
@@ -74,7 +83,9 @@ public class SalaryController {
      */
     @DeleteMapping("/delete/many/")
     @Log("批量工资账套删除")
-    public RespBean removeMany(Integer[] ids) {
+    public RespBean removeMany(@NotNull(message = "id 不能为空")
+                               @Length(min = 1, message = "id 长度必须大于 0")
+                               Integer[] ids) {
         if (salaryService.deleteMany(ids)) {
             return RespBean.ok();
         }

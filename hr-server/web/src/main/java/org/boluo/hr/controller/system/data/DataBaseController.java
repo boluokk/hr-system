@@ -5,11 +5,14 @@ import org.boluo.hr.annotation.Log;
 import org.boluo.hr.annotation.UploadFileCheck;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.service.DataBaseService;
-import org.boluo.hr.service.util.CustomFileUtil;
+import org.boluo.hr.util.CustomFileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * 数据库备份
@@ -20,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/sys/data")
+@Validated
 public class DataBaseController {
 
     private final DataBaseService dataBaseService;
@@ -93,7 +97,8 @@ public class DataBaseController {
     @PostMapping("/upload")
     @Log("上传备份文件")
     @UploadFileCheck(checkType = UploadFileCheck.checkType.SUFFIX, supportTypeStr = {"sql"})
-    public RespBean uploadBackupFile(MultipartFile file) {
+    public RespBean uploadBackupFile(@NotNull(message = "文件不能为空")
+                                     MultipartFile file) {
         if (!customFileUtil.saveFile(customFileUtil.getEnhanceServerBackupFilePath("/upload/"), file)) {
             return RespBean.error("文件保存失败");
         }

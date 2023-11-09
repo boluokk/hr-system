@@ -1,12 +1,14 @@
 package org.boluo.hr.service;
 
+import cn.hutool.json.JSONUtil;
+import org.boluo.hr.exception.BusinessException;
 import org.boluo.hr.mapper.EmployeeMapper;
-import org.boluo.hr.pojo.Employee;
-import org.boluo.hr.pojo.MailConstants;
-import org.boluo.hr.pojo.Nation;
+import org.boluo.hr.pojo.*;
+import org.boluo.hr.util.CheckUtil;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -59,33 +61,38 @@ public class EmployeeService {
     /**
      * 发送邮件, 利用Rabbit防止发送失败
      *
-     * @param employee 员工
+     * @param insertEmployee 员工
      * @return 结果
      * todo 未保证发送到rabbitMQ
      */
-    public boolean insertOne(Employee employee) {
-        Integer employeeId = employeeMapper.insertEmployee(employee);
-        // 修改workId
-        if (employeeId != null) {
-            if (employeeMapper.updateByPrimaryKey(new Employee()
-                    .setId(employeeId)
-                    .setWorkId(String.format("%08d", employeeId))) != 1) {
-                return false;
-            }
+    @Transactional(rollbackFor = Exception.class)
+    public boolean insertOne(InsertEmployee insertEmployee) {
+        if (employeeMapper.insertEmployee(insertEmployee) == 0) {
+            return false;
         }
-//        Employee enhanceEmployee = employeeMapper.selectEnhanceEmployeeByEmployeeId(employeeId);
-//        rabbitTemplate.convertAndSend(MailConstants.MAIL_QUEUE_NAME, enhanceEmployee);
+        // 修改workId
+        UploadEmployee uploadEmployee = new UploadEmployee();
+        uploadEmployee.setId(insertEmployee.getId());
+        uploadEmployee.setWorkId(String.format("%08d", insertEmployee.getId()));
+        if (employeeMapper.updateByPrimaryKey(uploadEmployee) == 0) {
+            throw new BusinessException("更新员工工号失败");
+        }
+        Employee enhanceEmployee = employeeMapper.selectEnhanceEmployeeByEmployeeId(insertEmployee.getId());
+        if (CheckUtil.isNull(enhanceEmployee)) {
+            throw new BusinessException("查询员工数据失败");
+        }
+        rabbitTemplate.convertAndSend(MailConstants.MAIL_QUEUE_NAME, JSONUtil.toJsonStr(enhanceEmployee));
         return true;
     }
 
     /**
      * 修改员工
      *
-     * @param employee 员工信息
+     * @param uploadEmployee 员工信息
      * @return 结果
      */
-    public boolean update(Employee employee) {
-        return employeeMapper.updateByPrimaryKey(employee) == 1;
+    public boolean update(UploadEmployee uploadEmployee) {
+        return employeeMapper.updateByPrimaryKey(uploadEmployee) == 1;
     }
 
     /**
@@ -124,6 +131,7 @@ public class EmployeeService {
      * @param employees 员工集合
      * @return 结果
      */
+    @Transactional(rollbackFor = Exception.class)
     public int batchInsert(List<Employee> employees) {
         return employeeMapper.batchInsertEmployee(employees);
     }
@@ -131,11 +139,11 @@ public class EmployeeService {
     /**
      * 返回符合员工信息条件的员工
      *
-     * @param employee 员工信息
+     * @param uploadEmployee 员工信息
      * @return 员工集合
      */
-    public List<Employee> selectByPageAndEmployee(Employee employee) {
-        return employeeMapper.selectByEmployee(employee);
+    public List<Employee> selectByPageAndEmployee(UploadEmployee uploadEmployee) {
+        return employeeMapper.selectByEmployee(uploadEmployee);
     }
 
     /**
@@ -149,7 +157,8 @@ public class EmployeeService {
     }
 
 
-    public Employee selectEmployeeByWorkId(String workId) {
+    public UploadEmployee selectEmployeeByWorkId(String workId) {
         return employeeMapper.selectByEmployeeByWorkId(workId);
     }
+
 }

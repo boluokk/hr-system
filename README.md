@@ -11,9 +11,24 @@
 - 采用 **Spring Security** 进行权限认证和授权，实现了基于 **RBAC** 权限控制
 - 使用 **MySQL** 数据库对数据进行存储
 - 采用 **AOP** + 自定义注解 + **枚举** 实现对请求监听记录
-- 采用 **RabbitMQ** 实现的消息队列，实现了 **消息通知** 功能
+- 采用 **RabbitMQ** 实现了 **消息通知** 功能
 - 采用 **Docker** 容器化部署，解决 **中间件** 的繁杂部署问题
 - 基于 **Redis** 实现缓存报表、锁功能，提高系统性能。
 - 页面交互使用 **Vue2.x**，极大的提高了开发效率
 
-## 
+## 项目截图
+<div align="center">
+    <img src="./assets/login.png" width="80%" />
+    <img src="./assets/home.png" width="80%" />
+    <img src="./assets/adv.png" width="80%" />
+    <img src="./assets/basic.png" width="80%" />
+    <img src="./assets/print_salary.png" width="80%" />
+    <img src="./assets/salary.png" width="80%" />
+    <img src="./assets/sys_basic.png" width="80%" />
+    <img src="./assets/sys_log.png" width="80%" />
+    <img src="./assets/sys_operator.png" width="80%" />
+    <img src="./assets/table_all.png" width="80%" />
+    <img src="./assets/table_per.png" width="80%" />
+    <img src="./assets/table_score.png" width="80%" />
+    <img src="./assets/chat.png" width="80%" />
+</div>

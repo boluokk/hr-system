@@ -7,11 +7,12 @@ import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.pojo.SalaryTableSearch;
 import org.boluo.hr.pojo.SalaryTableView;
 import org.boluo.hr.service.SalaryTableService;
-import org.boluo.hr.service.util.ExportImportExcelUtil;
+import org.boluo.hr.util.ExportImportExcelUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class SalaryTableController {
     @Log("查询所有工资表")
     public RespBean findPage(@PathVariable("pageNum") Integer pageNum,
                              @PathVariable("pageSize") Integer pageSize,
-                             SalaryTableSearch salaryTableSearch) {
+                             @Valid SalaryTableSearch salaryTableSearch) {
         PageHelper.startPage(pageNum, pageSize);
         return RespBean.ok(new PageInfo<>(salaryTableService.selectAll(salaryTableSearch)));
     }
@@ -50,7 +51,7 @@ public class SalaryTableController {
      */
     @PostMapping("/export")
     @Log("导出员工的工资表")
-    public ResponseEntity<byte[]> exportSalaryTable(@RequestBody SalaryTableSearch salaryTableSearch) {
+    public ResponseEntity<byte[]> exportSalaryTable(@Valid @RequestBody SalaryTableSearch salaryTableSearch) {
         List<SalaryTableView> salaryTableViews = salaryTableService.selectAll(salaryTableSearch);
         try {
             return ExportImportExcelUtil.exportSalaryTable(salaryTableViews);

@@ -104,7 +104,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKey" parameterType="org.boluo.hr.pojo.Department">
+    <update id="updateByPrimaryKey" parameterType="org.boluo.hr.pojo.UploadDepartment">
         update department
         <set>
             <if test="name != null">

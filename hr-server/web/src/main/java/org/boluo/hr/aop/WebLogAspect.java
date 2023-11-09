@@ -8,7 +8,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.boluo.hr.annotation.Log;
 import org.boluo.hr.pojo.OperatorLog;
 import org.boluo.hr.service.OperatorLogService;
-import org.boluo.hr.service.util.HrUtils;
+import org.boluo.hr.util.HrUtils;
 import org.boluo.hr.util.CheckUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;

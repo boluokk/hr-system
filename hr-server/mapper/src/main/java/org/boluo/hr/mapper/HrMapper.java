@@ -3,6 +3,7 @@ package org.boluo.hr.mapper;
 import org.apache.ibatis.annotations.Param;
 import org.boluo.hr.pojo.BaseHr;
 import org.boluo.hr.pojo.Hr;
+import org.boluo.hr.pojo.InsertHr;
 import org.boluo.hr.pojo.UploadHr;
 
 import java.util.List;
@@ -20,10 +21,10 @@ public interface HrMapper {
     /**
      * 新增人事
      *
-     * @param hr 人事信息
+     * @param insertHr 人事信息
      * @return 结果
      */
-    int insertHr(UploadHr uploadHr);
+    int insertHr(InsertHr insertHr);
 
 
     /**

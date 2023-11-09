@@ -1,9 +1,9 @@
 package org.boluo.mailserver.receive;
 
+import cn.hutool.json.JSONUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.boluo.hr.pojo.Employee;
 import org.boluo.hr.pojo.MailConstants;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
@@ -23,9 +23,8 @@ import java.util.Date;
  * @date 2021/2/19 - 19:31
  */
 @Component
+@Slf4j
 public class MailReceiver {
-
-    public Logger logger = LoggerFactory.getLogger(MailReceiver.class);
 
     private final JavaMailSender javaMailSender;
     private final MailProperties mailProperties;
@@ -42,7 +41,7 @@ public class MailReceiver {
 
     @RabbitListener(queues = MailConstants.MAIL_QUEUE_NAME)
     public void handler(Message message) {
-        Employee employee = (Employee) message.getPayload();
+        Employee employee = JSONUtil.toBean((String) message.getPayload(), Employee.class);
         // 消息转发
         MimeMessage msg = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(msg);
@@ -60,10 +59,9 @@ public class MailReceiver {
             String emil = templateEngine.process("email", context);
             helper.setText(emil, true);
             javaMailSender.send(helper.getMimeMessage());
-            logger.info("邮件发送成功！");
+            log.info("邮件发送成功！{}", employee);
         } catch (MessagingException e) {
-            e.printStackTrace();
-            logger.error("邮件发送失败！");
+            log.error("邮件发送失败！");
         }
     }
 }

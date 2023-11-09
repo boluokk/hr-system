@@ -7,11 +7,14 @@ import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.pojo.SalaryTableSearch;
 import org.boluo.hr.service.SalaryTableService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.Date;
 
 /**
@@ -22,6 +25,7 @@ import java.util.Date;
  */
 @RestController
 @RequestMapping("/emp/adv/salaryInfo")
+@Validated
 public class SalaryInfoAdvController {
 
     private final SalaryTableService salaryTableService;
@@ -36,7 +40,10 @@ public class SalaryInfoAdvController {
      */
     @GetMapping("/{pageNum}/{pageSize}")
     @Log("查询工资信息分页")
-    public RespBean findByPage(@PathVariable("pageNum") Integer pageNum,
+    public RespBean findByPage(@Min(value = 1, message = "页码不能小于1")
+                               @PathVariable("pageNum") Integer pageNum,
+                               @Min(value = 1, message = "页大小不能小于1")
+                               @Max(value = 10, message = "页大小不能大于10")
                                @PathVariable("pageSize") Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         return RespBean.ok(new PageInfo<>(

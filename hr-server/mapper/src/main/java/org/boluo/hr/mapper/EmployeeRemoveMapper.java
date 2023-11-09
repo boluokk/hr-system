@@ -2,6 +2,8 @@ package org.boluo.hr.mapper;
 
 import org.boluo.hr.pojo.EmployeeRemove;
 import org.boluo.hr.pojo.EmployeeRemoveView;
+import org.boluo.hr.pojo.InsertEmployeeRemove;
+import org.boluo.hr.pojo.UploadEmployeeRemove;
 
 import java.util.List;
 
@@ -23,10 +25,10 @@ public interface EmployeeRemoveMapper {
     /**
      * 新增调岗
      *
-     * @param employeeRemove 调岗信息
+     * @param insertEmployeeRemove 调岗信息
      * @return 结果
      */
-    int insertEmployeeRemove(EmployeeRemove employeeRemove);
+    int insertEmployeeRemove(InsertEmployeeRemove insertEmployeeRemove);
 
 
     /**
@@ -40,10 +42,10 @@ public interface EmployeeRemoveMapper {
     /**
      * 修改调岗
      *
-     * @param employeeRemove 调岗信息
+     * @param uploadEmployeeRemove 调岗信息
      * @return 结果
      */
-    int updateByPrimaryKey(EmployeeRemove employeeRemove);
+    int updateByPrimaryKey(UploadEmployeeRemove uploadEmployeeRemove);
 
     /**
      * 查询所有调岗信息

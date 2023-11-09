@@ -4,15 +4,21 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.boluo.hr.annotation.Log;
 import org.boluo.hr.pojo.Employee;
+import org.boluo.hr.pojo.InsertEmployee;
 import org.boluo.hr.pojo.RespBean;
+import org.boluo.hr.pojo.UploadEmployee;
 import org.boluo.hr.service.*;
-import org.boluo.hr.service.util.ExportImportExcelUtil;
+import org.boluo.hr.util.ExportImportExcelUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.List;
 
@@ -24,6 +30,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/basic/emp")
+@Validated
 public class EmployeeController {
 
     private final EmployeeService employeeService;
@@ -50,7 +57,10 @@ public class EmployeeController {
      */
     @GetMapping("/{pageNum}/{pageSize}")
     @Log("查询员工分页")
-    public RespBean findPages(@PathVariable("pageNum") Integer pageNum,
+    public RespBean findPages(@Min(value = 1, message = "页码不能小于1")
+                              @PathVariable("pageNum") Integer pageNum,
+                              @Min(value = 1, message = "页大小不能小于1")
+                              @Max(value = 10, message = "页大小不能大于10")
                               @PathVariable("pageSize") Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<Employee> employees = employeeService.selectAll();
@@ -64,7 +74,10 @@ public class EmployeeController {
     @GetMapping("/byEmpName/{empName}/{pageNum}/{pageSize}")
     @Log("通过名称返回员工信息")
     public RespBean findEmpByEmpName(@PathVariable("empName") String empName,
+                                     @Min(value = 1, message = "页码不能小于1")
                                      @PathVariable("pageNum") Integer pageNum,
+                                     @Min(value = 1, message = "页大小不能小于1")
+                                     @Max(value = 10, message = "页大小不能大于10")
                                      @PathVariable("pageSize") Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         return RespBean.ok(new PageInfo<>(employeeService.selectByEmpName(empName)));
@@ -85,9 +98,8 @@ public class EmployeeController {
      */
     @PutMapping("/add")
     @Log("添加员工")
-    @Transactional(rollbackFor = Exception.class)
-    public RespBean add(Employee employee) {
-        if (employeeService.insertOne(employee)) {
+    public RespBean add(@Valid @RequestBody InsertEmployee insertEmployee) {
+        if (employeeService.insertOne(insertEmployee)) {
             return RespBean.ok();
         }
         return RespBean.error();
@@ -98,8 +110,8 @@ public class EmployeeController {
      */
     @PutMapping("/modify")
     @Log("修改员工")
-    public RespBean modify(@RequestBody Employee employee) {
-        if (employeeService.update(employee)) {
+    public RespBean modify(@Valid @RequestBody UploadEmployee uploadEmployee) {
+        if (employeeService.update(uploadEmployee)) {
             return RespBean.ok();
         }
         return RespBean.error();
@@ -110,7 +122,8 @@ public class EmployeeController {
      */
     @DeleteMapping("/delete/{id}")
     @Log("删除员工")
-    public RespBean delete(@PathVariable("id") Integer id) {
+    public RespBean delete(@Min(value = 1, message = "id最小为1")
+                           @PathVariable("id") Integer id) {
         if (employeeService.delete(id)) {
             return RespBean.ok();
         }
@@ -132,7 +145,8 @@ public class EmployeeController {
      */
     @PostMapping("/import")
     @Log("导入员工信息")
-    public RespBean importEmployees(MultipartFile file) throws IOException {
+    public RespBean importEmployees(@NotNull(message = "文件不能为空")
+                                    MultipartFile file) throws IOException {
         List<Employee> employees =
                 ExportImportExcelUtil.importEmployeeData(file, nationService.selectAllNation(),
                         departmentService.selectAll(), politicsStatusService.selectAllPolitic(),
@@ -149,10 +163,13 @@ public class EmployeeController {
      */
     @PostMapping("/top/search/{pageNum}/{pageSize}")
     @Log("查询条件员工分页")
-    public RespBean findByPage(@PathVariable("pageNum") Integer pageNum,
+    public RespBean findByPage(@Min(value = 1, message = "页码不能小于1")
+                               @PathVariable("pageNum") Integer pageNum,
+                               @Min(value = 1, message = "页大小不能小于1")
+                               @Max(value = 10, message = "页大小不能大于10")
                                @PathVariable("pageSize") Integer pageSize,
-                               @RequestBody Employee employee) {
+                               @Valid @RequestBody UploadEmployee uploadEmployee) {
         PageHelper.startPage(pageNum, pageSize);
-        return RespBean.ok(new PageInfo<>(employeeService.selectByPageAndEmployee(employee)));
+        return RespBean.ok(new PageInfo<>(employeeService.selectByPageAndEmployee(uploadEmployee)));
     }
 }

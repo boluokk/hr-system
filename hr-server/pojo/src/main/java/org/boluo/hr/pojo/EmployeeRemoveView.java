@@ -24,10 +24,6 @@ public class EmployeeRemoveView {
      */
     private Integer employeeId;
     /**
-     * 员工信息
-     */
-    private Employee employee;
-    /**
      * 调岗后的部门id
      */
     private Integer afterDepartmentId;
@@ -71,4 +67,8 @@ public class EmployeeRemoveView {
      * 备注
      */
     private String remark;
+    /**
+     * 员工信息
+     */
+    private UploadEmployee employee;
 }

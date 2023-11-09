@@ -1,7 +1,9 @@
 package org.boluo.hr.service;
 
 import org.boluo.hr.mapper.JobLevelMapper;
+import org.boluo.hr.pojo.InsertJobLevel;
 import org.boluo.hr.pojo.JobLevel;
+import org.boluo.hr.pojo.UploadJobLevel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,21 +37,21 @@ public class JobLevelService {
     /**
      * 新增职称等级
      *
-     * @param jobLevel 职称等级信息
+     * @param insertJobLevel 职称等级信息
      * @return 结果
      */
-    public boolean insert(JobLevel jobLevel) {
-        return joblevelMapper.insertJobLevel(jobLevel) == 1;
+    public boolean insert(InsertJobLevel insertJobLevel) {
+        return joblevelMapper.insertJobLevel(insertJobLevel) == 1;
     }
 
     /**
      * 修改职称等级
      *
-     * @param jobLevel 职称等级信息
+     * @param uploadJobLevel 职称等级信息
      * @return 结果
      */
-    public boolean update(JobLevel jobLevel) {
-        return joblevelMapper.updateByPrimaryKey(jobLevel) == 1;
+    public boolean update(UploadJobLevel uploadJobLevel) {
+        return joblevelMapper.updateByPrimaryKey(uploadJobLevel) == 1;
     }
 
     /**

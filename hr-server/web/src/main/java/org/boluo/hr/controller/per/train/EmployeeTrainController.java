@@ -3,13 +3,20 @@ package org.boluo.hr.controller.per.train;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.boluo.hr.annotation.Log;
-import org.boluo.hr.pojo.Employee;
-import org.boluo.hr.pojo.EmployeeTrain;
+import org.boluo.hr.pojo.InsertEmployeeTrain;
 import org.boluo.hr.pojo.RespBean;
+import org.boluo.hr.pojo.UploadEmployee;
+import org.boluo.hr.pojo.UploadEmployeeTrain;
 import org.boluo.hr.service.EmployeeService;
 import org.boluo.hr.service.EmployeeTrainService;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 /**
  * 培训信息
@@ -19,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RequestMapping("/per/train")
 @RestController
+@Validated
 public class EmployeeTrainController {
 
     private final EmployeeService employeeService;
@@ -36,7 +44,10 @@ public class EmployeeTrainController {
      */
     @GetMapping("/{pageNum}/{pageSize}")
     @Log("查询培训分页")
-    public RespBean findByPage(@PathVariable("pageNum") Integer pageNum,
+    public RespBean findByPage(@Min(value = 1, message = "页码不能小于1")
+                               @PathVariable("pageNum") Integer pageNum,
+                               @Min(value = 1, message = "页大小不能小于1")
+                               @Max(value = 10, message = "页大小不能大于10")
                                @PathVariable("pageSize") Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         return RespBean.ok(new PageInfo<>(employeeTrainService.selectAll()));
@@ -47,8 +58,8 @@ public class EmployeeTrainController {
      */
     @PutMapping("/modify")
     @Log("培训修改")
-    public RespBean modify(@RequestBody EmployeeTrain employeeTrain) {
-        if (employeeTrainService.update(employeeTrain)) {
+    public RespBean modify(@Valid @RequestBody UploadEmployeeTrain uploadEmployeeTrain) {
+        if (employeeTrainService.update(uploadEmployeeTrain)) {
             return RespBean.ok();
         }
         return RespBean.error();
@@ -59,7 +70,8 @@ public class EmployeeTrainController {
      */
     @DeleteMapping("/delete/{id}")
     @Log("培训删除")
-    public RespBean removeOne(@PathVariable("id") Integer id) {
+    public RespBean removeOne(@Min(value = 1, message = "id不能小于1")
+                              @PathVariable("id") Integer id) {
         if (employeeTrainService.delete(id)) {
             return RespBean.ok();
         }
@@ -71,14 +83,15 @@ public class EmployeeTrainController {
      */
     @PutMapping("/add/{workId}")
     @Log("新增培训")
-    public RespBean addOne(@PathVariable("workId") String workId,
-                           @RequestBody EmployeeTrain employeeTrain) {
-        Employee employee = employeeService.selectEmployeeByWorkId(workId);
+    public RespBean addOne(@Length(min = 8, max = 8, message = "员工号长度必须为8位")
+                           @PathVariable("workId") String workId,
+                           @Valid @RequestBody InsertEmployeeTrain insertEmployeeTrain) {
+        UploadEmployee employee = employeeService.selectEmployeeByWorkId(workId);
         if (employee == null) {
             return RespBean.error("员工号不存在");
         }
-        employeeTrain.setEmployeeId(employee.getId());
-        if (employeeTrainService.insert(employeeTrain)) {
+        insertEmployeeTrain.setEmployeeId(employee.getId());
+        if (employeeTrainService.insert(insertEmployeeTrain)) {
             return RespBean.ok();
         }
         return RespBean.error();

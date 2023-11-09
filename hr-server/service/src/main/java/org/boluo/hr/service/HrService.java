@@ -2,15 +2,14 @@ package org.boluo.hr.service;
 
 import org.boluo.hr.mapper.HrMapper;
 import org.boluo.hr.mapper.RoleMapper;
-import org.boluo.hr.pojo.BaseHr;
-import org.boluo.hr.pojo.Hr;
-import org.boluo.hr.pojo.Role;
-import org.boluo.hr.pojo.UploadHr;
+import org.boluo.hr.pojo.*;
+import org.boluo.hr.util.CheckUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -133,11 +132,11 @@ public class HrService implements UserDetailsService {
     /**
      * 新增人事
      *
-     * @param hr 人事信息
+     * @param insertHr 人事信息
      * @return 结果
      */
-    public boolean insert(UploadHr uploadHr) {
-        return hrMapper.insertHr(uploadHr) == 1;
+    public boolean insert(InsertHr insertHr) {
+        return hrMapper.insertHr(insertHr) == 1;
     }
 
     /**
@@ -158,5 +157,27 @@ public class HrService implements UserDetailsService {
      */
     public Hr selectById(Integer id) {
         return hrMapper.selectByPrimaryKey(id);
+    }
+
+    /**
+     * 修改人事角色
+     *
+     * @param uploadHrRole 人事角色信息
+     * @return 结果
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public boolean modifyRoles(UploadHrRole uploadHrRole) {
+        if (deleteRoleByHrId(uploadHrRole.getHrId())) {
+            if (CheckUtil.hasLength(uploadHrRole.getRoleIds())) {
+                if (insertRoles(uploadHrRole.getHrId(), uploadHrRole.getRoleIds())) {
+                    return true;
+                }
+                throw new RuntimeException("添加角色失败!");
+            } else {
+                // 未传角色id
+                return true;
+            }
+        }
+        return false;
     }
 }

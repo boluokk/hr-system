@@ -1,7 +1,9 @@
 package org.boluo.hr.service;
 
 import org.boluo.hr.mapper.SalaryMapper;
+import org.boluo.hr.pojo.InsertSalary;
 import org.boluo.hr.pojo.Salary;
+import org.boluo.hr.pojo.UploadSalary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,21 +42,21 @@ public class SalaryService {
     /**
      * 新增工资账套
      *
-     * @param salary 工资账套信息
+     * @param insertSalary 工资账套信息
      * @return 结果
      */
-    public boolean insert(Salary salary) {
-        return salaryMapper.insertSalary(salary) == 1;
+    public boolean insert(InsertSalary insertSalary) {
+        return salaryMapper.insertSalary(insertSalary) == 1;
     }
 
     /**
      * 修改工资账套
      *
-     * @param salary 工资账套信息
+     * @param uploadSalary 工资账套信息
      * @return 结果
      */
-    public boolean update(Salary salary) {
-        return salaryMapper.updateByPrimaryKey(salary) == 1;
+    public boolean update(UploadSalary uploadSalary) {
+        return salaryMapper.updateByPrimaryKey(uploadSalary) == 1;
     }
 
     /**

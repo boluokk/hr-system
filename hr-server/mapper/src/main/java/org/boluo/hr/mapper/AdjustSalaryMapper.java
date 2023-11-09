@@ -2,6 +2,8 @@ package org.boluo.hr.mapper;
 
 import org.boluo.hr.pojo.AdjustSalaryView;
 import org.boluo.hr.pojo.AdjustSalary;
+import org.boluo.hr.pojo.InsertAdjustSalary;
+import org.boluo.hr.pojo.UploadAdjustSalary;
 
 import java.util.List;
 
@@ -23,10 +25,10 @@ public interface AdjustSalaryMapper {
     /**
      * 新增调薪
      *
-     * @param adjustSalary 调薪信息
+     * @param insertAdjustSalary 调薪信息
      * @return 结果
      */
-    int insertAdjustSalary(AdjustSalary adjustSalary);
+    int insertAdjustSalary(InsertAdjustSalary insertAdjustSalary);
 
     /**
      * 通过调薪id 查询调薪
@@ -39,10 +41,10 @@ public interface AdjustSalaryMapper {
     /**
      * 通过调薪id 修改调薪
      *
-     * @param adjustSalary 调薪信息
+     * @param uploadAdjustSalary 调薪信息
      * @return 结果
      */
-    int updateByPrimaryKey(AdjustSalary adjustSalary);
+    int updateByPrimaryKey(UploadAdjustSalary uploadAdjustSalary);
 
     /**
      * 查询所有调薪

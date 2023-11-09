@@ -2,7 +2,9 @@ package org.boluo.hr.mapper;
 
 import org.apache.ibatis.annotations.Param;
 import org.boluo.hr.pojo.Employee;
+import org.boluo.hr.pojo.InsertEmployee;
 import org.boluo.hr.pojo.Nation;
+import org.boluo.hr.pojo.UploadEmployee;
 
 import java.util.List;
 
@@ -24,10 +26,10 @@ public interface EmployeeMapper {
     /**
      * 新增员工
      *
-     * @param employee 员工信息
+     * @param insertEmployee 员工信息
      * @return 结果
      */
-    Integer insertEmployee(Employee employee);
+    int insertEmployee(InsertEmployee insertEmployee);
 
     /**
      * 通过员工id 查询员工
@@ -40,10 +42,10 @@ public interface EmployeeMapper {
     /**
      * 修改员工
      *
-     * @param employee 员工信息
+     * @param uploadEmployee 员工信息
      * @return 结果
      */
-    int updateByPrimaryKey(Employee employee);
+    int updateByPrimaryKey(UploadEmployee uploadEmployee);
 
     /**
      * 查询所有员工
@@ -93,10 +95,10 @@ public interface EmployeeMapper {
     /**
      * 通过员工信息 查询员工
      *
-     * @param employee 员工信息
+     * @param uploadEmployee 员工信息
      * @return 员工集合
      */
-    List<Employee> selectByEmployee(@Param("employee") Employee employee);
+    List<Employee> selectByEmployee(@Param("employee") UploadEmployee uploadEmployee);
 
     /**
      * 满足员工信息字段的员工个数
@@ -121,5 +123,5 @@ public interface EmployeeMapper {
      * @param workId 员工号
      * @return 员工信息
      */
-    Employee selectByEmployeeByWorkId(@Param("workId") String workId);
+    UploadEmployee selectByEmployeeByWorkId(@Param("workId") String workId);
 }

@@ -72,12 +72,9 @@
         from role
         where id = #{id,jdbcType=INTEGER}
     </delete>
-    <insert id="insertRole" parameterType="org.boluo.hr.pojo.Role">
+    <insert id="insertRole" parameterType="org.boluo.hr.pojo.InsertRole">
         insert into role
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                id,
-            </if>
             <if test="name != null">
                 name,
             </if>
@@ -86,9 +83,6 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                #{id,jdbcType=INTEGER},
-            </if>
             <if test="name != null">
                 #{name,jdbcType=VARCHAR},
             </if>
@@ -97,7 +91,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKey" parameterType="org.boluo.hr.pojo.Role">
+    <update id="updateByPrimaryKey" parameterType="org.boluo.hr.pojo.UploadRole">
         update role
         <set>
             <if test="name != null">

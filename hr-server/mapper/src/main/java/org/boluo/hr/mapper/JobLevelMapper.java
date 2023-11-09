@@ -1,6 +1,8 @@
 package org.boluo.hr.mapper;
 
+import org.boluo.hr.pojo.InsertJobLevel;
 import org.boluo.hr.pojo.JobLevel;
+import org.boluo.hr.pojo.UploadJobLevel;
 
 import java.util.List;
 
@@ -22,10 +24,10 @@ public interface JobLevelMapper {
     /**
      * 新增职称等级
      *
-     * @param jobLevel 职称等级信息
+     * @param insertJobLevel 职称等级信息
      * @return 结果
      */
-    int insertJobLevel(JobLevel jobLevel);
+    int insertJobLevel(InsertJobLevel insertJobLevel);
 
     /**
      * 通过id 查询职称等级
@@ -39,10 +41,10 @@ public interface JobLevelMapper {
     /**
      * 修改职称等级
      *
-     * @param jobLevel 职称等级信息
+     * @param UploadJobLevel 职称等级信息
      * @return 结果
      */
-    int updateByPrimaryKey(JobLevel jobLevel);
+    int updateByPrimaryKey(UploadJobLevel uploadJobLevel);
 
     /**
      * 查询所有职称等级

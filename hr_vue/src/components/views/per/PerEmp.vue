@@ -106,7 +106,7 @@ export default {
       })
     },
     changeEmpName() {
-      this.putRequest('/per/emp/modify', this.Emp).then(res => {
+      this.putRequest('/per/emp/modify/' + this.Emp.id + "/" + this.Emp.name).then(res => {
         this.$message.success(res.data.msg)
         this.tableData = []
       })

@@ -30,7 +30,7 @@
         from position
         where id = #{id,jdbcType=INTEGER}
     </delete>
-    <insert id="insertPosition" parameterType="org.boluo.hr.pojo.Position">
+    <insert id="insertPosition" parameterType="org.boluo.hr.pojo.InsertPosition">
         insert into position
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -61,7 +61,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKey" parameterType="org.boluo.hr.pojo.Position">
+    <update id="updateByPrimaryKey" parameterType="org.boluo.hr.pojo.UploadPosition">
         update position
         <set>
             <if test="name != null">

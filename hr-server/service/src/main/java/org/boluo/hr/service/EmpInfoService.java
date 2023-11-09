@@ -2,6 +2,7 @@ package org.boluo.hr.service;
 
 import org.boluo.hr.mapper.EmployeeMapper;
 import org.boluo.hr.pojo.Employee;
+import org.boluo.hr.pojo.UploadEmployee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,11 +37,11 @@ public class EmpInfoService {
     /**
      * 修改员工
      *
-     * @param employee 员工信息
+     * @param uploadEmployee 员工信息
      * @return 结果
      */
-    public boolean update(Employee employee) {
-        return employeeMapper.updateByPrimaryKey(employee) == 1;
+    public boolean update(UploadEmployee uploadEmployee) {
+        return employeeMapper.updateByPrimaryKey(uploadEmployee) == 1;
     }
 
     /**

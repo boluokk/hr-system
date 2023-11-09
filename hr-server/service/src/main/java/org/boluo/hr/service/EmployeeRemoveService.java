@@ -1,8 +1,9 @@
 package org.boluo.hr.service;
 
 import org.boluo.hr.mapper.EmployeeRemoveMapper;
-import org.boluo.hr.pojo.EmployeeRemove;
 import org.boluo.hr.pojo.EmployeeRemoveView;
+import org.boluo.hr.pojo.InsertEmployeeRemove;
+import org.boluo.hr.pojo.UploadEmployeeRemove;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +19,12 @@ import java.util.List;
 public class EmployeeRemoveService {
     private final EmployeeRemoveMapper employeeRemoveMapper;
 
+    private final EmployeeService employeeService;
+
     @Autowired
-    public EmployeeRemoveService(EmployeeRemoveMapper employeeRemoveMapper) {
+    public EmployeeRemoveService(EmployeeRemoveMapper employeeRemoveMapper, EmployeeService employeeService) {
         this.employeeRemoveMapper = employeeRemoveMapper;
+        this.employeeService = employeeService;
     }
 
     /**
@@ -45,20 +49,21 @@ public class EmployeeRemoveService {
     /**
      * 修改调岗
      *
-     * @param employeeRemove 调岗信息
+     * @param uploadEmployeeRemove 调岗信息
      * @return 结果
      */
-    public boolean update(EmployeeRemove employeeRemove) {
-        return employeeRemoveMapper.updateByPrimaryKey(employeeRemove) == 1;
+    public boolean update(UploadEmployeeRemove uploadEmployeeRemove) {
+        return employeeRemoveMapper.updateByPrimaryKey(uploadEmployeeRemove) == 1;
     }
 
     /**
      * 新增调岗
      *
-     * @param employeeRemove 调岗信息
+     * @param insertEmployeeRemove 调岗信息
      * @return 结果
      */
-    public boolean insert(EmployeeRemove employeeRemove) {
-        return employeeRemoveMapper.insertEmployeeRemove(employeeRemove) == 1;
+    public boolean insert(InsertEmployeeRemove insertEmployeeRemove) {
+        return employeeRemoveMapper.insertEmployeeRemove(insertEmployeeRemove) == 1;
     }
+
 }

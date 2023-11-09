@@ -1,8 +1,10 @@
 package org.boluo.hr.mapper;
 
 import org.apache.ibatis.annotations.Param;
+import org.boluo.hr.pojo.InsertSalary;
 import org.boluo.hr.pojo.Salary;
 import org.boluo.hr.pojo.SalaryConfigView;
+import org.boluo.hr.pojo.UploadSalary;
 
 import java.util.List;
 
@@ -24,10 +26,10 @@ public interface SalaryMapper {
     /**
      * 新增工资账套
      *
-     * @param salary 工资账套
+     * @param insertSalary 工资账套
      * @return 结果
      */
-    int insertSalary(Salary salary);
+    int insertSalary(InsertSalary insertSalary);
 
     /**
      * 查询工资账套
@@ -40,10 +42,10 @@ public interface SalaryMapper {
     /**
      * 修改工资账套
      *
-     * @param salary 工资账套信息
+     * @param uploadSalary 工资账套信息
      * @return 结果
      */
-    int updateByPrimaryKey(Salary salary);
+    int updateByPrimaryKey(UploadSalary uploadSalary);
 
     /**
      * 查询所有工资账套

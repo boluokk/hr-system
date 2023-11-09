@@ -30,12 +30,9 @@
         from job_level
         where id = #{id,jdbcType=INTEGER}
     </delete>
-    <insert id="insertJobLevel" parameterType="org.boluo.hr.pojo.JobLevel">
+    <insert id="insertJobLevel" parameterType="org.boluo.hr.pojo.InsertJobLevel">
         insert into job_level
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                id,
-            </if>
             <if test="name != null">
                 name,
             </if>
@@ -50,9 +47,6 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                #{id,jdbcType=INTEGER},
-            </if>
             <if test="name != null">
                 #{name,jdbcType=VARCHAR},
             </if>
@@ -67,7 +61,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKey" parameterType="org.boluo.hr.pojo.JobLevel">
+    <update id="updateByPrimaryKey" parameterType="org.boluo.hr.pojo.UploadJobLevel">
         update job_level
         <set>
             <if test="name != null">

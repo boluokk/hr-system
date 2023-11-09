@@ -3,6 +3,8 @@ package org.boluo.hr.service;
 import org.boluo.hr.mapper.AdjustSalaryMapper;
 import org.boluo.hr.pojo.AdjustSalaryView;
 import org.boluo.hr.pojo.AdjustSalary;
+import org.boluo.hr.pojo.InsertAdjustSalary;
+import org.boluo.hr.pojo.UploadAdjustSalary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,11 +36,11 @@ public class AdjustSalaryService {
     /**
      * 更新调薪
      *
-     * @param adjustSalary 调薪信息
+     * @param uploadAdjustSalary 调薪信息
      * @return 结果
      */
-    public boolean update(AdjustSalary adjustSalary) {
-        return adjustSalaryMapper.updateByPrimaryKey(adjustSalary) == 1;
+    public boolean update(UploadAdjustSalary uploadAdjustSalary) {
+        return adjustSalaryMapper.updateByPrimaryKey(uploadAdjustSalary) == 1;
     }
 
     /**
@@ -54,10 +56,10 @@ public class AdjustSalaryService {
     /**
      * 新增调薪
      *
-     * @param adjustSalary 调薪信息
+     * @param insertAdjustSalary 调薪信息
      * @return 结果
      */
-    public boolean insert(AdjustSalary adjustSalary) {
-        return adjustSalaryMapper.insertAdjustSalary(adjustSalary) == 1;
+    public boolean insert(InsertAdjustSalary insertAdjustSalary) {
+        return adjustSalaryMapper.insertAdjustSalary(insertAdjustSalary) == 1;
     }
 }

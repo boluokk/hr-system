@@ -3,7 +3,7 @@ package org.boluo.hr.service;
 import cn.hutool.core.io.FileUtil;
 import org.boluo.hr.mapper.DataBaseMapper;
 import org.boluo.hr.pojo.DataBaseTable;
-import org.boluo.hr.service.util.CustomFileUtil;
+import org.boluo.hr.util.CustomFileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

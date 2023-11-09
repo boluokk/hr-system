@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.boluo.hr.pojo.CustomConfig;
 import org.boluo.hr.pojo.HrInfoStatistics;
 import org.boluo.hr.service.HrInfoStatisticsService;
-import org.boluo.hr.service.util.CustomFileUtil;
+import org.boluo.hr.util.CustomFileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;

@@ -2,6 +2,8 @@ package org.boluo.hr.mapper;
 
 import org.boluo.hr.pojo.EmployeeTrain;
 import org.boluo.hr.pojo.EmployeeTrainView;
+import org.boluo.hr.pojo.InsertEmployeeTrain;
+import org.boluo.hr.pojo.UploadEmployeeTrain;
 
 import java.util.List;
 
@@ -23,10 +25,10 @@ public interface EmployeeTrainMapper {
     /**
      * 新增培训
      *
-     * @param employeeTrain 培训信息
+     * @param insertEmployeeTrain 培训信息
      * @return 结果
      */
-    int insertEmployeeTrain(EmployeeTrain employeeTrain);
+    int insertEmployeeTrain(InsertEmployeeTrain insertEmployeeTrain);
 
     /**
      * 通过id 查询培训
@@ -39,10 +41,10 @@ public interface EmployeeTrainMapper {
     /**
      * 修改培训
      *
-     * @param employeeTrain 培训信息
+     * @param uploadEmployeeTrain 培训信息
      * @return 结果
      */
-    int updateByPrimaryKey(EmployeeTrain employeeTrain);
+    int updateByPrimaryKey(UploadEmployeeTrain uploadEmployeeTrain);
 
     /**
      * 查询所有培新 包含员工信息

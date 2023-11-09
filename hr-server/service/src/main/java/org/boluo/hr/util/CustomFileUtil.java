@@ -1,4 +1,4 @@
-package org.boluo.hr.service.util;
+package org.boluo.hr.util;
 
 import lombok.extern.slf4j.Slf4j;
 import org.boluo.hr.pojo.CustomConfig;

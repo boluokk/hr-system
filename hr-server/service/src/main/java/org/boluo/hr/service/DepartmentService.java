@@ -1,9 +1,15 @@
 package org.boluo.hr.service;
 
+import org.boluo.hr.exception.BusinessException;
 import org.boluo.hr.mapper.DepartmentMapper;
+import org.boluo.hr.pojo.DeleteRequestDepartment;
 import org.boluo.hr.pojo.Department;
+import org.boluo.hr.pojo.InsertRequestDepartment;
+import org.boluo.hr.pojo.UploadDepartment;
+import org.boluo.hr.util.CheckUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -48,11 +54,11 @@ public class DepartmentService {
     /**
      * 更新部门
      *
-     * @param department
-     * @return
+     * @param uploadDepartment 部门信息
+     * @return 结果
      */
-    public boolean update(Department department) {
-        return departmentMapper.updateByPrimaryKey(department) == 1;
+    public boolean update(UploadDepartment uploadDepartment) {
+        return departmentMapper.updateByPrimaryKey(uploadDepartment) == 1;
     }
 
     /**
@@ -69,7 +75,7 @@ public class DepartmentService {
      * 删除部门
      *
      * @param id 部门id
-     * @return
+     * @return 结果
      */
     public int delete(Integer id) {
         return departmentMapper.deleteByPrimaryKey(id);
@@ -121,6 +127,58 @@ public class DepartmentService {
      */
     public List<Department> selectAll() {
         return departmentMapper.selectAll();
+    }
+
+
+    /**
+     * 添加部门
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public boolean addDepartment(InsertRequestDepartment insertDepartment) {
+        if (CheckUtil.isNull(insertDepartment.getParentIsParent()) ||
+                !insertDepartment.getParentIsParent()) {
+            UploadDepartment department = new UploadDepartment()
+                    .setId(insertDepartment.getParentId())
+                    .setIsParent(true);
+            if (!update(department)) {
+                throw new BusinessException("更新部门失败");
+            }
+        }
+        Department department = new Department()
+                .setName(insertDepartment.getChildrenName())
+                .setParentId(insertDepartment.getParentId())
+                .setEnabled(insertDepartment.getChildrenEnabled())
+                .setIsParent(false);
+        if (!insert(department)) {
+            throw new BusinessException("添加失败");
+        }
+        int lastInsertId = lastInsertId();
+        if (lastInsertId == 0) {
+            throw new BusinessException("新插入部门id不能为0");
+        }
+        UploadDepartment newDepartment = new UploadDepartment()
+                .setId(lastInsertId)
+                // 拼接部门路径
+                .setDepPath(insertDepartment.getParentDepPath() + "." + lastInsertId);
+        if (!update(newDepartment)) {
+            throw new BusinessException("更新部门失败！");
+        }
+        return true;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public boolean deleteDepartment(DeleteRequestDepartment deleteRequestDepartment) {
+        if (!deleteByDepPath(deleteRequestDepartment.getParentDepPath())) {
+            throw new BusinessException("删除路径失败");
+        }
+        if (!noChildren(deleteRequestDepartment.getParentId())) {
+            if (!update(new UploadDepartment()
+                    .setId(deleteRequestDepartment.getParentId()).setIsParent(false))) {
+                throw new BusinessException("部门更新失败");
+            }
+            return true;
+        }
+        throw new BusinessException("部门更新失败");
     }
 
 }

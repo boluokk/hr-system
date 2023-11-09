@@ -1,11 +1,16 @@
 package org.boluo.hr.controller.system.basic;
 
 import org.boluo.hr.annotation.Log;
-import org.boluo.hr.pojo.JobLevel;
+import org.boluo.hr.pojo.InsertJobLevel;
 import org.boluo.hr.pojo.RespBean;
+import org.boluo.hr.pojo.UploadJobLevel;
 import org.boluo.hr.service.JobLevelService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 
 /**
  * 职称等级
@@ -15,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/system/basic/jobName")
+@Validated
 public class JobLevelController {
 
     private final JobLevelService jobLevelService;
@@ -38,7 +44,8 @@ public class JobLevelController {
      */
     @DeleteMapping("/delete/{id}")
     @Log("删除职称等级")
-    public RespBean remove(@PathVariable Integer id) {
+    public RespBean remove(@Min(value = 1, message = "id不合法")
+                           @PathVariable("id") Integer id) {
         if (jobLevelService.delete(id)) {
             return RespBean.ok();
         } else {
@@ -51,8 +58,8 @@ public class JobLevelController {
      */
     @PutMapping("/modify")
     @Log("修改职称等级")
-    public RespBean modify(@RequestBody JobLevel jobLevel) {
-        if (jobLevelService.update(jobLevel)) {
+    public RespBean modify(@Valid @RequestBody UploadJobLevel uploadJobLevel) {
+        if (jobLevelService.update(uploadJobLevel)) {
             return RespBean.ok();
         } else {
             return RespBean.error();
@@ -64,8 +71,8 @@ public class JobLevelController {
      */
     @PutMapping("/add")
     @Log("新增职称等级")
-    public RespBean add(@RequestBody JobLevel jobLevel) {
-        if (jobLevelService.insert(jobLevel)) {
+    public RespBean add(@Valid @RequestBody InsertJobLevel insertJobLevel) {
+        if (jobLevelService.insert(insertJobLevel)) {
             return RespBean.ok();
         } else {
             return RespBean.error();

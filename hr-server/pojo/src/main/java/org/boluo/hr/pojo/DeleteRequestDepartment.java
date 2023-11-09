@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DepartRequestBean {
+public class DeleteRequestDepartment {
     /**
      * 父部门id
      */

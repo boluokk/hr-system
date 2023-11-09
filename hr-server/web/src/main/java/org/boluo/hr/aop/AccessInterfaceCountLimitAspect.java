@@ -6,7 +6,7 @@ import org.aspectj.lang.annotation.Before;
 import org.boluo.hr.annotation.Log;
 import org.boluo.hr.common.redis.RedisCache;
 import org.boluo.hr.exception.BusinessException;
-import org.boluo.hr.service.util.HrUtils;
+import org.boluo.hr.util.HrUtils;
 import org.boluo.hr.util.CheckUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

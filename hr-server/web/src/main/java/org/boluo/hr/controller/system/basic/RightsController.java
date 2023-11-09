@@ -1,14 +1,18 @@
 package org.boluo.hr.controller.system.basic;
 
 import org.boluo.hr.annotation.Log;
+import org.boluo.hr.pojo.InsertRole;
 import org.boluo.hr.pojo.RespBean;
-import org.boluo.hr.pojo.RightsBean;
-import org.boluo.hr.pojo.Role;
+import org.boluo.hr.pojo.UploadRole;
 import org.boluo.hr.pojo.UploadRoleMenu;
 import org.boluo.hr.service.RightsService;
 import org.boluo.hr.util.CheckUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 
 
 /**
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/system/basic/rights")
+@Validated
 public class RightsController {
 
     private final RightsService rightsService;
@@ -47,7 +52,8 @@ public class RightsController {
      */
     @GetMapping("/{roleId}")
     @Log("查询角色权限")
-    public RespBean findRightByRoleId(@PathVariable("roleId") Integer roleId) {
+    public RespBean findRightByRoleId(@Min(value = 1, message = "角色ID必须大于0")
+                                      @PathVariable("roleId") Integer roleId) {
         return RespBean.ok(rightsService.selectRightsByRoleId(roleId));
     }
 
@@ -65,12 +71,12 @@ public class RightsController {
      */
     @PutMapping("/add")
     @Log("新增角色")
-    public RespBean addRole(@RequestBody Role role) {
-        role.setName(PRE_ROLE_NAME + role.getName());
-        if (!CheckUtil.isNull(rightsService.selectRoleByName(role.getName()))) {
+    public RespBean addRole(@Valid @RequestBody InsertRole insertRole) {
+        insertRole.setName(PRE_ROLE_NAME + insertRole.getName());
+        if (!CheckUtil.isNull(rightsService.selectRoleByName(insertRole.getName()))) {
             return RespBean.error("当前角色英文名已经存在");
         }
-        if (rightsService.insertRole(role)) {
+        if (rightsService.insertRole(insertRole)) {
             return RespBean.ok();
         } else {
             return RespBean.error();
@@ -82,7 +88,8 @@ public class RightsController {
      */
     @DeleteMapping("/delete/{roleId}")
     @Log("删除角色")
-    public RespBean remove(@PathVariable("roleId") Integer roleId) {
+    public RespBean remove(@Min(value = 1, message = "角色ID必须大于0")
+                           @PathVariable("roleId") Integer roleId) {
         if (rightsService.deleteRoleById(roleId)) {
             return RespBean.ok();
         } else {
@@ -95,8 +102,8 @@ public class RightsController {
      */
     @PutMapping("/modify")
     @Log("修改角色")
-    public RespBean modifyRole(@RequestBody Role role) {
-        if (rightsService.updateRole(role)) {
+    public RespBean modifyRole(@Valid @RequestBody UploadRole uploadRole) {
+        if (rightsService.updateRole(uploadRole)) {
             return RespBean.ok();
         } else {
             return RespBean.error();
@@ -108,31 +115,10 @@ public class RightsController {
      */
     @PutMapping("/modify/rights")
     @Log("修改权限")
-    public RespBean modifyRights(@RequestBody UploadRoleMenu uploadRoleMenu) {
-        int countRight = rightsService.selectRightsCountByRoleId(uploadRoleMenu.getRoleId());
-        if (countRight > 0) {
-            if (rightsService.deleteRights(uploadRoleMenu.getRoleId())) {
-                if (!CheckUtil.hasLength(uploadRoleMenu.getMenuIds())) {
-                    return RespBean.ok();
-                }
-                if (rightsService.insertRights(new RightsBean(uploadRoleMenu.getMenuIds(),
-                        uploadRoleMenu.getRoleId()))) {
-                    return RespBean.ok();
-                } else {
-                    return RespBean.error();
-                }
-            } else {
-                return RespBean.error();
-            }
-        } else {
-            if (!CheckUtil.hasLength(uploadRoleMenu.getMenuIds())) {
-                return RespBean.ok();
-            }
-            if (rightsService.insertRights(new RightsBean(uploadRoleMenu.getMenuIds(), uploadRoleMenu.getRoleId()))) {
-                return RespBean.ok();
-            } else {
-                return RespBean.error();
-            }
+    public RespBean modifyRights(@Valid @RequestBody UploadRoleMenu uploadRoleMenu) {
+        if (rightsService.modifyRights(uploadRoleMenu)) {
+            return RespBean.ok();
         }
+        return RespBean.error();
     }
 }

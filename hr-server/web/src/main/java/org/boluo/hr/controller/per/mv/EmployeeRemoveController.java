@@ -3,16 +3,22 @@ package org.boluo.hr.controller.per.mv;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.boluo.hr.annotation.Log;
-import org.boluo.hr.pojo.EmployeeRemove;
-import org.boluo.hr.pojo.Employee;
+import org.boluo.hr.pojo.InsertEmployeeRemove;
 import org.boluo.hr.pojo.RespBean;
+import org.boluo.hr.pojo.UploadEmployee;
+import org.boluo.hr.pojo.UploadEmployeeRemove;
 import org.boluo.hr.service.DepartmentService;
 import org.boluo.hr.service.EmployeeRemoveService;
 import org.boluo.hr.service.EmployeeService;
 import org.boluo.hr.service.JobLevelService;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 /**
  * 调岗信息
@@ -22,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/per/mv")
+@Validated
 public class EmployeeRemoveController {
 
     private final DepartmentService departmentService;
@@ -45,7 +52,10 @@ public class EmployeeRemoveController {
      */
     @GetMapping("/{pageNum}/{pageSize}")
     @Log("查询调岗分页")
-    public RespBean findPage(@PathVariable("pageNum") Integer pageNum,
+    public RespBean findPage(@Min(value = 1, message = "页码不能小于1")
+                             @PathVariable("pageNum") Integer pageNum,
+                             @Min(value = 1, message = "页大小不能小于1")
+                             @Max(value = 10, message = "页大小不能大于10")
                              @PathVariable("pageSize") Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         return RespBean.ok(new PageInfo<>(employeeRemoveService.selectAll()));
@@ -75,7 +85,8 @@ public class EmployeeRemoveController {
      */
     @DeleteMapping("/delete/{id}")
     @Log("删除调岗")
-    public RespBean remove(@PathVariable("id") Integer id) {
+    public RespBean remove(@Min(value = 1, message = "id不能小于1")
+                           @PathVariable("id") Integer id) {
         if (employeeRemoveService.delete(id)) {
             return RespBean.ok();
         }
@@ -87,8 +98,8 @@ public class EmployeeRemoveController {
      */
     @PutMapping("/modify")
     @Log("修改调岗")
-    public RespBean modify(@RequestBody EmployeeRemove employeeRemove) {
-        if (employeeRemoveService.update(employeeRemove)) {
+    public RespBean modify(@Valid @RequestBody UploadEmployeeRemove uploadEmployeeRemove) {
+        if (employeeRemoveService.update(uploadEmployeeRemove)) {
             return RespBean.ok();
         }
         return RespBean.error();
@@ -99,25 +110,25 @@ public class EmployeeRemoveController {
      */
     @PutMapping("/add/{workId}")
     @Log("新增调岗")
-    @Transactional(rollbackFor = Exception.class)
-    public RespBean add(@RequestBody EmployeeRemove employeeRemove,
+    public RespBean add(@Valid @RequestBody InsertEmployeeRemove insertEmployeeRemove,
+                        @Length(min = 8, max = 8, message = "工号长度必须为8位")
                         @PathVariable("workId") String workId) {
-        Employee employee = employeeService.selectEmployeeByWorkId(workId);
+        UploadEmployee employee = employeeService.selectEmployeeByWorkId(workId);
         if (employee == null) {
             return RespBean.error("员工不存在!");
         }
-        employeeRemove.setEmployeeId(employee.getId());
+        insertEmployeeRemove.setEmployeeId(employee.getId());
         // 记录当前部门和职称
-        employeeRemove.setBeforeDepartmentId(employee.getDepartmentId());
-        employeeRemove.setBeforeJobId(employee.getJobLevelId());
+        insertEmployeeRemove.setBeforeDepartmentId(employee.getDepartmentId());
+        insertEmployeeRemove.setBeforeJobId(employee.getJobLevelId());
         // 修改部门和职称
-        employee.setDepartmentId(employeeRemove.getAfterDepartmentId());
-        employee.setJobLevelId(employeeRemove.getAfterJobId());
+        employee.setDepartmentId(insertEmployeeRemove.getAfterDepartmentId());
+        employee.setJobLevelId(insertEmployeeRemove.getAfterJobId());
         // 更新原来员工
         if (!employeeService.update(employee)) {
             return RespBean.error("部门或职称更新失败!");
         }
-        if (employeeRemoveService.insert(employeeRemove)) {
+        if (employeeRemoveService.insert(insertEmployeeRemove)) {
             return RespBean.ok();
         }
         return RespBean.error();

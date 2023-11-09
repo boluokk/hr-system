@@ -40,12 +40,9 @@
         from employee_remove
         where id = #{id,jdbcType=INTEGER}
     </delete>
-    <insert id="insertEmployeeRemove" parameterType="org.boluo.hr.pojo.EmployeeRemove">
+    <insert id="insertEmployeeRemove" parameterType="org.boluo.hr.pojo.InsertEmployeeRemove">
         insert into employee_remove
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                id,
-            </if>
             <if test="employeeId != null">
                 employee_id,
             </if>
@@ -72,9 +69,6 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                #{id,jdbcType=INTEGER},
-            </if>
             <if test="employeeId != null">
                 #{employeeId,jdbcType=INTEGER},
             </if>
@@ -101,7 +95,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKey" parameterType="org.boluo.hr.pojo.EmployeeRemove">
+    <update id="updateByPrimaryKey" parameterType="org.boluo.hr.pojo.UploadEmployeeRemove">
         update employee_remove
         <set>
             <if test="employeeId != null">

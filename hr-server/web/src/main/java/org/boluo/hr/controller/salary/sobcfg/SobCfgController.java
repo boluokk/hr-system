@@ -6,9 +6,13 @@ import org.boluo.hr.annotation.Log;
 import org.boluo.hr.pojo.EmployeeSalaryMerge;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.service.SobCfgService;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 /**
  * 工资配置信息
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/sal/sobcfg")
+@Validated
 public class SobCfgController {
 
     private final SobCfgService sobCfgService;
@@ -32,7 +37,10 @@ public class SobCfgController {
      */
     @GetMapping("/{pageNum}/{pageSize}")
     @Log("查询员工工资分页")
-    public RespBean findEmployeeSalaryPage(@PathVariable("pageNum") Integer pageNum,
+    public RespBean findEmployeeSalaryPage(@Min(value = 1, message = "页码不能小于1")
+                                           @PathVariable("pageNum") Integer pageNum,
+                                           @Min(value = 1, message = "页大小不能小于1")
+                                           @Max(value = 10, message = "页大小不能大于10")
                                            @PathVariable("pageSize") Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         return RespBean.ok(new PageInfo<>(sobCfgService.selectEmpWithSalary()));
@@ -43,7 +51,8 @@ public class SobCfgController {
      */
     @GetMapping("/byWorkId/{workId}")
     @Log("通过员工号查询")
-    public RespBean findEmployeeSalaryByWorkId(@PathVariable("workId") String workId) {
+    public RespBean findEmployeeSalaryByWorkId(@Length(min = 8, max = 8, message = "员工号长度必须为8位")
+                                               @PathVariable("workId") String workId) {
         return RespBean.ok(sobCfgService.selectEmployeeSalaryByWorkId(workId));
     }
 
@@ -52,22 +61,14 @@ public class SobCfgController {
      */
     @PutMapping("/modify/{employeeId}/{newSalaryId}")
     @Log("新增员工账套")
-    @Transactional(rollbackFor = Exception.class)
-    public RespBean addSalaryWithEmployee(@PathVariable("employeeId") Integer employeeId,
+    public RespBean addSalaryWithEmployee(@Min(value = 1, message = "员工号不能小于1")
+                                          @PathVariable("employeeId") Integer employeeId,
+                                          @Min(value = 1, message = "新工资套号不能小于1")
                                           @PathVariable("newSalaryId") Integer newSalaryId) {
         EmployeeSalaryMerge employeeSalaryMerge = sobCfgService.selectEmployeeSalaryMergeByEmployeeId(employeeId);
-        // 没有就新增
-        if (employeeSalaryMerge == null) {
-            if (sobCfgService.insertEmployeeSalaryMerge(
-                    new EmployeeSalaryMerge().setEmployeeId(employeeId).setSalaryId(newSalaryId))) {
-                return RespBean.ok();
-            }
-            return RespBean.error("员工账套不存在, 并且新增失败");
-        } else {
-            if (sobCfgService.updateEmployeeSalary(employeeSalaryMerge.setSalaryId(newSalaryId))) {
-                return RespBean.ok();
-            }
-            return RespBean.error("更新失败");
+        if (sobCfgService.addSalaryWithEmployee(employeeSalaryMerge, employeeId, newSalaryId)) {
+            return RespBean.ok();
         }
+        return RespBean.error();
     }
 }

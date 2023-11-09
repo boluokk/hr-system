@@ -105,12 +105,9 @@
         from hr
         where id = #{id,jdbcType=INTEGER}
     </delete>
-    <insert id="insertHr" parameterType="org.boluo.hr.pojo.UploadHr">
+    <insert id="insertHr" parameterType="org.boluo.hr.pojo.InsertHr">
         insert into hr
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                id,
-            </if>
             <if test="name != null">
                 name,
             </if>
@@ -140,9 +137,6 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                #{id,jdbcType=INTEGER},
-            </if>
             <if test="name != null">
                 #{name,jdbcType=VARCHAR},
             </if>

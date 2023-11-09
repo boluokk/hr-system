@@ -1,8 +1,10 @@
 package org.boluo.hr.mapper;
 
 import org.apache.ibatis.annotations.Param;
+import org.boluo.hr.pojo.InsertRole;
 import org.boluo.hr.pojo.RightsBean;
 import org.boluo.hr.pojo.Role;
+import org.boluo.hr.pojo.UploadRole;
 
 import java.util.List;
 
@@ -26,10 +28,10 @@ public interface RoleMapper {
     /**
      * 新增角色
      *
-     * @param role 角色信息
+     * @param insertRole 角色信息
      * @return 结果
      */
-    int insertRole(Role role);
+    int insertRole(InsertRole insertRole);
 
     /**
      * 查询角色
@@ -42,10 +44,10 @@ public interface RoleMapper {
     /**
      * 修改角色
      *
-     * @param role 角色信息
+     * @param uploadRole 角色信息
      * @return 结果
      */
-    int updateByPrimaryKey(Role role);
+    int updateByPrimaryKey(UploadRole uploadRole);
 
     /**
      * 查询所有角色

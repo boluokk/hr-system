@@ -96,7 +96,7 @@
         from salary
         where id = #{id,jdbcType=INTEGER}
     </delete>
-    <insert id="insertSalary" parameterType="org.boluo.hr.pojo.Salary">
+    <insert id="insertSalary" parameterType="org.boluo.hr.pojo.InsertSalary">
         insert into salary
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="name != null">

@@ -1,7 +1,9 @@
 package org.boluo.hr.service;
 
 import org.boluo.hr.mapper.PositionMapper;
+import org.boluo.hr.pojo.InsertPosition;
 import org.boluo.hr.pojo.Position;
+import org.boluo.hr.pojo.UploadPosition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -55,11 +57,11 @@ public class PositionService {
     /**
      * 新增职位
      *
-     * @param pos 职位信息
+     * @param insertPosition 职位信息
      * @return 结果
      */
-    public boolean insert(Position position) {
-        return positionMapper.insertPosition(position) == 1;
+    public boolean insert(InsertPosition insertPosition) {
+        return positionMapper.insertPosition(insertPosition) == 1;
     }
 
     /**
@@ -75,10 +77,10 @@ public class PositionService {
     /**
      * 修改职位
      *
-     * @param pos 职位信息
+     * @param uploadPosition 职位信息
      * @return 结果
      */
-    public boolean update(Position pos) {
-        return positionMapper.updateByPrimaryKey(pos) == 1;
+    public boolean update(UploadPosition uploadPosition) {
+        return positionMapper.updateByPrimaryKey(uploadPosition) == 1;
     }
 }

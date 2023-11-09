@@ -2,6 +2,7 @@ package org.boluo.hr.mapper;
 
 import org.apache.ibatis.annotations.Param;
 import org.boluo.hr.pojo.Department;
+import org.boluo.hr.pojo.UploadDepartment;
 
 import java.util.List;
 
@@ -39,10 +40,10 @@ public interface DepartmentMapper {
     /**
      * 修改部门
      *
-     * @param department 部门信息
+     * @param uploadDepartment 部门信息
      * @return 结果
      */
-    int updateByPrimaryKey(Department department);
+    int updateByPrimaryKey(UploadDepartment uploadDepartment);
 
     /**
      * 通过部门父id 查询所有子部门

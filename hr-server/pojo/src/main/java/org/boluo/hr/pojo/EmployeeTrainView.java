@@ -38,5 +38,5 @@ public class EmployeeTrainView {
     /**
      * 员工信息
      */
-    private Employee employee;
+    private UploadEmployee employee;
 }

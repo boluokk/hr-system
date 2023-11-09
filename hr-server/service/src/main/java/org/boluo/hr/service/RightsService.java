@@ -1,12 +1,13 @@
 package org.boluo.hr.service;
 
+import org.boluo.hr.exception.BusinessException;
 import org.boluo.hr.mapper.MenuMapper;
 import org.boluo.hr.mapper.RoleMapper;
-import org.boluo.hr.pojo.Menu;
-import org.boluo.hr.pojo.RightsBean;
-import org.boluo.hr.pojo.Role;
+import org.boluo.hr.pojo.*;
+import org.boluo.hr.util.CheckUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -63,11 +64,11 @@ public class RightsService {
     /**
      * 新增角色
      *
-     * @param role 角色信息
+     * @param insertRole 角色信息
      * @return 结果
      */
-    public boolean insertRole(Role role) {
-        return roleMapper.insertRole(role) == 1;
+    public boolean insertRole(InsertRole insertRole) {
+        return roleMapper.insertRole(insertRole) == 1;
     }
 
     /**
@@ -83,11 +84,11 @@ public class RightsService {
     /**
      * 修改角色
      *
-     * @param role 角色信息
+     * @param uploadRole 角色信息
      * @return 结果
      */
-    public boolean updateRole(Role role) {
-        return roleMapper.updateByPrimaryKey(role) == 1;
+    public boolean updateRole(UploadRole uploadRole) {
+        return roleMapper.updateByPrimaryKey(uploadRole) == 1;
     }
 
     /**
@@ -118,6 +119,29 @@ public class RightsService {
      */
     public int selectRightsCountByRoleId(Integer roleId) {
         return roleMapper.selectRightsCountByRoleId(roleId);
+    }
+
+
+    /**
+     * 修改角色权限
+     *
+     * @param uploadRoleMenu 角色权限信息
+     * @return 结果
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public boolean modifyRights(UploadRoleMenu uploadRoleMenu) {
+        int countRight = selectRightsCountByRoleId(uploadRoleMenu.getRoleId());
+        if (countRight > 0 && !deleteRights(uploadRoleMenu.getRoleId())) {
+            throw new BusinessException("删除权限失败");
+        }
+        // 没有传入菜单id，则不进行任何操作
+        if (!CheckUtil.hasLength(uploadRoleMenu.getMenuIds())) {
+            return true;
+        }
+        if (insertRights(new RightsBean(uploadRoleMenu.getMenuIds(), uploadRoleMenu.getRoleId()))) {
+            return true;
+        }
+        throw new BusinessException("新增权限失败");
     }
 
 }

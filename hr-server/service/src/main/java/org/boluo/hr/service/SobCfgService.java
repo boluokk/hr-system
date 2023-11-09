@@ -1,12 +1,13 @@
 package org.boluo.hr.service;
 
+import org.boluo.hr.exception.BusinessException;
 import org.boluo.hr.mapper.EmployeeSalaryMergeMapper;
 import org.boluo.hr.mapper.SalaryMapper;
-import org.boluo.hr.pojo.Employee;
 import org.boluo.hr.pojo.EmployeeSalaryMerge;
 import org.boluo.hr.pojo.SalaryConfigView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -67,5 +68,21 @@ public class SobCfgService {
 
     public SalaryConfigView selectEmployeeSalaryByWorkId(String workId) {
         return salaryMapper.selectEmployeeSalaryByWorkId(workId);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public boolean addSalaryWithEmployee(EmployeeSalaryMerge employeeSalaryMerge, Integer employeeId, Integer newSalaryId) {
+        // 没有就新增
+        if (employeeSalaryMerge == null) {
+            if (insertEmployeeSalaryMerge(new EmployeeSalaryMerge().setEmployeeId(employeeId).setSalaryId(newSalaryId))) {
+                return true;
+            }
+            throw new BusinessException("员工账套不存在, 并且新增失败");
+        } else {
+            if (updateEmployeeSalary(employeeSalaryMerge.setSalaryId(newSalaryId))) {
+                return true;
+            }
+            throw new BusinessException("更新失败");
+        }
     }
 }

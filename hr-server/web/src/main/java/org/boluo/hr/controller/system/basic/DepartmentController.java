@@ -1,15 +1,16 @@
 package org.boluo.hr.controller.system.basic;
 
 import org.boluo.hr.annotation.Log;
-import org.boluo.hr.exception.BusinessException;
-import org.boluo.hr.pojo.DepartRequestBean;
-import org.boluo.hr.pojo.Department;
+import org.boluo.hr.pojo.DeleteRequestDepartment;
+import org.boluo.hr.pojo.InsertRequestDepartment;
 import org.boluo.hr.pojo.RespBean;
+import org.boluo.hr.pojo.UploadDepartment;
 import org.boluo.hr.service.DepartmentService;
-import org.boluo.hr.util.CheckUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * 部门信息
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/system/basic/department")
+@Validated
 public class DepartmentController {
 
     private final DepartmentService departmentService;
@@ -43,51 +45,20 @@ public class DepartmentController {
 
     @PutMapping("/add")
     @Log("添加部门")
-    @Transactional(rollbackFor = Exception.class)
-    public RespBean add(@RequestBody DepartRequestBean departRequestBean) {
-        if (CheckUtil.isNull(departRequestBean.getParentIsParent()) || !departRequestBean.getParentIsParent()) {
-            Department department = new Department().setId(departRequestBean.getParentId()).setIsParent(true);
-            if (!departmentService.update(department)) {
-                throw new BusinessException("更新部门失败");
-            }
+    public RespBean add(@Valid @RequestBody InsertRequestDepartment insertDepartment) {
+        if (departmentService.addDepartment(insertDepartment)) {
+            return RespBean.ok();
         }
-        Department department = new Department()
-                                .setName(departRequestBean.getChildrenName())
-                                .setParentId(departRequestBean.getParentId())
-                                .setEnabled(departRequestBean.getChildrenEnabled())
-                                .setIsParent(false);
-        if (!departmentService.insert(department)) {
-            throw new BusinessException("添加失败");
-        }
-        int lastInsertId = departmentService.lastInsertId();
-        if (lastInsertId == 0) {
-            throw new BusinessException("新插入部门id不能为0");
-        }
-        Department newDepartment = new Department()
-                                    .setId(lastInsertId)
-                                    // 拼接部门路径
-                                    .setDepPath(departRequestBean.getParentDepPath() + "." + lastInsertId);
-        if (!departmentService.update(newDepartment)) {
-            throw new BusinessException("更新部门失败！");
-        }
-        return RespBean.ok();
+        return RespBean.error();
     }
 
     /**
      * 删除部门
      */
-    @Transactional(rollbackFor = Exception.class)
     @Log("删除部门")
     @DeleteMapping("/delete")
-    public RespBean remove(@RequestBody DepartRequestBean departRequestBean) {
-        if (!departmentService.deleteByDepPath(departRequestBean.getParentDepPath())) {
-            throw new BusinessException("删除路径失败");
-        }
-        if (!departmentService.noChildren(departRequestBean.getParentId())) {
-            if (!departmentService.update(new Department()
-                    .setId(departRequestBean.getParentId()).setIsParent(false))) {
-                throw new BusinessException("部门更新失败");
-            }
+    public RespBean remove(@Valid @RequestBody DeleteRequestDepartment deleteRequestDepartment) {
+        if (departmentService.deleteDepartment(deleteRequestDepartment)) {
             return RespBean.ok();
         }
         return RespBean.error();
@@ -107,8 +78,8 @@ public class DepartmentController {
      */
     @PutMapping("/modify")
     @Log("修改部门")
-    public RespBean modify(@RequestBody Department department) {
-        if (departmentService.update(department)) {
+    public RespBean modify(@Valid @RequestBody UploadDepartment uploadDepartment) {
+        if (departmentService.update(uploadDepartment)) {
             return RespBean.ok();
         } else {
             return RespBean.error();
@@ -120,7 +91,7 @@ public class DepartmentController {
      */
     @GetMapping("/search/{name}")
     @Log("部门名查询部门")
-    public RespBean findByName(@PathVariable String name) {
+    public RespBean findByName(@PathVariable("name") String name) {
         return RespBean.ok(departmentService.selectByName(name));
     }
 

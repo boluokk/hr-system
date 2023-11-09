@@ -42,5 +42,5 @@ public class Appraise {
     /**
      * 员工信息
      */
-    private Employee employee;
+    private UploadEmployee employee;
 }

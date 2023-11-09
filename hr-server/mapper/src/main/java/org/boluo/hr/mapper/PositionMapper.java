@@ -1,6 +1,8 @@
 package org.boluo.hr.mapper;
 
+import org.boluo.hr.pojo.InsertPosition;
 import org.boluo.hr.pojo.Position;
+import org.boluo.hr.pojo.UploadPosition;
 
 import java.util.List;
 
@@ -22,10 +24,10 @@ public interface PositionMapper {
     /**
      * 新增职位
      *
-     * @param position 职位信息
+     * @param insertPosition 职位信息
      * @return 结果
      */
-    int insertPosition(Position position);
+    int insertPosition(InsertPosition insertPosition);
 
     /**
      * 查询职位
@@ -38,10 +40,10 @@ public interface PositionMapper {
     /**
      * 修改职位
      *
-     * @param position 职位信息
+     * @param uploadPosition 职位信息
      * @return 结果
      */
-    int updateByPrimaryKey(Position position);
+    int updateByPrimaryKey(UploadPosition uploadPosition);
 
     /**
      * 查询所有职位

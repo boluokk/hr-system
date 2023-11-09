@@ -7,7 +7,7 @@ spring:
     protocol: smtp
     default-encoding: utf-8
     username: 1352955539@qq.com
-    password: ffhqfdrshvllbafd
+    password: lenilwqjnvaqfieh
     port: 587
   rabbitmq:
     port: 5672

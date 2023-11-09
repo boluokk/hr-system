@@ -7,7 +7,7 @@
         school, begin_date, work_state, work_id, contract_term, conversion_time, not_work_date,
         begin_contract, end_contract, work_age
     </sql>
-    <resultMap id="BaseResultMap" type="org.boluo.hr.pojo.Employee">
+    <resultMap id="BaseResultMap" type="org.boluo.hr.pojo.UploadEmployee">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
         <result column="gender" property="gender"/>
@@ -90,7 +90,7 @@
             </if>
         </where>
     </select>
-    <select id="selectByEmployee" resultMap="enhanceEmployee" parameterType="org.boluo.hr.pojo.Employee">
+    <select id="selectByEmployee" resultMap="enhanceEmployee" parameterType="org.boluo.hr.pojo.UploadEmployee">
         select emp.*,n.name as nname,n.id as nid,poli.name as poname,poli.id as poliid,dep.`name` as depname,dep.id as
         depid,job.name as jobname,job.id as jobid,job.title_level as joblename,posi.name as posiname,posi.id as posiid
         from employee emp,nation n,politics_status poli,department dep,job_level job,`position` posi
@@ -249,14 +249,9 @@
         </foreach>
     </insert>
     <insert id="insertEmployee"
-            parameterType="org.boluo.hr.pojo.Employee"
-            useGeneratedKeys="true"
-            keyProperty="id">
+            parameterType="org.boluo.hr.pojo.InsertEmployee" useGeneratedKeys="true" keyProperty="id">
         insert into employee
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                id,
-            </if>
             <if test="name != null">
                 name,
             </if>
@@ -340,9 +335,6 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                #{id,jdbcType=INTEGER},
-            </if>
             <if test="name != null">
                 #{name,jdbcType=VARCHAR},
             </if>
@@ -429,7 +421,7 @@
     <select id="selectNations" resultType="org.boluo.hr.pojo.Nation">
 
     </select>
-    <update id="updateByPrimaryKey" parameterType="org.boluo.hr.pojo.Employee">
+    <update id="updateByPrimaryKey" parameterType="org.boluo.hr.pojo.UploadEmployee">
         update employee
         <set>
             <if test="name != null">
@@ -509,6 +501,9 @@
             </if>
             <if test="workAge != null">
                 work_age = #{workAge,jdbcType=INTEGER},
+            </if>
+            <if test="workId!= null">
+                work_id = #{workId,jdbcType=CHAR}
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}

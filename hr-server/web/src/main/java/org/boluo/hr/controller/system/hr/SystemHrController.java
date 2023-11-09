@@ -7,10 +7,12 @@ import org.boluo.hr.service.RightsService;
 import org.boluo.hr.util.CheckUtil;
 import org.boluo.hr.util.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.util.List;
 
 /**
@@ -21,6 +23,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/sys/hr")
+@Validated
 public class SystemHrController {
 
     private final HrService hrService;
@@ -47,7 +50,8 @@ public class SystemHrController {
      */
     @GetMapping("/byHrId/{hrId}")
     @Log("查询人事所含角色")
-    public List<Role> findRoles(@PathVariable("hrId") Integer hrId) {
+    public List<Role> findRoles(@Min(value = 1, message = "hrId必须大于 0")
+                                @PathVariable("hrId") Integer hrId) {
         return hrService.selectRoles(hrId);
     }
 
@@ -63,20 +67,11 @@ public class SystemHrController {
     /**
      * 修改人事角色
      */
-    @Transactional(rollbackFor = Exception.class)
     @PutMapping("/many/roles")
     @Log("修改人事角色")
-    public RespBean modifyRoles(@RequestBody UploadHrRole uploadHrRole) {
-        if (hrService.deleteRoleByHrId(uploadHrRole.getHrId())) {
-            if (CheckUtil.hasLength(uploadHrRole.getRoleIds())) {
-                if (hrService.insertRoles(uploadHrRole.getHrId(), uploadHrRole.getRoleIds())) {
-                    return RespBean.ok();
-                }
-                return RespBean.error();
-            } else {
-                // 未传角色id
-                return RespBean.ok();
-            }
+    public RespBean modifyRoles(@Valid @RequestBody UploadHrRole uploadHrRole) {
+        if (hrService.modifyRoles(uploadHrRole)) {
+            return RespBean.ok();
         }
         return RespBean.error();
     }
@@ -86,7 +81,7 @@ public class SystemHrController {
      */
     @PutMapping("/modify")
     @Log("修改人事信息")
-    public RespBean modifyHr(@RequestBody UploadHr hr, HttpSession session) {
+    public RespBean modifyHr(@Valid @RequestBody UploadHr hr, HttpSession session) {
         String password = hr.getPassword();
         if (CheckUtil.hasLength(password)) {
             hr.setPassword(PasswordEncoder.encode(password));
@@ -111,7 +106,8 @@ public class SystemHrController {
      */
     @DeleteMapping("/delete/{hrId}")
     @Log("删除人事")
-    public RespBean removeHr(@PathVariable("hrId") Integer hrId) {
+    public RespBean removeHr(@Min(value = 1, message = "hrId必须大于 0")
+                             @PathVariable("hrId") Integer hrId) {
         Hr hr = hrService.selectById(hrId);
         if (CheckUtil.isNotNull(hr) && "admin".equals(hr.getUsername())) {
             return RespBean.error("admin用户不能删除");
@@ -136,12 +132,12 @@ public class SystemHrController {
      */
     @PutMapping("/add")
     @Log("新增人事")
-    public RespBean add(@RequestBody UploadHr hr) {
-        if (!CheckUtil.isNull(hrService.selectByUsername(hr.getUsername()))) {
+    public RespBean add(@Valid @RequestBody InsertHr insertHr) {
+        if (!CheckUtil.isNull(hrService.selectByUsername(insertHr.getUsername()))) {
             return RespBean.error("当前用户名已经存在");
         }
-        hr.setPassword(PasswordEncoder.encode(hr.getPassword()));
-        if (hrService.insert(hr)) {
+        insertHr.setPassword(PasswordEncoder.encode(insertHr.getPassword()));
+        if (hrService.insert(insertHr)) {
             return RespBean.ok();
         }
         return RespBean.error();

@@ -32,5 +32,4 @@ public class Position implements Serializable {
      * 是否开启
      */
     private Boolean enabled;
-
 }

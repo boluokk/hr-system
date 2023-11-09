@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.boluo.hr.pojo.RespBean;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.web.firewall.RequestRejectedException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -26,6 +27,12 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionCustom {
+
+    @ExceptionHandler(RequestRejectedException.class)
+    public RespBean requestRejectedExceptionHandler(RequestRejectedException e) {
+        return new RespBean(HttpStatus.BAD_REQUEST.value(), "请求路径异常");
+    }
+
     // 处理 form data方式调用接口校验失败抛出的异常
     @ExceptionHandler(BindException.class)
     public RespBean bindExceptionHandler(BindException e) {
@@ -75,7 +82,7 @@ public class GlobalExceptionCustom {
      */
     @ExceptionHandler(Exception.class)
     public RespBean otherExceptionHandle(Exception e) {
-        log.error("其他异常: {}", e.getClass());
+        log.error("其他异常: {} + {}", e.getClass(), e.getMessage());
         return RespBean.error("服务器异常..");
     }
 
