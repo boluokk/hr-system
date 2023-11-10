@@ -9,6 +9,7 @@ import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.pojo.UploadEmployee;
 import org.boluo.hr.service.*;
 import org.boluo.hr.util.ExportImportExcelUtil;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -165,10 +166,9 @@ public class EmployeeController {
     @Log("查询条件员工分页")
     public RespBean findByPage(@Min(value = 1, message = "页码不能小于1")
                                @PathVariable("pageNum") Integer pageNum,
-                               @Min(value = 1, message = "页大小不能小于1")
-                               @Max(value = 10, message = "页大小不能大于10")
+                               @Range(min = 1, max = 10, message = "页大小不能小于1或大于10")
                                @PathVariable("pageSize") Integer pageSize,
-                               @Valid @RequestBody UploadEmployee uploadEmployee) {
+                               @RequestBody UploadEmployee uploadEmployee) {
         PageHelper.startPage(pageNum, pageSize);
         return RespBean.ok(new PageInfo<>(employeeService.selectByPageAndEmployee(uploadEmployee)));
     }

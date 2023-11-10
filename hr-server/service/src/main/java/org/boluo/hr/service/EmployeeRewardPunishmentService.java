@@ -3,6 +3,8 @@ package org.boluo.hr.service;
 import org.boluo.hr.mapper.EmployeeMapper;
 import org.boluo.hr.mapper.EmployeeRewardPunishmentMapper;
 import org.boluo.hr.pojo.EmployeeRewardPunishment;
+import org.boluo.hr.pojo.InsertEmployeeRewardPunishment;
+import org.boluo.hr.pojo.UploadEmployeeRewardPunishment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,11 +42,11 @@ public class EmployeeRewardPunishmentService {
     /**
      * 修改奖惩
      *
-     * @param employeeRewardPunishment 奖惩信息
+     * @param uploadEmployeeRewardPunishment 奖惩信息
      * @return 结果
      */
-    public boolean update(EmployeeRewardPunishment employeeRewardPunishment) {
-        return employeeRewardPunishmentMapper.updateByPrimaryKey(employeeRewardPunishment) == 1;
+    public boolean update(UploadEmployeeRewardPunishment uploadEmployeeRewardPunishment) {
+        return employeeRewardPunishmentMapper.updateByPrimaryKey(uploadEmployeeRewardPunishment) == 1;
     }
 
 
@@ -62,15 +64,15 @@ public class EmployeeRewardPunishmentService {
     /**
      * 新增奖惩
      *
-     * @param employeeRewardPunishment 奖惩信息
+     * @param insertEmployeeRewardPunishment 奖惩信息
      * @return 结果
      */
-    public boolean insert(EmployeeRewardPunishment employeeRewardPunishment) {
+    public boolean insert(InsertEmployeeRewardPunishment insertEmployeeRewardPunishment) {
         // todo 需要删除
-        if (employeeRewardPunishment.getCreateDate() == null) {
-            employeeRewardPunishment.setCreateDate(new Date());
+        if (insertEmployeeRewardPunishment.getCreateDate() == null) {
+            insertEmployeeRewardPunishment.setCreateDate(new Date());
         }
-        return employeeRewardPunishmentMapper.insertEmployeeRewardPunishment(employeeRewardPunishment) == 1;
+        return employeeRewardPunishmentMapper.insertEmployeeRewardPunishment(insertEmployeeRewardPunishment) == 1;
     }
 
 }

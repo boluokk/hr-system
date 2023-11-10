@@ -65,7 +65,7 @@ public class DepartmentController {
     }
 
     /**
-     * 关闭部门
+     * 关闭的部门
      */
     @GetMapping("/enabled")
     @Log("关闭部门")

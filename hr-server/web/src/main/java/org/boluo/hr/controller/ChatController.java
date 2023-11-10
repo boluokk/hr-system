@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
+ * 聊天信息
+ *
  * @author 🍍
  * @date 2023/10/1
  */

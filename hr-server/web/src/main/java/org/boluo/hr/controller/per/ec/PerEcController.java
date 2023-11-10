@@ -2,19 +2,18 @@ package org.boluo.hr.controller.per.ec;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.ibatis.annotations.Insert;
 import org.boluo.hr.annotation.Log;
-import org.boluo.hr.pojo.EmployeeRewardPunishment;
-import org.boluo.hr.pojo.RespBean;
-import org.boluo.hr.pojo.UploadEmployee;
+import org.boluo.hr.pojo.*;
 import org.boluo.hr.service.EmployeeRewardPunishmentService;
 import org.boluo.hr.service.EmployeeService;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
 /**
@@ -45,8 +44,7 @@ public class PerEcController {
     @Log("查询奖惩信息分页")
     public RespBean findByPage(@Min(value = 1, message = "页码不能小于1")
                                @PathVariable("pageNum") Integer pageNum,
-                               @Min(value = 1, message = "页大小不能小于1")
-                               @Max(value = 10, message = "页大小不能大于10")
+                               @Range(min = 1, max = 10, message = "页大小必须在1-10之间")
                                @PathVariable("pageSize") Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         return RespBean.ok(new PageInfo<>(employeeRewardPunishmentService.selectAll()));
@@ -57,8 +55,8 @@ public class PerEcController {
      */
     @PutMapping("/modify")
     @Log("修改奖惩信息")
-    public RespBean modify(@Valid @RequestBody EmployeeRewardPunishment employeeRewardPunishment) {
-        if (employeeRewardPunishmentService.update(employeeRewardPunishment)) {
+    public RespBean modify(@Valid @RequestBody UploadEmployeeRewardPunishment uploadEmployeeRewardPunishment) {
+        if (employeeRewardPunishmentService.update(uploadEmployeeRewardPunishment)) {
             return RespBean.ok();
         }
         return RespBean.error();
@@ -82,15 +80,15 @@ public class PerEcController {
      */
     @PutMapping("/add/{workId}")
     @Log("新增奖惩信息")
-    public RespBean addOne(@Valid @RequestBody EmployeeRewardPunishment employeeRewardPunishment,
+    public RespBean addOne(@Valid @RequestBody InsertEmployeeRewardPunishment insertEmployeeRewardPunishment,
                            @Length(min = 8, max = 8, message = "员工号长度必须为8位")
                            @PathVariable("workId") String workId) {
         UploadEmployee employee = employeeService.selectEmployeeByWorkId(workId);
         if (employee == null) {
             return RespBean.error("员工号不存在");
         }
-        employeeRewardPunishment.setEmployeeId(employee.getId());
-        if (employeeRewardPunishmentService.insert(employeeRewardPunishment)) {
+        insertEmployeeRewardPunishment.setEmployeeId(employee.getId());
+        if (employeeRewardPunishmentService.insert(insertEmployeeRewardPunishment)) {
             return RespBean.ok();
         }
         return RespBean.error();

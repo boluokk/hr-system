@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * 工资账套信息
@@ -84,7 +85,7 @@ public class SalaryController {
     @DeleteMapping("/delete/many/")
     @Log("批量工资账套删除")
     public RespBean removeMany(@NotNull(message = "id 不能为空")
-                               @Length(min = 1, message = "id 长度必须大于 0")
+                               @Size(min = 1, message = "id 长度必须大于 0")
                                Integer[] ids) {
         if (salaryService.deleteMany(ids)) {
             return RespBean.ok();

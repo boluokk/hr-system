@@ -2,6 +2,8 @@ package org.boluo.hr.mapper;
 
 import org.apache.ibatis.annotations.Param;
 import org.boluo.hr.pojo.EmployeeRewardPunishment;
+import org.boluo.hr.pojo.InsertEmployeeRewardPunishment;
+import org.boluo.hr.pojo.UploadEmployeeRewardPunishment;
 
 import java.util.List;
 
@@ -23,10 +25,10 @@ public interface EmployeeRewardPunishmentMapper {
     /**
      * 新增奖惩
      *
-     * @param employeeRewardPunishment 奖惩信息
+     * @param insertEmployeeRewardPunishment 奖惩信息
      * @return 结果
      */
-    int insertEmployeeRewardPunishment(EmployeeRewardPunishment employeeRewardPunishment);
+    int insertEmployeeRewardPunishment(InsertEmployeeRewardPunishment insertEmployeeRewardPunishment);
 
     /**
      * 通过id 查询奖惩信息
@@ -39,10 +41,10 @@ public interface EmployeeRewardPunishmentMapper {
     /**
      * 修改奖惩
      *
-     * @param employeeRewardPunishment 奖惩信息
+     * @param uploadEmployeeRewardPunishment 奖惩信息
      * @return 结果
      */
-    int updateByPrimaryKey(EmployeeRewardPunishment employeeRewardPunishment);
+    int updateByPrimaryKey(UploadEmployeeRewardPunishment uploadEmployeeRewardPunishment);
 
     /**
      * 所有奖惩信息

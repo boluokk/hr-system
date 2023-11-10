@@ -39,7 +39,7 @@ public class EmployeeTrainService {
     /**
      * 修改培训
      *
-     * @param uploadEmployeeTrain 培新信息
+     * @param uploadEmployeeTrain 培训信息
      * @return 结果
      */
     public boolean update(UploadEmployeeTrain uploadEmployeeTrain) {
@@ -50,7 +50,7 @@ public class EmployeeTrainService {
     /**
      * 删除培训
      *
-     * @param id 培新id
+     * @param id 培训id
      * @return 结果
      */
     public boolean delete(Integer id) {

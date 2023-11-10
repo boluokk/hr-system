@@ -71,7 +71,7 @@ public class PositionService {
      * @return 结果
      */
     public boolean deleteMany(Integer[] ids) {
-        return positionMapper.deleteMany(ids) == 1;
+        return positionMapper.deleteMany(ids) == ids.length;
     }
 
     /**
@@ -82,5 +82,9 @@ public class PositionService {
      */
     public boolean update(UploadPosition uploadPosition) {
         return positionMapper.updateByPrimaryKey(uploadPosition) == 1;
+    }
+
+    public Position findByName(String name) {
+        return positionMapper.findByName(name);
     }
 }

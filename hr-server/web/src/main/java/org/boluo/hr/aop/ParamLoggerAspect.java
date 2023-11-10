@@ -23,19 +23,15 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 public class ParamLoggerAspect {
 
     @Around("@annotation(marker)")
-    public Object doLog(ProceedingJoinPoint joinPoint, Log marker) {
+    public Object doLog(ProceedingJoinPoint joinPoint, Log marker) throws Throwable {
         Object ret = null;
-        try {
-            ServletRequestAttributes request = (ServletRequestAttributes) (RequestContextHolder.getRequestAttributes());
-            Object[] args = joinPoint.getArgs();
-            if (request != null) {
-                log.info("传入参数: {}", getArgsToString(args, request.getRequest().getRequestURI()));
-            }
-            ret = joinPoint.proceed();
-            log.info("返回参数: {}", JSONUtil.toJsonStr(ret));
-        } catch (Throwable e) {
-            log.warn("记录发生异常: {}", e.getMessage());
+        ServletRequestAttributes request = (ServletRequestAttributes) (RequestContextHolder.getRequestAttributes());
+        Object[] args = joinPoint.getArgs();
+        if (request != null) {
+            log.info("传入参数: {}", getArgsToString(args, request.getRequest().getRequestURI()));
         }
+        ret = joinPoint.proceed();
+        log.info("返回参数: {}", JSONUtil.toJsonStr(ret));
         return ret;
     }
 

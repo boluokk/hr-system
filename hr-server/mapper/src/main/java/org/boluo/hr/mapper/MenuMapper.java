@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Param;
 import org.boluo.hr.pojo.Menu;
 
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -66,4 +67,11 @@ public interface MenuMapper {
      * @return 菜单集合
      */
     List<Menu> selectAllMenus();
+
+    /**
+     * 查询所有菜单id
+     *
+     * @return 菜单id集合
+     */
+    Set<Integer> selectAllMenuIds();
 }

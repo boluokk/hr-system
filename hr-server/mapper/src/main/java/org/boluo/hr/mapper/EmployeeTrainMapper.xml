@@ -20,12 +20,12 @@
         select
         <include refid="column"/>
         from employee_train
-        where id = #{id,jdbcType=INTEGER}
+        where id = #{id}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete
         from employee_train
-        where id = #{id,jdbcType=INTEGER}
+        where id = #{id}
     </delete>
     <insert id="insertEmployeeTrain" parameterType="org.boluo.hr.pojo.InsertEmployeeTrain">
         insert into employee_train

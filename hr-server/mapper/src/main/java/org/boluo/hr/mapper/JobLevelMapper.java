@@ -41,7 +41,7 @@ public interface JobLevelMapper {
     /**
      * 修改职称等级
      *
-     * @param UploadJobLevel 职称等级信息
+     * @param uploadJobLevel 职称等级信息
      * @return 结果
      */
     int updateByPrimaryKey(UploadJobLevel uploadJobLevel);

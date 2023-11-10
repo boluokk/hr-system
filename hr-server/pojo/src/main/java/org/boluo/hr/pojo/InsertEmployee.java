@@ -2,8 +2,11 @@ package org.boluo.hr.pojo;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 /**
@@ -26,6 +29,7 @@ public class InsertEmployee {
      * 性别
      */
     @NotNull(message = "性别不能为空")
+    @Pattern(regexp = "男|女", message = "性别只能是男|女")
     private String gender;
     /**
      * 生日
@@ -36,11 +40,13 @@ public class InsertEmployee {
      * 身份证号
      */
     @NotNull(message = "身份证号不能为空")
+    @Length(min = 18, max = 18, message = "身份证号长度必须为18位")
     private String idCard;
     /**
      * 婚姻状态
      */
     @NotNull(message = "婚姻状态不能为空")
+    @Pattern(regexp = "未婚|已婚", message = "婚姻状态只能是未婚|已婚")
     private String wedlock;
     /**
      * 民族id
@@ -61,6 +67,7 @@ public class InsertEmployee {
      * 邮箱
      */
     @NotNull(message = "邮箱不能为空")
+    @Email(message = "邮箱格式不正确")
     private String email;
     /**
      * 手机号

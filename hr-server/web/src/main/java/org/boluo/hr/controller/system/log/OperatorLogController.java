@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import org.boluo.hr.annotation.Log;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.service.OperatorLogService;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
 /**
@@ -41,8 +41,7 @@ public class OperatorLogController {
     @GetMapping("/all/{pageNum}/{pageSize}")
     public RespBean findLogByPage(@Min(value = 1, message = "页码不能小于1")
                                   @PathVariable("pageNum") Integer pageNum,
-                                  @Min(value = 1, message = "页大小不能小于1")
-                                  @Max(value = 10, message = "页大小不能大于10")
+                                  @Range(min = 1, max = 10, message = "页大小必须在1-10之间")
                                   @PathVariable("pageSize") Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         return RespBean.ok(new PageInfo<>(operatorLogService.selectAllOperatorLog()));

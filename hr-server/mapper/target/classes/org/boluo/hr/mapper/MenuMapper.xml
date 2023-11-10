@@ -92,6 +92,10 @@
         from menu
         where id = #{id,jdbcType=INTEGER}
     </select>
+    <select id="selectAllMenuIds" resultType="java.lang.Integer">
+        select id
+        from menu
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete
         from menu

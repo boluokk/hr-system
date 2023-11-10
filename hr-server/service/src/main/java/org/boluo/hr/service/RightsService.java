@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 权限 业务逻辑
@@ -144,4 +145,12 @@ public class RightsService {
         throw new BusinessException("新增权限失败");
     }
 
+    /**
+     * 查询所有菜单id
+     *
+     * @return 菜单id集合
+     */
+    public Set<Integer> selectAllMenuIds() {
+        return menuMapper.selectAllMenuIds();
+    }
 }

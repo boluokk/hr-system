@@ -59,4 +59,6 @@ public interface PositionMapper {
      * @return 结果
      */
     int deleteMany(Integer[] ids);
+
+    Position findByName(String name);
 }

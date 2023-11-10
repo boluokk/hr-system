@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.boluo.hr.pojo.RespBean;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.web.firewall.RequestRejectedException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
@@ -27,6 +28,11 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionCustom {
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public RespBean httpMessageNotReadableExceptionHandler(HttpMessageNotReadableException e) {
+        return new RespBean(HttpStatus.BAD_REQUEST.value(), "请求体异常");
+    }
 
     @ExceptionHandler(RequestRejectedException.class)
     public RespBean requestRejectedExceptionHandler(RequestRejectedException e) {

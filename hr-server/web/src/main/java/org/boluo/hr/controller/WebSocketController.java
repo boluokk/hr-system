@@ -27,7 +27,7 @@ public class WebSocketController {
     }
 
     /**
-     * 聊天
+     * 聊天连接
      */
     @MessageMapping("/ws/chat")
     public void handel(Authentication authentication, ChatMessage chatMessage) {

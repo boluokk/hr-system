@@ -6,14 +6,13 @@ import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.pojo.UploadPosition;
 import org.boluo.hr.service.PositionService;
 import org.boluo.hr.util.CheckUtil;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
-import java.util.Date;
+import javax.validation.constraints.Size;
 
 /**
  * 职位信息
@@ -73,10 +72,10 @@ public class PositionController {
     @PutMapping("/add")
     @Log("新增职位")
     public RespBean add(@Valid @RequestBody InsertPosition insertPosition) {
-        insertPosition.setEnabled(true);
-        if (CheckUtil.isNull(insertPosition.getCreateDate())) {
-            insertPosition.setCreateDate(new Date());
+        if (CheckUtil.isNotNull(positionService.findByName(insertPosition.getName()))) {
+            return RespBean.error("职位名称已存在");
         }
+        insertPosition.setEnabled(true);
         if (positionService.insert(insertPosition)) {
             return RespBean.ok();
         } else {
@@ -89,7 +88,7 @@ public class PositionController {
      */
     @DeleteMapping("/delete/many/")
     @Log("批量删除职位")
-    public RespBean deleteMany(@Length(min = 1, message = "至少需要一个id")
+    public RespBean deleteMany(@Size(min = 1, message = "id不能为空")
                                @RequestBody Integer[] ids) {
         if (positionService.deleteMany(ids)) {
             return RespBean.ok();

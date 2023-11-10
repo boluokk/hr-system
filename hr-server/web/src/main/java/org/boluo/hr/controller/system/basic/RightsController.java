@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import java.util.Set;
 
 
 /**
@@ -116,6 +117,14 @@ public class RightsController {
     @PutMapping("/modify/rights")
     @Log("修改权限")
     public RespBean modifyRights(@Valid @RequestBody UploadRoleMenu uploadRoleMenu) {
+        if (CheckUtil.hasLength(uploadRoleMenu.getMenuIds())) {
+            Set<Integer> menuIds = rightsService.selectAllMenuIds();
+            for (Integer menuId : uploadRoleMenu.getMenuIds()) {
+                if (!menuIds.contains(menuId)) {
+                    return RespBean.error("不存在的菜单ID: " + menuId);
+                }
+            }
+        }
         if (rightsService.modifyRights(uploadRoleMenu)) {
             return RespBean.ok();
         }

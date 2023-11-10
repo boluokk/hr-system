@@ -123,8 +123,8 @@ public class SystemHrController {
      */
     @GetMapping("/byHrName/{hrName}")
     @Log("通过人事名称查询人事")
-    public List<Hr> findHrByName(@PathVariable("hrName") String hrName) {
-        return hrService.selectHrByName(hrName);
+    public RespBean findHrByName(@PathVariable("hrName") String hrName) {
+        return RespBean.ok(hrService.selectHrByName(hrName));
     }
 
     /**

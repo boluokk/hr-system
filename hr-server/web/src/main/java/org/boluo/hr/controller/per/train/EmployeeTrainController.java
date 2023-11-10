@@ -10,12 +10,12 @@ import org.boluo.hr.pojo.UploadEmployeeTrain;
 import org.boluo.hr.service.EmployeeService;
 import org.boluo.hr.service.EmployeeTrainService;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
 /**
@@ -46,9 +46,9 @@ public class EmployeeTrainController {
     @Log("查询培训分页")
     public RespBean findByPage(@Min(value = 1, message = "页码不能小于1")
                                @PathVariable("pageNum") Integer pageNum,
-                               @Min(value = 1, message = "页大小不能小于1")
-                               @Max(value = 10, message = "页大小不能大于10")
-                               @PathVariable("pageSize") Integer pageSize) {
+                               @Range(min = 1, max = 10, message = "页大小不能小于1或大于10")
+                               @PathVariable("pageSize")
+                               Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         return RespBean.ok(new PageInfo<>(employeeTrainService.selectAll()));
     }
@@ -72,6 +72,7 @@ public class EmployeeTrainController {
     @Log("培训删除")
     public RespBean removeOne(@Min(value = 1, message = "id不能小于1")
                               @PathVariable("id") Integer id) {
+        System.out.println(id);
         if (employeeTrainService.delete(id)) {
             return RespBean.ok();
         }

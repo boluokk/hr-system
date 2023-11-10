@@ -12,6 +12,10 @@ import java.util.Date;
 @Data
 public class InsertPosition {
     /**
+     * 主键
+     */
+    private Integer id;
+    /**
      * 名称
      */
     @NotNull(message = "名称不能为空")

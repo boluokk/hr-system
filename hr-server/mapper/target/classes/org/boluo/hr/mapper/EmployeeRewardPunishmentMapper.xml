@@ -29,12 +29,9 @@
         from employee_reward_punishment
         where id = #{id,jdbcType=INTEGER}
     </delete>
-    <insert id="insertEmployeeRewardPunishment" parameterType="org.boluo.hr.pojo.EmployeeRewardPunishment">
+    <insert id="insertEmployeeRewardPunishment" parameterType="org.boluo.hr.pojo.InsertEmployeeRewardPunishment">
         insert into employee_reward_punishment
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                id,
-            </if>
             <if test="employeeId != null">
                 employee_id,
             </if>
@@ -55,9 +52,6 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                #{id,jdbcType=INTEGER},
-            </if>
             <if test="employeeId != null">
                 #{employeeId,jdbcType=INTEGER},
             </if>
@@ -78,7 +72,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKey" parameterType="org.boluo.hr.pojo.EmployeeRewardPunishment">
+    <update id="updateByPrimaryKey" parameterType="org.boluo.hr.pojo.UploadEmployeeRewardPunishment">
         update employee_reward_punishment
         <set>
             <if test="employeeId != null">

@@ -57,7 +57,7 @@ public class SobCfgController {
     }
 
     /**
-     * 新增员工账套
+     * 修改员工账套
      */
     @PutMapping("/modify/{employeeId}/{newSalaryId}")
     @Log("新增员工账套")

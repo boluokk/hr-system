@@ -25,6 +25,11 @@
         from position
         where id = #{id,jdbcType=INTEGER}
     </select>
+    <select id="findByName" resultMap="BaseResultMap">
+        select <include refid="column"/>
+        from position
+        where name = #{name}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete
         from position
