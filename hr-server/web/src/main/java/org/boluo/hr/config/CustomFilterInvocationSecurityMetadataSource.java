@@ -1,5 +1,7 @@
 package org.boluo.hr.config;
 
+import org.bluo.common.redis.util.RedisCache;
+import org.boluo.hr.pojo.AllMenu;
 import org.boluo.hr.pojo.Menu;
 import org.boluo.hr.pojo.Role;
 import org.boluo.hr.service.MenuService;
@@ -13,6 +15,7 @@ import org.springframework.util.AntPathMatcher;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author 🍍
@@ -21,21 +24,30 @@ import java.util.List;
 @Component
 public class CustomFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 
+    private final RedisCache redisCache;
     private final MenuService menuService;
+    private static final String REDIS_KEY = "all_menu";
 
     @Autowired
-    public CustomFilterInvocationSecurityMetadataSource(MenuService menuService) {
+    public CustomFilterInvocationSecurityMetadataSource(RedisCache redisCache,
+                                                        MenuService menuService) {
+        this.redisCache = redisCache;
         this.menuService = menuService;
     }
 
     private final AntPathMatcher antPathMatcher = new AntPathMatcher();
 
-    // 通过对请求url的判别出需要哪些角色权限
+    /**
+     * 通过对请求url的判别出需要哪些权限
+     */
     @Override
     public Collection<ConfigAttribute> getAttributes(Object o) throws IllegalArgumentException {
         String requestUrl = ((FilterInvocation) o).getRequestUrl();
-        List<Menu> allMenu = menuService.selectAllMenu();
-        for (Menu menu : allMenu) {
+        // 存入 redis
+        AllMenu allMenu = redisCache.getWithPassThrough(REDIS_KEY, 1,
+                AllMenu.class, id -> new AllMenu().setAllMenu(menuService.selectAllMenu()),
+                5L, TimeUnit.MINUTES);
+        for (Menu menu : allMenu.getAllMenu()) {
             if (antPathMatcher.match(menu.getUrl(), requestUrl)) {
                 List<Role> roles = menu.getRoles();
                 String[] strRoles = new String[roles.size()];
@@ -45,7 +57,7 @@ public class CustomFilterInvocationSecurityMetadataSource implements FilterInvoc
                 return SecurityConfig.createList(strRoles);
             }
         }
-         return SecurityConfig.createList("ROLE_LOGIN");
+        return SecurityConfig.createList("ROLE_LOGIN");
     }
 
     @Override

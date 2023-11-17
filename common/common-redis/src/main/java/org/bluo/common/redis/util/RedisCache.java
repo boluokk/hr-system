@@ -33,7 +33,8 @@ public class RedisCache {
 
     @SuppressWarnings("AlibabaThreadShouldSetName")
     private static final ExecutorService CACHE_REBUILD_EXECUTOR = new ThreadPoolExecutor(
-            Runtime.getRuntime().availableProcessors() / 2, Runtime.getRuntime().availableProcessors(),
+            Runtime.getRuntime().availableProcessors() / 2,
+            Runtime.getRuntime().availableProcessors(),
             0L, TimeUnit.MILLISECONDS,
             new LinkedBlockingQueue<>());
 

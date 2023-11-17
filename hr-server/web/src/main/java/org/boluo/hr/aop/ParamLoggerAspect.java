@@ -17,8 +17,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
  * @author boluo
  * @date 2023/11/09
  */
-//@Component
-//@Aspect
+@Component
+@Aspect
 @Slf4j
 public class ParamLoggerAspect {
 

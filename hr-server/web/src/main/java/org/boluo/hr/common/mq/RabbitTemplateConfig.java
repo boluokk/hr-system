@@ -45,7 +45,7 @@ public class RabbitTemplateConfig implements RabbitTemplate.ConfirmCallback, Rab
     @Override
     public void returnedMessage(ReturnedMessage returnedMessage) {
         log.warn("准备重传: {}", returnedMessage);
-        ThreadUtil.sleep(5, TimeUnit.SECONDS);
+        ThreadUtil.sleep(1, TimeUnit.SECONDS);
         rabbitTemplate.convertAndSend(MailConstants.MAIL_EXCHANGE_NAME,
                 MailConstants.MAIL_ROUTING_KEY_NAME, returnedMessage.getMessage());
     }
