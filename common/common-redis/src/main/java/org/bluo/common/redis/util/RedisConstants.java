@@ -1,4 +1,4 @@
-package org.boluo.hr.common.redis;
+package org.bluo.common.redis.util;
 
 /**
  * @author boluo

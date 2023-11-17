@@ -1,4 +1,4 @@
-package org.boluo.hr.common.redis;
+package org.bluo.common.redis.util;
 
 import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.StrUtil;
@@ -16,8 +16,9 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
-import static org.boluo.hr.common.redis.RedisConstants.CACHE_LOCK_KEY;
-import static org.boluo.hr.common.redis.RedisConstants.CACHE_NULL_TTL;
+import static org.bluo.common.redis.util.RedisConstants.CACHE_LOCK_KEY;
+import static org.bluo.common.redis.util.RedisConstants.CACHE_NULL_TTL;
+
 
 /**
  * @author boluo

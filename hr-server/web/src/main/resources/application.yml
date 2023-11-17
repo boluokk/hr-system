@@ -1,7 +1,5 @@
 server:
   port: 44565
-
-
 # 一些自定义配置
 custom:
   config:
@@ -29,12 +27,19 @@ spring:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
 
-
   rabbitmq:
     port: 5672
     host: 127.0.0.1
     username: root
     password: 123456
+    publisher-confirm-type: correlated
+    publisher-returns: true
+    template: # 生产者重连
+      retry:
+        enabled: true
+        multiplier: 2
+        max-attempts: 3
+        initial-interval: 1000ms
 
   main:
     banner-mode: off

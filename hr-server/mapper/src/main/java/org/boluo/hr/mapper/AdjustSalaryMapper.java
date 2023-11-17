@@ -1,8 +1,8 @@
 package org.boluo.hr.mapper;
 
 import org.boluo.hr.pojo.AdjustSalaryView;
-import org.boluo.hr.pojo.AdjustSalary;
 import org.boluo.hr.pojo.InsertAdjustSalary;
+import org.boluo.hr.pojo.Salary;
 import org.boluo.hr.pojo.UploadAdjustSalary;
 
 import java.util.List;
@@ -52,4 +52,5 @@ public interface AdjustSalaryMapper {
      * @return 调薪集合
      */
     List<AdjustSalaryView> selectAll();
+
 }

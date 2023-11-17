@@ -1,4 +1,4 @@
-package org.boluo.hr.common.redis;
+package org.bluo.common.redis.util;
 
 import lombok.Data;
 
@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 /**
  * @author boluo
- * @date 2023/11/04
+ * @date 2023/11/17
  */
 @Data
 public class RedisData {

@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
@@ -60,8 +59,7 @@ public class EmployeeController {
     @Log("查询员工分页")
     public RespBean findPages(@Min(value = 1, message = "页码不能小于1")
                               @PathVariable("pageNum") Integer pageNum,
-                              @Min(value = 1, message = "页大小不能小于1")
-                              @Max(value = 10, message = "页大小不能大于10")
+                              @Range(min = 1, max = 10, message = "页大小为1-10")
                               @PathVariable("pageSize") Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<Employee> employees = employeeService.selectAll();
@@ -77,8 +75,7 @@ public class EmployeeController {
     public RespBean findEmpByEmpName(@PathVariable("empName") String empName,
                                      @Min(value = 1, message = "页码不能小于1")
                                      @PathVariable("pageNum") Integer pageNum,
-                                     @Min(value = 1, message = "页大小不能小于1")
-                                     @Max(value = 10, message = "页大小不能大于10")
+                                     @Range(min = 1, max = 10, message = "页大小为1-10")
                                      @PathVariable("pageSize") Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         return RespBean.ok(new PageInfo<>(employeeService.selectByEmpName(empName)));

@@ -1,8 +1,8 @@
 package org.boluo.hr.controller.sta.pers;
 
+import org.bluo.common.redis.util.RedisCache;
 import org.boluo.hr.annotation.Log;
 import org.boluo.hr.auto.CustomHttpSessionListener;
-import org.boluo.hr.common.redis.RedisCache;
 import org.boluo.hr.pojo.EmployeePageHeadCount;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.pojo.TableStaData;
@@ -37,7 +37,8 @@ public class HrInfoStatisticsController {
 
     @Autowired
     public HrInfoStatisticsController(CustomHttpSessionListener sessionListener,
-                                      HrInfoStatisticsService hrInfoStatisticsService, RedisCache redisCache) {
+                                      HrInfoStatisticsService hrInfoStatisticsService,
+                                      RedisCache redisCache) {
         this.sessionListener = sessionListener;
         this.hrInfoStatisticsService = hrInfoStatisticsService;
         this.redisCache = redisCache;

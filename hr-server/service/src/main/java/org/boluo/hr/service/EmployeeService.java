@@ -1,16 +1,18 @@
 package org.boluo.hr.service;
 
-import cn.hutool.json.JSONUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.boluo.hr.exception.BusinessException;
 import org.boluo.hr.mapper.EmployeeMapper;
 import org.boluo.hr.pojo.*;
 import org.boluo.hr.util.CheckUtil;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * 员工 业务层
@@ -19,15 +21,21 @@ import java.util.List;
  * @date 2023/10/1
  */
 @Service
+@Slf4j
 public class EmployeeService {
 
     private final EmployeeMapper employeeMapper;
     private final RabbitTemplate rabbitTemplate;
 
+    private final ConsumeLogService consumeLogService;
+
     @Autowired
-    public EmployeeService(EmployeeMapper employeeMapper, RabbitTemplate rabbitTemplate) {
+    public EmployeeService(EmployeeMapper employeeMapper,
+                           RabbitTemplate rabbitTemplate,
+                           ConsumeLogService consumeLogService) {
         this.employeeMapper = employeeMapper;
         this.rabbitTemplate = rabbitTemplate;
+        this.consumeLogService = consumeLogService;
     }
 
     /**
@@ -77,11 +85,21 @@ public class EmployeeService {
         if (employeeMapper.updateByPrimaryKey(uploadEmployee) == 0) {
             throw new BusinessException("更新员工工号失败");
         }
-        Employee enhanceEmployee = employeeMapper.selectEnhanceEmployeeByEmployeeId(insertEmployee.getId());
+        Employee enhanceEmployee = employeeMapper.
+                selectEnhanceEmployeeByEmployeeId(insertEmployee.getId());
         if (CheckUtil.isNull(enhanceEmployee)) {
             throw new BusinessException("查询员工数据失败");
         }
-        rabbitTemplate.convertAndSend(MailConstants.MAIL_QUEUE_NAME, JSONUtil.toJsonStr(enhanceEmployee));
+
+        ConsumeLog consumeLog = new ConsumeLog();
+        consumeLog.setUuid(UUID.randomUUID().toString());
+        // 先添加消费记录
+        if (!consumeLogService.insert(consumeLog)) {
+            throw new BusinessException("添加消费记录失败");
+        }
+        rabbitTemplate.convertAndSend(MailConstants.MAIL_EXCHANGE_NAME,
+                MailConstants.MAIL_ROUTING_KEY_NAME, enhanceEmployee,
+                new CorrelationData(consumeLog.getUuid()));
         return true;
     }
 

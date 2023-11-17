@@ -1,6 +1,6 @@
 package org.boluo.hr;
 
-import org.boluo.hr.common.redis.RedisCache;
+import org.bluo.common.redis.util.RedisCache;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;

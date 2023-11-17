@@ -1,24 +1,26 @@
 package org.boluo.mailserver.receive;
 
-import cn.hutool.json.JSONUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.boluo.hr.pojo.Employee;
 import org.boluo.hr.pojo.MailConstants;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.boluo.mailserver.service.ConsumeLogService;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.rabbit.annotation.*;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import javax.mail.MessagingException;
+import javax.annotation.Resource;
 import javax.mail.internet.MimeMessage;
 import java.util.Date;
 
 /**
+ * 消费邮件
+ *
  * @author @1352955539(boluo)
  * @date 2021/2/19 - 19:31
  */
@@ -26,27 +28,29 @@ import java.util.Date;
 @Slf4j
 public class MailReceiver {
 
-    private final JavaMailSender javaMailSender;
-    private final MailProperties mailProperties;
-    private final TemplateEngine templateEngine;
+    @Resource
+    private JavaMailSender javaMailSender;
+    @Resource
+    private MailProperties mailProperties;
+    @Resource
+    private TemplateEngine templateEngine;
+    @Resource
+    private ConsumeLogService consumeLogService;
 
-    @Autowired
-    public MailReceiver(JavaMailSender javaMailSender,
-                        MailProperties mailProperties,
-                        TemplateEngine templateEngine) {
-        this.javaMailSender = javaMailSender;
-        this.mailProperties = mailProperties;
-        this.templateEngine = templateEngine;
-    }
-
-    @RabbitListener(queues = MailConstants.MAIL_QUEUE_NAME)
-    public void handler(Message message) {
-        Employee employee = JSONUtil.toBean((String) message.getPayload(), Employee.class);
+    @RabbitListener(bindings = @QueueBinding(
+            value = @Queue(name = MailConstants.MAIL_QUEUE_NAME, durable = "true"),
+            exchange = @Exchange(name = MailConstants.MAIL_EXCHANGE_NAME, type = "topic"),
+            arguments = @Argument(name = "x-queue-mode", value = "lazy"),
+            key = {MailConstants.MAIL_ROUTING_KEY_NAME}
+    ))
+    public void consumeEmail(Message message) throws Exception {
         // 消息转发
-        MimeMessage msg = javaMailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(msg);
-
-        try {
+        String uuid = (String) message.getMessageProperties().getHeaders().get("spring_returned_message_correlation");
+        if (consumeLogService.uploadToConsumed(uuid)) {
+            MimeMessage msg = javaMailSender.createMimeMessage();
+            ObjectMapper objectMapper = new ObjectMapper();
+            MimeMessageHelper helper = new MimeMessageHelper(msg);
+            Employee employee = objectMapper.readValue(message.getBody(), Employee.class);
             helper.setTo(employee.getEmail());
             helper.setFrom(mailProperties.getUsername());
             helper.setSubject("入职欢迎！");
@@ -59,9 +63,7 @@ public class MailReceiver {
             String emil = templateEngine.process("email", context);
             helper.setText(emil, true);
             javaMailSender.send(helper.getMimeMessage());
-            log.info("邮件发送成功！{}", employee);
-        } catch (MessagingException e) {
-            log.error("邮件发送失败！");
+            log.info("邮件发送成功！");
         }
     }
 }
