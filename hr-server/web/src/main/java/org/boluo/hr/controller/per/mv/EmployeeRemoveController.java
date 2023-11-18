@@ -12,10 +12,10 @@ import org.boluo.hr.service.EmployeeRemoveService;
 import org.boluo.hr.service.EmployeeService;
 import org.boluo.hr.service.JobLevelService;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -31,21 +31,14 @@ import javax.validation.constraints.Min;
 @Validated
 public class EmployeeRemoveController {
 
-    private final DepartmentService departmentService;
-    private final EmployeeRemoveService employeeRemoveService;
-    private final JobLevelService jobLevelService;
-    private final EmployeeService employeeService;
-
-    @Autowired
-    public EmployeeRemoveController(DepartmentService departmentService,
-                                    EmployeeRemoveService employeeRemoveService,
-                                    JobLevelService jobLevelService,
-                                    EmployeeService employeeService) {
-        this.departmentService = departmentService;
-        this.employeeService = employeeService;
-        this.employeeRemoveService = employeeRemoveService;
-        this.jobLevelService = jobLevelService;
-    }
+    @Resource
+    private DepartmentService departmentService;
+    @Resource
+    private EmployeeRemoveService employeeRemoveService;
+    @Resource
+    private JobLevelService jobLevelService;
+    @Resource
+    private EmployeeService employeeService;
 
     /**
      * 调岗分页

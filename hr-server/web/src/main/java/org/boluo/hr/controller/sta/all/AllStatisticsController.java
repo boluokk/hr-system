@@ -3,10 +3,11 @@ package org.boluo.hr.controller.sta.all;
 import org.boluo.hr.annotation.Log;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.service.AllStatisticsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
 
 /**
  * 综合统计信息
@@ -18,12 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/sta/all")
 public class AllStatisticsController {
 
-    private final AllStatisticsService allStatisticsService;
-
-    @Autowired
-    public AllStatisticsController(AllStatisticsService allStatisticsService) {
-        this.allStatisticsService = allStatisticsService;
-    }
+    @Resource
+    private AllStatisticsService allStatisticsService;
 
     /**
      * 获取综合信息统计页头

@@ -5,11 +5,10 @@ import org.boluo.hr.pojo.InsertSalary;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.pojo.UploadSalary;
 import org.boluo.hr.service.SalaryService;
-import org.hibernate.validator.constraints.Length;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -26,12 +25,8 @@ import javax.validation.constraints.Size;
 @Validated
 public class SalaryController {
 
-    private final SalaryService salaryService;
-
-    @Autowired
-    public SalaryController(SalaryService salaryService) {
-        this.salaryService = salaryService;
-    }
+    @Resource
+    private SalaryService salaryService;
 
     /**
      * 所有工资账套

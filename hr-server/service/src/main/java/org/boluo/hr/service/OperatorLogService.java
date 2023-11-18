@@ -3,9 +3,9 @@ package org.boluo.hr.service;
 import org.boluo.hr.mapper.OperatorLogMapper;
 import org.boluo.hr.pojo.OperatorHeaderCount;
 import org.boluo.hr.pojo.OperatorLog;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -17,12 +17,8 @@ import java.util.List;
 @Service
 public class OperatorLogService {
 
-    private final OperatorLogMapper operatorLogMapper;
-
-    @Autowired
-    public OperatorLogService(OperatorLogMapper operatorLogMapper) {
-        this.operatorLogMapper = operatorLogMapper;
-    }
+    @Resource
+    private OperatorLogMapper operatorLogMapper;
 
     /**
      * 新增

@@ -4,6 +4,10 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.boluo.hr.mapper.EmployeeSalaryMergeMapper">
     <sql id="column">id, employee_id, salary_id</sql>
+    <delete id="deleteByEmployeeId">
+        delete from employee_salary_merge
+        where employee_id = #{employeeId}
+    </delete>
     <resultMap id="BaseResultMap" type="org.boluo.hr.pojo.EmployeeSalaryMerge">
         <id column="id" property="id"/>
         <result column="employee_id" property="employeeId"/>

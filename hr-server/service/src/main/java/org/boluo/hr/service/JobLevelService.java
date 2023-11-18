@@ -4,9 +4,9 @@ import org.boluo.hr.mapper.JobLevelMapper;
 import org.boluo.hr.pojo.InsertJobLevel;
 import org.boluo.hr.pojo.JobLevel;
 import org.boluo.hr.pojo.UploadJobLevel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -18,12 +18,8 @@ import java.util.List;
 @Service
 public class JobLevelService {
 
-    private final JobLevelMapper joblevelMapper;
-
-    @Autowired
-    public JobLevelService(JobLevelMapper joblevelMapper) {
-        this.joblevelMapper = joblevelMapper;
-    }
+    @Resource
+    private JobLevelMapper joblevelMapper;
 
     /**
      * 查询所有职称等级

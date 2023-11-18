@@ -1,13 +1,12 @@
 package org.boluo.hr.service;
 
-import org.boluo.hr.mapper.EmployeeMapper;
 import org.boluo.hr.mapper.EmployeeRewardPunishmentMapper;
 import org.boluo.hr.pojo.EmployeeRewardPunishment;
 import org.boluo.hr.pojo.InsertEmployeeRewardPunishment;
 import org.boluo.hr.pojo.UploadEmployeeRewardPunishment;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 
@@ -20,15 +19,8 @@ import java.util.List;
 @Service
 public class EmployeeRewardPunishmentService {
 
-    private final EmployeeRewardPunishmentMapper employeeRewardPunishmentMapper;
-    private final EmployeeMapper employeeMapper;
-
-    @Autowired
-    public EmployeeRewardPunishmentService(EmployeeRewardPunishmentMapper employeeRewardPunishmentMapper,
-                                           EmployeeMapper employeeMapper) {
-        this.employeeRewardPunishmentMapper = employeeRewardPunishmentMapper;
-        this.employeeMapper = employeeMapper;
-    }
+    @Resource
+    private EmployeeRewardPunishmentMapper employeeRewardPunishmentMapper;
 
     /**
      * 所有奖惩集合

@@ -4,9 +4,9 @@ import org.boluo.hr.mapper.PositionMapper;
 import org.boluo.hr.pojo.InsertPosition;
 import org.boluo.hr.pojo.Position;
 import org.boluo.hr.pojo.UploadPosition;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -18,12 +18,8 @@ import java.util.List;
 @Service
 public class PositionService {
 
-    private final PositionMapper positionMapper;
-
-    @Autowired
-    public PositionService(PositionMapper positionMapper) {
-        this.positionMapper = positionMapper;
-    }
+    @Resource
+    private PositionMapper positionMapper;
 
     /**
      * 查询所有职位

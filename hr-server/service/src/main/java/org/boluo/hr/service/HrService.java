@@ -4,13 +4,13 @@ import org.boluo.hr.mapper.HrMapper;
 import org.boluo.hr.mapper.RoleMapper;
 import org.boluo.hr.pojo.*;
 import org.boluo.hr.util.CheckUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -22,14 +22,10 @@ import java.util.List;
 @Service
 public class HrService implements UserDetailsService {
 
-    private final HrMapper hrMapper;
-    private final RoleMapper roleMapper;
-
-    @Autowired
-    public HrService(HrMapper hrMapper, RoleMapper roleMapper) {
-        this.hrMapper = hrMapper;
-        this.roleMapper = roleMapper;
-    }
+    @Resource
+    private HrMapper hrMapper;
+    @Resource
+    private RoleMapper roleMapper;
 
     /**
      * 加载登录用户信息
@@ -106,6 +102,19 @@ public class HrService implements UserDetailsService {
      */
     public boolean deleteRoleByHrId(Integer hrId) {
         return roleMapper.deleteByHrId(hrId) >= 0;
+    }
+
+    /**
+     * 判断人事是否有角色并删除
+     *
+     * @param hrId 人事id
+     * @return 结果
+     */
+    public boolean findRoleAfterDelete(Integer hrId) {
+        if (roleMapper.selectRoleCountByHrId(hrId) == 0) {
+            return true;
+        }
+        return roleMapper.deleteByHrId(hrId) > 0;
     }
 
     /**

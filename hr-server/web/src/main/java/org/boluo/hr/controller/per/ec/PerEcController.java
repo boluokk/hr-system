@@ -2,17 +2,19 @@ package org.boluo.hr.controller.per.ec;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.apache.ibatis.annotations.Insert;
 import org.boluo.hr.annotation.Log;
-import org.boluo.hr.pojo.*;
+import org.boluo.hr.pojo.InsertEmployeeRewardPunishment;
+import org.boluo.hr.pojo.RespBean;
+import org.boluo.hr.pojo.UploadEmployee;
+import org.boluo.hr.pojo.UploadEmployeeRewardPunishment;
 import org.boluo.hr.service.EmployeeRewardPunishmentService;
 import org.boluo.hr.service.EmployeeService;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 
@@ -27,15 +29,10 @@ import javax.validation.constraints.Min;
 @Validated
 public class PerEcController {
 
-    private final EmployeeRewardPunishmentService employeeRewardPunishmentService;
-    private final EmployeeService employeeService;
-
-    @Autowired
-    public PerEcController(EmployeeRewardPunishmentService employeeRewardPunishmentService,
-                           EmployeeService employeeService) {
-        this.employeeRewardPunishmentService = employeeRewardPunishmentService;
-        this.employeeService = employeeService;
-    }
+    @Resource
+    private EmployeeRewardPunishmentService employeeRewardPunishmentService;
+    @Resource
+    private EmployeeService employeeService;
 
     /**
      * 奖惩信息分页

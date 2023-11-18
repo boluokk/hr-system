@@ -5,12 +5,14 @@ import org.boluo.hr.pojo.InsertRole;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.pojo.UploadRole;
 import org.boluo.hr.pojo.UploadRoleMenu;
+import org.boluo.hr.service.MenuService;
 import org.boluo.hr.service.RightsService;
 import org.boluo.hr.util.CheckUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import java.util.Set;
@@ -27,7 +29,9 @@ import java.util.Set;
 @Validated
 public class RightsController {
 
-    private final RightsService rightsService;
+    @Resource
+    private RightsService rightsService;
+
 
     /**
      * 角色前缀

@@ -1,13 +1,12 @@
 package org.boluo.hr.service;
 
 import org.boluo.hr.mapper.EmployeeTrainMapper;
-import org.boluo.hr.pojo.EmployeeTrain;
 import org.boluo.hr.pojo.EmployeeTrainView;
 import org.boluo.hr.pojo.InsertEmployeeTrain;
 import org.boluo.hr.pojo.UploadEmployeeTrain;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -19,13 +18,8 @@ import java.util.List;
 @Service
 public class EmployeeTrainService {
 
-    private final EmployeeTrainMapper employeeTrainMapper;
-
-    @Autowired
-    public EmployeeTrainService(EmployeeTrainMapper employeeTrainMapper) {
-        this.employeeTrainMapper = employeeTrainMapper;
-    }
-
+    @Resource
+    private EmployeeTrainMapper employeeTrainMapper;
 
     /**
      * 所有培训信息

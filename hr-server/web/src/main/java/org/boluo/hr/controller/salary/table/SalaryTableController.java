@@ -8,10 +8,10 @@ import org.boluo.hr.pojo.SalaryTableSearch;
 import org.boluo.hr.pojo.SalaryTableView;
 import org.boluo.hr.service.SalaryTableService;
 import org.boluo.hr.util.ExportImportExcelUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
@@ -27,12 +27,8 @@ import java.util.List;
 @RequestMapping("/sal/table")
 public class SalaryTableController {
 
-    private final SalaryTableService salaryTableService;
-
-    @Autowired
-    public SalaryTableController(SalaryTableService salaryTableService) {
-        this.salaryTableService = salaryTableService;
-    }
+    @Resource
+    private SalaryTableService salaryTableService;
 
     /**
      * 返回所有工资表

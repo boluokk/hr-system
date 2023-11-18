@@ -2,12 +2,11 @@ package org.boluo.hr.service;
 
 import org.boluo.hr.mapper.AdjustSalaryMapper;
 import org.boluo.hr.pojo.AdjustSalaryView;
-import org.boluo.hr.pojo.AdjustSalary;
 import org.boluo.hr.pojo.InsertAdjustSalary;
 import org.boluo.hr.pojo.UploadAdjustSalary;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -18,11 +17,8 @@ import java.util.List;
  */
 @Service
 public class AdjustSalaryService {
-    private final AdjustSalaryMapper adjustSalaryMapper;
-    @Autowired
-    public AdjustSalaryService(AdjustSalaryMapper adjustSalaryMapper) {
-        this.adjustSalaryMapper = adjustSalaryMapper;
-    }
+    @Resource
+    private AdjustSalaryMapper adjustSalaryMapper;
 
     /**
      * 返回所有调薪

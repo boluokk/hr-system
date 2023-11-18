@@ -24,22 +24,18 @@ public class UploadHr {
     /**
      * 名称
      */
-    @NotNull(message = "名称不能为空")
     private String name;
     /**
      * 手机
      */
-    @NotNull(message = "手机不能为空")
     private String phone;
     /**
      * 电话
      */
-    @NotNull(message = "电话不能为空")
     private String telephone;
     /**
      * 住址
      */
-    @NotNull(message = "住址不能为空")
     private String address;
     /**
      * 是否可用
@@ -48,7 +44,6 @@ public class UploadHr {
     /**
      * 用户名
      */
-    @NotNull(message = "用户名不能为空")
     private String username;
     /**
      * 密码

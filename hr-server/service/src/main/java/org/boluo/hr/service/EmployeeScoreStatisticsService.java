@@ -4,10 +4,9 @@ import org.boluo.hr.mapper.EmployeeScoreStatisticsMapper;
 import org.boluo.hr.pojo.EmployeeScoreHeaderStatistics;
 import org.boluo.hr.pojo.EmployeeScoreStatistics;
 import org.boluo.hr.pojo.TableStaData;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import javax.annotation.Resource;
 
 /**
  * 员工积分统计 业务层
@@ -17,12 +16,8 @@ import java.util.List;
  */
 @Service
 public class EmployeeScoreStatisticsService {
-    private final EmployeeScoreStatisticsMapper employeeScoreStatisticsMapper;
-
-    @Autowired
-    public EmployeeScoreStatisticsService(EmployeeScoreStatisticsMapper employeeScoreStatisticsMapper) {
-        this.employeeScoreStatisticsMapper = employeeScoreStatisticsMapper;
-    }
+    @Resource
+    private EmployeeScoreStatisticsMapper employeeScoreStatisticsMapper;
 
     /**
      * 查询页头数据

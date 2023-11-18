@@ -4,9 +4,9 @@ import org.boluo.hr.mapper.SalaryMapper;
 import org.boluo.hr.pojo.InsertSalary;
 import org.boluo.hr.pojo.Salary;
 import org.boluo.hr.pojo.UploadSalary;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -18,12 +18,8 @@ import java.util.List;
 @Service
 public class SalaryService {
 
-    private final SalaryMapper salaryMapper;
-
-    @Autowired
-    public SalaryService(SalaryMapper salaryMapper) {
-        this.salaryMapper = salaryMapper;
-    }
+    @Resource
+    private SalaryMapper salaryMapper;
 
     public List<Salary> selectAllSalary() {
         return salaryMapper.selectAll();

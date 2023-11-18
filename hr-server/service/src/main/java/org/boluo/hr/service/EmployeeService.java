@@ -7,10 +7,10 @@ import org.boluo.hr.pojo.*;
 import org.boluo.hr.util.CheckUtil;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,19 +24,12 @@ import java.util.UUID;
 @Slf4j
 public class EmployeeService {
 
-    private final EmployeeMapper employeeMapper;
-    private final RabbitTemplate rabbitTemplate;
-
-    private final ConsumeLogService consumeLogService;
-
-    @Autowired
-    public EmployeeService(EmployeeMapper employeeMapper,
-                           RabbitTemplate rabbitTemplate,
-                           ConsumeLogService consumeLogService) {
-        this.employeeMapper = employeeMapper;
-        this.rabbitTemplate = rabbitTemplate;
-        this.consumeLogService = consumeLogService;
-    }
+    @Resource
+    private EmployeeMapper employeeMapper;
+    @Resource
+    private RabbitTemplate rabbitTemplate;
+    @Resource
+    private ConsumeLogService consumeLogService;
 
     /**
      * 返回所有员工的信息

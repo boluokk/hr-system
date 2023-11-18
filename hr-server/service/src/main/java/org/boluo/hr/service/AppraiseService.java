@@ -2,9 +2,9 @@ package org.boluo.hr.service;
 
 import org.boluo.hr.mapper.AppraiseMapper;
 import org.boluo.hr.pojo.Appraise;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -16,12 +16,8 @@ import java.util.List;
 @Service
 public class AppraiseService {
 
-    private final AppraiseMapper appraiseMapper;
-
-    @Autowired
-    public AppraiseService(AppraiseMapper appraiseMapper) {
-        this.appraiseMapper = appraiseMapper;
-    }
+    @Resource
+    private AppraiseMapper appraiseMapper;
 
     /**
      * 返回所有考评

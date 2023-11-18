@@ -5,10 +5,10 @@ import org.boluo.hr.mapper.EmployeeSalaryMergeMapper;
 import org.boluo.hr.mapper.SalaryMapper;
 import org.boluo.hr.pojo.EmployeeSalaryMerge;
 import org.boluo.hr.pojo.SalaryConfigView;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -20,15 +20,10 @@ import java.util.List;
 @Service
 public class SobCfgService {
 
-    private final SalaryMapper salaryMapper;
-    private final EmployeeSalaryMergeMapper employeeSalaryMergeMapper;
-
-    @Autowired
-    public SobCfgService(SalaryMapper salaryMapper,
-                         EmployeeSalaryMergeMapper employeeSalaryMergeMapper) {
-        this.salaryMapper = salaryMapper;
-        this.employeeSalaryMergeMapper = employeeSalaryMergeMapper;
-    }
+    @Resource
+    private SalaryMapper salaryMapper;
+    @Resource
+    private EmployeeSalaryMergeMapper employeeSalaryMergeMapper;
 
     /**
      * 所有员工工资配置

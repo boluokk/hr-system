@@ -3,8 +3,9 @@ package org.boluo.hr.service;
 import org.boluo.hr.mapper.HrInfoStatisticsMapper;
 import org.boluo.hr.pojo.HrInfoStatistics;
 import org.boluo.hr.pojo.TableStaData;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 
 /**
  * 在线人数 业务层
@@ -14,12 +15,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class HrInfoStatisticsService {
-    private final HrInfoStatisticsMapper hrInfoStatisticsMapper;
-
-    @Autowired
-    public HrInfoStatisticsService(HrInfoStatisticsMapper hrInfoStatisticsMapper) {
-        this.hrInfoStatisticsMapper = hrInfoStatisticsMapper;
-    }
+    @Resource
+    private HrInfoStatisticsMapper hrInfoStatisticsMapper;
 
     /**
      * 新增在线人数

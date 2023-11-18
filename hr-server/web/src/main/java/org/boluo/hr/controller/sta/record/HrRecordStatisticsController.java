@@ -6,13 +6,13 @@ import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.pojo.TableStaData;
 import org.boluo.hr.service.HrRecordStatisticsService;
 import org.boluo.hr.util.RedisKey;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.util.concurrent.TimeUnit;
@@ -28,14 +28,10 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping("/sta/record")
 @Validated
 public class HrRecordStatisticsController {
-    private final HrRecordStatisticsService hrRecordStatisticsService;
-    private final RedisCache redisCache;
-
-    @Autowired
-    public HrRecordStatisticsController(HrRecordStatisticsService hrRecordStatisticsService, RedisCache redisCache) {
-        this.hrRecordStatisticsService = hrRecordStatisticsService;
-        this.redisCache = redisCache;
-    }
+    @Resource
+    private HrRecordStatisticsService hrRecordStatisticsService;
+    @Resource
+    private RedisCache redisCache;
 
     /**
      * 获取人事记录统计

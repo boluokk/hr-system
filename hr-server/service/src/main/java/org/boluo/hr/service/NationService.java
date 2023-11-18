@@ -2,9 +2,9 @@ package org.boluo.hr.service;
 
 import org.boluo.hr.mapper.NationMapper;
 import org.boluo.hr.pojo.Nation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -15,12 +15,9 @@ import java.util.List;
  */
 @Service
 public class NationService {
-    private final NationMapper nationMapper;
 
-    @Autowired
-    public NationService(NationMapper nationMapper) {
-        this.nationMapper = nationMapper;
-    }
+    @Resource
+    private NationMapper nationMapper;
 
     /**
      * 返回所有民族

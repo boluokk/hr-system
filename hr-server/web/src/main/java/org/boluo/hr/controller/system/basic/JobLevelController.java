@@ -5,10 +5,10 @@ import org.boluo.hr.pojo.InsertJobLevel;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.pojo.UploadJobLevel;
 import org.boluo.hr.service.JobLevelService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 
@@ -23,12 +23,8 @@ import javax.validation.constraints.Min;
 @Validated
 public class JobLevelController {
 
-    private final JobLevelService jobLevelService;
-
-    @Autowired
-    public JobLevelController(JobLevelService jobLevelService) {
-        this.jobLevelService = jobLevelService;
-    }
+    @Resource
+    private JobLevelService jobLevelService;
 
     /**
      * 获取所有职称等级信息

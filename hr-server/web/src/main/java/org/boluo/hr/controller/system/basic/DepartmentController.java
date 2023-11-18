@@ -6,10 +6,10 @@ import org.boluo.hr.pojo.InsertRequestDepartment;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.pojo.UploadDepartment;
 import org.boluo.hr.service.DepartmentService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 
 /**
@@ -23,12 +23,8 @@ import javax.validation.Valid;
 @Validated
 public class DepartmentController {
 
-    private final DepartmentService departmentService;
-
-    @Autowired
-    public DepartmentController(DepartmentService departmentService) {
-        this.departmentService = departmentService;
-    }
+    @Resource
+    private DepartmentService departmentService;
 
     /**
      * 所有部门

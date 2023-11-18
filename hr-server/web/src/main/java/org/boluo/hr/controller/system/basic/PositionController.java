@@ -6,10 +6,10 @@ import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.pojo.UploadPosition;
 import org.boluo.hr.service.PositionService;
 import org.boluo.hr.util.CheckUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
@@ -26,12 +26,8 @@ import javax.validation.constraints.Size;
 @Validated
 public class PositionController {
 
-    private final PositionService positionService;
-
-    @Autowired
-    public PositionController(PositionService positionService) {
-        this.positionService = positionService;
-    }
+    @Resource
+    private PositionService positionService;
 
     /**
      * 查询所有职位

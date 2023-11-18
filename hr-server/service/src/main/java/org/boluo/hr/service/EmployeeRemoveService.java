@@ -4,9 +4,9 @@ import org.boluo.hr.mapper.EmployeeRemoveMapper;
 import org.boluo.hr.pojo.EmployeeRemoveView;
 import org.boluo.hr.pojo.InsertEmployeeRemove;
 import org.boluo.hr.pojo.UploadEmployeeRemove;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -17,15 +17,8 @@ import java.util.List;
  */
 @Service
 public class EmployeeRemoveService {
-    private final EmployeeRemoveMapper employeeRemoveMapper;
-
-    private final EmployeeService employeeService;
-
-    @Autowired
-    public EmployeeRemoveService(EmployeeRemoveMapper employeeRemoveMapper, EmployeeService employeeService) {
-        this.employeeRemoveMapper = employeeRemoveMapper;
-        this.employeeService = employeeService;
-    }
+    @Resource
+    private EmployeeRemoveMapper employeeRemoveMapper;
 
     /**
      * 查询所有调岗

@@ -3,9 +3,9 @@ package org.boluo.hr.service;
 import org.boluo.hr.mapper.SalaryTableMapper;
 import org.boluo.hr.pojo.SalaryTableSearch;
 import org.boluo.hr.pojo.SalaryTableView;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -18,12 +18,8 @@ import java.util.List;
 @Service
 public class SalaryTableService {
 
-    private final SalaryTableMapper salaryTableMapper;
-
-    @Autowired
-    public SalaryTableService(SalaryTableMapper salaryTableMapper) {
-        this.salaryTableMapper = salaryTableMapper;
-    }
+    @Resource
+    private SalaryTableMapper salaryTableMapper;
 
     /**
      * 返回所有工资表

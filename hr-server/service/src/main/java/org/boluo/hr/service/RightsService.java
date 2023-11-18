@@ -1,16 +1,19 @@
 package org.boluo.hr.service;
 
+import org.bluo.common.redis.util.RedisCache;
+import org.bluo.common.redis.util.RedisConstants;
 import org.boluo.hr.exception.BusinessException;
 import org.boluo.hr.mapper.MenuMapper;
 import org.boluo.hr.mapper.RoleMapper;
 import org.boluo.hr.pojo.*;
 import org.boluo.hr.util.CheckUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 权限 业务逻辑
@@ -21,14 +24,14 @@ import java.util.Set;
 @Service
 public class RightsService {
 
-    private final RoleMapper roleMapper;
-    private final MenuMapper menuMapper;
-
-    @Autowired
-    public RightsService(RoleMapper roleMapper, MenuMapper menuMapper) {
-        this.roleMapper = roleMapper;
-        this.menuMapper = menuMapper;
-    }
+    @Resource
+    private RoleMapper roleMapper;
+    @Resource
+    private MenuMapper menuMapper;
+    @Resource
+    private MenuService menuService;
+    @Resource
+    private RedisCache redisCache;
 
     public Role selectRoleByName(String roleName) {
         return roleMapper.selectByName(roleName);
@@ -135,11 +138,16 @@ public class RightsService {
         if (countRight > 0 && !deleteRights(uploadRoleMenu.getRoleId())) {
             throw new BusinessException("删除权限失败");
         }
-        // 没有传入菜单id，则不进行任何操作
+        // 没有传入菜单id, 则不进行任何操作
         if (!CheckUtil.hasLength(uploadRoleMenu.getMenuIds())) {
             return true;
         }
-        if (insertRights(new RightsBean(uploadRoleMenu.getMenuIds(), uploadRoleMenu.getRoleId()))) {
+        // 更新, 重新缓存下权限数据
+        if (insertRights(new RightsBean(uploadRoleMenu.getMenuIds(),
+                uploadRoleMenu.getRoleId()))) {
+            redisCache.set(RedisConstants.All_MENU,
+                    new AllMenu().setAllMenu(menuService.selectAllMenu()), 5L,
+                    TimeUnit.MINUTES);
             return true;
         }
         throw new BusinessException("新增权限失败");

@@ -67,6 +67,11 @@
         from role
         where name = #{name}
     </select>
+    <select id="selectRoleCountByHrId" resultType="java.lang.Integer">
+        select count(*)
+        from hr_role
+        where hr_id = #{hrId}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete
         from role

@@ -4,10 +4,10 @@ import cn.hutool.core.io.FileUtil;
 import org.boluo.hr.mapper.DataBaseMapper;
 import org.boluo.hr.pojo.DataBaseTable;
 import org.boluo.hr.util.CustomFileUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,15 +20,10 @@ import java.util.List;
  */
 @Service
 public class DataBaseService {
-    private final DataBaseMapper dataBaseMapper;
-
-    private final CustomFileUtil customFileUtil;
-
-    @Autowired
-    public DataBaseService(DataBaseMapper dataBaseMapper, CustomFileUtil customFileUtil) {
-        this.dataBaseMapper = dataBaseMapper;
-        this.customFileUtil = customFileUtil;
-    }
+    @Resource
+    private DataBaseMapper dataBaseMapper;
+    @Resource
+    private CustomFileUtil customFileUtil;
 
     /**
      * 获取所有表信息

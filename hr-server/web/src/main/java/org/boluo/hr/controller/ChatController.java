@@ -4,10 +4,11 @@ import org.boluo.hr.annotation.Log;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.service.HrService;
 import org.boluo.hr.util.HrUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
 
 /**
  * 聊天信息
@@ -19,12 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/chat")
 public class ChatController {
 
-    private final HrService hrService;
-
-    @Autowired
-    public ChatController(HrService hrService) {
-        this.hrService = hrService;
-    }
+    @Resource
+    private HrService hrService;
 
     /**
      * 获取当前人事信息

@@ -6,12 +6,12 @@ import org.boluo.hr.annotation.UploadFileCheck;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.service.DataBaseService;
 import org.boluo.hr.util.CustomFileUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -26,14 +26,11 @@ import javax.validation.constraints.NotNull;
 @Validated
 public class DataBaseController {
 
-    private final DataBaseService dataBaseService;
-    private final CustomFileUtil customFileUtil;
+    @Resource
+    private DataBaseService dataBaseService;
+    @Resource
+    private CustomFileUtil customFileUtil;
 
-    @Autowired
-    public DataBaseController(DataBaseService dataBaseService, CustomFileUtil customFileUtil) {
-        this.dataBaseService = dataBaseService;
-        this.customFileUtil = customFileUtil;
-    }
 
     /**
      * 获取所有表信息

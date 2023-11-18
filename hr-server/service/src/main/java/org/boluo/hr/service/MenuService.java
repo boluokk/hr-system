@@ -3,10 +3,10 @@ package org.boluo.hr.service;
 import org.boluo.hr.mapper.MenuMapper;
 import org.boluo.hr.pojo.Hr;
 import org.boluo.hr.pojo.Menu;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -18,12 +18,8 @@ import java.util.List;
 @Service
 public class MenuService {
 
-    private final MenuMapper menuMapper;
-
-    @Autowired
-    public MenuService(MenuMapper menuMapper) {
-        this.menuMapper = menuMapper;
-    }
+    @Resource
+    private MenuMapper menuMapper;
 
     /**
      * 查询所有带角色的菜单

@@ -7,10 +7,10 @@ import org.boluo.hr.pojo.Department;
 import org.boluo.hr.pojo.InsertRequestDepartment;
 import org.boluo.hr.pojo.UploadDepartment;
 import org.boluo.hr.util.CheckUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -21,13 +21,8 @@ import java.util.List;
  */
 @Service
 public class DepartmentService {
-
-    private final DepartmentMapper departmentMapper;
-
-    @Autowired
-    public DepartmentService(DepartmentMapper departmentMapper) {
-        this.departmentMapper = departmentMapper;
-    }
+    @Resource
+    private DepartmentMapper departmentMapper;
 
     /**
      * 通过父部门id 返回所有部门

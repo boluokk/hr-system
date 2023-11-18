@@ -6,13 +6,13 @@ import org.boluo.hr.annotation.Log;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.pojo.SalaryTableSearch;
 import org.boluo.hr.service.SalaryTableService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.util.Date;
@@ -28,12 +28,9 @@ import java.util.Date;
 @Validated
 public class SalaryInfoAdvController {
 
-    private final SalaryTableService salaryTableService;
+    @Resource
+    private SalaryTableService salaryTableService;
 
-    @Autowired
-    public SalaryInfoAdvController(SalaryTableService salaryTableService) {
-        this.salaryTableService = salaryTableService;
-    }
 
     /**
      * 工资信息分页

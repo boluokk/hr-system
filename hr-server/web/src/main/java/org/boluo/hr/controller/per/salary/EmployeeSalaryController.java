@@ -10,10 +10,10 @@ import org.boluo.hr.pojo.UploadEmployee;
 import org.boluo.hr.service.AdjustSalaryService;
 import org.boluo.hr.service.EmployeeService;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -30,15 +30,11 @@ import javax.validation.constraints.Min;
 @Validated
 public class EmployeeSalaryController {
 
-    private final AdjustSalaryService adjustSalaryService;
-    private final EmployeeService employeeService;
+    @Resource
+    private AdjustSalaryService adjustSalaryService;
+    @Resource
+    private EmployeeService employeeService;
 
-    @Autowired
-    public EmployeeSalaryController(AdjustSalaryService adjustSalaryService,
-                                    EmployeeService employeeService) {
-        this.adjustSalaryService = adjustSalaryService;
-        this.employeeService = employeeService;
-    }
 
     /**
      * 员工工资分页

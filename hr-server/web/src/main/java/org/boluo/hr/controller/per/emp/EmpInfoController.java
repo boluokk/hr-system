@@ -4,10 +4,10 @@ import org.boluo.hr.annotation.Log;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.pojo.UploadEmployee;
 import org.boluo.hr.service.EmpInfoService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.validation.constraints.Min;
 
 /**
@@ -20,13 +20,8 @@ import javax.validation.constraints.Min;
 @RequestMapping("/per/emp")
 @Validated
 public class EmpInfoController {
-
-    private final EmpInfoService empInfoService;
-
-    @Autowired
-    public EmpInfoController(EmpInfoService empInfoService) {
-        this.empInfoService = empInfoService;
-    }
+    @Resource
+    private EmpInfoService empInfoService;
 
     /**
      * 通过名字查询员工

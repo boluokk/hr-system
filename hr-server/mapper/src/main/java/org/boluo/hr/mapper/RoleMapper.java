@@ -97,6 +97,14 @@ public interface RoleMapper {
     List<Role> selectByHrId(@Param("hid") Integer hid);
 
     /**
+     * 查询人事角色个数
+     *
+     * @param hrId 人事id
+     * @return 角色个数
+     */
+    int selectRoleCountByHrId(@Param("hrId") Integer hrId);
+
+    /**
      * 删除人事角色
      *
      * @param hrId 人事id

@@ -7,10 +7,10 @@ import org.boluo.hr.pojo.EmployeeSalaryMerge;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.service.SobCfgService;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
@@ -25,12 +25,8 @@ import javax.validation.constraints.Min;
 @Validated
 public class SobCfgController {
 
-    private final SobCfgService sobCfgService;
-
-    @Autowired
-    public SobCfgController(SobCfgService sobCfgService) {
-        this.sobCfgService = sobCfgService;
-    }
+    @Resource
+    private SobCfgService sobCfgService;
 
     /**
      * 员工工资分页

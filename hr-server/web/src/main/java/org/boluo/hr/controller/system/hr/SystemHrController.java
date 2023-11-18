@@ -6,10 +6,10 @@ import org.boluo.hr.service.HrService;
 import org.boluo.hr.service.RightsService;
 import org.boluo.hr.util.CheckUtil;
 import org.boluo.hr.util.PasswordEncoder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -26,15 +26,10 @@ import java.util.List;
 @Validated
 public class SystemHrController {
 
-    private final HrService hrService;
-
-    private final RightsService rightsService;
-
-    @Autowired
-    public SystemHrController(HrService hrService, RightsService rightsService) {
-        this.hrService = hrService;
-        this.rightsService = rightsService;
-    }
+    @Resource
+    private HrService hrService;
+    @Resource
+    private RightsService rightsService;
 
     /**
      * 返回所有人事信息
@@ -112,7 +107,7 @@ public class SystemHrController {
         if (CheckUtil.isNotNull(hr) && "admin".equals(hr.getUsername())) {
             return RespBean.error("admin用户不能删除");
         }
-        if (hrService.delete(hrId)) {
+        if (hrService.delete(hrId) && hrService.findRoleAfterDelete(hrId)) {
             return RespBean.ok();
         }
         return RespBean.error();

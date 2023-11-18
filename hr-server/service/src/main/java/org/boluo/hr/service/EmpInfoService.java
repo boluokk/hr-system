@@ -3,9 +3,9 @@ package org.boluo.hr.service;
 import org.boluo.hr.mapper.EmployeeMapper;
 import org.boluo.hr.pojo.Employee;
 import org.boluo.hr.pojo.UploadEmployee;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -16,13 +16,8 @@ import java.util.List;
  */
 @Service
 public class EmpInfoService {
-
-    private final EmployeeMapper employeeMapper;
-
-    @Autowired
-    public EmpInfoService(EmployeeMapper employeeMapper) {
-        this.employeeMapper = employeeMapper;
-    }
+    @Resource
+    private EmployeeMapper employeeMapper;
 
     /**
      * 通过员工名 查询员工

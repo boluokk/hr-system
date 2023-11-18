@@ -2,9 +2,9 @@ package org.boluo.hr.service;
 
 import org.boluo.hr.mapper.PoliticsStatusMapper;
 import org.boluo.hr.pojo.PoliticsStatus;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -16,12 +16,8 @@ import java.util.List;
 @Service
 public class PoliticsStatusService {
 
-    private final PoliticsStatusMapper politicsStatusMapper;
-
-    @Autowired
-    public PoliticsStatusService(PoliticsStatusMapper politicsStatusMapper) {
-        this.politicsStatusMapper = politicsStatusMapper;
-    }
+    @Resource
+    private PoliticsStatusMapper politicsStatusMapper;
 
     /**
      * 返回所有政治面貌信息

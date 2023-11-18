@@ -8,13 +8,13 @@ import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.pojo.TableStaData;
 import org.boluo.hr.service.HrInfoStatisticsService;
 import org.boluo.hr.util.RedisKey;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.util.concurrent.TimeUnit;
@@ -31,19 +31,12 @@ import java.util.concurrent.TimeUnit;
 @Validated
 public class HrInfoStatisticsController {
 
-    private final CustomHttpSessionListener sessionListener;
-    private final HrInfoStatisticsService hrInfoStatisticsService;
-    private final RedisCache redisCache;
-
-    @Autowired
-    public HrInfoStatisticsController(CustomHttpSessionListener sessionListener,
-                                      HrInfoStatisticsService hrInfoStatisticsService,
-                                      RedisCache redisCache) {
-        this.sessionListener = sessionListener;
-        this.hrInfoStatisticsService = hrInfoStatisticsService;
-        this.redisCache = redisCache;
-    }
-
+    @Resource
+    private CustomHttpSessionListener sessionListener;
+    @Resource
+    private HrInfoStatisticsService hrInfoStatisticsService;
+    @Resource
+    private RedisCache redisCache;
 
     /**
      * 获取人事统计页头数据

@@ -2,9 +2,9 @@ package org.boluo.hr.service;
 
 import org.boluo.hr.mapper.MailSendLogMapper;
 import org.boluo.hr.pojo.MailSendLog;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -16,12 +16,8 @@ import java.util.List;
 @Service
 public class MailSendLogService {
 
-    private final MailSendLogMapper mailSendLogMapper;
-
-    @Autowired
-    public MailSendLogService(MailSendLogMapper mailSendLogMapper) {
-        this.mailSendLogMapper = mailSendLogMapper;
-    }
+    @Resource
+    private MailSendLogMapper mailSendLogMapper;
 
     /**
      * 新增邮件日志

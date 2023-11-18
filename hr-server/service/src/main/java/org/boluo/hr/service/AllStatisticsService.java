@@ -4,9 +4,9 @@ import org.boluo.hr.mapper.AllStatisticsMapper;
 import org.boluo.hr.pojo.AllStatisticsHeader;
 import org.boluo.hr.pojo.DepartmentStatistics;
 import org.boluo.hr.pojo.SalaryStatistics;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -17,11 +17,8 @@ import java.util.List;
  */
 @Service
 public class AllStatisticsService {
-    private final AllStatisticsMapper allStatisticsMapper;
-    @Autowired
-    public AllStatisticsService(AllStatisticsMapper allStatisticsMapper) {
-        this.allStatisticsMapper = allStatisticsMapper;
-    }
+    @Resource
+    private AllStatisticsMapper allStatisticsMapper;
 
     /**
      * 综合统计页头信息

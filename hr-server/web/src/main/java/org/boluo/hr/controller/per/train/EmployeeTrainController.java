@@ -11,10 +11,10 @@ import org.boluo.hr.service.EmployeeService;
 import org.boluo.hr.service.EmployeeTrainService;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 
@@ -29,15 +29,11 @@ import javax.validation.constraints.Min;
 @Validated
 public class EmployeeTrainController {
 
-    private final EmployeeService employeeService;
-    private final EmployeeTrainService employeeTrainService;
+    @Resource
+    private EmployeeService employeeService;
+    @Resource
+    private EmployeeTrainService employeeTrainService;
 
-    @Autowired
-    public EmployeeTrainController(EmployeeService employeeService,
-                                   EmployeeTrainService employeeTrainService) {
-        this.employeeService = employeeService;
-        this.employeeTrainService = employeeTrainService;
-    }
 
     /**
      * 培训分页

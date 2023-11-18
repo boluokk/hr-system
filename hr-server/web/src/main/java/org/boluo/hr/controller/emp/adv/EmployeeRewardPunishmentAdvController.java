@@ -5,13 +5,13 @@ import com.github.pagehelper.PageInfo;
 import org.boluo.hr.annotation.Log;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.service.EmployeeRewardPunishmentService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
@@ -26,13 +26,9 @@ import javax.validation.constraints.Min;
 @RequestMapping("/emp/adv/c")
 @Validated
 public class EmployeeRewardPunishmentAdvController {
+    @Resource
+    private EmployeeRewardPunishmentService employeeRewardPunishmentService;
 
-    private final EmployeeRewardPunishmentService employeeRewardPunishmentService;
-
-    @Autowired
-    public EmployeeRewardPunishmentAdvController(EmployeeRewardPunishmentService employeeRewardPunishmentService) {
-        this.employeeRewardPunishmentService = employeeRewardPunishmentService;
-    }
 
     /**
      * 奖惩分页

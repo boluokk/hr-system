@@ -1,6 +1,7 @@
 package org.boluo.hr.config;
 
 import org.bluo.common.redis.util.RedisCache;
+import org.bluo.common.redis.util.RedisConstants;
 import org.boluo.hr.pojo.AllMenu;
 import org.boluo.hr.pojo.Menu;
 import org.boluo.hr.pojo.Role;
@@ -26,7 +27,6 @@ public class CustomFilterInvocationSecurityMetadataSource implements FilterInvoc
 
     private final RedisCache redisCache;
     private final MenuService menuService;
-    private static final String REDIS_KEY = "all_menu";
 
     @Autowired
     public CustomFilterInvocationSecurityMetadataSource(RedisCache redisCache,
@@ -44,7 +44,7 @@ public class CustomFilterInvocationSecurityMetadataSource implements FilterInvoc
     public Collection<ConfigAttribute> getAttributes(Object o) throws IllegalArgumentException {
         String requestUrl = ((FilterInvocation) o).getRequestUrl();
         // 存入 redis
-        AllMenu allMenu = redisCache.getWithPassThrough(REDIS_KEY, 1,
+        AllMenu allMenu = redisCache.getWithPassThrough(RedisConstants.All_MENU, "",
                 AllMenu.class, id -> new AllMenu().setAllMenu(menuService.selectAllMenu()),
                 5L, TimeUnit.MINUTES);
         for (Menu menu : allMenu.getAllMenu()) {

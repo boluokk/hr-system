@@ -6,13 +6,13 @@ import org.boluo.hr.annotation.Log;
 import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.service.OperatorLogService;
 import org.hibernate.validator.constraints.Range;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import javax.validation.constraints.Min;
 
 /**
@@ -27,12 +27,9 @@ import javax.validation.constraints.Min;
 @Validated
 public class OperatorLogController {
 
-    private final OperatorLogService operatorLogService;
+    @Resource
+    private OperatorLogService operatorLogService;
 
-    @Autowired
-    public OperatorLogController(OperatorLogService operatorLogService) {
-        this.operatorLogService = operatorLogService;
-    }
 
     /**
      * 获取分页操作日志

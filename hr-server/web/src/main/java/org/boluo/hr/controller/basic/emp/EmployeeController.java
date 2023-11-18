@@ -10,12 +10,12 @@ import org.boluo.hr.pojo.UploadEmployee;
 import org.boluo.hr.service.*;
 import org.boluo.hr.util.ExportImportExcelUtil;
 import org.hibernate.validator.constraints.Range;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -33,24 +33,21 @@ import java.util.List;
 @Validated
 public class EmployeeController {
 
-    private final EmployeeService employeeService;
-    private final NationService nationService;
-    private final DepartmentService departmentService;
-    private final PoliticsStatusService politicsStatusService;
-    private final JobLevelService jobLevelService;
-    private final PositionService positionService;
+    @Resource
+    private EmployeeService employeeService;
+    @Resource
+    private NationService nationService;
+    @Resource
+    private DepartmentService departmentService;
+    @Resource
+    private PoliticsStatusService politicsStatusService;
+    @Resource
+    private JobLevelService jobLevelService;
+    @Resource
+    private PositionService positionService;
+    @Resource
+    private EmployeeSalaryMergeService employeeSalaryMergeService;
 
-    @Autowired
-    public EmployeeController(EmployeeService employeeService, NationService nationService,
-                              DepartmentService departmentService, PoliticsStatusService politicsStatusService,
-                              JobLevelService jobLevelService, PositionService positionService) {
-        this.employeeService = employeeService;
-        this.nationService = nationService;
-        this.departmentService = departmentService;
-        this.politicsStatusService = politicsStatusService;
-        this.jobLevelService = jobLevelService;
-        this.positionService = positionService;
-    }
 
     /**
      * 员工分页
@@ -122,7 +119,8 @@ public class EmployeeController {
     @Log("删除员工")
     public RespBean delete(@Min(value = 1, message = "id最小为1")
                            @PathVariable("id") Integer id) {
-        if (employeeService.delete(id)) {
+        if (employeeService.delete(id) &&
+                employeeSalaryMergeService.findAfterDelete(id)) {
             return RespBean.ok();
         }
         return RespBean.error();

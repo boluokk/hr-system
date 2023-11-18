@@ -10,4 +10,6 @@ public class RedisConstants {
     public static final String CACHE_LOCK_KEY = "lock:";
 
     public static final Long CACHE_LOCK_TTL = 10L;
+
+    public static final String All_MENU = "all_menu_with_role";
 }
