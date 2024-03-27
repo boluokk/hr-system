@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.boluo.hr.annotation.Log;
 import org.boluo.hr.config.login_handle.CustomLoginSuccessHandle;
 import org.boluo.hr.pojo.LoginUser;
-import org.boluo.hr.pojo.RespBean;
+import org.bluo.global.pojo.RespBean;
 import org.boluo.hr.service.OperatorLogService;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.*;

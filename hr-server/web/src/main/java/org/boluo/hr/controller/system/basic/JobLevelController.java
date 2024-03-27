@@ -2,7 +2,7 @@ package org.boluo.hr.controller.system.basic;
 
 import org.boluo.hr.annotation.Log;
 import org.boluo.hr.pojo.InsertJobLevel;
-import org.boluo.hr.pojo.RespBean;
+import org.bluo.global.pojo.RespBean;
 import org.boluo.hr.pojo.UploadJobLevel;
 import org.boluo.hr.service.JobLevelService;
 import org.springframework.validation.annotation.Validated;
@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import java.util.Date;
 
 /**
  * 职称等级
@@ -68,6 +69,7 @@ public class JobLevelController {
     @PutMapping("/add")
     @Log("新增职称等级")
     public RespBean add(@Valid @RequestBody InsertJobLevel insertJobLevel) {
+        insertJobLevel.setCreateDate(new Date());
         if (jobLevelService.insert(insertJobLevel)) {
             return RespBean.ok();
         } else {

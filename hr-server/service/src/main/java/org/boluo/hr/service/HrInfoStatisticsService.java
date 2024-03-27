@@ -3,6 +3,7 @@ package org.boluo.hr.service;
 import org.boluo.hr.mapper.HrInfoStatisticsMapper;
 import org.boluo.hr.pojo.HrInfoStatistics;
 import org.boluo.hr.pojo.TableStaData;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

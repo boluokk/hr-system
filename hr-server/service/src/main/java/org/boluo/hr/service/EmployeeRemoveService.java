@@ -1,10 +1,15 @@
 package org.boluo.hr.service;
 
+import cn.hutool.core.util.ObjUtil;
+import cn.hutool.core.util.ObjectUtil;
+import org.boluo.hr.exception.BusinessException;
 import org.boluo.hr.mapper.EmployeeRemoveMapper;
 import org.boluo.hr.pojo.EmployeeRemoveView;
 import org.boluo.hr.pojo.InsertEmployeeRemove;
+import org.boluo.hr.pojo.UploadEmployee;
 import org.boluo.hr.pojo.UploadEmployeeRemove;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -19,6 +24,9 @@ import java.util.List;
 public class EmployeeRemoveService {
     @Resource
     private EmployeeRemoveMapper employeeRemoveMapper;
+
+    @Resource
+    private EmployeeService employeeService;
 
     /**
      * 查询所有调岗
@@ -45,6 +53,7 @@ public class EmployeeRemoveService {
      * @param uploadEmployeeRemove 调岗信息
      * @return 结果
      */
+    @Transactional(rollbackFor = Exception.class)
     public boolean update(UploadEmployeeRemove uploadEmployeeRemove) {
         return employeeRemoveMapper.updateByPrimaryKey(uploadEmployeeRemove) == 1;
     }
@@ -57,6 +66,15 @@ public class EmployeeRemoveService {
      */
     public boolean insert(InsertEmployeeRemove insertEmployeeRemove) {
         return employeeRemoveMapper.insertEmployeeRemove(insertEmployeeRemove) == 1;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public boolean updateOldEmployee(UploadEmployee uploadEmployee, InsertEmployeeRemove insertEmployeeRemove) {
+        if (employeeService.update(uploadEmployee) && insert(insertEmployeeRemove)) {
+            return true;
+        } else {
+            throw new BusinessException("操作失败");
+        }
     }
 
 }

@@ -2,7 +2,7 @@ package org.boluo.hr.controller.salary.sob;
 
 import org.boluo.hr.annotation.Log;
 import org.boluo.hr.pojo.InsertSalary;
-import org.boluo.hr.pojo.RespBean;
+import org.bluo.global.pojo.RespBean;
 import org.boluo.hr.pojo.UploadSalary;
 import org.boluo.hr.service.SalaryService;
 import org.springframework.validation.annotation.Validated;

@@ -2,9 +2,9 @@ package org.boluo.hr.controller.per.ec;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.bluo.global.pojo.RespBean;
 import org.boluo.hr.annotation.Log;
 import org.boluo.hr.pojo.InsertEmployeeRewardPunishment;
-import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.pojo.UploadEmployee;
 import org.boluo.hr.pojo.UploadEmployeeRewardPunishment;
 import org.boluo.hr.service.EmployeeRewardPunishmentService;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import java.util.Date;
 
 /**
  * 奖惩信息
@@ -85,6 +86,7 @@ public class PerEcController {
             return RespBean.error("员工号不存在");
         }
         insertEmployeeRewardPunishment.setEmployeeId(employee.getId());
+        insertEmployeeRewardPunishment.setCreateDate(new Date());
         if (employeeRewardPunishmentService.insert(insertEmployeeRewardPunishment)) {
             return RespBean.ok();
         }

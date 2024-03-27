@@ -264,7 +264,9 @@
             {{ scope.row.endContract | dateFormat }}
           </template>
         </el-table-column>
-        <el-table-column prop='engageForm' label='聘用方式' width='100'></el-table-column>
+        <el-table-column prop='engageForm' label='聘用方式' width='100'>
+
+        </el-table-column>
         <el-table-column fixed='right' label='操作' width='200'>
           <template slot-scope='scope'>
             <el-button
@@ -718,7 +720,7 @@ export default {
     },
     search() {
       if (this.input.length === 0) {
-        return this.$message.warning("输入框不能为空!!");
+        return this.$message.warning('输入框不能为空!!')
       }
       this.getRequest('/basic/emp/byEmpName/' + this.input + '/' +
         this.pageNum + '/' + this.pageSize).then(res => {
@@ -789,6 +791,7 @@ export default {
       this.getRequest(
         '/basic/emp/' + this.pageNum + '/' + this.pageSize
       ).then(res => {
+        console.log(res.data.obj.list)
         this.tableData = res.data.obj.list
         this.total = res.data.obj.total
         this.loading = false

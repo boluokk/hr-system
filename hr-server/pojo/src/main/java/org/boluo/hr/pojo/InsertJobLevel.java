@@ -26,7 +26,6 @@ public class InsertJobLevel {
     /**
      * 创建时间
      */
-    @NotNull(message = "创建时间不能为空")
     private Date createDate;
     /**
      * 是否开启

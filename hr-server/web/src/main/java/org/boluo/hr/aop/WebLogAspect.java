@@ -1,15 +1,17 @@
 package org.boluo.hr.aop;
 
+import cn.hutool.core.util.ObjectUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.boluo.hr.annotation.Log;
+import org.boluo.hr.pojo.Hr;
 import org.boluo.hr.pojo.OperatorLog;
 import org.boluo.hr.service.OperatorLogService;
-import org.boluo.hr.util.HrUtils;
 import org.boluo.hr.util.CheckUtil;
+import org.boluo.hr.util.HrUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -59,7 +61,9 @@ public class WebLogAspect {
         assert attributes != null;
         HttpServletRequest request = attributes.getRequest();
         OperatorLog operatorLog = new OperatorLog();
-        operatorLog.setHrId(HrUtils.getCurrentHr().getId());
+        Hr currentHr = HrUtils.getCurrentHr();
+        int id = ObjectUtil.isNotNull(currentHr) ? currentHr.getId() : -1;
+        operatorLog.setHrId(id);
         operatorLog.setAddress(request.getRemoteAddr());
         operatorLog.setContent(CheckUtil.isNotNull(logContent) ? logContent.value() : "当前接口未定义");
         operatorLog.setEvent(request.getRequestURI());

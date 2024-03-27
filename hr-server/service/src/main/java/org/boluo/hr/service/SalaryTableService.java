@@ -1,7 +1,7 @@
 package org.boluo.hr.service;
 
+import org.bluo.hr.service.api.pojo.SalaryTableSearch;
 import org.boluo.hr.mapper.SalaryTableMapper;
-import org.boluo.hr.pojo.SalaryTableSearch;
 import org.boluo.hr.pojo.SalaryTableView;
 import org.springframework.stereotype.Service;
 

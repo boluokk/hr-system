@@ -1,7 +1,7 @@
 package org.boluo.hr.controller.per.emp;
 
 import org.boluo.hr.annotation.Log;
-import org.boluo.hr.pojo.RespBean;
+import org.bluo.global.pojo.RespBean;
 import org.boluo.hr.pojo.UploadEmployee;
 import org.boluo.hr.service.EmpInfoService;
 import org.springframework.validation.annotation.Validated;
@@ -26,7 +26,7 @@ public class EmpInfoController {
     /**
      * 通过名字查询员工
      */
-    @GetMapping("/{empName}")
+    @GetMapping("/byEmpName/{empName}")
     @Log("通过名字查询员工")
     public RespBean findAll(@PathVariable("empName") String empName) {
         return RespBean.ok(empInfoService.selectByEmpName(empName));

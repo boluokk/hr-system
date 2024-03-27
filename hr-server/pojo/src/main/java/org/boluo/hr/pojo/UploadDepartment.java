@@ -20,7 +20,6 @@ public class UploadDepartment {
     /**
      * 部门名称
      */
-    @NotNull(message = "部门名称不能为空")
     private String name;
     /**
      * 父部门id
@@ -29,7 +28,6 @@ public class UploadDepartment {
     /**
      * 部门路径
      */
-    @NotNull(message = "部门路径不能为空")
     private String depPath;
     /**
      * 是否开启

@@ -4,7 +4,7 @@ import org.bluo.common.redis.util.RedisCache;
 import org.boluo.hr.annotation.Log;
 import org.boluo.hr.auto.CustomHttpSessionListener;
 import org.boluo.hr.pojo.EmployeePageHeadCount;
-import org.boluo.hr.pojo.RespBean;
+import org.bluo.global.pojo.RespBean;
 import org.boluo.hr.pojo.TableStaData;
 import org.boluo.hr.service.HrInfoStatisticsService;
 import org.boluo.hr.util.RedisKey;

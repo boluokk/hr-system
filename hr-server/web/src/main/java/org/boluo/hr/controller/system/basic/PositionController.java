@@ -2,7 +2,7 @@ package org.boluo.hr.controller.system.basic;
 
 import org.boluo.hr.annotation.Log;
 import org.boluo.hr.pojo.InsertPosition;
-import org.boluo.hr.pojo.RespBean;
+import org.bluo.global.pojo.RespBean;
 import org.boluo.hr.pojo.UploadPosition;
 import org.boluo.hr.service.PositionService;
 import org.boluo.hr.util.CheckUtil;
@@ -13,6 +13,7 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 /**
  * 职位信息
@@ -72,6 +73,7 @@ public class PositionController {
             return RespBean.error("职位名称已存在");
         }
         insertPosition.setEnabled(true);
+        insertPosition.setCreateDate(new Date());
         if (positionService.insert(insertPosition)) {
             return RespBean.ok();
         } else {

@@ -20,7 +20,6 @@ public class InsertEmployeeRewardPunishment {
     /**
      * 创建时间
      */
-    @NotNull(message = "创建时间不能为空")
     private Date createDate;
     /**
      * 原因
@@ -35,7 +34,6 @@ public class InsertEmployeeRewardPunishment {
     /**
      * 类型
      */
-    @NotNull(message = "类型不能为空")
     private Integer type;
 
     /**

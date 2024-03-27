@@ -2,7 +2,7 @@ package org.boluo.hr.controller.sta.record;
 
 import org.bluo.common.redis.util.RedisCache;
 import org.boluo.hr.annotation.Log;
-import org.boluo.hr.pojo.RespBean;
+import org.bluo.global.pojo.RespBean;
 import org.boluo.hr.pojo.TableStaData;
 import org.boluo.hr.service.HrRecordStatisticsService;
 import org.boluo.hr.util.RedisKey;

@@ -37,7 +37,7 @@ public interface EmployeeMapper {
      * @param id 员工id
      * @return 员工信息
      */
-    Employee selectByPrimaryKey(Integer id);
+    UploadEmployee selectByPrimaryKey(Integer id);
 
     /**
      * 修改员工

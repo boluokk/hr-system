@@ -30,7 +30,7 @@
       </el-table-column>
       <el-table-column prop='createdate' label='创建时间' width='250'>
         <template slot-scope='scope'>
-          {{ scope.row.createDate}}
+          {{ scope.row.createDate }}
         </template>
       </el-table-column>
       <el-table-column prop='enabled' label='是否开启'>
@@ -178,11 +178,7 @@ export default {
       if (result !== 'confirm') {
         return this.$message('删除取消！')
       }
-      let ids = '?'
-      this.selectIds.forEach(item => {
-        ids += 'ids=' + item + '&'
-      })
-      this.deleteRequest('/system/basic/job/delete/many/' + ids).then(res => {
+      this.deleteRequest('/system/basic/job/delete/many/', this.selectIds).then(res => {
         this.$message.success(res.data.msg)
         this.initPos()
       })

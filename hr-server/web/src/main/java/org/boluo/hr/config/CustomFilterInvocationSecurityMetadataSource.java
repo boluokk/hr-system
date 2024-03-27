@@ -43,6 +43,11 @@ public class CustomFilterInvocationSecurityMetadataSource implements FilterInvoc
     @Override
     public Collection<ConfigAttribute> getAttributes(Object o) throws IllegalArgumentException {
         String requestUrl = ((FilterInvocation) o).getRequestUrl();
+
+        if (antPathMatcher.match("/sal/table/**", requestUrl)) {
+            return SecurityConfig.createList("ROLE_FEIGN");
+        }
+
         // 存入 redis
         AllMenu allMenu = redisCache.getWithPassThrough(RedisConstants.All_MENU, "",
                 AllMenu.class, id -> new AllMenu().setAllMenu(menuService.selectAllMenu()),
@@ -57,6 +62,7 @@ public class CustomFilterInvocationSecurityMetadataSource implements FilterInvoc
                 return SecurityConfig.createList(strRoles);
             }
         }
+
         return SecurityConfig.createList("ROLE_LOGIN");
     }
 

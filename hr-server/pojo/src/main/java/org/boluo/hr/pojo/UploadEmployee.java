@@ -115,12 +115,10 @@ public class UploadEmployee {
     /**
      * 入职日期
      */
-    @NotNull(message = "入职日期不能为空")
     private Date beginDate;
     /**
      * 在职状态
      */
-    @NotNull(message = "在职状态不能为空")
     private String workState;
     /**
      * 工号
@@ -129,31 +127,25 @@ public class UploadEmployee {
     /**
      * 合同期限
      */
-    @NotNull(message = "合同期限不能为空")
     private Double contractTerm;
     /**
      * 转正日期
      */
-    @NotNull(message = "转正日期不能为空")
     private Date conversionTime;
     /**
      * 离职日期
      */
-    @NotNull(message = "离职日期不能为空")
     private Date notWorkDate;
     /**
      * 合同起始日期
      */
-    @NotNull(message = "合同起始日期不能为空")
     private Date beginContract;
     /**
      * 合同结束日期
      */
-    @NotNull(message = "合同结束日期不能为空")
     private Date endContract;
     /**
      * 工龄
      */
-    @NotNull(message = "工龄不能为空")
     private Integer workAge;
 }

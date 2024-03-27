@@ -1,10 +1,14 @@
 package org.boluo.hr.controller.per.mv;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.bluo.global.pojo.RespBean;
 import org.boluo.hr.annotation.Log;
+import org.boluo.hr.exception.BusinessException;
+import org.boluo.hr.mapper.EmployeeMapper;
+import org.boluo.hr.pojo.Employee;
 import org.boluo.hr.pojo.InsertEmployeeRemove;
-import org.boluo.hr.pojo.RespBean;
 import org.boluo.hr.pojo.UploadEmployee;
 import org.boluo.hr.pojo.UploadEmployeeRemove;
 import org.boluo.hr.service.DepartmentService;
@@ -39,6 +43,8 @@ public class EmployeeRemoveController {
     private JobLevelService jobLevelService;
     @Resource
     private EmployeeService employeeService;
+    @Resource
+    private EmployeeMapper employeeMapper;
 
     /**
      * 调岗分页
@@ -92,10 +98,23 @@ public class EmployeeRemoveController {
     @PutMapping("/modify")
     @Log("修改调岗")
     public RespBean modify(@Valid @RequestBody UploadEmployeeRemove uploadEmployeeRemove) {
-        if (employeeRemoveService.update(uploadEmployeeRemove)) {
+        Integer employeeId = uploadEmployeeRemove.getEmployeeId();
+        if (ObjectUtil.isNull(employeeId)) {
+            return RespBean.error("参数不完整");
+        }
+
+        if (ObjectUtil.isNull(employeeMapper.selectByPrimaryKey(employeeId))) {
+            return RespBean.error("未找到该员工");
+        }
+        // 修改部门和职称
+        UploadEmployee uploadEmployee = new UploadEmployee();
+        uploadEmployee.setId(uploadEmployeeRemove.getEmployeeId());
+        uploadEmployee.setDepartmentId(uploadEmployeeRemove.getAfterDepartmentId());
+        uploadEmployee.setJobLevelId(uploadEmployeeRemove.getAfterJobId());
+        if (employeeService.update(uploadEmployee) && employeeRemoveService.update(uploadEmployeeRemove)) {
             return RespBean.ok();
         }
-        return RespBean.error();
+        throw new BusinessException("更新失败");
     }
 
     /**
@@ -107,7 +126,7 @@ public class EmployeeRemoveController {
                         @Length(min = 8, max = 8, message = "工号长度必须为8位")
                         @PathVariable("workId") String workId) {
         UploadEmployee employee = employeeService.selectEmployeeByWorkId(workId);
-        if (employee == null) {
+        if (ObjectUtil.isNull(employee)) {
             return RespBean.error("员工不存在!");
         }
         insertEmployeeRemove.setEmployeeId(employee.getId());
@@ -118,12 +137,9 @@ public class EmployeeRemoveController {
         employee.setDepartmentId(insertEmployeeRemove.getAfterDepartmentId());
         employee.setJobLevelId(insertEmployeeRemove.getAfterJobId());
         // 更新原来员工
-        if (!employeeService.update(employee)) {
-            return RespBean.error("部门或职称更新失败!");
-        }
-        if (employeeRemoveService.insert(insertEmployeeRemove)) {
+        if (employeeRemoveService.updateOldEmployee(employee, insertEmployeeRemove)) {
             return RespBean.ok();
         }
-        return RespBean.error();
+        return RespBean.error("部门或职称更新失败!");
     }
 }

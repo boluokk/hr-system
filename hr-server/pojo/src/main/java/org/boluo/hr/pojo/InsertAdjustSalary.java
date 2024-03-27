@@ -24,7 +24,6 @@ public class InsertAdjustSalary {
     /**
      * 工资
      */
-    @Min(value = 1, message = "工资不能小于0")
     @NotNull(message = "工资不能为空")
     private Integer salary;
     /**

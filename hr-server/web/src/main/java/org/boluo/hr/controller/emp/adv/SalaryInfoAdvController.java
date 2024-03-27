@@ -2,9 +2,9 @@ package org.boluo.hr.controller.emp.adv;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.bluo.hr.service.api.pojo.SalaryTableSearch;
 import org.boluo.hr.annotation.Log;
-import org.boluo.hr.pojo.RespBean;
-import org.boluo.hr.pojo.SalaryTableSearch;
+import org.bluo.global.pojo.RespBean;
 import org.boluo.hr.service.SalaryTableService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;

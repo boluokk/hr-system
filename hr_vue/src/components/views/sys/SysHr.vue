@@ -112,7 +112,7 @@
               v-model='item.remark'
               maxlength='30'
               show-word-limit
-              @blur='remarkAdd(item)'
+              @blur='modify(item)'
             >
             </el-input>
             <br>
@@ -156,7 +156,7 @@
         </el-form>
         <div class='demo-drawer__footer' style='width: 200px;margin: 0 50%;transform: translateX(-50%);'>
           <el-button @click='cancelForm' size='small'>取 消</el-button>
-          <el-button type='primary' size='small' :loading='loading'>
+          <el-button @click='addHr' type='primary' size='small' :loading='loading'>
             {{ loading ? '提交中 ...' : '确 定' }}
           </el-button>
         </div>
@@ -237,11 +237,12 @@ export default {
       })
     },
     addHr() {
-      this.$refs.ruleForm.validate(vali => {
-        if (vali) {
+      this.$refs.ruleForm.validate(valid => {
+        if (valid) {
           this.putRequest('/sys/hr/add', this.hrForm).then(res => {
             this.$message.success(res.data.msg)
             this.$refs.ruleForm.resetFields()
+            this.cancelForm()
             this.init()
           })
         } else {
@@ -252,7 +253,7 @@ export default {
     ShowAddHr() {
       this.queryTableVisibleDialog = true
     },
-    remarkAdd(role) {
+    modify(role) {
       if (role.remark) {
         if (role.remark.trim() !== '') {
           this.putRequest('/sys/hr/modify', {

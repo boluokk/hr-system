@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.boluo.hr.employee.mapper.UserMapper">
+    <select id="findByWorkId" resultType="org.boluo.hr.employee.pojo.User">
+        select
+            id as user_id, name, work_id, password
+        from
+            employee
+        where work_id = #{workId}
+    </select>
+
+    <select id="findWorkId" resultType="string">
+        select
+            work_id
+        from
+            employee
+        where
+            id = #{employeeId}
+    </select>
+</mapper>

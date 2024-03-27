@@ -1,6 +1,7 @@
 package org.boluo.hr.util;
 
 import org.boluo.hr.pojo.Hr;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
@@ -9,6 +10,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
  */
 public class HrUtils {
     public static Hr getCurrentHr() {
-        return (Hr) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof String && principal.equals("anonymousUser")) {
+            return null;
+        }
+        return (Hr) principal;
     }
 }

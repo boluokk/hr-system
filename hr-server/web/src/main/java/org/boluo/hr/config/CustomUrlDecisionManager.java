@@ -24,6 +24,10 @@ public class CustomUrlDecisionManager implements AccessDecisionManager {
             AccessDeniedException, InsufficientAuthenticationException {
         for (ConfigAttribute attribute : collection) {
             String needRole = attribute.getAttribute();
+            // 远程调用
+            if ("ROLE_FEIGN".equals(needRole)) {
+                return;
+            }
             if ("ROLE_LOGIN".equals(needRole)) {
                 if (authentication instanceof AnonymousAuthenticationToken) {
                     throw new AccessDeniedException("未登入，请登入");

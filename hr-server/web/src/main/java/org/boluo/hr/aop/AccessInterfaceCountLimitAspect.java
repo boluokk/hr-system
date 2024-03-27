@@ -1,13 +1,15 @@
 package org.boluo.hr.aop;
 
+import cn.hutool.core.util.ObjectUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.bluo.common.redis.util.RedisCache;
 import org.boluo.hr.annotation.Log;
 import org.boluo.hr.exception.BusinessException;
-import org.boluo.hr.util.HrUtils;
+import org.boluo.hr.pojo.Hr;
 import org.boluo.hr.util.CheckUtil;
+import org.boluo.hr.util.HrUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -43,7 +45,9 @@ public class AccessInterfaceCountLimitAspect {
             if (matcher.find()) {
                 uri = matcher.group(0);
             }
-            String key = "access_limit:" + HrUtils.getCurrentHr().getId() + ":" + uri;
+            Hr currentHr = HrUtils.getCurrentHr();
+            int id = ObjectUtil.isNull(currentHr) ? -1 : currentHr.getId();
+            String key = "access_limit:" + id + ":" + uri;
             if (CheckUtil.isNotNull(redisCache.get(key))) {
                 redisCache.set(key, 1, intervalTime, TimeUnit.MILLISECONDS);
                 throw new BusinessException("访问接口过于频繁");

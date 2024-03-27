@@ -1,7 +1,7 @@
 package org.boluo.hr.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.boluo.hr.pojo.RespBean;
+import org.bluo.global.pojo.RespBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.web.session.SessionInformationExpiredEvent;

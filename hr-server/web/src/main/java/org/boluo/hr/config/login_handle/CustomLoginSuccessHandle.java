@@ -3,7 +3,7 @@ package org.boluo.hr.config.login_handle;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.boluo.hr.annotation.Log;
 import org.boluo.hr.pojo.Hr;
-import org.boluo.hr.pojo.RespBean;
+import org.bluo.global.pojo.RespBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

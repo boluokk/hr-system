@@ -3,7 +3,7 @@ package org.boluo.hr.controller.system.data;
 import cn.hutool.core.io.FileUtil;
 import org.boluo.hr.annotation.Log;
 import org.boluo.hr.annotation.UploadFileCheck;
-import org.boluo.hr.pojo.RespBean;
+import org.bluo.global.pojo.RespBean;
 import org.boluo.hr.service.DataBaseService;
 import org.boluo.hr.util.CustomFileUtil;
 import org.springframework.http.ResponseEntity;

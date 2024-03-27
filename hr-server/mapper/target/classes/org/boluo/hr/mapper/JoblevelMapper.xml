@@ -65,16 +65,16 @@
         update job_level
         <set>
             <if test="name != null">
-                name = #{name,jdbcType=VARCHAR},
+                name = #{name},
             </if>
             <if test="titleLevel != null">
-                title_level = #{titlelevel,jdbcType=CHAR},
+                title_level = #{titleLevel},
             </if>
             <if test="createDate != null">
-                create_date = #{createdate,jdbcType=TIMESTAMP},
+                create_date = #{createdate},
             </if>
             <if test="enabled != null">
-                enabled = #{enabled,jdbcType=BIT},
+                enabled = #{enabled},
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}

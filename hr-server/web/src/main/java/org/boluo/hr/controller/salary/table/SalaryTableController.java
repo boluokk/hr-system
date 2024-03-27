@@ -2,9 +2,10 @@ package org.boluo.hr.controller.salary.table;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.bluo.hr.service.api.HrServiceClient;
+import org.bluo.hr.service.api.pojo.SalaryTableSearch;
 import org.boluo.hr.annotation.Log;
-import org.boluo.hr.pojo.RespBean;
-import org.boluo.hr.pojo.SalaryTableSearch;
+import org.bluo.global.pojo.RespBean;
 import org.boluo.hr.pojo.SalaryTableView;
 import org.boluo.hr.service.SalaryTableService;
 import org.boluo.hr.util.ExportImportExcelUtil;
@@ -25,7 +26,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/sal/table")
-public class SalaryTableController {
+public class SalaryTableController implements HrServiceClient {
 
     @Resource
     private SalaryTableService salaryTableService;
@@ -35,9 +36,10 @@ public class SalaryTableController {
      */
     @PostMapping("/{pageNum}/{pageSize}")
     @Log("查询所有工资表")
+    @Override
     public RespBean findPage(@PathVariable("pageNum") Integer pageNum,
                              @PathVariable("pageSize") Integer pageSize,
-                             @Valid SalaryTableSearch salaryTableSearch) {
+                             @Valid @RequestBody SalaryTableSearch salaryTableSearch) {
         PageHelper.startPage(pageNum, pageSize);
         return RespBean.ok(new PageInfo<>(salaryTableService.selectAll(salaryTableSearch)));
     }
@@ -55,4 +57,5 @@ public class SalaryTableController {
             return null;
         }
     }
+
 }

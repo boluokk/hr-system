@@ -6,6 +6,7 @@ import org.boluo.hr.service.HrService;
 import org.boluo.hr.service.OperatorLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -62,8 +63,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 operatorLogService, customLoginSuccessHandle, sessionRegistry);
         http.addFilter(passwordFilter);
         http.authorizeRequests()
+                .mvcMatchers(HttpMethod.POST, "/sal/table/**").permitAll()
                 .antMatchers("/login").permitAll()
-                .anyRequest().authenticated()
                 .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
                     @Override
                     public <O extends FilterSecurityInterceptor> O postProcess(O o) {
@@ -77,7 +78,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addLogoutHandler(customLogoutHandle)
                 .logoutSuccessHandler(customLogOutSuccessFilter)
                 .and().exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
-                .and().csrf().disable()
+                .and().csrf().disable().cors().disable()
                 .sessionManagement().maximumSessions(1).expiredSessionStrategy(customExpiredSessionStrategy)
                 .sessionRegistry(sessionRegistry);
     }

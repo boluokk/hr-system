@@ -1,5 +1,6 @@
 package org.boluo.hr.mapper;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.boluo.hr.pojo.InsertJobLevel;
 import org.boluo.hr.pojo.JobLevel;
 import org.boluo.hr.pojo.UploadJobLevel;
@@ -11,6 +12,7 @@ import java.util.List;
  *
  * @author boluo
  */
+@Mapper
 public interface JobLevelMapper {
 
     /**

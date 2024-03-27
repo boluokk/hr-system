@@ -1,5 +1,6 @@
 package org.boluo.hr.controller.system.hr;
 
+import org.bluo.global.pojo.RespBean;
 import org.boluo.hr.annotation.Log;
 import org.boluo.hr.pojo.*;
 import org.boluo.hr.service.HrService;

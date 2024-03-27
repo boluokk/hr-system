@@ -1,6 +1,7 @@
 package org.boluo.hr.pojo;
 
 import lombok.Data;
+import lombok.Getter;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;

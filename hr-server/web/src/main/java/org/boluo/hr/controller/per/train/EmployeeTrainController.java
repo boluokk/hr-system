@@ -4,7 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.boluo.hr.annotation.Log;
 import org.boluo.hr.pojo.InsertEmployeeTrain;
-import org.boluo.hr.pojo.RespBean;
+import org.bluo.global.pojo.RespBean;
 import org.boluo.hr.pojo.UploadEmployee;
 import org.boluo.hr.pojo.UploadEmployeeTrain;
 import org.boluo.hr.service.EmployeeService;

@@ -1,7 +1,7 @@
 package org.boluo.hr.controller;
 
 import org.boluo.hr.annotation.Log;
-import org.boluo.hr.pojo.RespBean;
+import org.bluo.global.pojo.RespBean;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 

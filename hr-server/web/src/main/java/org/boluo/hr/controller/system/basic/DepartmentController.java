@@ -3,7 +3,7 @@ package org.boluo.hr.controller.system.basic;
 import org.boluo.hr.annotation.Log;
 import org.boluo.hr.pojo.DeleteRequestDepartment;
 import org.boluo.hr.pojo.InsertRequestDepartment;
-import org.boluo.hr.pojo.RespBean;
+import org.bluo.global.pojo.RespBean;
 import org.boluo.hr.pojo.UploadDepartment;
 import org.boluo.hr.service.DepartmentService;
 import org.springframework.validation.annotation.Validated;

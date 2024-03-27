@@ -14,7 +14,7 @@ custom:
     # 定时备份时间 cron
     auto_backup_cron: 0 0,30 * * * ?
     # api访问次数间隔
-    api_access_interval: 1000
+    api_access_interval: 500
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
@@ -66,6 +66,10 @@ page helper:
   reasonable: true
   support-methods-arguments: true
   params: count=countSql
+
+logging:
+  level:
+    org.springframework.security: DEBUG
 
 
 # sql 日志

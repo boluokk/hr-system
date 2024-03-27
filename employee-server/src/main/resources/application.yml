@@ -3,11 +3,11 @@ server:
 
 spring:
   datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
     url: jdbc:mysql://localhost:10101/hr?useTimezone=true&serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8&useSSL=false
     username: root
     password: root
     name: hr
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
   jackson:
     time-zone: GMT+8
@@ -15,3 +15,8 @@ spring:
   mvc:
     format:
       date: yyyy-MM-dd HH:mm:ss
+  main:
+    show-banner: off
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true

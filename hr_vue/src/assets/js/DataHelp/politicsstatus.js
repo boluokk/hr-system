@@ -49,6 +49,6 @@ export const politdata = [
   },
   {
     id: 13,
-    name: '普通良民'
+    name: '群众'
   }
 ]

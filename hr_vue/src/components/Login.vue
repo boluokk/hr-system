@@ -63,8 +63,10 @@ export default {
       userDivClass: 'input-group',
       passDivClass: 'input-group',
       loginRuleForm: {
-        username: 'admin',
-        password: '123'
+		// admin
+		// 123
+        username: '',
+        password: ''
       }
     }
   },

@@ -2,10 +2,9 @@ package org.boluo.hr.controller.system.basic;
 
 import org.boluo.hr.annotation.Log;
 import org.boluo.hr.pojo.InsertRole;
-import org.boluo.hr.pojo.RespBean;
+import org.bluo.global.pojo.RespBean;
 import org.boluo.hr.pojo.UploadRole;
 import org.boluo.hr.pojo.UploadRoleMenu;
-import org.boluo.hr.service.MenuService;
 import org.boluo.hr.service.RightsService;
 import org.boluo.hr.util.CheckUtil;
 import org.springframework.beans.factory.annotation.Autowired;

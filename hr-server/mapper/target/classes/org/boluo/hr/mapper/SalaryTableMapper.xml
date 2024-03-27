@@ -17,7 +17,7 @@
     </resultMap>
     <select id="selectAll"
             resultMap="baseResultMap"
-            parameterType="org.boluo.hr.pojo.SalaryTableSearch">
+            parameterType="org.bluo.hr.service.api.pojo.SalaryTableSearch">
         select
         <include refid="column"/>,
         <include refid="org.boluo.hr.mapper.SalaryMapper.column"/>,
@@ -29,9 +29,9 @@
         jl.`name` as job_level_name,
         sal.*,
         if(year(ads.create_date) = year(#{date}) and month(ads.create_date) = month(#{date}),
-            if(ads.salary &gt; 0, ads.salary, 0), 0) as reward,
+        if(ads.salary &gt; 0, ads.salary, 0), 0) as reward,
         if(year(ads.create_date) = year(#{date}) and month(ads.create_date) = month(#{date}),
-            if(ads.salary &lt; 0, ads.salary, 0), 0) as punishment,
+        if(ads.salary &lt; 0, ads.salary, 0), 0) as punishment,
         case
         when all_salary &lt;= 3000 then all_salary * 0.03
         when all_salary &lt;= 12000 then all_salary * 0.10

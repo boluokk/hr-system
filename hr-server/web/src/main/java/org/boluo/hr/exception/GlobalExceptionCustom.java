@@ -1,7 +1,7 @@
 package org.boluo.hr.exception;
 
 import lombok.extern.slf4j.Slf4j;
-import org.boluo.hr.pojo.RespBean;
+import org.bluo.global.pojo.RespBean;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -88,7 +88,7 @@ public class GlobalExceptionCustom {
      */
     @ExceptionHandler(Exception.class)
     public RespBean otherExceptionHandle(Exception e) {
-        log.error("其他异常: {} + {}", e.getClass(), e.getMessage());
+        log.error("其他异常: {}", e);
         return RespBean.error("服务器异常..");
     }
 

@@ -1,6 +1,6 @@
 package org.boluo.hr.mapper;
 
-import org.boluo.hr.pojo.SalaryTableSearch;
+import org.bluo.hr.service.api.pojo.SalaryTableSearch;
 import org.boluo.hr.pojo.SalaryTableView;
 
 import java.util.List;
