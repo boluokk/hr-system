@@ -83,7 +83,7 @@
 
 1、需要再 **docker** 中安装 **MySQL**、**Redis**、**Rabbit** (如果不使用恢复数据库功能，可都不用装到docker中)
 
-2、将 asset 中的 sql 导入数据库中
+2、将 asset 中的 sql 导入数据库中 (mysql版本>=8.0)
 
 3、配置 **application.yml** 文件，修改数据库连接、Redis连接、RabbitMQ连接等信息
 
